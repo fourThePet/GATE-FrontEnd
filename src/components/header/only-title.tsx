@@ -1,4 +1,4 @@
-import { HeaderContainer, Text } from "../../styles/ui";
+import { HeaderContainer, Text, Block } from "../../styles/ui";
 
 type Props = {
   title?: string; // title을 선택적 속성으로 변경
@@ -8,7 +8,9 @@ type Props = {
 export default function OnlyTitleHeader({ title }: Props) {
   return (
     <HeaderContainer>
-      {title && <Text.TitleMenu300>{title}</Text.TitleMenu300>}
+      <Block.FlexBox justifyContent="center">
+        {title && <Text.TitleMenu300>{title}</Text.TitleMenu300>}
+      </Block.FlexBox>
     </HeaderContainer>
   );
 }

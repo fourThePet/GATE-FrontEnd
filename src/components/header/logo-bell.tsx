@@ -8,8 +8,8 @@ type Props = {
 export default function LogoBellHeader({ handleBellButtonClick }: Props) {
   return (
     <HeaderContainer>
-      <HeaderLogo width={52} />
-      <Bell width={31} cursor="pointer" onClick={handleBellButtonClick} />
+      <HeaderLogo width={150} />
+      <Bell width={30} cursor="pointer" onClick={handleBellButtonClick} />
     </HeaderContainer>
   );
 }
