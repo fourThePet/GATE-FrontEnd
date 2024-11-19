@@ -1,4 +1,6 @@
-export const colors = {
+import { DefaultTheme } from "styled-components";
+
+const fontColor = {
   MainColor: "#F1729B",
   Pink: "#D04578",
   Blue: "#7EB6FF", //인증
@@ -15,3 +17,27 @@ export const colors = {
   Gray: "#E8E8E8",
   Black: "#1C1C1E",
 };
+
+const fontSize = {
+  size100: "10px",
+  size200: "12px",
+  size300: "13px",
+  size400: "14px",
+  size500: "17px",
+  size550: "20px",
+  size600: "64px",
+};
+
+const fontWeight = {
+  Normal: "400",
+  SemiBold: "600",
+  Bold: "700",
+};
+
+const colors: DefaultTheme = {
+  color: fontColor,
+  size: fontSize,
+  weight: fontWeight,
+};
+
+export default colors;
