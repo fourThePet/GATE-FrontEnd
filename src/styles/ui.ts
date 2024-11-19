@@ -252,10 +252,10 @@ export const Button = {
     align-items: center;
     width: 100%;
     height: 53px;
-    border-radius: 16px;
+    border-radius: 100px;
     color: #ffffff;
     background-color: ${({ isDisabled }) =>
-      isDisabled ? "#e8e8e8 " : "#f4b647"};
+      isDisabled ? "#e8e8e8 " : "#F1729B"};
     cursor: ${({ isDisabled }) => (isDisabled ? "not-allowed" : "pointer")};
   `,
   CartConfirm: styled.div<StyleButton>`
@@ -277,8 +277,8 @@ export const Button = {
     width: 273px;
     height: 53px;
     border-radius: 19px;
-    color: #f4b647; // disabled이면 "#000000" 로 변경되도록 수정하기
-    background-color: #f6ecd7; // disabled이면 "#F8F8F8" 로 변경되도록 수정하기
+    color: #f1729b; // disabled이면 "#000000" 로 변경되도록 수정하기
+    background-color: #f8a8c2; // disabled이면 "#F8F8F8" 로 변경되도록 수정하기
     cursor: pointer;
   `,
   AlertModalSelect: styled.div<StyleButton>`
@@ -287,9 +287,9 @@ export const Button = {
     font-size: 14px;
     cursor: pointer;
     border: 1px solid
-      ${(props) => (props.variant === "primary" ? "#F4B647" : "#E8E8E8")};
+      ${(props) => (props.variant === "primary" ? "#f1729b" : "#E8E8E8")};
     background-color: ${(props) =>
-      props.variant === "primary" ? "#F4B647" : "white"};
+      props.variant === "primary" ? "#f1729b" : "white"};
     color: ${(props) => (props.variant === "primary" ? "white" : "#666")};
     width: 180px;
     height: 50px;
@@ -308,10 +308,10 @@ export const Button = {
     width: 273px;
     height: 53px;
     border-radius: 19px;
-    color: ${({ isActive }) => (isActive ? "#F4B647" : "#C9CBD4")};
-    background-color: ${({ isActive }) => (isActive ? "#F6ECD7" : "#F8F8F8")};
+    color: ${({ isActive }) => (isActive ? "#f1729b" : "#C9CBD4")};
+    background-color: ${({ isActive }) => (isActive ? "#F8A8C2" : "#F8F8F8")};
     border: ${({ isActive }) =>
-      isActive ? "1px solid #F4B647" : "1px solid #C9CBD4"};
+      isActive ? "1px solid #f1729b" : "1px solid #C9CBD4"};
     cursor: pointer;
   `,
   RadiusButton: styled.div<StyleButton>`
@@ -321,8 +321,8 @@ export const Button = {
     width: 320px;
     height: 33px;
     border-radius: 30px;
-    border: 1px solid #f4b647;
-    color: #f4b647;
+    border: 1px solid #f1729b;
+    color: #f1729b;
     cursor: pointer;
     background-color: transparent;
   `,
@@ -334,10 +334,10 @@ export const Button = {
     min-width: 180px;
     height: 53px;
     border-radius: 19px;
-    color: ${({ isSoldOut }) => (isSoldOut ? "#939292" : "#f4b647")};
+    color: ${({ isSoldOut }) => (isSoldOut ? "#939292" : "#f1729b")};
     background-color: ${({ isSoldOut }) => (isSoldOut ? "#F8F8F8" : "#fff")};
     cursor: ${({ isSoldOut }) => (isSoldOut ? "not-allowed" : "pointer")};
-    border: ${({ isSoldOut }) => (isSoldOut ? "none" : "2px solid #f6ecd7")};
+    border: ${({ isSoldOut }) => (isSoldOut ? "none" : "2px solid #F8A8C2")};
   `,
   BuyButton: styled.div<StyleButton & { isSoldOut: boolean }>`
     display: flex;
@@ -347,7 +347,7 @@ export const Button = {
     height: 53px;
     border-radius: 19px;
     color: ${({ isSoldOut }) => (isSoldOut ? "#939292" : "#fff")};
-    background-color: ${({ isSoldOut }) => (isSoldOut ? "#F8F8F8" : "#f4b647")};
+    background-color: ${({ isSoldOut }) => (isSoldOut ? "#F8F8F8" : "#f1729b")};
     cursor: ${({ isSoldOut }) => (isSoldOut ? "not-allowed" : "pointer")};
     border: ${(props) => props.border};
   `,
@@ -378,9 +378,9 @@ export const Button = {
   `,
 
   OptionButton: styled.div<StyleButton>`
-    background-color: #fffaec;
-    color: #f4b647;
-    border: 1px solid #fffaec;
+    background-color: #f8a8c2;
+    color: #f1729b;
+    border: 1px solid #f8a8c2;
     border-radius: 5px;
     padding: 2px 8px;
     font-size: 12px;

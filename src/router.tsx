@@ -6,6 +6,7 @@ import Community from "./pages/community";
 import Schedule from "./pages/schedule";
 import Mypage from "./pages/mypage";
 
+// 라우터 정의
 export const router = createBrowserRouter([
   {
     path: "/",

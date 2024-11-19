@@ -29,7 +29,7 @@ export default function Header({
     { path: "", component: LogoBellHeader }, // title 없음
     { path: "/home", component: LogoBellHeader }, // title 없음
     { path: "/community", title: "커뮤니티", component: OnlyTitleHeader },
-    { path: "/schedule", title: "일정", component: OnlyTitleHeader },
+    // { path: "/schedule", title: "일정", component: OnlyTitleHeader },
     { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
   ];
 

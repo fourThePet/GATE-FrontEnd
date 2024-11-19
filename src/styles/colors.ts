@@ -3,6 +3,7 @@ import { DefaultTheme } from "styled-components";
 const fontColor = {
   MainColor: "#F1729B",
   Pink: "#D04578",
+  lightPink: "#f8a8c2",
   Blue: "#7EB6FF", //인증
   Star: "#FFA31A", //별점
 
