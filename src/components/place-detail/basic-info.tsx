@@ -1,4 +1,5 @@
 import { typo } from "../../styles/typo";
+import { ContentContainer } from "../../pages/place-detail/index.styles";
 import { BasicInfoContainer } from "../../pages/place-detail/index.styles";
 export default function BasicInfo() {
   return (
