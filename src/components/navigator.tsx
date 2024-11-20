@@ -9,8 +9,9 @@ import {
   Communitygray,
   Communitypink,
 } from "../assets/svg";
-import { LayoutContainer, Block } from "../styles/ui";
+import { Block } from "../components/block/block";
 import { typo } from "../styles/typo";
+import { LayoutContainer } from "../styles/ui";
 
 // import { useUserId } from "../hooks/useUserId";
 
@@ -114,7 +115,7 @@ Props) {
         !isCatAddPage &&
         !isPaymentsDetailPage && ( */}
       <div css={LayoutContainer.NavContainer}>
-        <div css={Block.FlexBox}>
+        <div css={Block.flexBlock}>
           {navItems.map((item, index) => {
             const isActive = location.pathname.startsWith(item.path);
             // const isDisabled = item.requiresAuth && !userId;
@@ -122,7 +123,7 @@ Props) {
             return (
               <div
                 key={index}
-                css={Block.FlexBox({
+                css={Block.flexBlock({
                   width: "100%",
                   height: "100px",
                   justifyContent: "center",

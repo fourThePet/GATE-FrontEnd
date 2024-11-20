@@ -9,7 +9,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Layout>
       <GlobalStyle />
-
       <RouterProvider router={router} />
     </Layout>
   </React.StrictMode>

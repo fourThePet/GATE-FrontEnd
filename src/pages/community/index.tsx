@@ -1,3 +1,4 @@
+import { Button } from "../../components/button/button";
 export default function Community() {
-  return <>커뮤니티</>;
+  return <button css={Button.smallGrayButton}>버튼</button>;
 }
