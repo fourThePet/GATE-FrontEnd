@@ -1,7 +1,6 @@
 import { HeaderBackArrow } from "../../assets/svg";
-import { HeaderContainer } from "../../styles/ui";
 import styled from "styled-components";
-
+import { LayoutContainer } from "../../styles/ui";
 type Props = {
   title?: string;
   handleBackButtonClick: () => void;
@@ -20,7 +19,7 @@ export default function BackSearchHeader({
   };
 
   return (
-    <HeaderContainer>
+    <div css={LayoutContainer.HeaderContainer}>
       {/* 뒤로가기 버튼 */}
       <HeaderBackArrow
         width={24}
@@ -35,7 +34,7 @@ export default function BackSearchHeader({
         />
         <SearchIcon>🔍</SearchIcon> {/* 검색 아이콘 */}
       </SearchBarWrapper>
-    </HeaderContainer>
+    </div>
   );
 }
 
