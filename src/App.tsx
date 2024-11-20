@@ -21,8 +21,10 @@ function App() {
       <Outlet />
 
       {/* 하단 네비게이션 */}
-      <Navigator isLoginPage={isLoginPage} />
-      <Navigator isPlaceDetailPage={isPlaceDetailPage} />
+      <Navigator
+        isLoginPage={isLoginPage}
+        isPlaceDetailPage={isPlaceDetailPage}
+      />
     </>
   );
 }
