@@ -8,7 +8,7 @@ export const PageContainer = css`
   padding: 20px;
   min-height: 100vh;
   overflow: hidden;
-  /* background-color: #ffffff; */
+  background-color: #ffffff;
 `;
 
 export const HeaderContainer = css`
@@ -25,4 +25,31 @@ export const HeaderContainer = css`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const ContentContainer = css`
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 16px;
+`;
+
+export const Separator = css`
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 20px 0;
+`;
+
+export const BasicInfoContainer = css`
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 16px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li {
+    margin-bottom: 10px;
+  }
 `;
