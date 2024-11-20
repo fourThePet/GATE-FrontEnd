@@ -1,5 +1,5 @@
 import { HeaderLogo, Bell } from "../../assets/svg";
-import { HeaderContainer } from "../../styles/ui";
+import { LayoutContainer } from "../../styles/ui";
 
 type Props = {
   handleBellButtonClick: () => void;
@@ -7,9 +7,9 @@ type Props = {
 
 export default function LogoBellHeader({ handleBellButtonClick }: Props) {
   return (
-    <HeaderContainer>
+    <div css={LayoutContainer.HeaderContainer}>
       <HeaderLogo width={150} />
       <Bell width={30} cursor="pointer" onClick={handleBellButtonClick} />
-    </HeaderContainer>
+    </div>
   );
 }

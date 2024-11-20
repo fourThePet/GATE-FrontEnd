@@ -1,8 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { Block } from "./styles/ui";
 import Navigator from "./components/navigator";
 import Header from "./components/header/header";
-
+import { Block } from "./styles/ui";
+import { Layout } from "./components";
 function App() {
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function App() {
   };
 
   return (
-    <Block.FlexBox bgColor="white" direction="column">
+    <Layout>
       {/* 헤더 */}
       <Header
         handleBackButtonClick={handleBackButtonClick}
@@ -29,7 +29,7 @@ function App() {
 
       {/* 하단 네비게이션 */}
       <Navigator />
-    </Block.FlexBox>
+    </Layout>
   );
 }
 

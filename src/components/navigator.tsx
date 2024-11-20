@@ -9,7 +9,9 @@ import {
   Communitygray,
   Communitypink,
 } from "../assets/svg";
-import { Block, NavContainer, Text } from "../styles/ui";
+import { LayoutContainer, Block } from "../styles/ui";
+import { typo } from "../styles/typo";
+
 // import { useUserId } from "../hooks/useUserId";
 
 type Props = {
@@ -26,21 +28,18 @@ type Props = {
   //   isPaymentsDetailPage: boolean;
 };
 
-export default function Navigator(
-  {
-    //   isLoginPage,
-    //   isSignupPage,
-    //   isMarketDetailPage,
-    //   isBuyPage,
-    //   isPrivacyPolicyPage,
-    //   isTermsOfUsePage,
-    //   isUnregister1Page,
-    //   isUnregister2Page,
-    //   isCartPage,
-    //   isCatAddPage,
-    //   isPaymentsDetailPage,
-  }: Props
-) {
+export default function Navigator({}: //   isLoginPage,
+//   isSignupPage,
+//   isMarketDetailPage,
+//   isBuyPage,
+//   isPrivacyPolicyPage,
+//   isTermsOfUsePage,
+//   isUnregister1Page,
+//   isUnregister2Page,
+//   isCartPage,
+//   isCatAddPage,
+//   isPaymentsDetailPage,
+Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -114,39 +113,38 @@ export default function Navigator(
         !isCartPage &&
         !isCatAddPage &&
         !isPaymentsDetailPage && ( */}
-      <NavContainer>
-        <Block.FlexBox>
+      <div css={LayoutContainer.NavContainer}>
+        <div css={Block.FlexBox}>
           {navItems.map((item, index) => {
             const isActive = location.pathname.startsWith(item.path);
             // const isDisabled = item.requiresAuth && !userId;
 
             return (
-              <Block.FlexBox
+              <div
                 key={index}
-                width="100%"
-                height="100px"
-                justifyContent="center"
-                alignItems="center"
-                direction="column"
-                gap="10px"
-                pointer
+                css={Block.FlexBox({
+                  width: "100%",
+                  height: "100px",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  direction: "column",
+                  gap: "10px",
+                  pointer: true,
+                })}
                 onClick={() => handleNavigation(item.path)}
-                // style={{
-                //   opacity: isDisabled ? 0.5 : 1,
-                //   cursor: isDisabled ? "default" : "pointer",
-                // }}
               >
                 {item.icon}
-                <Text.Notice200
+                <span
+                  css={typo.Body4}
                   style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
                 >
                   {item.label}
-                </Text.Notice200>
-              </Block.FlexBox>
+                </span>
+              </div>
             );
           })}
-        </Block.FlexBox>
-      </NavContainer>
+        </div>
+      </div>
       {/* )} */}
     </>
   );

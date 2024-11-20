@@ -1,6 +1,6 @@
 import { HeaderBackArrow } from "../../assets/svg";
-import { HeaderContainer, Text } from "../../styles/ui";
-
+import { LayoutContainer } from "../../styles/ui";
+import { typo } from "../../styles/typo";
 type Props = {
   title: string;
   handleBackButtonClick: () => void;
@@ -11,13 +11,13 @@ export default function BackTitleHeader({
   handleBackButtonClick,
 }: Props) {
   return (
-    <HeaderContainer>
+    <div css={LayoutContainer.HeaderContainer}>
       <HeaderBackArrow
         width={24}
         onClick={handleBackButtonClick}
         cursor="pointer"
       />
-      <Text.TitleMenu300>{title}</Text.TitleMenu300>
-    </HeaderContainer>
+      <span css={typo.Body3}>{title}</span>
+    </div>
   );
 }
