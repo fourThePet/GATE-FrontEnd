@@ -1,6 +1,7 @@
 import { useLocation, matchPath } from "react-router-dom";
 import LogoBellHeader from "./logo-bell";
 import OnlyTitleHeader from "./only-title";
+import BackTitleHeader from "./back-title";
 
 type HeaderComponentProps = {
   title?: string; // title은 선택적 속성으로 설정
@@ -31,6 +32,7 @@ export default function Header({
     { path: "/community", title: "커뮤니티", component: OnlyTitleHeader },
     // { path: "/schedule", title: "일정", component: OnlyTitleHeader },
     { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
+    { path: "/login", title: "로그인", component: BackTitleHeader}
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기

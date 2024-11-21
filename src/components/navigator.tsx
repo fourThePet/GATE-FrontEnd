@@ -16,31 +16,10 @@ import { LayoutContainer } from "../styles/ui";
 // import { useUserId } from "../hooks/useUserId";
 
 type Props = {
-  //   isLoginPage: boolean;
-  //   isSignupPage: boolean;
-  //   isMarketDetailPage: boolean;
-  //   isBuyPage: boolean;
-  //   isPrivacyPolicyPage: boolean;
-  //   isTermsOfUsePage: boolean;
-  //   isUnregister1Page: boolean;
-  //   isUnregister2Page: boolean;
-  //   isCartPage: boolean;
-  //   isCatAddPage: boolean;
-  //   isPaymentsDetailPage: boolean;
+    isLoginPage: boolean;
 };
 
-export default function Navigator({}: //   isLoginPage,
-//   isSignupPage,
-//   isMarketDetailPage,
-//   isBuyPage,
-//   isPrivacyPolicyPage,
-//   isTermsOfUsePage,
-//   isUnregister1Page,
-//   isUnregister2Page,
-//   isCartPage,
-//   isCatAddPage,
-//   isPaymentsDetailPage,
-Props) {
+export default function Navigator({isLoginPage}: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -103,17 +82,8 @@ Props) {
 
   return (
     <>
-      {/* {!isLoginPage &&
-        !isSignupPage &&
-        !isMarketDetailPage &&
-        !isBuyPage &&
-        !isPrivacyPolicyPage &&
-        !isTermsOfUsePage &&
-        !isUnregister1Page &&
-        !isUnregister2Page &&
-        !isCartPage &&
-        !isCatAddPage &&
-        !isPaymentsDetailPage && ( */}
+      {!isLoginPage&&(
+
       <div css={LayoutContainer.NavContainer}>
         <div css={Block.flexBlock}>
           {navItems.map((item, index) => {
@@ -146,7 +116,7 @@ Props) {
           })}
         </div>
       </div>
-      {/* )} */}
+      )} 
     </>
   );
 }
