@@ -6,18 +6,13 @@ import BackTitleHeader from "./back-title";
 type HeaderComponentProps = {
   title?: string; // title은 선택적 속성으로 설정
   handleBackButtonClick?: () => void; // 선택적으로 받을 수 있음
-  handleBellButtonClick: () => void;
 };
 
 type Props = {
   handleBackButtonClick: () => void;
-  handleBellButtonClick: () => void;
 };
 
-export default function Header({
-  handleBackButtonClick,
-  handleBellButtonClick,
-}: Props) {
+export default function Header({ handleBackButtonClick }: Props) {
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -29,10 +24,11 @@ export default function Header({
   }[] = [
     { path: "", component: LogoBellHeader }, // title 없음
     { path: "/home", component: LogoBellHeader }, // title 없음
-    { path: "/community", title: "커뮤니티", component: OnlyTitleHeader },
+    { path: "/map", title: "지도", component: OnlyTitleHeader },
     // { path: "/schedule", title: "일정", component: OnlyTitleHeader },
     { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
-    { path: "/login", title: "로그인", component: BackTitleHeader}
+    { path: "/login", title: "로그인", component: BackTitleHeader },
+    { path: "/placedetail", title: "장소상세", component: BackTitleHeader },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기
@@ -52,7 +48,6 @@ export default function Header({
     <HeaderComponent
       title={title} // title이 선택적이므로 문제 없음
       handleBackButtonClick={handleBackButtonClick}
-      handleBellButtonClick={handleBellButtonClick}
     />
   );
 }

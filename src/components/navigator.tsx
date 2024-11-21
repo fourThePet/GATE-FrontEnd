@@ -16,10 +16,11 @@ import { LayoutContainer } from "../styles/ui";
 // import { useUserId } from "../hooks/useUserId";
 
 type Props = {
-    isLoginPage: boolean;
+  isLoginPage: boolean;
+  isPlaceDetailPage: boolean;
 };
 
-export default function Navigator({isLoginPage}: Props) {
+export default function Navigator({ isPlaceDetailPage, isLoginPage }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,13 +50,13 @@ export default function Navigator({isLoginPage}: Props) {
       requiresAuth: false,
     },
     {
-      icon: location.pathname.startsWith("/community") ? (
+      icon: location.pathname.startsWith("/map") ? (
         <Communitypink width={31} />
       ) : (
         <Communitygray width={31} />
       ),
-      label: "커뮤니티",
-      path: "/community",
+      label: "지도",
+      path: "/map",
       requiresAuth: false,
     },
     {
@@ -82,41 +83,40 @@ export default function Navigator({isLoginPage}: Props) {
 
   return (
     <>
-      {!isLoginPage&&(
+      {!isLoginPage && !isPlaceDetailPage && (
+        <div css={LayoutContainer.NavContainer}>
+          <div css={Block.flexBlock}>
+            {navItems.map((item, index) => {
+              const isActive = location.pathname.startsWith(item.path);
+              // const isDisabled = item.requiresAuth && !userId;
 
-      <div css={LayoutContainer.NavContainer}>
-        <div css={Block.flexBlock}>
-          {navItems.map((item, index) => {
-            const isActive = location.pathname.startsWith(item.path);
-            // const isDisabled = item.requiresAuth && !userId;
-
-            return (
-              <div
-                key={index}
-                css={Block.flexBlock({
-                  width: "100%",
-                  height: "100px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  direction: "column",
-                  gap: "10px",
-                  pointer: true,
-                })}
-                onClick={() => handleNavigation(item.path)}
-              >
-                {item.icon}
-                <span
-                  css={typo.Body4}
-                  style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
+              return (
+                <div
+                  key={index}
+                  css={Block.flexBlock({
+                    width: "100%",
+                    height: "100px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    direction: "column",
+                    gap: "10px",
+                    pointer: true,
+                  })}
+                  onClick={() => handleNavigation(item.path)}
                 >
-                  {item.label}
-                </span>
-              </div>
-            );
-          })}
+                  {item.icon}
+                  <span
+                    css={typo.Body2}
+                    style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      )} 
+      )}
     </>
   );
 }

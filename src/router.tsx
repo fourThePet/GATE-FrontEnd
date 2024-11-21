@@ -3,6 +3,9 @@ import App from "./App";
 
 import { Login, Home, Schedule, Mypage } from "./pages";
 
+import PlaceDetail from "./pages/place-detail";
+import Map from "./pages/map";
+
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -18,6 +21,10 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "map",
+        element: <Map />,
+      },
+      {
         path: "schedule",
         element: <Schedule />,
       },
@@ -29,6 +36,7 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      { path: "placedetail", element: <PlaceDetail /> }, // 경로 추가
     ],
   },
 ]);
