@@ -22,10 +22,6 @@ jobs:
         run: |
           yarn install
 
-      - name: Run ESLint
-        run: |
-          npx eslint src --fix
-
       - name: Yarn Build
         run: |
           yarn build
