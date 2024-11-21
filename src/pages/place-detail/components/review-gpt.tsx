@@ -1,14 +1,21 @@
+import { useNavigate } from "react-router-dom"; // useNavigate import 추가
 import { useState } from "react";
 import { typo } from "../../../styles/typo";
 import { BasicInfoContainer } from "../index.styles";
 import { Block } from "../../../components/block/block";
 import { Writereview } from "../../../assets/svg";
 import { Gpt } from "../../../assets/svg";
+
 export default function ReviewGpt() {
   const [activeTab, setActiveTab] = useState<"high" | "low">("high"); // 탭 상태
+  const navigate = useNavigate(); // navigate 인스턴스 생성
 
   const handleTabClick = (tab: "high" | "low") => {
     setActiveTab(tab);
+  };
+
+  const handleReviewButtonClick = () => {
+    navigate("/receiptcheck"); // /receiptcheck 경로로 이동
   };
 
   return (
@@ -24,7 +31,11 @@ export default function ReviewGpt() {
           })}
         >
           <h1 css={typo.Heading3}>리뷰</h1>
-          <Writereview css={{ width: "70px", height: "70px" }} />{" "}
+          {/* 버튼 클릭 이벤트 추가 */}
+          <Writereview
+            css={{ width: "70px", height: "70px", cursor: "pointer" }}
+            onClick={handleReviewButtonClick}
+          />
         </div>
 
         {/* 평점 표시 */}
@@ -53,7 +64,7 @@ export default function ReviewGpt() {
           })}
           style={{ marginTop: "30px" }}
         >
-          {/*ChatGPT로 최근 후기를 요약했어요*/}
+          {/* ChatGPT로 최근 후기를 요약했어요 */}
           <div
             css={Block.flexBlock({
               direction: "row",
@@ -109,9 +120,7 @@ export default function ReviewGpt() {
           <div
             css={Block.flexBlock({
               direction: "column",
-              //   gap: "10px",
               padding: "10px",
-              // border: "1px solid #E0E0E0",
               borderRadius: "10px",
             })}
             style={{ marginTop: "-30px" }}

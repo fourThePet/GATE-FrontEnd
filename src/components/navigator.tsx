@@ -18,9 +18,16 @@ import { LayoutContainer } from "../styles/ui";
 type Props = {
   isLoginPage: boolean;
   isPlaceDetailPage: boolean;
+  isReceiptCheckPage: boolean;
+  isWriteReviewPage: boolean;
 };
 
-export default function Navigator({ isPlaceDetailPage, isLoginPage }: Props) {
+export default function Navigator({
+  isPlaceDetailPage,
+  isLoginPage,
+  isReceiptCheckPage,
+  isWriteReviewPage,
+}: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -83,40 +90,43 @@ export default function Navigator({ isPlaceDetailPage, isLoginPage }: Props) {
 
   return (
     <>
-      {!isLoginPage && !isPlaceDetailPage && (
-        <div css={LayoutContainer.NavContainer}>
-          <div css={Block.flexBlock}>
-            {navItems.map((item, index) => {
-              const isActive = location.pathname.startsWith(item.path);
-              // const isDisabled = item.requiresAuth && !userId;
+      {!isLoginPage &&
+        !isPlaceDetailPage &&
+        !isReceiptCheckPage &&
+        !isWriteReviewPage && (
+          <div css={LayoutContainer.NavContainer}>
+            <div css={Block.flexBlock}>
+              {navItems.map((item, index) => {
+                const isActive = location.pathname.startsWith(item.path);
+                // const isDisabled = item.requiresAuth && !userId;
 
-              return (
-                <div
-                  key={index}
-                  css={Block.flexBlock({
-                    width: "100%",
-                    height: "100px",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    direction: "column",
-                    gap: "10px",
-                    pointer: true,
-                  })}
-                  onClick={() => handleNavigation(item.path)}
-                >
-                  {item.icon}
-                  <span
-                    css={typo.Body2}
-                    style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
+                return (
+                  <div
+                    key={index}
+                    css={Block.flexBlock({
+                      width: "100%",
+                      height: "100px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      direction: "column",
+                      gap: "10px",
+                      pointer: true,
+                    })}
+                    onClick={() => handleNavigation(item.path)}
                   >
-                    {item.label}
-                  </span>
-                </div>
-              );
-            })}
+                    {item.icon}
+                    <span
+                      css={typo.Body2}
+                      style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
+                    >
+                      {item.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
+        )}
     </>
   );
 }

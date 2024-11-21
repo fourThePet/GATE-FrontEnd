@@ -5,6 +5,8 @@ import { Login, Home, Schedule, Mypage } from "./pages";
 
 import PlaceDetail from "./pages/place-detail";
 import Map from "./pages/map";
+import ReceiptCheck from "./pages/review/receipt-check";
+import WriteReview from "./pages/review";
 
 // 라우터 정의
 export const router = createBrowserRouter([
@@ -36,7 +38,9 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      { path: "placedetail", element: <PlaceDetail /> }, // 경로 추가
+      { path: "placedetail", element: <PlaceDetail /> },
+      { path: "receiptcheck", element: <ReceiptCheck /> },
+      { path: "writereview", element: <WriteReview /> },
     ],
   },
 ]);
