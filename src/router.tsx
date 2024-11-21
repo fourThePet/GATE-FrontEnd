@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage } from "./pages";
+import { Login, Home, Schedule, Mypage, Search } from "./pages";
 
 // 라우터 정의
 export const router = createBrowserRouter([
@@ -28,6 +28,11 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+
+      {
+        path: "search",
+        element: <Search />,
       },
     ],
   },
