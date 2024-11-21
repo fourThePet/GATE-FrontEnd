@@ -2,10 +2,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Navigator from "./components/navigator";
 import Header from "./components/header/header";
 // import { Block } from "./components/block/block";
-import { Layout } from "./components";
 function App() {
   const navigate = useNavigate();
-
+  const isLoginPage = location.pathname.startsWith("/login");
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
     navigate(-1); // 이전 페이지로 이동
@@ -28,7 +27,7 @@ function App() {
       <Outlet />
 
       {/* 하단 네비게이션 */}
-      <Navigator />
+      <Navigator isLoginPage={isLoginPage}/>
     </>
   );
 }

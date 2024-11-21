@@ -6,5 +6,6 @@ export const wrapper = css`
   max-width: 600px;
   min-width: 320px;
   height: 100vh; /* 화면 전체 높이를 차지 */
-  background-color: white; /* 회색 배경 */
+  background-color: white; 
+  display: flex;
 `;
