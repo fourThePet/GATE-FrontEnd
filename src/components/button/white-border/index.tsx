@@ -8,7 +8,7 @@ interface Props{
     title : string;
 }
 
-export default function GrayBorderButton({onClick, width, height, title} : Props){
+export default function WhiteBorderButton({onClick, width, height, title} : Props){
     return(
         <button onClick={onClick} css={buttonStyles({width, height})}>
             <Text type="Label3">{title}</Text>

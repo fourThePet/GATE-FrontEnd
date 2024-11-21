@@ -9,7 +9,7 @@ interface Props{
     isDisabled : boolean
 }
 
-export default function GrayBorderButton({onClick, width, height,isDisabled, title} : Props){
+export default function NoBorderGrayButton({onClick, width, height,isDisabled, title} : Props){
     return(
         <button onClick={onClick} css={buttonStyles({width, height,isDisabled})}>
             <Text type="Label3">{title}</Text>

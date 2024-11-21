@@ -22,4 +22,8 @@ export const buttonStyles = ({width='100%', height='53px'} : Props) => css`
         background-color: ${colors.color.MainColor};
         color: ${colors.color.White1};
     }
+    &:active {
+      background-color: ${colors.color.MainColor}; 
+      color: ${colors.color.White1};
+    }
 `
