@@ -13,7 +13,7 @@ export const buttonStyles = ({isDisabled, width='100%', height='53px'} : Props) 
     width: ${width};
     height: ${height};
     border-radius: 100px;
-    color : ${colors.color.White};
+    color : ${colors.color.White1};
     background-color: ${isDisabled ? colors.color.Gray6 : colors.color.MainColor};
     cursor: pointer;
 
