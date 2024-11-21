@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import BackTitleHeader from "../../components/header/back-title";
-import { PageContainer, HeaderContainer } from "./index.styles";
+import { HeaderContainer } from "./index.styles";
+import { PageWrapper } from "../../styles/ui";
+import StoreInfo from "../../components/place-detail/store-info"; // StoreInfo 컴포넌트 import
+import { Divider2 } from "../../styles/ui";
+import BasicInfo from "../../components/place-detail/basic-info";
+import ReviewGpt from "../../components/place-detail/review-gpt";
 export default function PlaceDetail() {
   const navigate = useNavigate();
 
@@ -35,6 +40,11 @@ export default function PlaceDetail() {
           handleBackButtonClick={handleBackButtonClick}
         />
       </div>
+      <StoreInfo />
+      <Divider2 />
+      <BasicInfo />
+      <Divider2 />
+      <ReviewGpt />
     </div>
   );
 }

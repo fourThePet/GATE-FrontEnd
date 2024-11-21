@@ -1,3 +1,4 @@
+export { default as Writereview } from "./Writereview";
 export { default as Bell } from "./Bell";
 export { default as Communitygray } from "./Communitygray";
 export { default as Communitypink } from "./Communitypink";
