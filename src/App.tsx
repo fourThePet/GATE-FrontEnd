@@ -19,10 +19,7 @@ function App() {
 
   return (
     <>
-      <Header
-        handleBackButtonClick={handleBackButtonClick}
-        handleBellButtonClick={handleBellButtonClick}
-      />
+      <Header handleBackButtonClick={handleBackButtonClick} />
 
       <Outlet />
 
