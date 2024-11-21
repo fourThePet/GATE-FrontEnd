@@ -6,6 +6,8 @@ export { default as HeaderBackArrow } from "./HeaderBackArrow";
 export { default as Homegray } from "./Homegray";
 export { default as Homepink } from "./Homepink";
 export { default as Imglogo } from "./Imglogo";
+export { default as KakaoLogo } from "./KakaoLogo";
+export { default as LoginLogo } from "./LoginLogo";
 export { default as Mypagegray } from "./Mypagegray";
 export { default as Mypagepink } from "./Mypagepink";
 export { default as Schedulegray } from "./Schedulegray";
