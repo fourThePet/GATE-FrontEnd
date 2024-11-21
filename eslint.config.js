@@ -23,6 +23,10 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'warn', // 'error' 대신 'warn'으로 설정
+        { varsIgnorePattern: '^React$', argsIgnorePattern: '^_' },
+      ],
     },
   },
 )
