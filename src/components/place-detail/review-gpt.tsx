@@ -88,6 +88,7 @@ export default function ReviewGpt() {
               style={{
                 cursor: "pointer",
                 fontWeight: activeTab === "high" ? "bold" : "normal",
+                color: activeTab === "high" ? "#111111" : "#A4A4A4",
               }}
             >
               높은 평점 요약
@@ -97,6 +98,7 @@ export default function ReviewGpt() {
               style={{
                 cursor: "pointer",
                 fontWeight: activeTab === "low" ? "bold" : "normal",
+                color: activeTab === "low" ? "#111111" : "#A4A4A4",
               }}
             >
               낮은 평점 요약
@@ -115,7 +117,7 @@ export default function ReviewGpt() {
             style={{ marginTop: "-30px" }}
           >
             {activeTab === "high" && (
-              <p css={typo.Body2}>
+              <p css={typo.Body2} style={{ color: "#666666" }}>
                 주차가 다소 불편하다는 의견이 있으나, 기계식 주차가 가능하여
                 편리함도 제공합니다. 전반적으로 깨끗하고 깔끔한 분위기를
                 유지하며, 인근에 식당과 마트가 있어 편리합니다. 특히 세탁기와
@@ -124,7 +126,7 @@ export default function ReviewGpt() {
               </p>
             )}
             {activeTab === "low" && (
-              <p css={typo.Body2}>
+              <p css={typo.Body2} style={{ color: "#666666" }}>
                 다만, 수건 상태나 청소 관련 지적도 있으니 주의가 필요합니다.
                 다양한 편의시설과 함께 가성비 좋은 선택으로 추천됩니다.
               </p>
