@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Navigator from "./components/navigator";
 import Header from "./components/header/header";
 // import { Block } from "./components/block/block";
-import { Layout } from "./components";
+// import { Layout } from "./components";
 function App() {
   const navigate = useNavigate();
 
