@@ -24,6 +24,7 @@ jobs:
 
       - name: Yarn Build
         run: |
+          tsc --skipLibCheck
           yarn build
 
       - name: Deploy to S3
