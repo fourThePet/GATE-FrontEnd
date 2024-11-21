@@ -126,6 +126,11 @@ export const Button = {
     color: #f1729b;
     cursor: pointer;
     background-color: transparent;
+
+    &:hover {
+      background-color: #f1729b; /* hover 시 배경색 변경 */
+      color: #ffffff;
+    }
   `,
 
   noBorderGrayButton: (isSoldOut: boolean) => css`

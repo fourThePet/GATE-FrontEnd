@@ -12,6 +12,8 @@ export { default as Homepink } from "./Homepink";
 export { default as Imglogo } from "./Imglogo";
 export { default as KakaoLogo } from "./KakaoLogo";
 export { default as LoginLogo } from "./LoginLogo";
+export { default as Mapex } from "./Mapex";
+export { default as Mapicon } from "./Mapicon";
 export { default as Mypagegray } from "./Mypagegray";
 export { default as Mypagepink } from "./Mypagepink";
 export { default as Pagedetaileximg } from "./Pagedetaileximg";
