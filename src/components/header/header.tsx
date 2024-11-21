@@ -1,7 +1,7 @@
 import { useLocation, matchPath } from "react-router-dom";
 import LogoBellHeader from "./logo-bell";
 import OnlyTitleHeader from "./only-title";
-// import BackTitleHeader from "./back-title";
+import BackTitleHeader from "./back-title";
 
 type HeaderComponentProps = {
   title?: string; // title은 선택적 속성으로 설정
