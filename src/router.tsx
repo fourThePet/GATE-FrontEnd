@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage } from "./pages";
+import { Login, Home, Schedule, Mypage, Search } from "./pages";
 
 import PlaceDetail from "./pages/place/place-detail";
 import Place from "./pages/place";
@@ -41,6 +41,11 @@ export const router = createBrowserRouter([
       { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
+
+      {
+        path: "search",
+        element: <Search />,
+      },
     ],
   },
 ]);
