@@ -2,10 +2,11 @@ import { useNavigate } from "react-router-dom";
 import BackTitleHeader from "../../components/header/back-title";
 import { HeaderContainer } from "./index.styles";
 import { PageWrapper } from "../../styles/ui";
-import StoreInfo from "../../components/place-detail/store-info"; // StoreInfo 컴포넌트 import
+import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
 import { Divider2 } from "../../styles/ui";
-import BasicInfo from "../../components/place-detail/basic-info";
-import ReviewGpt from "../../components/place-detail/review-gpt";
+import BasicInfo from "./components/basic-info";
+import ReviewGpt from "./components/review-gpt";
+import Reviews from "./components/reviews";
 export default function PlaceDetail() {
   const navigate = useNavigate();
 
@@ -45,6 +46,8 @@ export default function PlaceDetail() {
       <BasicInfo />
       <Divider2 />
       <ReviewGpt />
+      <Reviews />
+      <Divider2 />
     </div>
   );
 }
