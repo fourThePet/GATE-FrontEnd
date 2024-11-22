@@ -2,10 +2,10 @@ name: Build
 on:
   push:
     branches:
-      - GATE-9--deploy #빌드하고싶은 브랜치
+      - develop #빌드하고싶은 브랜치
 jobs:
   build:
-  
+
     runs-on: ubuntu-latest
     strategy:
       matrix:
