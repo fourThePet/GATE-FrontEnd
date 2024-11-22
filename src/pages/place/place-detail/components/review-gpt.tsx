@@ -15,7 +15,7 @@ export default function ReviewGpt() {
   };
 
   const handleReviewButtonClick = () => {
-    navigate("/receiptcheck"); // /receiptcheck 경로로 이동
+    navigate("/review/receiptcheck"); // /receiptcheck 경로로 이동
   };
 
   return (

@@ -5,9 +5,11 @@ import Header from "./components/header/header";
 function App() {
   const navigate = useNavigate();
   const isLoginPage = location.pathname.startsWith("/login");
-  const isPlaceDetailPage = location.pathname.startsWith("/placedetail");
-  const isReceiptCheckPage = location.pathname.startsWith("/receiptcheck");
-  const isWriteReviewPage = location.pathname.startsWith("/writereview");
+  const isPlaceDetailPage = location.pathname.startsWith("/place/detail");
+  const isReceiptCheckPage = location.pathname.startsWith(
+    "/review/receiptcheck"
+  );
+  const isWriteReviewPage = location.pathname.startsWith("/review/writereview");
 
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {

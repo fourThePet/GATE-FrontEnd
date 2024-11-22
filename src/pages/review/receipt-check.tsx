@@ -9,8 +9,9 @@ export default function ReceiptCheck() {
   const navigate = useNavigate(); // navigate 인스턴스 생성
 
   const handleWriteReviewButtonClick = () => {
-    navigate("/writereview"); // /receiptcheck 경로로 이동
+    navigate("/review/writereview"); // 절대 경로로 이동
   };
+
   return (
     <>
       <div css={PageWrapper}>

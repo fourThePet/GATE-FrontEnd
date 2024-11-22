@@ -29,8 +29,8 @@ export default function Header({ handleBackButtonClick }: Props) {
     { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
     // { path: "/place/detail", title: "장소상세", component: BackTitleHeader },
-    { path: "/receiptcheck", title: "", component: BackTitleHeader },
-    { path: "/writereview", title: "", component: BackTitleHeader },
+    { path: "review/receiptcheck", title: "", component: BackTitleHeader },
+    { path: "review/writereview", title: "", component: BackTitleHeader },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기

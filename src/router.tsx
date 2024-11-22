@@ -39,8 +39,8 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       { path: "place/detail", element: <PlaceDetail /> },
-      { path: "receiptcheck", element: <ReceiptCheck /> },
-      { path: "writereview", element: <WriteReview /> },
+      { path: "review/receiptcheck", element: <ReceiptCheck /> },
+      { path: "review/writereview", element: <WriteReview /> },
     ],
   },
 ]);

@@ -33,13 +33,6 @@ export const ContentContainer = css`
   border-radius: 16px;
 `;
 
-export const Separator = css`
-  width: 100%;
-  height: 1px;
-  background-color: #e0e0e0;
-  margin: 20px 0;
-`;
-
 export const BasicInfoContainer = css`
   padding: 20px;
   background-color: #fff;
