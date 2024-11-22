@@ -64,6 +64,11 @@ export const Button = {
     color: #000000;
     background-color: #ffffff;
     cursor: pointer;
+
+    &:hover {
+      background-color: #f1729b; /* hover 시 배경색 변경 */
+      color: #ffffff;
+    }
   `,
 
   whiteBorderButton: ({
@@ -126,20 +131,33 @@ export const Button = {
     color: #f1729b;
     cursor: pointer;
     background-color: transparent;
+
+    &:hover {
+      background-color: #f1729b; /* hover 시 배경색 변경 */
+      color: #ffffff;
+    }
   `,
 
-  noBorderGrayButton: (isSoldOut: boolean) => css`
+  noBorderGrayButton: ({
+    width = "100%",
+    height = "53px",
+  }: {
+    width?: string;
+    height?: string;
+  }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 273px;
-    min-width: 180px;
-    height: 53px;
+    width: ${width};
+    height: ${height};
     border-radius: 19px;
-    color: ${isSoldOut ? "#939292" : "#f1729b"};
-    background-color: ${isSoldOut ? "#F8F8F8" : "#fff"};
-    cursor: ${isSoldOut ? "not-allowed" : "pointer"};
-    border: ${isSoldOut ? "none" : "2px solid #F8A8C2"};
+
+    background-color: "#e0e0e0";
+    color: #939292; /* 텍스트 색상 */
+    &:hover {
+      background-color: #939292;
+      color: #ffffff; /* 텍스트 색상 */
+    }
   `,
 
   smallGrayButton: css`

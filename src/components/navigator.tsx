@@ -16,23 +16,22 @@ import { LayoutContainer } from "../styles/ui";
 // import { useUserId } from "../hooks/useUserId";
 
 type Props = {
-    isLoginPage: boolean;
+  isLoginPage: boolean;
+  isPlaceDetailPage: boolean;
+  isReceiptCheckPage: boolean;
+  isWriteReviewPage: boolean;
 };
 
-export default function Navigator({isLoginPage}: Props) {
+export default function Navigator({
+  isLoginPage,
+  isPlaceDetailPage,
+  isReceiptCheckPage,
+  isWriteReviewPage,
+}: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //   const userId = useUserId();
-
   const handleNavigation = (path: string) => {
-    // 장바구니나 프로필 페이지로 이동하려고 할 때
-    //   if ((path === "/cart" || path === "/profile") && !userId) {
-    //     // userId가 없으면 (로그인하지 않은 상태) 로그인 페이지로 리다이렉트
-    //     alert("로그인이 필요합니다.");
-    //     navigate("/login", { state: { from: location.pathname } });
-    //     return;
-    //   }
     navigate(path);
   };
 
@@ -49,13 +48,13 @@ export default function Navigator({isLoginPage}: Props) {
       requiresAuth: false,
     },
     {
-      icon: location.pathname.startsWith("/community") ? (
+      icon: location.pathname.startsWith("/place") ? (
         <Communitypink width={31} />
       ) : (
         <Communitygray width={31} />
       ),
-      label: "커뮤니티",
-      path: "/community",
+      label: "장소",
+      path: "/place",
       requiresAuth: false,
     },
     {
@@ -80,43 +79,48 @@ export default function Navigator({isLoginPage}: Props) {
     },
   ];
 
+  // place/detail에서는 네비게이션을 숨김
+  const isPlaceDetailPath = location.pathname === "/place/detail";
+
   return (
     <>
-      {!isLoginPage&&(
+      {!isLoginPage &&
+        !isPlaceDetailPage &&
+        !isReceiptCheckPage &&
+        !isWriteReviewPage &&
+        !isPlaceDetailPath && ( // /place/detail에서는 네비게이션이 렌더링되지 않음
+          <div css={LayoutContainer.NavContainer}>
+            <div css={Block.flexBlock}>
+              {navItems.map((item, index) => {
+                const isActive = location.pathname.startsWith(item.path);
 
-      <div css={LayoutContainer.NavContainer}>
-        <div css={Block.flexBlock}>
-          {navItems.map((item, index) => {
-            const isActive = location.pathname.startsWith(item.path);
-            // const isDisabled = item.requiresAuth && !userId;
-
-            return (
-              <div
-                key={index}
-                css={Block.flexBlock({
-                  width: "100%",
-                  height: "100px",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  direction: "column",
-                  gap: "10px",
-                  pointer: true,
-                })}
-                onClick={() => handleNavigation(item.path)}
-              >
-                {item.icon}
-                <span
-                  css={typo.Body4}
-                  style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
-                >
-                  {item.label}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      )} 
+                return (
+                  <div
+                    key={index}
+                    css={Block.flexBlock({
+                      width: "100%",
+                      height: "100px",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      direction: "column",
+                      gap: "10px",
+                      pointer: true,
+                    })}
+                    onClick={() => handleNavigation(item.path)}
+                  >
+                    {item.icon}
+                    <span
+                      css={typo.Body2}
+                      style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
+                    >
+                      {item.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
     </>
   );
 }
