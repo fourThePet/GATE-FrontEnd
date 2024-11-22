@@ -22,6 +22,7 @@ export { default as Mdogwhite } from "./Mdogwhite";
 export { default as Mypagegray } from "./Mypagegray";
 export { default as Mypagepink } from "./Mypagepink";
 export { default as Pagedetaileximg } from "./Pagedetaileximg";
+export { default as Pinkpencil } from "./Pinkpencil";
 export { default as ProfileDog } from "./ProfileDog";
 export { default as Receipt } from "./Receipt";
 export { default as Reviewimg1 } from "./Reviewimg1";

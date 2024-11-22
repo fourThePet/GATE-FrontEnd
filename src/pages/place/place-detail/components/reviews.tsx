@@ -23,15 +23,14 @@ export default function Reviews() {
             gap: "10px",
           })}
         >
-          {/* 프로필 이미지 */}
           <ProfileDog
             css={{
-              width: "50px",
-              height: "50px",
+              width: "60px",
+              height: "60px",
               borderRadius: "100%",
-              objectFit: "cover",
             }}
           />
+
           {/* 이름과 별점 */}
           <div>
             <div css={typo.Heading3} style={{ marginBottom: "-5px" }}>

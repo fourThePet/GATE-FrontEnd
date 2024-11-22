@@ -6,7 +6,7 @@ import { Login, Home, Schedule, Mypage } from "./pages";
 import PlaceDetail from "./pages/place/place-detail";
 import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
-import WriteReview from "./pages/review";
+import WriteReview from "./pages/review/write-review";
 
 // 라우터 정의
 export const router = createBrowserRouter([

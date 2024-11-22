@@ -8,7 +8,7 @@ const SvgSdogwhite = (props: SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <g filter="url(#sdogwhite_svg__a)">
-      <rect width={60} height={60} x={4} y={2} fill="#fff" rx={20} />
+      <rect width={60} height={60} x={4} y={2} fill="#F7F7F7" rx={20} />
     </g>
     <path
       fill="#111"

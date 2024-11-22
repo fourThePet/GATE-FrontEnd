@@ -1906,6 +1906,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-star-rating-component@npm:^1.4.4":
+  version: 1.4.4
+  resolution: "@types/react-star-rating-component@npm:1.4.4"
+  dependencies:
+    "@types/react": "*"
+  checksum: f7fb56a29edcc2e79de203e739d275259cfcde091782d4fce52c23b6969db663f94f67548fe0bee39688ba3a18a29fffc77114cee1059a79431b2d323df6bc78
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^18.3.12":
   version: 18.3.12
   resolution: "@types/react@npm:18.3.12"
@@ -2512,6 +2521,13 @@ __metadata:
     chromatic: dist/bin.js
     chromatic-cli: dist/bin.js
   checksum: c55e34915599acf223bd14b82ce2269adcfe8c4b377ed51ccc0f8cb48290263683617cd15eabb0591d221442cd629ff2326807d294b234e06bcbb8f7f3c158ee
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.5":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
   languageName: node
   linkType: hard
 
@@ -3491,6 +3507,7 @@ __metadata:
     "@types/react": ^18.3.12
     "@types/react-dom": ^18.3.1
     "@types/react-router-dom": latest
+    "@types/react-star-rating-component": ^1.4.4
     "@types/styled-components": ^5.1.34
     "@vitejs/plugin-react": ^4.3.3
     eslint: ^9.13.0
@@ -3502,6 +3519,7 @@ __metadata:
     react-dom: ^18.3.1
     react-query: ^3.39.3
     react-router-dom: latest
+    react-star-rating-component: ^1.4.1
     storybook: ^8.4.4
     styled-components: ^6.1.13
     typescript: ~5.6.2
@@ -4079,7 +4097,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loose-envify@npm:^1.1.0":
+"loose-envify@npm:^1.1.0, loose-envify@npm:^1.4.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
   dependencies:
@@ -4463,6 +4481,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"object-assign@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "object-assign@npm:4.1.1"
+  checksum: fcc6e4ea8c7fe48abfbb552578b1c53e0d194086e2e6bbbf59e0a536381a292f39943c6e9628af05b5528aa5e3318bb30d6b2e53cadaf5b8fe9e12c4b69af23f
+  languageName: node
+  linkType: hard
+
 "oblivious-set@npm:1.0.0":
   version: 1.0.0
   resolution: "oblivious-set@npm:1.0.0"
@@ -4728,6 +4753,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prop-types@npm:^15.6.1":
+  version: 15.8.1
+  resolution: "prop-types@npm:15.8.1"
+  dependencies:
+    loose-envify: ^1.4.0
+    object-assign: ^4.1.1
+    react-is: ^16.13.1
+  checksum: c056d3f1c057cb7ff8344c645450e14f088a915d078dcda795041765047fa080d38e5d626560ccaac94a4e16e3aa15f3557c1a9a8d1174530955e992c675e459
+  languageName: node
+  linkType: hard
+
 "punycode@npm:^2.1.0":
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
@@ -4792,7 +4828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.7.0":
+"react-is@npm:^16.13.1, react-is@npm:^16.7.0":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: f7a19ac3496de32ca9ae12aa030f00f14a3d45374f1ceca0af707c831b2a6098ef0d6bdae51bd437b0a306d7f01d4677fcc8de7c0d331eb47ad0f46130e53c5f
@@ -4852,6 +4888,18 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 23246ca957b5c2bc8d6f9a81fee2df2ce4fc3feca3ec27c2fd85999568fc1299a4e8273e4ab70b6f3acd43a1fb45e0c93cb01ef77e68c9f9e1f7e4f42a1419ea
+  languageName: node
+  linkType: hard
+
+"react-star-rating-component@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-star-rating-component@npm:1.4.1"
+  dependencies:
+    classnames: ^2.2.5
+    prop-types: ^15.6.1
+  peerDependencies:
+    react: ^16.2.0
+  checksum: d4dcb38993f46834ea3333ed5cf04eceae9a699a6d6bd999caf725170f7e7c85fc9f237f7fed945ae60219c963560f50d337cf8ef9625986d89a462da9e8406b
   languageName: node
   linkType: hard
 
