@@ -12,6 +12,7 @@ function App() {
   );
   const isWriteReviewPage = location.pathname.startsWith("/review/writereview");
 
+  const isOnboardingPage = location.pathname.startsWith("/onboarding");
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
     navigate(-1); // 이전 페이지로 이동
@@ -31,7 +32,9 @@ function App() {
         isPlaceDetailPage={isPlaceDetailPage}
         isReceiptCheckPage={isReceiptCheckPage}
         isWriteReviewPage={isWriteReviewPage}
+        isOnboardingPage={isOnboardingPage}
       />
+      
     </>
   );
 }
