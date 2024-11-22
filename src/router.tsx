@@ -1,15 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage } from "./pages";
+import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet } from "./pages";
+import PlaceList from "./pages/place-list";
+import FilterPlace from "./pages/place/filter-place";
 
 import PlaceDetail from "./pages/place/place-detail";
-import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
-import FilterPlace from "./pages/place/filter-place";
-import PlaceList from "./pages/place-list";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -47,6 +46,15 @@ export const router = createBrowserRouter([
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
       { path: "review", element: <Review /> },
+      { path: "auth/kakao", element: <KakaoCallback /> },
+      {
+        path: "onboarding/user",
+        element: <OnboardingUser />,
+      },
+      {
+        path: "onboarding/pet",
+        element: <OnboardingPet />,
+      },
     ],
   },
 ]);
