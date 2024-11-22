@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Navigator from "./components/navigator";
 import Header from "./components/header/header";
 // import { Block } from "./components/block/block";
+
 function App() {
   const navigate = useNavigate();
   const isLoginPage = location.pathname.startsWith("/login");

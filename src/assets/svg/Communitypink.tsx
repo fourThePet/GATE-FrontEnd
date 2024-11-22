@@ -1,4 +1,4 @@
-import * as React from "react";
+//import * as React from "react";
 import type { SVGProps } from "react";
 const SvgCommunitypink = (props: SVGProps<SVGSVGElement>) => (
   <svg
