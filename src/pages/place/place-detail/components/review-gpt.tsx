@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"; // useNavigate import 추가
 import { useState } from "react";
-import { typo } from "../../../styles/typo";
+import { typo } from "../../../../styles/typo";
 import { BasicInfoContainer } from "../index.styles";
-import { Block } from "../../../components/block/block";
-import { Writereview } from "../../../assets/svg";
-import { Gpt } from "../../../assets/svg";
+import { Block } from "../../../../components/block/block";
+import { Writereview } from "../../../../assets/svg";
+import { Gpt } from "../../../../assets/svg";
 
 export default function ReviewGpt() {
   const [activeTab, setActiveTab] = useState<"high" | "low">("high"); // 탭 상태

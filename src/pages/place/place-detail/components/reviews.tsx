@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { BasicInfoContainer } from "../index.styles";
-import { ProfileDog, Reviewimg1, Reviewimg2 } from "../../../assets/svg";
-import { Block } from "../../../components/block/block";
-import { typo } from "../../../styles/typo";
-import { Button } from "../../../components/button/button";
+import { ProfileDog, Reviewimg1, Reviewimg2 } from "../../../../assets/svg";
+import { Block } from "../../../../components/block/block";
+import { typo } from "../../../../styles/typo";
+import { Button } from "../../../../components/button/button";
 
 export default function Reviews() {
   const [isExpanded, setIsExpanded] = useState(false); // "더보기" 상태를 관리

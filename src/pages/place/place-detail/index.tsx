@@ -1,18 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import BackTitleHeader from "../../components/header/back-title";
+import BackTitleHeader from "../../../components/header/back-title";
 import { HeaderContainer } from "./index.styles";
-import { PageWrapper } from "../../styles/ui";
+import { PageWrapper } from "../../../styles/ui";
 import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
-import { Divider2 } from "../../styles/ui";
+import { Divider2 } from "../../../styles/ui";
 import BasicInfo from "./components/basic-info";
 import ReviewGpt from "./components/review-gpt";
 import Reviews from "./components/reviews";
 import HowToCome from "./components/how-to-come";
-import { Button } from "../../components/button/button";
-import { Block } from "../../components/block/block";
-import { typo } from "../../styles/typo";
-import { Mapicon } from "../../assets/svg";
+import { Button } from "../../../components/button/button";
+import { Block } from "../../../components/block/block";
+import { typo } from "../../../styles/typo";
+import { Mapicon } from "../../../assets/svg";
 
 export default function PlaceDetail() {
   const navigate = useNavigate();
@@ -81,6 +81,7 @@ export default function PlaceDetail() {
         <HowToCome />
       </div>
       <div style={{ marginBottom: "60px" }} />
+
       {/* 지도보기 버튼 */}
       {isButtonVisible && (
         <button

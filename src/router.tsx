@@ -3,8 +3,8 @@ import App from "./App";
 
 import { Login, Home, Schedule, Mypage } from "./pages";
 
-import PlaceDetail from "./pages/place-detail";
-import Map from "./pages/map";
+import PlaceDetail from "./pages/place/place-detail";
+import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review";
 
@@ -23,8 +23,8 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "map",
-        element: <Map />,
+        path: "place",
+        element: <Place />,
       },
       {
         path: "schedule",
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      { path: "placedetail", element: <PlaceDetail /> },
+      { path: "place/detail", element: <PlaceDetail /> },
       { path: "receiptcheck", element: <ReceiptCheck /> },
       { path: "writereview", element: <WriteReview /> },
     ],

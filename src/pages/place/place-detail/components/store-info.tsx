@@ -1,7 +1,7 @@
-import { Block } from "../../../components/block/block";
-import { Pagedetaileximg } from "../../../assets/svg";
-import { Heart, HeartFill } from "../../../assets/svg";
-import { typo } from "../../../styles/typo";
+import { Block } from "../../../../components/block/block";
+import { Pagedetaileximg } from "../../../../assets/svg";
+import { Heart, HeartFill } from "../../../../assets/svg";
+import { typo } from "../../../../styles/typo";
 import { ContentContainer } from "../index.styles";
 import { useState } from "react";
 export default function StoreInfo() {

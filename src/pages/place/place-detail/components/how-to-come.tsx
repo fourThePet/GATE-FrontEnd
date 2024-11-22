@@ -1,7 +1,7 @@
 import { BasicInfoContainer } from "../index.styles";
-import { typo } from "../../../styles/typo";
-import { Block } from "../../../components/block/block";
-import { Mapex } from "../../../assets/svg";
+import { typo } from "../../../../styles/typo";
+import { Block } from "../../../../components/block/block";
+import { Mapex } from "../../../../assets/svg";
 export default function HowToCome() {
   return (
     <>

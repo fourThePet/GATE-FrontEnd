@@ -1,4 +1,4 @@
-import { typo } from "../../../styles/typo";
+import { typo } from "../../../../styles/typo";
 import { BasicInfoContainer } from "../index.styles";
 export default function BasicInfo() {
   return (
