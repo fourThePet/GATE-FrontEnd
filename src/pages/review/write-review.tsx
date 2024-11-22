@@ -16,6 +16,7 @@ import {
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
 import ConfirmModal from "../../components/modal/confirm-modal";
+import { HeartFill } from "../../assets/svg";
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
