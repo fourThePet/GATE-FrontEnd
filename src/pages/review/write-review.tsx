@@ -15,13 +15,15 @@ import {
   Ldogpink,
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
+import ConfirmModal from "../../components/modal/confirm-modal";
+import { HeartFill } from "../../assets/svg";
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
-
   const [selectedDogSize, setSelectedDogSize] = useState<
     "small" | "medium" | "large" | null
   >(null); // 아이 크기 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const handleConditionClick = (condition: string) => {
     // 조건을 선택/해제하는 로직
@@ -41,6 +43,9 @@ export default function WriteReview() {
     setSelectedDogSize(size);
   };
 
+  const handleRegister = () => {
+    setIsModalOpen(true); // 모달 열기
+  };
   return (
     <>
       <div
@@ -314,10 +319,20 @@ export default function WriteReview() {
                 width: "260px",
                 height: "50px",
               })}
+              onClick={handleRegister} // 등록하기 클릭 시 모달 열기
             >
               등록하기
             </button>
           </div>
+          {/* 모달 */}
+          <ConfirmModal
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+            title="리뷰가 등록되었어요!"
+            subText="마이페이지 > 내 리뷰 조회에서 확인해보세요"
+            confirmText="확인"
+            onConfirm={() => setIsModalOpen(false)} // 모달 닫기 동작
+          />
         </div>
       </div>
     </>
