@@ -11,6 +11,7 @@ export { default as KakaoLogo } from "./KakaoLogo";
 export { default as LoginLogo } from "./LoginLogo";
 export { default as Mypagegray } from "./Mypagegray";
 export { default as Mypagepink } from "./Mypagepink";
+export { default as NoticeIcon } from "./NoticeIcon";
 export { default as Schedulegray } from "./Schedulegray";
 export { default as Schedulemain } from "./Schedulemain";
 export { default as Schedulepink } from "./Schedulepink";
