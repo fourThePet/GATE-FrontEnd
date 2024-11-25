@@ -16,7 +16,6 @@ import {
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
 import ConfirmModal from "../../components/modal/confirm-modal";
-import { HeartFill } from "../../assets/svg";
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
@@ -24,6 +23,14 @@ export default function WriteReview() {
     "small" | "medium" | "large" | null
   >(null); // 아이 크기 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const [review, setReview] = useState(""); // 리뷰 상태 관리
+  const maxChars = 400; // 최대 글자 수
+
+  const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length <= maxChars) {
+      setReview(e.target.value); // 입력된 값이 최대 글자 수 이하인 경우 업데이트
+    }
+  };
 
   const handleConditionClick = (condition: string) => {
     // 조건을 선택/해제하는 로직
@@ -295,9 +302,29 @@ export default function WriteReview() {
               </span>
             </div>
             <textarea
-              style={{ width: "100%", height: "150px" }}
+              value={review}
+              onChange={handleReviewChange}
+              style={{
+                width: "100%",
+                height: "170px",
+                resize: "none",
+                borderRadius: "10px",
+                padding: "10px",
+                fontSize: "14px",
+                marginTop: "-10px",
+              }}
               placeholder="리뷰 작성 시 욕설, 비방, 명예훼손성 표현은 누군가에게 상처가 될 수 있습니다."
-            ></textarea>
+            />
+            <span
+              style={{
+                // textAlign: "end",
+                fontSize: "12px",
+                color: review.length > maxChars ? "red" : "#9A9EA6",
+                marginRight: "-450px",
+              }}
+            >
+              {review.length} / {maxChars}
+            </span>
           </div>
           <div
             css={Block.flexBlock({
