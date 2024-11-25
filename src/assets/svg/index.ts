@@ -28,6 +28,7 @@ export { default as ProfileDog } from "./ProfileDog";
 export { default as Receipt } from "./Receipt";
 export { default as Reviewimg1 } from "./Reviewimg1";
 export { default as Reviewimg2 } from "./Reviewimg2";
+export { default as NoticeIcon } from "./NoticeIcon";
 export { default as Schedulegray } from "./Schedulegray";
 export { default as Schedulemain } from "./Schedulemain";
 export { default as Schedulepink } from "./Schedulepink";
