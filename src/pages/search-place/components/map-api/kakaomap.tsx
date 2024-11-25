@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { mapStyle } from "../index.styles";
+import { mapStyle } from "../search-bar/index.styles";
 
 declare global {
   interface Window {
