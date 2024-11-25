@@ -3,6 +3,7 @@ export { default as Bell } from "./Bell";
 export { default as Communitygray } from "./Communitygray";
 export { default as Communitypink } from "./Communitypink";
 export { default as Gpt } from "./Gpt";
+export { default as Filter } from "./Filter";
 export { default as HeaderLogo } from "./HeaderLogo";
 export { default as HeaderBackArrow } from "./HeaderBackArrow";
 export { default as HeartFill } from "./HeartFill";

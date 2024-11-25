@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage, Search } from "./pages";
+import { Login, Home, Schedule, Mypage, Search, PlaceList } from "./pages";
 
 import PlaceDetail from "./pages/place/place-detail";
 import Place from "./pages/place";
@@ -45,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: "search",
         element: <Search />,
+      },
+      {
+        path: "place-list",
+        element: <PlaceList />,
       },
     ],
   },
