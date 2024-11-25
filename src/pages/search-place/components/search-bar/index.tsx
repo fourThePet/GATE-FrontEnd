@@ -1,20 +1,21 @@
+import Filter from "../../../../assets/svg/Filter";
 import {
   headerContainerStyle,
   searchBarWrapperStyle,
   searchIconStyle,
   searchInputStyle,
-  filterWrapperStyle,
+  filterButtonStyle,
 } from "./index.styles";
 
 type Props = {
   title?: string;
-  handleFilterButtonClick: () => void;
+  handleFilterButtonClick?: () => void;
   handleSearchSubmit: (value: string) => void;
 };
 
 export default function SearchFilterHeader({
-  handleSearchSubmit,
   handleFilterButtonClick,
+  handleSearchSubmit,
 }: Props) {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -25,16 +26,17 @@ export default function SearchFilterHeader({
 
   return (
     <div css={headerContainerStyle}>
-      {/* 검색바 */}
       <div css={searchBarWrapperStyle}>
-        <div css={searchIconStyle}>🔍</div> {/* 검색 아이콘 */}
+        <div css={searchIconStyle}>🔍</div>
         <input
           css={searchInputStyle}
           placeholder="어디로 떠나시나요?"
           onKeyPress={handleKeyPress}
         />
       </div>
-      <div css={filterWrapperStyle} onClick={handleFilterButtonClick} />
+      <button css={filterButtonStyle} onClick={handleFilterButtonClick}>
+        <Filter className="filterIconStyle" />
+      </button>
     </div>
   );
 }
