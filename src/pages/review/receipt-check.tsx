@@ -5,13 +5,19 @@ import { typo } from "../../styles/typo";
 import { Receipt } from "../../assets/svg";
 import { Write } from "../../assets/svg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import ReceiptSubmit from "../../components/modal/receipt-submit"; // ReceiptSubmit 모달 컴포넌트 import
+
 export default function ReceiptCheck() {
   const navigate = useNavigate(); // navigate 인스턴스 생성
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false); // ReceiptSubmit 모달 상태 관리
 
   const handleWriteReviewButtonClick = () => {
     navigate("/review/writereview"); // 절대 경로로 이동
   };
-
+  const openReceiptModal = () => {
+    setIsReceiptModalOpen(true); // 모달 열기
+  };
   return (
     <>
       <div css={PageWrapper}>
@@ -63,6 +69,7 @@ export default function ReceiptCheck() {
                 e.currentTarget.style.boxShadow =
                   "0px 6px 6px rgba(0, 0, 0, 0.1)";
               }}
+              onClick={openReceiptModal} // 클릭 시 모달 열기
             >
               <Receipt css={{ width: "40px", height: "40px" }} />
               <div css={typo.Body2} style={{ textAlign: "center" }}>
@@ -131,6 +138,11 @@ export default function ReceiptCheck() {
           신뢰성 높은 정보를 제공할 수 있어요.
         </span>
       </div>
+      {/* ReceiptSubmit 모달 */}
+      <ReceiptSubmit
+        isOpen={isReceiptModalOpen}
+        setIsOpen={setIsReceiptModalOpen}
+      />
     </>
   );
 }
