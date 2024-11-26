@@ -4,7 +4,6 @@ import App from "./App";
 import { Login, Home, Schedule, Mypage, Search, PlaceList } from "./pages";
 
 import PlaceDetail from "./pages/place/place-detail";
-import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 
@@ -21,10 +20,6 @@ export const router = createBrowserRouter([
       {
         path: "home",
         element: <Home />,
-      },
-      {
-        path: "place",
-        element: <Place />,
       },
       {
         path: "schedule",
@@ -50,15 +45,6 @@ export const router = createBrowserRouter([
       { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
-
-      {
-        path: "search",
-        element: <Search />,
-      },
-      {
-        path: "place-list",
-        element: <PlaceList />,
-      },
     ],
   },
 ]);

@@ -12,7 +12,7 @@ import { Button } from "../../components/button/button";
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
-export default function Search() {
+export default function Place() {
   const [results, setResults] = useState<string[]>([]);
 
   const categories = [
