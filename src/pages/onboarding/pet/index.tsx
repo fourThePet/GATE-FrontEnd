@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import {  MainPinkButton, Text } from '../../../components'
 import colors from "../../../styles/colors";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeWrapper, validMessage, wrapper } from "./index.styles";
@@ -14,10 +14,11 @@ export default function OnboardingPet(){
     const [selectedGender, setSelectedGender] = useState<string | null>(null);
     const [profileImageSrc, setProfileImageSrc] = useState<string | null>(null);
     const [selectedDogSize, setSelectedDogSize] = useState<"small" | "medium" | "large" | null>(null); 
-
+    const [isValid, setIsValid] = useState<boolean>(false);
     const [year, setYear] = useState("");
     const [month, setMonth] = useState("");
     const [day, setDay] = useState("");
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
 
     // 이미지 변경 핸들러
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +74,41 @@ export default function OnboardingPet(){
     const handleSkipButtonClick = () =>{
         navigate('/')
     }
+
+    const handleRegisterButtonClick = () =>{
+        if(isValid){
+            console.log(formattedDate, name, selectedDogSize, selectedGender)
+            navigate('/onboarding/completion')
+        }else {
+            alert("모든 정보를 정확히 입력해주세요.");
+        }
+    }
+
+    // 유효성 검사: 모든 조건 충족 시 "등록" 버튼 활성화
+    useEffect(() => {
+        const isBirthValid =
+        year.length === 4 &&
+        month.length === 2 &&
+        day.length === 2 &&
+        /^\d+$/.test(year) &&
+        /^\d+$/.test(month) &&
+        /^\d+$/.test(day);
+
+        // 생년월일이 유효하면 저장
+        if (isBirthValid) {
+            const date = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+            setFormattedDate(date);
+        } else {
+            setFormattedDate(null);
+        }
+
+        setIsValid(
+        isNameValid === true &&
+            selectedDogSize !== null &&
+            isBirthValid &&
+            selectedGender !== null
+        );
+    }, [isNameValid, selectedDogSize, year, month, day, selectedGender]);
     return(
         <div css={contentWrapper}>
 
@@ -208,7 +244,7 @@ export default function OnboardingPet(){
                 </div>
             </div>
             <div css={bottomButtonStyle}>
-                <MainPinkButton  title="등록"/>
+                <MainPinkButton  title="등록" onClick={handleRegisterButtonClick} isDisabled={!isValid}/>
                 <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
             </div>
         </div>

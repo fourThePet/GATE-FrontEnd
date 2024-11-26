@@ -8,13 +8,14 @@ export const contentWrapper = css`
     height: 100vh; /* 화면 전체 높이 */
     overflow: hidden; /* 내부 콘텐츠만 스크롤 가능 */
     position: relative;
+    padding: 80px 0 0 0;
 `
 export const wrapper = css`
     flex: 1; /* 나머지 공간을 차지 */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 100px;
+    gap: 45px;
     width: 100%;
     padding: 30px 30px 0;
     overflow-y: auto; /* 스크롤 활성화 */
