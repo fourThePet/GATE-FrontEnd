@@ -5,7 +5,7 @@ import colors from "../../../styles/colors";
 import { Input } from "../components";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, contentWrapper, formWrapper, infoWrapper, nicknameWrapper, radioButtonStyle, textWrapper, validMessage, wrapper } from "./index.styles";
 import { useNavigate } from "react-router-dom";
-import { UserInfoForm } from "../../../interfaces/user";
+// import { UserInfoForm } from "../../../interfaces/user";
 
 export default function OnboardingUser(){
     const navigate = useNavigate();
@@ -20,11 +20,11 @@ export default function OnboardingUser(){
     const [day, setDay] = useState("");
     const [formattedDate, setFormattedDate] = useState<string | null>(null);
 
-    const [formData, setFormData] = useState<UserInfoForm>({
-        nickname : nickname,
-        age : '',
-        gender : ''
-    });
+    // const [formData, setFormData] = useState<UserInfoForm>({
+    //     nickname : nickname,
+    //     age : '',
+    //     gender : ''
+    // });
     //나이 유효성 검사
     const handleYearChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -44,16 +44,6 @@ export default function OnboardingUser(){
         const value = event.target.value;
         if (/^\d*$/.test(value)){ 
             setDay(value.slice(0, 2)); // 숫자만 허용, 2글자 제한
-        }
-    };
-
-    const handleSaveDate = () => {
-        if (year.length === 4 && month.length === 2 && day.length === 2) {
-            const date = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-            setFormattedDate(date);
-            console.log("Saved Date:", date);
-        } else {
-            alert("올바른 날짜를 입력해주세요.");
         }
     };
 
@@ -138,7 +128,7 @@ export default function OnboardingUser(){
                         <div>
                             <div css={nicknameWrapper}>
                                 <Input width="400px" placeholder="닉네임을 입력해주세요" onChange={handleInputNicknameChange} maxLength={20}/>
-                                <MainPinkButton onClick={handleNicknameCheckButtonClick} isDisabled={!isNicknameCheck}  width="80px" height="48px" title="중복체크"/>
+                                <MainPinkButton onClick={handleNicknameCheckButtonClick} isDisabled={!isNicknameCheck}  width="100px" height="48px" title="중복체크"/>
                             </div>
                             {isNicknameValid === false &&
                                 <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>닉네임은 2~20자 이내로 입력해주세요</Text></div>
