@@ -27,5 +27,6 @@ dist-ssr
 .yarn/cache/
 .yarn/install-state.gz
 
+install-state.gz
 .env
 

@@ -158,17 +158,6 @@ export default function Reviews() {
         >
           2024.01.25
         </div>
-
-        {/* 리뷰 전체보기 버튼 */}
-        <button
-          css={Button.pinkBorderButton({
-            width: "550px",
-            height: "50px",
-          })}
-          style={{ marginTop: "40px" }}
-        >
-          리뷰 전체보기
-        </button>
       </div>
     </>
   );

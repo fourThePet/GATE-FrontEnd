@@ -5,6 +5,7 @@ import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { Realreceipt } from "../../assets/svg";
 import { useNavigate } from "react-router-dom";
+import NoBorderGrayButton from "../button/no-border-gray";
 type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -115,15 +116,14 @@ export default function ReceiptSubmit({
         />
 
         {/* 첨부하기 버튼 */}
-        <button
-          css={Button.noBorderGrayButton({
-            width: "80px",
-            height: "40px",
-          })}
-          onClick={openFileDialog} // 버튼 클릭 시 파일 선택창 열기
-        >
-          첨부하기
-        </button>
+        <NoBorderGrayButton
+          isDisabled={false}
+          onClick={openFileDialog}
+          width="80px"
+          height="40px"
+          title="첨부하기"
+        />
+
         {/* 영수증 이미지 */}
         <div
           style={{

@@ -7,9 +7,7 @@ function App() {
   const navigate = useNavigate();
   const isLoginPage = location.pathname.startsWith("/login");
   const isPlaceDetailPage = location.pathname.startsWith("/place/detail");
-  const isReceiptCheckPage = location.pathname.startsWith(
-    "/review/receiptcheck"
-  );
+  const isReceiptCheckPage = location.pathname.startsWith("/review");
   const isWriteReviewPage = location.pathname.startsWith("/review/writereview");
 
   // 뒤로가기 버튼 핸들러

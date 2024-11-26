@@ -3536,6 +3536,7 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     react-modal: ^3.16.1
+    react-progress-bar: ^0.1.0
     react-query: ^3.39.3
     react-router-dom: latest
     react-star-rating-component: ^1.4.1
@@ -4880,6 +4881,13 @@ __metadata:
     react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
     react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
   checksum: 978936e9320fad839c039b9ee4de55d40888156cb40e093615d6fbc2ff07139d5db06f14782cb7767f780bd5fb57956778669426c535ebc0068a7a03882c7e75
+  languageName: node
+  linkType: hard
+
+"react-progress-bar@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "react-progress-bar@npm:0.1.0"
+  checksum: 04d23e701599244a4fb280964c26a36c7e7a28f4d17ee40cfb66560b517a02c3ab87985e12bdba7bc44a6686c2ea79833b90cb3584742d22b49e546e7dc0983c
   languageName: node
   linkType: hard
 
