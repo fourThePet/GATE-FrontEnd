@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet } from "./pages";
+import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet, OnboardingCompletion } from "./pages";
 import PlaceList from "./pages/place-list";
 import FilterPlace from "./pages/place/filter-place";
 
@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
         path: "onboarding/pet",
         element: <OnboardingPet />,
       },
+      {
+        path: "onboarding/completion",
+        element: <OnboardingCompletion />,
+      }
     ],
   },
 ]);
