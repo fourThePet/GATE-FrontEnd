@@ -48,13 +48,13 @@ export default function Navigator({
       requiresAuth: false,
     },
     {
-      icon: location.pathname.startsWith("/search") ? (
+      icon: location.pathname.startsWith("/place") ? (
         <Communitypink width={31} />
       ) : (
         <Communitygray width={31} />
       ),
       label: "장소",
-      path: "/search",
+      path: "/place",
       requiresAuth: false,
     },
     {

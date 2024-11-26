@@ -1,11 +1,11 @@
-import CategoryList from "../search-place/components/category/category-search";
+import CategoryList from "../place/components/category/category-search";
 import { useState } from "react";
 import {
   containerStyle,
   resultItemStyle,
   resultsListStyle,
-} from "../search-place/index.styles";
-import { noticeStyle } from "./index.styles";
+} from "../place/index.styles";
+import { buttonContainer, noticeStyle } from "./index.styles";
 import BackSearchHeader from "../../components/header/back-search";
 import { useNavigate } from "react-router-dom";
 import { typo } from "../../styles/typo";
@@ -13,7 +13,7 @@ import colors from "../../styles/colors";
 import { css } from "@emotion/react";
 import { NoticeIcon } from "../../assets/svg";
 import ResultPlace from "./components/result-place";
-import { Button } from "../../components/button/button";
+import MainPinkButton from "../../components/button/main-pink";
 
 export default function PlaceList() {
   const [results, setResults] = useState<string[]>([]);
@@ -34,7 +34,6 @@ export default function PlaceList() {
     { id: 13, label: "미술관", icon: "🗺️" },
     { id: 14, label: "박물관", icon: "🗺️" },
   ];
-  2;
 
   const handleSearchSubmit = (value: string) => {
     console.log("검색어:", value);
@@ -57,7 +56,7 @@ export default function PlaceList() {
     navigate(-1);
   };
   const handleMapButtonClick = () => {
-    navigate("/search");
+    navigate("/place");
   };
 
   return (
@@ -93,28 +92,15 @@ export default function PlaceList() {
         </label>
       </div>
       <ResultPlace />
-      <button
-        onClick={handleMapButtonClick}
-        css={[
-          Button.mainPinkButton({
-            isDisabled: false,
-            width: "120px",
-            height: "50px",
-          }),
-          css`
-            font-size: 18px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            z-index: 9999;
-            display: flex;
-            position: fixed;
-            transform: translateX(-50%);
-            bottom: 13vh;
-            left: 50%;
-          `,
-        ]}
-      >
-        지도보기
-      </button>
+      <div css={buttonContainer}>
+        <MainPinkButton
+          onClick={handleMapButtonClick}
+          isDisabled={false} // 비활성화
+          title={"지도보기"}
+          width="120px"
+          height="50px"
+        />
+      </div>
     </div>
   );
 }

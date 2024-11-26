@@ -6,3 +6,11 @@ export const noticeStyle = css`
   gap: 10px;
   margin-left: 8%;
 `;
+
+export const buttonContainer = css`
+  z-index: 10000;
+  position: fixed;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+`;

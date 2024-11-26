@@ -24,7 +24,7 @@ export default function Header({ handleBackButtonClick }: Props) {
   }[] = [
     { path: "", component: LogoBellHeader }, // title 없음
     { path: "/home", component: LogoBellHeader }, // title 없음
-    { path: "/place", title: "장소", component: OnlyTitleHeader },
+    // { path: "/place", title: "장소", component: OnlyTitleHeader },
     // { path: "/schedule", title: "일정", component: OnlyTitleHeader },
     { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
