@@ -71,7 +71,7 @@ export default function ReceiptSubmit({
         style={{
           position: "absolute",
           top: "10px",
-          right: "10px",
+          right: "20px",
           border: "none",
           background: "none",
           fontSize: "30px",
