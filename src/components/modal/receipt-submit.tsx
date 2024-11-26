@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
 import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
-
+import { Realreceipt } from "../../assets/svg";
+import { useNavigate } from "react-router-dom";
 type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,7 +14,31 @@ export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
 }: ReceiptSubmitProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null); // 선택된 이미지 상태 관리
+
   const closeModal = () => setIsOpen(false);
+  const navigate = useNavigate(); // navigate 인스턴스 생성
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]; // 선택한 파일 가져오기
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result as string); // base64로 변환된 이미지 설정
+      };
+      reader.readAsDataURL(file); // 파일을 base64로 변환
+    }
+  };
+  const handleWriteReviewButtonClick = () => {
+    navigate("/review/writereview"); // 절대 경로로 이동
+  };
+
+  const openFileDialog = () => {
+    const fileInput = document.getElementById("file-input") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click(); // 강제로 input 클릭
+    }
+  };
 
   return (
     <ReactModal
@@ -29,9 +54,8 @@ export default function ReceiptSubmit({
           zIndex: 1000,
         },
         content: {
-          //   position: "relative",
           width: "400px",
-          height: "500px",
+          height: "600px",
           margin: "auto",
           padding: "20px",
           borderRadius: "16px",
@@ -79,43 +103,75 @@ export default function ReceiptSubmit({
             marginTop: "-10px",
           }}
         >
-          전화번호, 사업자 번호, 주소가 <br />잘 나온 사진을 넣어주세요!
+          전화번호, 사업자 번호, 주소가 <br /> 잘 나온 사진을 넣어주세요!
         </span>
+        {/* 파일 선택 Input (숨김) */}
+        <input
+          type="file"
+          accept="image/*"
+          id="file-input"
+          onChange={handleFileChange} // 파일 선택 핸들러
+          style={{ display: "none" }} // 숨김 처리
+        />
 
+        {/* 첨부하기 버튼 */}
+        <button
+          css={Button.noBorderGrayButton({
+            width: "80px",
+            height: "40px",
+          })}
+          onClick={openFileDialog} // 버튼 클릭 시 파일 선택창 열기
+        >
+          첨부하기
+        </button>
         {/* 영수증 이미지 */}
         <div
           style={{
             width: "260px",
             height: "150px",
             borderRadius: "10px",
-            backgroundColor: "#F3F4F6",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: "70px",
+            marginBottom: "70px",
           }}
         >
-          {/* 이미지 삽입 */}
-          <img
-            src="/path/to/receipt-image.png" // 실제 영수증 이미지 경로로 수정
-            alt="영수증 이미지"
-            style={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              borderRadius: "10px",
-            }}
-          />
+          {selectedImage ? (
+            <img
+              src={selectedImage}
+              alt="Selected Receipt"
+              style={{
+                width: "270px",
+                height: "300px",
+                objectFit: "cover",
+              }}
+            />
+          ) : (
+            <Realreceipt
+              style={{
+                width: "270px",
+                height: "300px",
+              }}
+            />
+          )}
         </div>
 
-        {/* 확인 버튼 */}
+        {/* 제출하기 버튼 */}
         <button
           css={Button.mainPinkButton({
-            isDisabled: false,
+            isDisabled: !selectedImage, // 이미지가 없을 경우 비활성화
             width: "120px",
             height: "40px",
           })}
-          onClick={closeModal}
+          onClick={handleWriteReviewButtonClick}
+          disabled={!selectedImage} // 이미지가 없을 경우 비활성화
+          style={{
+            backgroundColor: selectedImage ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
+            cursor: selectedImage ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
+          }}
         >
-          확인
+          제출하기
         </button>
       </div>
     </ReactModal>

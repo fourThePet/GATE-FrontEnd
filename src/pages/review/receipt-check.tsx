@@ -15,9 +15,11 @@ export default function ReceiptCheck() {
   const handleWriteReviewButtonClick = () => {
     navigate("/review/writereview"); // 절대 경로로 이동
   };
+
   const openReceiptModal = () => {
     setIsReceiptModalOpen(true); // 모달 열기
   };
+
   return (
     <>
       <div css={PageWrapper}>
@@ -30,7 +32,7 @@ export default function ReceiptCheck() {
         >
           <Logowithshadow
             css={{ width: "200px", height: "200px" }}
-            style={{ marginTop: "200px" }}
+            style={{ marginTop: "180px" }}
           />
           <span css={typo.Heading2}>다녀온 곳의 리뷰를 써보세요 !</span>
           {/* 영수증 인증 및 작성하기 버튼 */}
@@ -113,36 +115,35 @@ export default function ReceiptCheck() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* 문구 */}
-      <div
-        css={Block.flexBlock({
-          direction: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        })}
-        style={{
-          marginTop: "300px", // 버튼 하단 여백 추가
-          padding: "0 20px", // 좌우 여백 추가
-          textAlign: "center", // 중앙 정렬
-        }}
-      >
-        <span
-          css={typo.Heading4}
+        {/* 문구 */}
+        <div
+          css={Block.flexBlock({
+            direction: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          })}
           style={{
-            color: "#9A9EA6",
+            marginTop: "100px", // 버튼 하단 여백 추가
+            padding: "0 20px", // 좌우 여백 추가
+            textAlign: "center", // 중앙 정렬
           }}
         >
-          영수증 인증 후 리뷰를 작성하면 리뷰 상단에 노출 되며, <br />
-          신뢰성 높은 정보를 제공할 수 있어요.
-        </span>
+          <span
+            css={typo.Heading4}
+            style={{
+              color: "#9A9EA6",
+            }}
+          >
+            영수증 인증 후 리뷰를 작성하면 리뷰 상단에 노출 되며, <br />
+            신뢰성 높은 정보를 제공할 수 있어요.
+          </span>
+        </div>
+        {/* ReceiptSubmit 모달 */}
+        <ReceiptSubmit
+          isOpen={isReceiptModalOpen}
+          setIsOpen={setIsReceiptModalOpen}
+        />
       </div>
-      {/* ReceiptSubmit 모달 */}
-      <ReceiptSubmit
-        isOpen={isReceiptModalOpen}
-        setIsOpen={setIsReceiptModalOpen}
-      />
     </>
   );
 }
