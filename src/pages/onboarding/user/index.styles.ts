@@ -1,16 +1,27 @@
 import { css } from "@emotion/react";
 import colors from "../../../styles/colors";
 
-export const wrapper = css`
+export const contentWrapper = css`
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    flex: 1;
+    width: 100%;
+    height: 100vh; /* 화면 전체 높이 */
+    overflow: hidden; /* 내부 콘텐츠만 스크롤 가능 */
+    position: relative;
+`
+export const wrapper = css`
+    flex: 1; /* 나머지 공간을 차지 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 100px;
     width: 100%;
     padding: 0 30px;
-    position: relative;
+    overflow-y: auto; /* 스크롤 활성화 */
+`
+
+export const textWrapper = css`
+  padding: 100px 0 0 0;
 `
 
 export const formWrapper = css`
@@ -76,13 +87,14 @@ export const radioButtonStyle = (isSelected: boolean) => css`
 `;
 
 export const bottomButtonStyle = css`
-    position: absolute; /* 화면 하단 고정 */
-    bottom: 10px;
-    margin: 0 auto;
+    position: sticky; /* 스크롤 시에도 화면 하단에 고정 */
+    bottom: 0;
     z-index: 10;
-    width: calc(100% - 36px); //좌우 패딩 계산
-    padding: 0 18px;
+    width: 100%;
+    padding: 10px 18px;
+    background-color: white; /* 배경색 추가 */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     
