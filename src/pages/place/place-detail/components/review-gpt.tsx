@@ -47,7 +47,7 @@ export default function ReviewGpt() {
           })}
           style={{ marginTop: "-15px" }}
         >
-          <span css={typo.Body1} style={{ color: "#FFAB2E" }}>
+          <span css={typo.Body1} style={{ color: "#F1729B" }}>
             ★
           </span>
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
