@@ -50,15 +50,6 @@ export const router = createBrowserRouter([
       { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
-
-      {
-        path: "search",
-        element: <Search />,
-      },
-      {
-        path: "place-list",
-        element: <PlaceList />,
-      },
     ],
   },
 ]);
