@@ -22,3 +22,11 @@ export const resultItemStyle = css`
     background-color: #f0f0f0;
   }
 `;
+
+export const buttonContainer = css`
+  z-index: 10000;
+  position: fixed;
+  bottom: 32%;
+  left: 50%;
+  transform: translateX(-50%);
+`;

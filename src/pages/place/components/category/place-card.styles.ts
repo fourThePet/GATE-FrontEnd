@@ -3,31 +3,34 @@ import colors from "../../../../styles/colors";
 
 export const cardWrapper = css`
   display: flex;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   position: fixed;
-  bottom: 10%;
+  bottom: 12%;
   left: 50%;
   transform: translateX(-50%);
-  width: 400px;
-  height: 200px;
-  padding: 20px;
+  width: 60%;
+  height: 18%;
+  padding: 5%;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: ${colors.color.White};
+  background-color: ${colors.color.White1};
   z-index: 999;
-  margin: auto;
 `;
 
 export const imageStyle = css`
-  width: 120px;
-  height: 120px;
+  width: 12vh;
+  height: 12vh;
   border-radius: 8px;
-  object-fit: cover;
 `;
 
 export const cardContent = css`
   flex: 1;
-  margin-left: 12px;
+  margin-left: 3vh;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
 `;
 
 export const titleStyle = css`
@@ -74,7 +77,6 @@ export const reviewCountStyle = css`
 export const reviewWrapper = css`
   display: flex;
   align-items: center;
-  margin-top: 8px;
 `;
 
 export const profileImageStyle = css`
