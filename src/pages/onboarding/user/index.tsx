@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
 
-import {MainPinkButton,Text } from "../../../components";
+import {MainPinkButton,Text } from '../../../components';
 import colors from "../../../styles/colors";
 import { Input } from "../components";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, contentWrapper, formWrapper, infoWrapper, nicknameWrapper, radioButtonStyle, textWrapper, validMessage, wrapper } from "./index.styles";
