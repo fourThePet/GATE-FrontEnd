@@ -1,10 +1,10 @@
 import { useState, ChangeEvent } from "react";
-import {  MainPinkButton, Text } from "../../../components";
+import {  MainPinkButton, Text } from '../../../components'
 import colors from "../../../styles/colors";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeWrapper, validMessage, wrapper } from "./index.styles";
-import { CameraIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
-import { Input, SkipButton } from "../components";
+import { Input, SkipButton } from '../components'
 import { useNavigate } from "react-router-dom";
+import { CameraIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
 
 
 export default function OnboardingPet(){
