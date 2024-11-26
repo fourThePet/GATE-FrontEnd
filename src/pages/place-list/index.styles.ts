@@ -10,7 +10,7 @@ export const noticeStyle = css`
 export const buttonContainer = css`
   z-index: 10000;
   position: fixed;
-  bottom: 10%;
+  bottom: 14%;
   left: 50%;
   transform: translateX(-50%);
 `;

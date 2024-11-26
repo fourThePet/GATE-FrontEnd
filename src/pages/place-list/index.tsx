@@ -97,8 +97,8 @@ export default function PlaceList() {
           onClick={handleMapButtonClick}
           isDisabled={false} // 비활성화
           title={"지도보기"}
-          width="120px"
-          height="50px"
+          width="10vh"
+          height="4vh"
         />
       </div>
     </div>

@@ -8,10 +8,9 @@ import {
 } from "./index.styles";
 import KakaoMap from "../place/components/map-api/kakaomap";
 import CategoryList from "../place/components/category/category-search";
-import PlaceCard from "../place/components/category/place-card";
 import { useNavigate } from "react-router-dom";
 import { MainPinkButton } from "../../components";
-import { css } from "@emotion/react";
+import PlaceCard from "./components/category/place-card";
 
 export default function Place() {
   const [results, setResults] = useState<string[]>([]);
@@ -82,6 +81,9 @@ export default function Place() {
         />
       </div>
       <div>
+        <PlaceCard />
+      </div>
+      <div>
         <KakaoMap />
       </div>
       <div css={buttonContainer}>
@@ -89,11 +91,10 @@ export default function Place() {
           onClick={handleButtonClick}
           isDisabled={false} // 비활성화
           title={"목록보기"}
-          width="120px"
-          height="50px"
+          width="10vh"
+          height="4vh"
         />
       </div>
-      <PlaceCard />
     </div>
   );
 }

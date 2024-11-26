@@ -1,56 +1,32 @@
-import { useNavigate } from "react-router-dom";
 import {
-  cardWrapper,
-  cardContent,
-  imageStyle,
-  titleStyle,
-  categoryStyle,
-  addressStyle,
-  ratingWrapper,
-  starStyle,
-  ratingStyle,
-  reviewCountStyle,
-  reviewWrapper,
-  profileImageStyle,
-  reviewTextStyle,
-  favoriteIconStyle,
+  PlaceImg,
+  PlaceContent,
+  PlaceName,
+  PlaceCategory,
+  PlaceAddress,
+  PlaceRating,
+  PlaceCardWrapper,
+  PlaceCardContent,
+  RatingIcon,
+  RatingNumber,
+  ReviewCount,
 } from "./place-card.styles";
-
-const PlaceCard = () => {
-  const navigate = useNavigate();
-
-  const handleCardClick = () => {
-    navigate("/place/detail");
-  };
-
+export default function PlaceCard() {
   return (
-    <div css={cardWrapper}>
-      <img
-        src="https://via.placeholder.com/80"
-        alt="장소 이미지"
-        css={imageStyle}
-      />
-      <div css={cardContent} onClick={handleCardClick}>
-        <h3 css={titleStyle}>매리펫카페</h3>
-        <p css={categoryStyle}>애견 카페</p>
-        <p css={addressStyle}>대치4동 916-38</p>
-        <div css={ratingWrapper}>
-          <span css={starStyle}>⭐</span>
-          <span css={ratingStyle}>4.1</span>
-          <span css={reviewCountStyle}>(105)</span>
-        </div>
-        <div css={reviewWrapper}>
-          <img
-            src="https://via.placeholder.com/24"
-            alt="프로필"
-            css={profileImageStyle}
-          />
-          <p css={reviewTextStyle}>정말 쾌적하고 넓어요!</p>
+    <div css={PlaceCardWrapper}>
+      <div css={PlaceCardContent}>
+        <div css={PlaceImg}>이미지영역</div>
+        <div css={PlaceContent}>
+          <div css={PlaceName}>메리펫카페</div>
+          <div css={PlaceCategory}>카페</div>
+          <div css={PlaceAddress}>서울시 강남구 테헤란로 123</div>
+          <div css={PlaceRating}>
+            <span css={RatingIcon}>⭐</span>
+            <span css={RatingNumber}>4.1</span>
+            <span css={ReviewCount}>(105)</span>
+          </div>
         </div>
       </div>
-      <span css={favoriteIconStyle}>♡</span>
     </div>
   );
-};
-
-export default PlaceCard;
+}
