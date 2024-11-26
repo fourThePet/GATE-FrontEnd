@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "typeRoots": ["node_modules/@types", "src/@types"]
   },
   "files": [],
   "references": [

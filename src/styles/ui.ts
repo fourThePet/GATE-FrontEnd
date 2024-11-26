@@ -75,7 +75,7 @@ export const LayoutContainer = {
 
 export const Divider = styled.div`
   width: 100%;
-  height: 2px;
+  height: 1.5px;
   background-color: #f0f0f0;
   margin: 20px 0;
 `;

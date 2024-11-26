@@ -13,6 +13,7 @@ import { Button } from "../../../components/button/button";
 import { Block } from "../../../components/block/block";
 import { typo } from "../../../styles/typo";
 import { Mapicon } from "../../../assets/svg";
+import ReviewPercent from "./components/review-percent";
 
 export default function PlaceDetail() {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ export default function PlaceDetail() {
 
   const handleBackButtonClick = () => {
     navigate(-1);
+  };
+
+  const handleAllReviewButtonClick = () => {
+    navigate("/review"); // /receiptcheck 경로로 이동
   };
 
   useEffect(() => {
@@ -75,7 +80,24 @@ export default function PlaceDetail() {
       <BasicInfo />
       <Divider2 />
       <ReviewGpt />
+      <ReviewPercent />
       <Reviews />
+      {/* 리뷰 전체보기 버튼 */}
+      <button
+        css={Button.pinkBorderButton({
+          width: "90%",
+          height: "50px",
+        })}
+        style={{
+          marginTop: "20px",
+          display: "block", // 버튼을 블록 요소로 설정
+          marginLeft: "auto", // 자동 왼쪽 마진
+          marginRight: "auto", // 자동 오른쪽 마진 (가운데 정렬)
+        }}
+        onClick={handleAllReviewButtonClick}
+      >
+        리뷰 전체보기
+      </button>
       <Divider2 />
       <div ref={howToComeRef}>
         <HowToCome />

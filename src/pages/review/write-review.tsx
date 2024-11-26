@@ -72,7 +72,7 @@ export default function WriteReview() {
             display: none; /* Chrome, Safari, Edge에서 스크롤바 숨기기 */
           }
         `}
-        </style>{" "}
+        </style>
         <div
           css={Block.flexBlock({
             direction: "row",
@@ -333,7 +333,7 @@ export default function WriteReview() {
             })}
           >
             <button
-              css={Button.pinkBorderButton({
+              css={Button.mainWhiteButton({
                 width: "260px",
                 height: "50px",
               })}
