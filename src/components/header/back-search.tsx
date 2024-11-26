@@ -1,6 +1,7 @@
 import { HeaderBackArrow } from "../../assets/svg";
-import styled from "styled-components";
-import { LayoutContainer } from "../../styles/ui";
+import { css } from "@emotion/react";
+import colors from "../../styles/colors";
+
 type Props = {
   title?: string;
   handleBackButtonClick: () => void;
@@ -19,51 +20,69 @@ export default function BackSearchHeader({
   };
 
   return (
-    <div css={LayoutContainer.HeaderContainer}>
-      {/* 뒤로가기 버튼 */}
+    <div css={headerContainer}>
       <HeaderBackArrow
+        css={backArrow}
         width={24}
         onClick={handleBackButtonClick}
         cursor="pointer"
       />
-      {/* 검색바 */}
-      <SearchBarWrapper>
-        <SearchInput
+      <div css={searchBarWrapper}>
+        <div css={searchIcon}>🔍</div>
+        <input
+          css={searchInput}
           placeholder="어디로 떠나시나요?"
           onKeyPress={handleKeyPress}
         />
-        <SearchIcon>🔍</SearchIcon> {/* 검색 아이콘 */}
-      </SearchBarWrapper>
+      </div>
     </div>
   );
 }
 
-// 스타일 컴포넌트
-const SearchBarWrapper = styled.div`
-  flex: 1;
+export const headerContainer = css`
   display: flex;
+  width: 100%;
   align-items: center;
-  background: #f9f9f9;
-  border-radius: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 0 12px;
-  margin: 0 16px;
+  justify-content: center;
+  flex-direction: row;
+  height: 100px;
 `;
 
-const SearchInput = styled.input`
+export const searchBarWrapper = css`
   flex: 1;
+  display: flex;
+  background: ${colors.color.Gray6};
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  margin: 20px 30px 0 0;
+  height: 50%;
+  width: 80%;
+`;
+
+export const searchInput = css`
   border: none;
   outline: none;
   background: transparent;
-  font-size: 14px;
-  color: #666;
+  font-size: 18px;
+  color: ${colors.color.Black};
   ::placeholder {
-    color: #bbb;
+    color: ${colors.color.Gray3};
   }
 `;
 
-const SearchIcon = styled.div`
-  color: #bbb;
-  font-size: 16px;
+export const searchIcon = css`
+  font-size: 24px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  margin-right: 15px;
+`;
+
+export const backArrow = css`
+  margin-top: 20px;
+  padding: 10px;
+  cursor: pointer;
+  width: 17%;
+  height: 50%;
 `;
