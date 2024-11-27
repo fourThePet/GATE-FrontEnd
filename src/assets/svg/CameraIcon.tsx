@@ -1,6 +1,3 @@
-
-
->>>>>>> 2f0dfa5 (chore: yarn. 수정)
 import type { SVGProps } from "react";
 const SvgCameraIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
