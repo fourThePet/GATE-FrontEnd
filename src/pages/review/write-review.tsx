@@ -257,7 +257,7 @@ export default function WriteReview() {
           <div
             css={Block.flexBlock({
               direction: "column",
-              border: "1px solid #F3F4F6",
+              border: "1px solid #BBBBBB",
               alignItems: "center",
               padding: "20px",
               gap: "20px",
@@ -280,7 +280,7 @@ export default function WriteReview() {
           <div
             css={Block.flexBlock({
               direction: "column",
-              border: "1px solid #F3F4F6",
+              border: "1px solid #BBBBBB",
               alignItems: "center",
               padding: "20px",
               gap: "20px",

@@ -93,7 +93,7 @@ export default function ReceiptSubmit({
         })}
       >
         {/* 제목 */}
-        <span css={typo.Heading4}>영수증 제출 하기</span>
+        <span css={typo.Heading2}>영수증 제출 하기</span>
 
         {/* 부가 텍스트 */}
         <span
@@ -133,8 +133,8 @@ export default function ReceiptSubmit({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "70px",
-            marginBottom: "70px",
+            marginTop: "80px",
+            marginBottom: "80px",
           }}
         >
           {selectedImage ? (
@@ -169,6 +169,7 @@ export default function ReceiptSubmit({
           style={{
             backgroundColor: selectedImage ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
             cursor: selectedImage ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
+            // marginTop: "20px",
           }}
         >
           제출하기

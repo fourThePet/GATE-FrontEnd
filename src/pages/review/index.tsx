@@ -92,6 +92,13 @@ export default function Review() {
         }}
       />
       <Reviews />
+      <Divider
+        style={{
+          marginLeft: "30px",
+          width: "90%",
+        }}
+      />
+      <Reviews />
     </div>
   );
 }
