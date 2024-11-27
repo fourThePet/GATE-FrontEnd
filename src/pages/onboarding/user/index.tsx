@@ -5,26 +5,29 @@ import colors from "../../../styles/colors";
 import { Input } from "../components";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, contentWrapper, formWrapper, infoWrapper, nicknameWrapper, radioButtonStyle, textWrapper, validMessage, wrapper } from "./index.styles";
 import { useNavigate } from "react-router-dom";
-// import { UserInfoForm } from "../../../interfaces/user";
+import { UserInfoForm } from "../../../interfaces/user";
+import { usePostMembersCheckNickname } from "../../../queries/members";
 
 export default function OnboardingUser(){
     const navigate = useNavigate();
-    const [nickname, setNickname] = useState(""); // 닉네임 상태
+    const [nickName, setNickName] = useState(""); // 닉네임 상태
     const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null); //닉네임 유효성 상태
     const [isNicknameCheck, setIsNicknameCheck] = useState<boolean | null>(false);
     const [isValid, setIsValid] =  useState<boolean>(false); //다음 버튼 유효성 검사 (모든 조건을 통과해야지 넘어감)
-    const [selectedGender, setSelectedGender] = useState<string | null>(null);
+    const [gender, setGender] = useState<string | null>(null);
 
     const [year, setYear] = useState("");
     const [month, setMonth] = useState("");
     const [day, setDay] = useState("");
-    const [formattedDate, setFormattedDate] = useState<string | null>(null);
+    const [birthday, setBirthday] = useState<string | null>(null);
 
-    // const [formData, setFormData] = useState<UserInfoForm>({
-    //     nickname : nickname,
-    //     age : '',
-    //     gender : ''
-    // });
+    const [formData, setFormData] = useState<UserInfoForm>({
+        nickName,
+        birthday,
+        gender
+    });
+
+    const { mutate: checkNickname } = usePostMembersCheckNickname();
     //나이 유효성 검사
     const handleYearChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -49,13 +52,13 @@ export default function OnboardingUser(){
 
     //성별
     const handleGenderChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setSelectedGender(event.target.value);
+        setGender(event.target.value);
     };
 
     //닉네임
     const handleInputNicknameChange = (event : ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setNickname(value);
+        setNickName(value);
     
         // 유효성 검사: 2~20자
         if (value.length >= 2 && value.length <= 20) {
@@ -68,18 +71,26 @@ export default function OnboardingUser(){
 
     //중복체크 검사
     const handleNicknameCheckButtonClick = () =>{//중복체크 
-        
         if(isNicknameValid){ //닉네임 유효성 검사 + 중복체크 API 
-            setIsNicknameCheck(true)
-        }else {
-            setIsNicknameCheck(false)
+            checkNickname(
+                { nickName }, // API에 보낼 데이터
+                {
+                    onSuccess: () => {
+                        setIsNicknameCheck(true);
+                    },
+                    onError: () => {
+                        alert("이미 중복된 아이디 입니다.")
+                        setIsNicknameCheck(false); // 오류 시 중복된 것으로 처리
+                    },
+                }
+            );
         }
     }
 
     // 다음 버튼 클릭 핸들러
     const handleNextButtonClick = () => {
-        if (isValid && formattedDate) {
-            console.log("Saved Data:", formattedDate, nickname, selectedGender);
+        if (isValid && birthday) {
+            console.log("Saved Data:", birthday, nickName, gender);
             navigate('/onboarding/pet');
         } else {
             alert("모든 정보를 정확히 입력해주세요.");
@@ -100,15 +111,15 @@ export default function OnboardingUser(){
         // 생년월일이 유효하면 저장
         if (isBirthValid) {
             const date = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-            setFormattedDate(date);
+            setBirthday(date);
         } else {
-            setFormattedDate(null);
+            setBirthday(null);
         }
 
         setIsValid(
-            isNicknameCheck === true && isNicknameValid === true && isBirthValid && selectedGender !== null
+            isNicknameCheck === true && isNicknameValid === true && isBirthValid && gender !== null
         );
-    }, [isNicknameCheck, isNicknameValid, year, month, day, selectedGender]);
+    }, [isNicknameCheck, isNicknameValid, year, month, day, gender]);
 
     return (
         <div css={contentWrapper}>
@@ -152,22 +163,22 @@ export default function OnboardingUser(){
                             <Text type="Body3" color={colors.color.MainColor} >성별</Text>
                         </div>
                         <div css={buttonGroupStyle}>
-                            <label css={radioButtonStyle(selectedGender === "남자")}>
+                            <label css={radioButtonStyle(gender === "MALE")}>
                                 <input
                                     type="radio"
                                     name="gender"
-                                    value="남자"
-                                    checked={selectedGender === "남자"}
+                                    value="MALE"
+                                    checked={gender === "MALE"}
                                     onChange={handleGenderChange}
                                 />
                                 <Text type="Label2">남자</Text>
                             </label>
-                            <label css={radioButtonStyle(selectedGender === "여자")}>
+                            <label css={radioButtonStyle(gender === "FEMALE")}>
                                 <input
                                     type="radio"
                                     name="gender"
-                                    value="여자"
-                                    checked={selectedGender === "여자"}
+                                    value="FEMALE"
+                                    checked={gender === "FEMALE"}
                                     onChange={handleGenderChange}
                                 />
                                 <Text type="Label2">여자</Text>
