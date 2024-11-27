@@ -1,7 +1,7 @@
 export interface UserInfoForm{
     nickName: string,
     birthday: string,
-    gender : string
+    gender : "MALE" | "FEMALE";
 }
 
 export interface PostUsersCheckNicknameBody {

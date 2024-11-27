@@ -6,7 +6,8 @@ import { Input } from "../components";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, contentWrapper, formWrapper, infoWrapper, nicknameWrapper, radioButtonStyle, textWrapper, validMessage, wrapper } from "./index.styles";
 import { useNavigate } from "react-router-dom";
 import { UserInfoForm } from "../../../interfaces/user";
-import { usePostMembersCheckNickname } from "../../../queries/members";
+import { usePostMembersCheckNickname, usePostMembersSignup } from "../../../queries/members";
+import { HeaderLogo } from "../../../assets/svg";
 
 export default function OnboardingUser(){
     const navigate = useNavigate();
@@ -14,20 +15,16 @@ export default function OnboardingUser(){
     const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null); //닉네임 유효성 상태
     const [isNicknameCheck, setIsNicknameCheck] = useState<boolean | null>(false);
     const [isValid, setIsValid] =  useState<boolean>(false); //다음 버튼 유효성 검사 (모든 조건을 통과해야지 넘어감)
-    const [gender, setGender] = useState<string | null>(null);
+    const [gender, setGender] = useState<"MALE" | "FEMALE" | null>(null);
 
     const [year, setYear] = useState("");
     const [month, setMonth] = useState("");
     const [day, setDay] = useState("");
     const [birthday, setBirthday] = useState<string | null>(null);
 
-    const [formData, setFormData] = useState<UserInfoForm>({
-        nickName,
-        birthday,
-        gender
-    });
 
     const { mutate: checkNickname } = usePostMembersCheckNickname();
+    const { mutate: postSignup } = usePostMembersSignup();
     //나이 유효성 검사
     const handleYearChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -52,7 +49,12 @@ export default function OnboardingUser(){
 
     //성별
     const handleGenderChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setGender(event.target.value);
+        if(event.target.value == "MALE"){
+            setGender("MALE")
+        }else if(event.target.value == "FEMALE"){
+            setGender("FEMALE")
+        }
+        
     };
 
     //닉네임
@@ -90,8 +92,22 @@ export default function OnboardingUser(){
     // 다음 버튼 클릭 핸들러
     const handleNextButtonClick = () => {
         if (isValid && birthday) {
-            console.log("Saved Data:", birthday, nickName, gender);
-            navigate('/onboarding/pet');
+            const formData: UserInfoForm = {
+                nickName,
+                birthday,
+                gender,
+            };
+            console.log(formData)
+            postSignup(formData, {
+                onSuccess: () => {
+                    console.log("회원가입 성공!");
+                    navigate('/onboarding/pet');
+                },
+                onError: (error) => {
+                    console.error("회원가입 실패:", error);
+                    alert("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.");
+                },
+            });
         } else {
             alert("모든 정보를 정확히 입력해주세요.");
         }
@@ -126,10 +142,7 @@ export default function OnboardingUser(){
 
             <div css={wrapper}>
                 <div css={textWrapper}>
-                    <Text type="Heading3" color={colors.color.Black} >
-                        <Text type="Heading3" color={colors.color.MainColor} >{'이민주'}</Text>
-                        님 반가워요!
-                    </Text>
+                    <HeaderLogo width={200}/>
                 </div>
                 <div css={formWrapper}>
                     <div css={infoWrapper}>
