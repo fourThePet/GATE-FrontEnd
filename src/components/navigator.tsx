@@ -88,7 +88,7 @@ export default function Navigator({
         !isPlaceDetailPage &&
         !isReceiptCheckPage &&
         !isWriteReviewPage &&
-        !isPlaceDetailPath && ( // /place/detail에서는 네비게이션이 렌더링되지 않음
+        !isPlaceDetailPath && (
           <div css={LayoutContainer.NavContainer}>
             <div css={Block.flexBlock}>
               {navItems.map((item, index) => {

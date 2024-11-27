@@ -7,7 +7,9 @@ import PlaceDetail from "./pages/place/place-detail";
 import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
-
+import Review from "./pages/review";
+import FilterPlace from "./pages/place/filter-place";
+import PlaceList from "./pages/place-list";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -38,7 +40,10 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
-      { path: "place/detail/:placeID", element: <PlaceDetail /> },
+      { path: "place/detail/:placeId", element: <PlaceDetail /> },
+      { path: "place/filter", element: <FilterPlace /> },
+      { path: "place/list", element: <PlaceList /> },
+
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
       { path: "review", element: <Review /> },

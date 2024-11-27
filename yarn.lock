@@ -1768,6 +1768,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/axios@npm:^0.14.4":
+  version: 0.14.4
+  resolution: "@types/axios@npm:0.14.4"
+  dependencies:
+    axios: "*"
+  checksum: 51defed1e76e3fa7e63ae999c2e8c7c253be9b1a1fa3006f4413a0c461234a7e9e7e5df1bb2f64be221617fa94ed2272345ef19724dd550ad01a090510714275
+  languageName: node
+  linkType: hard
+
 "@types/babel__core@npm:^7.18.0, @types/babel__core@npm:^7.20.5":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
@@ -2330,7 +2339,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.7.8":
+"axios@npm:*, axios@npm:^1.7.8":
   version: 1.7.8
   resolution: "axios@npm:1.7.8"
   dependencies:
@@ -3588,6 +3597,7 @@ __metadata:
     "@storybook/test": ^8.4.4
     "@svgr/cli": ^8.1.0
     "@tanstack/react-query": ^5.61.3
+    "@types/axios": ^0.14.4
     "@types/react": ^18.3.12
     "@types/react-dom": ^18.3.1
     "@types/react-modal": ^3.16.3
