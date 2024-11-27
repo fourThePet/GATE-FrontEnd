@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
-import { Realreceipt } from "../../assets/svg";
+import Realreceipt from "../../assets/svg/Realreceipt";
 import { useNavigate } from "react-router-dom";
 import NoBorderGrayButton from "../button/no-border-gray";
 type ReceiptSubmitProps = {
