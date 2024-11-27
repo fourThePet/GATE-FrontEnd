@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   PlaceImg,
   PlaceContent,
@@ -12,8 +13,14 @@ import {
   ReviewCount,
 } from "./place-card.styles";
 export default function PlaceCard() {
+  const navigate = useNavigate();
+
+  function handleCardClick() {
+    navigate("/place/detail");
+  }
+
   return (
-    <div css={PlaceCardWrapper}>
+    <div css={PlaceCardWrapper} onClick={handleCardClick}>
       <div css={PlaceCardContent}>
         <div css={PlaceImg}>이미지영역</div>
         <div css={PlaceContent}>
