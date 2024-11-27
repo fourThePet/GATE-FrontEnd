@@ -12,7 +12,7 @@ export default function ReviewPercent() {
     { label: "입마개는 필수예요 🐾", value: 339 },
     { label: "기저귀를 착용해요 ☁️", value: 129 },
     { label: "케이지를 사용했어요 🙏", value: 88 },
-    { label: "입마개는 필수예요 🐾", value: 259 },
+    { label: "실내 동반이 가능해요 🛋️", value: 259 },
   ];
 
   const totalValue = reviewData.reduce((sum, item) => sum + item.value, 0);
