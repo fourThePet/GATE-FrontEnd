@@ -1,0 +1,4 @@
+export const QUERY_KEYS = {
+    
+    POST_MEMBERS_CHECKNICKNAME : ['POST_MEMBERS_CHECKNICKNAME'],
+} as const;
