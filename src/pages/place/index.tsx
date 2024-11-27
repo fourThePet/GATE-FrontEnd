@@ -34,6 +34,7 @@ export default function Place() {
   2;
   const handleFilterButtonClick = () => {
     console.log("필터적용페이지호출");
+    navigate("/place/filter");
   };
 
   const handleSearchSubmit = (value: string) => {
