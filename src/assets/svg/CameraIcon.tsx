@@ -1,4 +1,3 @@
-
 import type { SVGProps } from "react";
 const SvgCameraIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg

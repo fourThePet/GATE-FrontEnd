@@ -46,3 +46,50 @@ export const BasicInfoContainer = css`
     margin-bottom: 10px;
   }
 `;
+
+//Progressbar
+export const wrapperStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+`;
+
+export const barContainerStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 16px;
+  padding: 10px 15px;
+`;
+
+export const labelStyle = css`
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+`;
+
+export const progressBarContainerStyle = css`
+  flex: 2;
+  height: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-left: 30px;
+`;
+
+export const progressStyle = (width: number) => css`
+  width: ${width}%;
+  height: 100%;
+  background-color: #f8a8c2;
+  transition: width 0.5s ease-in-out;
+`;
+
+export const percentageStyle = css`
+  flex: 0.5;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: right;
+  color: #f1729b;
+`;

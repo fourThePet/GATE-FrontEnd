@@ -15,13 +15,23 @@ import {
   Ldogpink,
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
+import ConfirmModal from "../../components/modal/confirm-modal";
+import { HeartFill } from "../../assets/svg";
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
-
   const [selectedDogSize, setSelectedDogSize] = useState<
     "small" | "medium" | "large" | null
   >(null); // 아이 크기 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const [review, setReview] = useState(""); // 리뷰 상태 관리
+  const maxChars = 400; // 최대 글자 수
+
+  const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value.length <= maxChars) {
+      setReview(e.target.value); // 입력된 값이 최대 글자 수 이하인 경우 업데이트
+    }
+  };
 
   const handleConditionClick = (condition: string) => {
     // 조건을 선택/해제하는 로직
@@ -41,6 +51,9 @@ export default function WriteReview() {
     setSelectedDogSize(size);
   };
 
+  const handleRegister = () => {
+    setIsModalOpen(true); // 모달 열기
+  };
   return (
     <>
       <div
@@ -60,7 +73,7 @@ export default function WriteReview() {
             display: none; /* Chrome, Safari, Edge에서 스크롤바 숨기기 */
           }
         `}
-        </style>{" "}
+        </style>
         <div
           css={Block.flexBlock({
             direction: "row",
@@ -245,7 +258,7 @@ export default function WriteReview() {
           <div
             css={Block.flexBlock({
               direction: "column",
-              border: "1px solid #F3F4F6",
+              border: "1px solid #BBBBBB",
               alignItems: "center",
               padding: "20px",
               gap: "20px",
@@ -268,7 +281,7 @@ export default function WriteReview() {
           <div
             css={Block.flexBlock({
               direction: "column",
-              border: "1px solid #F3F4F6",
+              border: "1px solid #BBBBBB",
               alignItems: "center",
               padding: "20px",
               gap: "20px",
@@ -290,9 +303,29 @@ export default function WriteReview() {
               </span>
             </div>
             <textarea
-              style={{ width: "100%", height: "150px" }}
+              value={review}
+              onChange={handleReviewChange}
+              style={{
+                width: "100%",
+                height: "170px",
+                resize: "none",
+                borderRadius: "10px",
+                padding: "10px",
+                fontSize: "14px",
+                marginTop: "-10px",
+              }}
               placeholder="리뷰 작성 시 욕설, 비방, 명예훼손성 표현은 누군가에게 상처가 될 수 있습니다."
-            ></textarea>
+            />
+            <span
+              style={{
+                // textAlign: "end",
+                fontSize: "12px",
+                color: review.length > maxChars ? "red" : "#9A9EA6",
+                marginRight: "-450px",
+              }}
+            >
+              {review.length} / {maxChars}
+            </span>
           </div>
           <div
             css={Block.flexBlock({
@@ -301,7 +334,7 @@ export default function WriteReview() {
             })}
           >
             <button
-              css={Button.pinkBorderButton({
+              css={Button.mainWhiteButton({
                 width: "260px",
                 height: "50px",
               })}
@@ -314,10 +347,20 @@ export default function WriteReview() {
                 width: "260px",
                 height: "50px",
               })}
+              onClick={handleRegister} // 등록하기 클릭 시 모달 열기
             >
               등록하기
             </button>
           </div>
+          {/* 모달 */}
+          <ConfirmModal
+            isOpen={isModalOpen}
+            setIsOpen={setIsModalOpen}
+            title="리뷰가 등록되었어요!"
+            subText="마이페이지 > 내 리뷰 조회에서 확인해보세요"
+            confirmText="확인"
+            onConfirm={() => setIsModalOpen(false)} // 모달 닫기 동작
+          />
         </div>
       </div>
     </>
