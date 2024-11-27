@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage, Place } from "./pages";
+import { Login, Home, Schedule, Mypage, Place, KakaoCallback } from "./pages";
 import PlaceList from "./pages/place-list";
 import FilterPlace from "./pages/place/filter-place";
+
 import PlaceDetail from "./pages/place/place-detail";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
+import Review from "./pages/review";
 
 // 라우터 정의
 export const router = createBrowserRouter([
@@ -50,6 +52,8 @@ export const router = createBrowserRouter([
       { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
+      { path: "review", element: <Review /> },
+      { path: "auth/kakao", element: <KakaoCallback /> },
     ],
   },
 ]);
