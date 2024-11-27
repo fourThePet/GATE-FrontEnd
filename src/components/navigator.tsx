@@ -80,7 +80,7 @@ export default function Navigator({
   ];
 
   // place/detail에서는 네비게이션을 숨김
-  const isPlaceDetailPath = location.pathname === "/place/detail";
+  const isPlaceDetailPath = location.pathname === "/place/detail/";
 
   return (
     <>
