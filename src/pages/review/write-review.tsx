@@ -484,7 +484,7 @@ export default function WriteReview() {
             </button>
             <button
               css={Button.mainPinkButton({
-                isDisabled: !rating,
+                isDisabled: !rating && !selectedDogSize,
                 width: "260px",
                 height: "50px",
               })}
@@ -492,8 +492,9 @@ export default function WriteReview() {
               onClick={handleRegister} // 등록하기 클릭 시 모달 열기
               // disabled={!setSelectedDogSize}
               style={{
-                backgroundColor: rating ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
-                cursor: rating ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
+                backgroundColor:
+                  rating && selectedDogSize ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
+                cursor: rating && selectedDogSize ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
                 // marginTop: "20px",
               }}
             >
