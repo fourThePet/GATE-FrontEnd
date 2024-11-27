@@ -16,7 +16,7 @@ import {
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
 import ConfirmModal from "../../components/modal/confirm-modal";
-import { HeartFill } from "../../assets/svg";
+import { useNavigate } from "react-router-dom";
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
@@ -26,6 +26,10 @@ export default function WriteReview() {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
   const [review, setReview] = useState(""); // 리뷰 상태 관리
   const maxChars = 400; // 최대 글자 수
+  const navigate = useNavigate();
+  const [selectedFiles, setSelectedFiles] = useState<
+    { url: string; type: "image" | "video" }[]
+  >([]); // 파일 URL과 타입 관리
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {
@@ -53,6 +57,50 @@ export default function WriteReview() {
 
   const handleRegister = () => {
     setIsModalOpen(true); // 모달 열기
+  };
+
+  const openFileDialog = () => {
+    const fileInput = document.getElementById("file-input") as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click(); // 강제로 input 클릭
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files; // 선택한 파일 가져오기
+    if (files) {
+      const newFiles = Array.from(files)
+        .map((file) => {
+          const fileType = file.type.includes("image")
+            ? "image"
+            : file.type.includes("video")
+            ? "video"
+            : null;
+
+          if (!fileType) return null;
+
+          return {
+            url: URL.createObjectURL(file),
+            type: fileType as "image" | "video", // 타입을 명시적으로 설정
+          };
+        })
+        .filter(
+          (file): file is { url: string; type: "image" | "video" } =>
+            file !== null
+        ); // null 값 필터링
+
+      setSelectedFiles((prev) => [...prev, ...newFiles]); // 상태 업데이트
+    }
+  };
+
+  const handleFileRemove = (fileUrl: string) => {
+    // 파일 삭제
+    setSelectedFiles((prev) => prev.filter((file) => file.url !== fileUrl));
+    URL.revokeObjectURL(fileUrl); // URL 해제
+  };
+  // 뒤로가기 버튼 핸들러
+  const handleBackButtonClick = () => {
+    navigate(-1); // 이전 페이지로 이동
   };
   return (
     <>
@@ -254,7 +302,7 @@ export default function WriteReview() {
               </button>
             ))}
           </div>
-          {/* 사진/영상을 추가해 주세요ㅛ */}
+          {/* 사진/영상을 추가해 주세요 */}
           <div
             css={Block.flexBlock({
               direction: "column",
@@ -265,18 +313,110 @@ export default function WriteReview() {
               width: "90%",
               borderRadius: "20px",
             })}
-            style={{ marginTop: "30px", flexWrap: "wrap" }}
+            style={{
+              marginTop: "30px",
+              flexWrap: "wrap",
+            }}
           >
             <span css={typo.Heading3}>사진/영상을 추가해 주세요</span>
-            <button
-              css={Button.mainPinkButton({
-                width: "40px",
-                height: "40px",
-                isDisabled: false,
-              })}
+
+            {/* 이미지/동영상 업로드 영역 */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent:
+                  selectedFiles.length === 0 ? "center" : "flex-start",
+                overflowX: "scroll", // 가로 스크롤 활성화
+                width: "100%",
+                padding: "10px",
+                borderRadius: "10px",
+                gap: "10px",
+                whiteSpace: "nowrap",
+                position: "relative",
+              }}
             >
-              <span style={{ fontSize: "30px", marginTop: "-5px" }}>+</span>
-            </button>
+              {selectedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  style={{
+                    flex: "0 0 auto",
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "10px",
+                    position: "relative",
+                  }}
+                >
+                  {file.type === "video" ? (
+                    <video
+                      src={file.url}
+                      controls
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "10px",
+                        objectFit: "cover",
+                      }}
+                    ></video>
+                  ) : (
+                    <img
+                      src={file.url}
+                      alt="uploaded"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "10px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  )}
+                  {/* 삭제 버튼 */}
+                  <button
+                    onClick={() => handleFileRemove(file.url)}
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "5px",
+                      backgroundColor: "#F1729B",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: "25px",
+                      height: "25px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+
+              {/* + 버튼 */}
+              <button
+                css={Button.mainPinkButton({
+                  width: "40px",
+                  height: "40px",
+                  isDisabled: false,
+                })}
+                style={{
+                  flex: "0 0 auto", // 이미지와 버튼 고정 너비
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={openFileDialog}
+              >
+                <span style={{ fontSize: "30px", marginTop: "-5px" }}>+</span>
+              </button>
+              <input
+                type="file"
+                accept="image/*,video/*" // 이미지와 동영상 허용
+                id="file-input"
+                multiple // 여러 파일 선택 허용
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+              />
+            </div>
           </div>
           <div
             css={Block.flexBlock({
@@ -338,16 +478,24 @@ export default function WriteReview() {
                 width: "260px",
                 height: "50px",
               })}
+              onClick={handleBackButtonClick}
             >
               취소
             </button>
             <button
               css={Button.mainPinkButton({
-                isDisabled: false,
+                isDisabled: !rating,
                 width: "260px",
                 height: "50px",
               })}
+              disabled={!rating}
               onClick={handleRegister} // 등록하기 클릭 시 모달 열기
+              // disabled={!setSelectedDogSize}
+              style={{
+                backgroundColor: rating ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
+                cursor: rating ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
+                // marginTop: "20px",
+              }}
             >
               등록하기
             </button>
