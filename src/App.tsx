@@ -20,7 +20,6 @@ function App() {
       {/* 헤더 */}
       <Header handleBackButtonClick={handleBackButtonClick} />
 
-      {/* 라우터에 따른 페이지 렌더링 */}
       <Outlet />
 
       {/* 하단 네비게이션 */}

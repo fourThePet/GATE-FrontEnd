@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage } from "./pages";
+import { Login, Home, Schedule, Mypage, Place, PlaceList } from "./pages";
 
 import PlaceDetail from "./pages/place/place-detail";
-import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
@@ -24,10 +23,6 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "place",
-        element: <Place />,
-      },
-      {
         path: "schedule",
         element: <Schedule />,
       },
@@ -38,6 +33,15 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+
+      {
+        path: "place",
+        element: <Place />,
+      },
+      {
+        path: "place/list",
+        element: <PlaceList />,
       },
       { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },

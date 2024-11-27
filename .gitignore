@@ -29,4 +29,5 @@ dist-ssr
 
 install-state.gz
 .env
+.env.development
 

@@ -1,20 +1,23 @@
+import CategoryList from "../place/components/category/category-search";
 import { useState } from "react";
-import SearchFilterHeader from "../place/components/search-bar/index";
 import {
-  buttonContainer,
   containerStyle,
   resultItemStyle,
   resultsListStyle,
-} from "./index.styles";
-import KakaoMap from "../place/components/map-api/kakaomap";
-import CategoryList from "../place/components/category/category-search";
+} from "../place/index.styles";
+import { buttonContainer, noticeStyle } from "./index.styles";
+import BackSearchHeader from "../../components/header/back-search";
 import { useNavigate } from "react-router-dom";
-import { MainPinkButton } from "../../components";
-import PlaceCard from "./components/category/place-card";
+import { typo } from "../../styles/typo";
+import colors from "../../styles/colors";
+import { css } from "@emotion/react";
+import { NoticeIcon } from "../../assets/svg";
+import ResultPlace from "./components/result-place";
+import MainPinkButton from "../../components/button/main-pink";
 
-export default function Place() {
+export default function PlaceList() {
   const [results, setResults] = useState<string[]>([]);
-
+  const navigate = useNavigate();
   const categories = [
     { id: 1, label: "전체", icon: "🏨" },
     { id: 2, label: "식당", icon: "🍴" },
@@ -31,10 +34,6 @@ export default function Place() {
     { id: 13, label: "미술관", icon: "🗺️" },
     { id: 14, label: "박물관", icon: "🗺️" },
   ];
-  2;
-  const handleFilterButtonClick = () => {
-    console.log("필터적용페이지호출");
-  };
 
   const handleSearchSubmit = (value: string) => {
     console.log("검색어:", value);
@@ -53,17 +52,18 @@ export default function Place() {
     setResults(dummyResults);
   };
 
-  const navigate = useNavigate();
-
-  const handleButtonClick = () => {
-    navigate("/place/list");
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
+  const handleMapButtonClick = () => {
+    navigate("/place");
   };
 
   return (
     <div css={containerStyle}>
-      <SearchFilterHeader
-        handleFilterButtonClick={handleFilterButtonClick}
+      <BackSearchHeader
         handleSearchSubmit={handleSearchSubmit}
+        handleBackButtonClick={handleBackButtonClick}
       />
       {results.length > 0 && (
         <ul css={resultsListStyle}>
@@ -74,23 +74,29 @@ export default function Place() {
           ))}
         </ul>
       )}
-      <div>
-        <CategoryList
-          categories={categories}
-          onCategoryClick={handleCategoryClick}
-        />
+      <CategoryList
+        categories={categories}
+        onCategoryClick={handleCategoryClick}
+      />
+      <div css={noticeStyle}>
+        <NoticeIcon width={18} height={18} />
+        <label
+          css={css`
+            ${typo.Label1};
+            color: ${colors.color.Gray1};
+            padding: 5px 0;
+            font-weight: 400;
+          `}
+        >
+          원하는 장소를 선택해보세요
+        </label>
       </div>
-      <div>
-        <PlaceCard />
-      </div>
-      <div>
-        <KakaoMap />
-      </div>
+      <ResultPlace />
       <div css={buttonContainer}>
         <MainPinkButton
-          onClick={handleButtonClick}
+          onClick={handleMapButtonClick}
           isDisabled={false} // 비활성화
-          title={"목록보기"}
+          title={"지도보기"}
           width="10vh"
           height="4vh"
         />
