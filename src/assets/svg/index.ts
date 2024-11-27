@@ -34,3 +34,4 @@ export { default as Schedulepink } from "./Schedulepink";
 export { default as Sdogpink } from "./Sdogpink";
 export { default as Sdogwhite } from "./Sdogwhite";
 export { default as Write } from "./Write";
+export { default as Realreceipt } from "./Realreceipt";
