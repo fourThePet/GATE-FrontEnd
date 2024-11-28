@@ -1696,21 +1696,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.60.6":
-  version: 5.60.6
-  resolution: "@tanstack/query-core@npm:5.60.6"
-  checksum: 4c165d495bc1d182028d75eeef281866f9466d51316ba137da8b868e843ba47e614065a0b80d7b71636fd356bd87a7f458ebb0e201defb1a1b07bb2215fa7a8b
+"@tanstack/query-core@npm:5.61.5":
+  version: 5.61.5
+  resolution: "@tanstack/query-core@npm:5.61.5"
+  checksum: 112cc6a3e3cde9fc2657d283e8383c64ff7de5780b10c7892c93664ce475bf251bfba79daf2302ce04f2d43b96ced188bd098c220432b21408d7b99cfee58fe0
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.61.3":
-  version: 5.61.3
-  resolution: "@tanstack/react-query@npm:5.61.3"
+"@tanstack/react-query@npm:^5.61.4":
+  version: 5.61.5
+  resolution: "@tanstack/react-query@npm:5.61.5"
   dependencies:
-    "@tanstack/query-core": "npm:5.60.6"
+    "@tanstack/query-core": 5.61.5
   peerDependencies:
     react: ^18 || ^19
-  checksum: cdfcd7efa57b324b7374b575f6f296f9daed2ff8163041d3c53dcb6e7a4910a3082aef257204bb68b2a1a1e202a46217313b8d14468c32a86c0a04514061d8f8
+  checksum: 35f2ed483d03acf77148d338173943bb3b675e38c763f5e763903e48f0ed1d4757d3129e03f4d0231bba808761616f6b3c0a2adcd11d3eebf8ecfb03f7fa7b4b
   languageName: node
   linkType: hard
 
@@ -3596,7 +3596,7 @@ __metadata:
     "@storybook/react-vite": ^8.4.4
     "@storybook/test": ^8.4.4
     "@svgr/cli": ^8.1.0
-    "@tanstack/react-query": ^5.61.3
+    "@tanstack/react-query": ^5.61.4
     "@types/axios": ^0.14.4
     "@types/react": ^18.3.12
     "@types/react-dom": ^18.3.1
@@ -3614,6 +3614,7 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     react-modal: ^3.16.1
+    react-progress-bar: ^0.1.0
     react-query: ^3.39.3
     react-router-dom: ^6.28.0
     react-star-rating-component: ^1.4.1
@@ -4981,6 +4982,13 @@ __metadata:
     react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
     react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
   checksum: 978936e9320fad839c039b9ee4de55d40888156cb40e093615d6fbc2ff07139d5db06f14782cb7767f780bd5fb57956778669426c535ebc0068a7a03882c7e75
+  languageName: node
+  linkType: hard
+
+"react-progress-bar@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "react-progress-bar@npm:0.1.0"
+  checksum: 04d23e701599244a4fb280964c26a36c7e7a28f4d17ee40cfb66560b517a02c3ab87985e12bdba7bc44a6686c2ea79833b90cb3584742d22b49e546e7dc0983c
   languageName: node
   linkType: hard
 
