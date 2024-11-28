@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Text } from "../../components";
 import colors from "../../styles/colors";
-import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myInfoWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
-import { PlusIcon, WhiteNextIcon } from "../../assets/svg";
+import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
+import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
 
 export default function Mypage() {
   const [isLogin, setIsLogin] = useState<boolean>(true)
@@ -37,14 +37,31 @@ export default function Mypage() {
                 <PlusIcon width={10}/>
               </div>
                 <hr color={colors.color.Gray5} css={line}/>
+                <div css={myPetWrapper}>
+
+                </div>
             </div>
             <div css={infoWrapper}>
               <Text type="Heading4" css={titleWrapper}>나의 활동</Text>
               <hr color={colors.color.Gray5} css={line}/>
+              <div css={myActiveWrapper}>
+                <div css={myWrapper}>
+                  <MyPlaceIcon width={24}/>
+                  <Text type="Label3">내 즐겨찾기</Text>
+                  <BlackNextIcon width={4}/>
+                </div>
+                <div css={myWrapper}>
+                  <MyReviewIcon width={24}/>
+                  <Text type="Label3">내 리뷰내역</Text>
+                  <BlackNextIcon width={4}/>
+                </div>
+              </div>
             </div>
             <div css={infoWrapper}>
               <hr color={colors.color.Gray5} css={line}/>
-              <Text type="Label3" color={colors.color.Gray2}>로그아웃</Text>
+              <div css={myActiveWrapper}>
+                <Text type="Label3" color={colors.color.Gray2}>로그아웃</Text>
+              </div>
               
             </div>
           </div>

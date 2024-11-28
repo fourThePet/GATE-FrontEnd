@@ -61,3 +61,23 @@ export const titleWrapper = css`
     justify-content: space-between;
     padding: 4px;
 `
+
+export const myActiveWrapper = css`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 16px;
+`
+
+export const myWrapper = css`
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    align-items: center;
+`
+
+export const myPetWrapper = css`
+    overflow-x: auto;
+    height: 200px;
+
+`
