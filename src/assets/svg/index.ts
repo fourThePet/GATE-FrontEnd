@@ -1,7 +1,9 @@
 export { default as Writereview } from "./Writereview";
 export { default as Bell } from "./Bell";
+export { default as CameraIcon } from "./CameraIcon";
 export { default as Communitygray } from "./Communitygray";
 export { default as Communitypink } from "./Communitypink";
+export { default as DefaultProfile } from "./DefaultProfile";
 export { default as Gpt } from "./Gpt";
 export { default as HeaderLogo } from "./HeaderLogo";
 export { default as HeaderBackArrow } from "./HeaderBackArrow";
@@ -14,6 +16,7 @@ export { default as KakaoLogo } from "./KakaoLogo";
 export { default as Ldogpink } from "./Ldogpink";
 export { default as Ldogwhite } from "./Ldogwhite";
 export { default as LoginLogo } from "./LoginLogo";
+export { default as Logo } from "./Logo";
 export { default as Logowithshadow } from "./Logowithshadow";
 export { default as Mapex } from "./Mapex";
 export { default as Mapicon } from "./Mapicon";

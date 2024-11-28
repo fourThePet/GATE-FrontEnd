@@ -20,6 +20,7 @@ type Props = {
   isPlaceDetailPage: boolean;
   isReceiptCheckPage: boolean;
   isWriteReviewPage: boolean;
+  isOnboardingPage : boolean
 };
 
 export default function Navigator({
@@ -27,6 +28,8 @@ export default function Navigator({
   isPlaceDetailPage,
   isReceiptCheckPage,
   isWriteReviewPage,
+  isOnboardingPage
+  
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -85,6 +88,7 @@ export default function Navigator({
   return (
     <>
       {!isLoginPage &&
+        !isOnboardingPage &&
         !isPlaceDetailPage &&
         !isReceiptCheckPage &&
         !isWriteReviewPage &&
