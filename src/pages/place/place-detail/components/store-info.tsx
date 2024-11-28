@@ -2,39 +2,28 @@ import { Block } from "../../../../components/block/block";
 import { Heart, HeartFill } from "../../../../assets/svg";
 import { typo } from "../../../../styles/typo";
 import { ContentContainer } from "../index.styles";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Divider2 } from "../../../../styles/ui";
 import { BasicInfoContainer } from "../index.styles";
-import axios from "axios";
+import { useGetPlacesInfo } from "../../../../queries/places";
 
 export default function StoreInfo() {
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
-  const [storeData, setStoreData] = useState<any>(null); // 스토어 데이터 상태 관리
   const placeId = 1; // 임시로 고정된 placeId
 
-  useEffect(() => {
-    // API에서 데이터 가져오기
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://gate-alb-372027134.ap-northeast-2.elb.amazonaws.com/api/v1/places/${placeId}`
-        );
-        setStoreData(response.data.result); // 데이터 저장
-        console.log(response.data.result);
-      } catch (error) {
-        console.error("Error fetching store data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // React Query로 장소 정보 가져오기
+  const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
 
   const toggleHeart = () => {
     setIsLiked(!isLiked); // 클릭 시 상태 토글
   };
 
-  if (!storeData) {
-    return <div>Loading...</div>; // 데이터 로딩 중
+  if (isLoading) {
+    return <div>Loading...</div>; // 로딩 중 상태
+  }
+
+  if (isError || !storeData) {
+    return <div>장소 정보를 가져오는 데 실패했습니다.</div>; // 에러 처리
   }
 
   const interpretSizeAvailable = (size: string) => {
@@ -101,9 +90,6 @@ export default function StoreInfo() {
             )}
           </div>
         </div>
-        {/* <p css={typo.Body2} style={{ marginBottom: "20px", color: "#9A9EA6" }}>
-          {storeData.description || "설명이 없습니다."}
-        </p> */}
         <p css={typo.Body2} style={{ marginBottom: "-5px", color: "#9A9EA6" }}>
           {storeData.lotAddress}
         </p>
