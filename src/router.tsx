@@ -1,15 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage, Place, KakaoCallback } from "./pages";
-import PlaceList from "./pages/place-list";
-import FilterPlace from "./pages/place/filter-place";
+import { Login, Home, Schedule, Mypage } from "./pages";
 
 import PlaceDetail from "./pages/place/place-detail";
+import Place from "./pages/place";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
-
+import FilterPlace from "./pages/place/filter-place";
+import PlaceList from "./pages/place-list";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -25,6 +25,10 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "place",
+        element: <Place />,
+      },
+      {
         path: "schedule",
         element: <Schedule />,
       },
@@ -36,24 +40,13 @@ export const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      { path: "place/detail/:placeId", element: <PlaceDetail /> },
+      { path: "place/filter", element: <FilterPlace /> },
+      { path: "place/list", element: <PlaceList /> },
 
-      {
-        path: "place",
-        element: <Place />,
-      },
-      {
-        path: "place/list",
-        element: <PlaceList />,
-      },
-      {
-        path: "place/filter",
-        element: <FilterPlace />,
-      },
-      { path: "place/detail", element: <PlaceDetail /> },
       { path: "review/receiptcheck", element: <ReceiptCheck /> },
       { path: "review/writereview", element: <WriteReview /> },
       { path: "review", element: <Review /> },
-      { path: "auth/kakao", element: <KakaoCallback /> },
     ],
   },
 ]);

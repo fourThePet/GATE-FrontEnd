@@ -12,11 +12,13 @@ import {
   RatingNumber,
   ReviewCount,
 } from "./place-card.styles";
+
 export default function PlaceCard() {
   const navigate = useNavigate();
 
+  // 임시: placeID를 1로 설정
   function handleCardClick() {
-    navigate("/place/detail");
+    navigate("/place/detail/1");
   }
 
   return (
