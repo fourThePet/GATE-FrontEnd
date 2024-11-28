@@ -7,7 +7,7 @@ export const searchBarWrapperStyle = css`
   background-color: #f9f9f9;
   padding: 10px 20px;
   border-radius: 25px;
-  margin: 30px;
+  margin: 40px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
@@ -33,7 +33,7 @@ export const categoryWrapperStyle = css`
   text-align: center;
   background-color: #f9f9f9;
   border-radius: 25px;
-  margin: 30px;
+  margin: 40px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
@@ -55,5 +55,51 @@ export const categoryItemStyle = css`
     font-size: 1rem;
     margin-top: 8px;
     color: #000;
+  }
+`;
+
+export const containerStyle = css`
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export const sliderContainerStyle = css`
+  width: 358px;
+  height: 146px;
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+  /* react-slick dots custom style */
+  .slick-dots {
+    bottom: 10px;
+  }
+
+  .slick-dots li button:before {
+    color: #bbb;
+    font-size: 12px;
+  }
+
+  .slick-dots li.slick-active button:before {
+    color: #f1729b; /* 활성화된 dot 색상 */
+  }
+`;
+
+export const imageWrapperStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+export const imageStyle = css`
+  width: 100%;
+  height: 100%;
+  svg {
+    width: 100%;
+    height: 100%;
   }
 `;
