@@ -60,26 +60,26 @@ export const categoryItemStyle = css`
 
 export const containerStyle = css`
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
   margin-top: 20px;
 `;
 
 export const sliderContainerStyle = css`
-  width: 358px;
-  height: 146px;
+  width: 85%;
+  height: 250px;
   margin: 0 auto;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
 
   /* react-slick dots custom style */
   .slick-dots {
-    bottom: 10px;
+    bottom: 20px;
   }
 
   .slick-dots li button:before {
     color: #bbb;
-    font-size: 12px;
+    font-size: 8px;
   }
 
   .slick-dots li.slick-active button:before {

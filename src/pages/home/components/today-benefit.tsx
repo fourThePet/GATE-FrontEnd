@@ -25,7 +25,9 @@ export default function TodayBenefit() {
 
   return (
     <div css={containerStyle}>
-      <h2 css={typo.Heading3}>오늘의 혜택</h2>
+      <h2 css={typo.Heading3} style={{ marginLeft: "40px" }}>
+        오늘의 혜택 🏷️
+      </h2>
       <div css={sliderContainerStyle}>
         <Slider {...settings}>
           {images.map((image, index) => (
