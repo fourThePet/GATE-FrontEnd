@@ -27,6 +27,14 @@ jobs:
       - name: Yarn Install
         run: |
           yarn install
+          
+      - name: Create .env file
+        run: |
+          echo "VITE_BASE_URL=${{secrets.VITE_BASE_URL}}" >> .env
+
+      - name: Create .env.develop file
+        run: |
+          echo "VITE_KAKAO_MAP=${{secrets.VITE_KAKAO_MAP}}" >> .env.development
 
       - name: Yarn Build
         run: |
