@@ -1,4 +1,3 @@
-export { default as Writereview } from "./Writereview";
 export { default as Bell } from "./Bell";
 export { default as BlackNextIcon } from "./BlackNextIcon";
 export { default as CameraIcon } from "./CameraIcon";
@@ -7,6 +6,7 @@ export { default as Communitypink } from "./Communitypink";
 export { default as DefaultProfile } from "./DefaultProfile";
 export { default as Filter } from "./Filter";
 export { default as Gpt } from "./Gpt";
+export { default as GrayPlusIcon } from "./GrayPlusIcon";
 export { default as HeaderLogo } from "./HeaderLogo";
 export { default as HeaderBackArrow } from "./HeaderBackArrow";
 export { default as HeartFill } from "./HeartFill";
@@ -45,3 +45,4 @@ export { default as Sdogpink } from "./Sdogpink";
 export { default as Sdogwhite } from "./Sdogwhite";
 export { default as WhiteNextIcon } from "./WhiteNextIcon";
 export { default as Write } from "./Write";
+export { default as Writereview } from "./Writereview";
