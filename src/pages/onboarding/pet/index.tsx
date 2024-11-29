@@ -90,7 +90,7 @@ export default function OnboardingPet(){
             alert("모든 정보를 정확히 입력해주세요")
             return
         }
-        console.log(birthDay, name, selectedDogSize, gender)
+        
         // profileSaveRequest 객체 생성
         const profileSaveRequest = {
             name,
