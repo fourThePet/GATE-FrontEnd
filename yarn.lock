@@ -2583,13 +2583,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.5":
-  version: 2.5.1
-  resolution: "classnames@npm:2.5.1"
-  checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
-  languageName: node
-  linkType: hard
-
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -3617,7 +3610,6 @@ __metadata:
     react-progress-bar: "npm:^0.1.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^6.28.0"
-    react-star-rating-component: "npm:^1.4.1"
     storybook: "npm:^8.4.4"
     styled-components: "npm:^6.1.13"
     typescript: "npm:~5.6.2"
@@ -4867,7 +4859,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.1, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5038,18 +5030,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 10/f021a644513144884a567d9c2dcc432e8e3233f931378c219c5a3b5b842340f0faca86225a708bafca1e9010965afe1a7dada28aef5b7b6138c885c0552d9a7d
-  languageName: node
-  linkType: hard
-
-"react-star-rating-component@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "react-star-rating-component@npm:1.4.1"
-  dependencies:
-    classnames: "npm:^2.2.5"
-    prop-types: "npm:^15.6.1"
-  peerDependencies:
-    react: ^16.2.0
-  checksum: 10/444dd5dd0113884026b93efb391d5620dba81c2ffedc2db12f91fc2540d086b61e3944978d96258f81f19b296a7dff0692ab1023a7cbc4aacf00f1750ae4043e
   languageName: node
   linkType: hard
 
