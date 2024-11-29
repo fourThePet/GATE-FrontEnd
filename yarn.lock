@@ -2983,7 +2983,6 @@ __metadata:
 "electron-to-chromium@npm:^1.5.41":
   version: 1.5.67
   resolution: "electron-to-chromium@npm:1.5.67"
-
   checksum: 10/02dc78eeaa5eb6630353e48a30f2f081e283a6e1ef9ba0d4a932ca289795fd98947b6fa85c9d74d8fb335b80ad8f65d893052b047a9ac78093e5b37501c3d34f
   languageName: node
   linkType: hard
@@ -3670,7 +3669,6 @@ __metadata:
     react-progress-bar: "npm:^0.1.0"
     react-query: "npm:^3.39.3"
     react-router-dom: "npm:^6.28.0"
-    react-star-rating-component: "npm:^1.4.1"
     storybook: "npm:^8.4.4"
     styled-components: "npm:^6.1.13"
     slick-carousel: "npm:^1.8.1
@@ -4938,7 +4936,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.1, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5720,7 +5718,10 @@ __metadata:
   resolution: "ts-api-utils@npm:1.4.3"
   peerDependencies:
     typescript: ">=4.2.0"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c0c474 (fix: package.json 수정)
   checksum: 10/713c51e7392323305bd4867422ba130fbf70873ef6edbf80ea6d7e9c8f41eeeb13e40e8e7fe7cd321d74e4864777329797077268c9f570464303a1723f1eed39
   languageName: node
   linkType: hard
