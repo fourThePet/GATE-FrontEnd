@@ -6,16 +6,17 @@ export const contentWrapper = css`
     flex-direction: column;
     width: 100%;
     height: 100vh; /* 화면 전체 높이 */
-    overflow: hidden; /* 내부 콘텐츠만 스크롤 가능 */
+    overflow: hidden; //내부 콘텐츠만 스크롤 가능
     position: relative;
+    padding-bottom  : 80px;
 `
 export const wrapper = css`
-    flex: 1; /* 나머지 공간을 차지 */
+    flex: 1; //나머지 공간을 차지
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    overflow-y: auto; /* 스크롤 활성화 */
+    overflow-y: auto;
 `
 
 export const loginInfo = css`
@@ -79,5 +80,9 @@ export const myWrapper = css`
 export const myPetWrapper = css`
     overflow-x: auto;
     height: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
 
 `
