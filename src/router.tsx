@@ -4,7 +4,6 @@ import App from "./App";
 import { Login, Home, Schedule, Mypage, Place, KakaoCallback } from "./pages";
 import PlaceList from "./pages/place-list";
 import FilterPlace from "./pages/place/filter-place";
-
 import PlaceDetail from "./pages/place/place-detail";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";

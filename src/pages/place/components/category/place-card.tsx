@@ -15,12 +15,11 @@ import {
 export default function PlaceCard() {
   const navigate = useNavigate();
 
-  function handleCardClick() {
+  const handlePlaceCardClick = () => {
     navigate("/place/detail");
-  }
-
+  };
   return (
-    <div css={PlaceCardWrapper} onClick={handleCardClick}>
+    <div css={PlaceCardWrapper} onClick={handlePlaceCardClick}>
       <div css={PlaceCardContent}>
         <div css={PlaceImg}>이미지영역</div>
         <div css={PlaceContent}>
