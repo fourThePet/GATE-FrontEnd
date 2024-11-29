@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 
 declare global {
@@ -15,7 +15,7 @@ declare global {
   }
 }
 
-const KakaoMap: React.FC = () => {
+export default function KakaoMap() {
   const mapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -57,6 +57,4 @@ const KakaoMap: React.FC = () => {
   }, []);
 
   return <div ref={mapRef} css={mapStyle} />;
-};
-
-export default KakaoMap;
+}
