@@ -23,6 +23,7 @@
     "react-progress-bar": "^0.1.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.28.0",
+    "react-star-rating-component": "^1.4.1",
     "styled-components": "^6.1.13",
     "zustand": "latest"
   },
