@@ -2,7 +2,7 @@
 import { PageWrapper } from "../../styles/ui";
 import SearchbarCategory from "./components/searchbar-category";
 import TodayBenefit from "./components/today-benefit";
-
+import Best10 from "./components/Best10";
 export default function Home() {
   return (
     <>
@@ -16,6 +16,7 @@ export default function Home() {
           msOverflowStyle: "none",
           marginTop: "50px",
           position: "relative",
+          marginBottom: "100px",
         }}
       >
         {" "}
@@ -28,6 +29,7 @@ export default function Home() {
         </style>
         <SearchbarCategory />
         <TodayBenefit />
+        <Best10 />
       </div>
     </>
   );
