@@ -5,11 +5,11 @@ import CategoryList from "../place/components/category/category-search";
 import { useNavigate } from "react-router-dom";
 import { MainPinkButton } from "../../components";
 import PlaceCard from "./components/category/place-card";
-import useCategories from "./hooks/categories";
+import getPlacesCategories from "../../api/places";
 
 export default function Place() {
   const navigate = useNavigate();
-  const { categories } = useCategories();
+  const { categories } = getPlacesCategories();
 
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");

@@ -9,11 +9,11 @@ import { css } from "@emotion/react";
 import { NoticeIcon } from "../../assets/svg";
 import ResultPlace from "./components/result-place";
 import MainPinkButton from "../../components/button/main-pink";
-import useCategories from "../place/hooks/categories";
+import getPlacesCategories from "../../api/places";
 
 export default function PlaceList() {
   const navigate = useNavigate();
-  const { categories } = useCategories();
+  const { categories } = getPlacesCategories();
 
   const handleSearchSubmit = (value) => {
     console.log("검색어:", value);

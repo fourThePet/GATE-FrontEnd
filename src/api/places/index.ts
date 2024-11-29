@@ -3,20 +3,19 @@ import { useEffect, useState } from "react";
 
 const getCategoryIcon = (name) => {
   const iconMap = {
-    전체: "🐾",
     식당: "🍴",
     카페: "☕",
-    병원: "🏥",
-    약국: "💊",
+    의료: "🏥",
     반려동물용품: "🦴",
     미용: "✂️",
     숙소: "🏡",
     문화시설: "🎨",
+    여행지: "🚙",
   };
   return iconMap[name] || "🐾";
 };
 
-export default function useCategories() {
+export default function getPlacesCategories() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
