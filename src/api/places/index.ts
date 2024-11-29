@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { api } from "../api";
 
 const getCategoryIcon = (name) => {
   const iconMap = {
@@ -22,10 +23,11 @@ export default function getPlacesCategories() {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      const response = await api.get("/places/categories");
+      const data = response.data;
+
       try {
-        const data = await axios
-          .get(`${import.meta.env.VITE_BASE_URL}/places/categories`)
-          .then((res) => res.data);
+        api.get("/places/categories").then((res) => res.data);
 
         if (data.isSuccess) {
           const categorieIcons = [
