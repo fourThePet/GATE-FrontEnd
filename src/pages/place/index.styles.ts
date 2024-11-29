@@ -31,3 +31,10 @@ export const buttonContainer = css`
   left: 50%;
   transform: translateX(-50%);
 `;
+
+export const currentLoc = css`
+  display: flex;
+  z-index: 10;
+  margin: 20px;
+  cursor: pointer;
+`;

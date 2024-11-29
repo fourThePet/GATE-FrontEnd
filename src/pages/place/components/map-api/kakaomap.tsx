@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
+import { GpsIcon } from "../../../../assets/svg";
+import { currentLoc } from "../../index.styles";
 
 declare global {
   interface Window {
@@ -34,10 +36,11 @@ declare global {
 
 export default function KakaoMap() {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const currentMarker = useRef<any>(null); // 현재 마커 참조
+  const currentMarker = useRef<any>(null); // 현재 마커
+  const mapInstance = useRef<any>(null); // 지도 인스턴스
 
   useEffect(() => {
-    const loadKakaoMapScript = () => {
+    const loadKakaoMap = () => {
       const script = document.createElement("script");
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
         import.meta.env.VITE_KAKAO_MAP
@@ -46,54 +49,75 @@ export default function KakaoMap() {
       script.onload = () => {
         window.kakao.maps.load(() => {
           const mapContainer = mapRef.current;
-          if (mapContainer) {
-            const mapOption = {
-              center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-              level: 3, // 지도의 확대 레벨
-            };
 
-            const map = new window.kakao.maps.Map(mapContainer, mapOption);
+          const initializeMap = (latitude: number, longitude: number) => {
+            if (mapContainer) {
+              const mapOption = {
+                center: new window.kakao.maps.LatLng(latitude, longitude),
+                level: 3, // 지도의 확대 레벨
+              };
 
-            const addMarkerAtClick = (mouseEvent: any) => {
-              const clickPosition = mouseEvent.latLng;
+              const map = new window.kakao.maps.Map(mapContainer, mapOption);
+              mapInstance.current = map;
 
-              // 이전 마커 제거
-              if (currentMarker.current) {
-                currentMarker.current.setMap(null);
-              }
+              const addMarkerAtClick = (mouseEvent: any) => {
+                const clickPosition = mouseEvent.latLng;
 
-              // SVG를 문자열로 변환
-              const locMarkerSVG = ReactDOMServer.renderToString(<LocMarker />);
-              const icon = new window.kakao.maps.MarkerImage(
-                `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-                  locMarkerSVG
-                )}`,
-                new window.kakao.maps.Size(50, 50),
-                {
-                  offset: new window.kakao.maps.Point(25, 50), // 마커 중심 위치
+                // 이전 마커 제거
+                if (currentMarker.current) {
+                  currentMarker.current.setMap(null);
                 }
+
+                // SVG를 문자열로 변환
+                const locMarkerSVG = ReactDOMServer.renderToString(
+                  <LocMarker />
+                );
+                const icon = new window.kakao.maps.MarkerImage(
+                  `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+                    locMarkerSVG
+                  )}`,
+                  new window.kakao.maps.Size(50, 50),
+                  {
+                    offset: new window.kakao.maps.Point(25, 50),
+                  }
+                );
+
+                // 클릭 시 마커 생성
+                const marker = new window.kakao.maps.Marker({
+                  position: clickPosition,
+                  map: map,
+                  image: icon,
+                });
+
+                // 현재 마커를 업데이트
+                currentMarker.current = marker;
+
+                console.log("현재위치: ", {
+                  위도: clickPosition.getLat(),
+                  경도: clickPosition.getLng(),
+                });
+              };
+
+              // 지도 클릭 이벤트 등록
+              window.kakao.maps.event.addListener(
+                map,
+                "click",
+                addMarkerAtClick
               );
+            }
+          };
 
-              // 클릭한 위치에 새 마커 생성
-              const marker = new window.kakao.maps.Marker({
-                position: clickPosition,
-                map: map,
-                image: icon,
-              });
-
-              // 현재 마커를 업데이트
-              currentMarker.current = marker;
-            };
-
-            // 지도 클릭 이벤트 등록
-            window.kakao.maps.event.addListener(map, "click", addMarkerAtClick);
-          }
+          // 현재 위치 가져오기
+          navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
+            initializeMap(latitude, longitude);
+          });
         });
       };
       document.head.appendChild(script);
     };
 
-    loadKakaoMapScript();
+    loadKakaoMap();
 
     return () => {
       const existingScript = document.querySelector(
@@ -105,5 +129,25 @@ export default function KakaoMap() {
     };
   }, []);
 
-  return <div ref={mapRef} css={mapStyle} />;
+  // 사용자의 현재 위치로 지도 이동
+  const userLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      const newCenter = new window.kakao.maps.LatLng(latitude, longitude);
+      mapInstance.current.setCenter(newCenter);
+    });
+  };
+
+  return (
+    <>
+      <div ref={mapRef} css={mapStyle}>
+        <GpsIcon
+          onClick={userLocation}
+          width={60}
+          height={60}
+          css={currentLoc}
+        />
+      </div>
+    </>
+  );
 }

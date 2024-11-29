@@ -9,6 +9,7 @@ export { default as Communitypink } from "./Communitypink";
 export { default as DefaultProfile } from "./DefaultProfile";
 export { default as Filter } from "./Filter";
 export { default as Food } from "./Food";
+export { default as GpsIcon } from "./GpsIcon";
 export { default as Gpt } from "./Gpt";
 export { default as HeaderLogo } from "./HeaderLogo";
 export { default as HeaderBackArrow } from "./HeaderBackArrow";

@@ -117,6 +117,7 @@ export const categoryButtonStyle = css`
 `;
 
 export const mapStyle = css`
+  display: flex;
   width: 100%;
   height: 80vh;
   z-index: 1;
