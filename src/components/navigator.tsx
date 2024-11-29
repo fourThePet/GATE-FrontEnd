@@ -10,8 +10,9 @@ import {
   Communitypink,
 } from "../assets/svg";
 import { Block } from "../components/block/block";
-import { typo } from "../styles/typo";
 import { LayoutContainer } from "../styles/ui";
+import Text from "./text";
+import colors from "../styles/colors";
 
 // import { useUserId } from "../hooks/useUserId";
 
@@ -103,7 +104,7 @@ export default function Navigator({
                     key={index}
                     css={Block.flexBlock({
                       width: "100%",
-                      height: "100px",
+                      height: "80px",
                       justifyContent: "center",
                       alignItems: "center",
                       direction: "column",
@@ -113,12 +114,7 @@ export default function Navigator({
                     onClick={() => handleNavigation(item.path)}
                   >
                     {item.icon}
-                    <span
-                      css={typo.Body2}
-                      style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
-                    >
-                      {item.label}
-                    </span>
+                    <Text type="Body3" color={isActive? colors.color.MainColor : colors.color.Gray2}>{item.label}</Text>
                   </div>
                 );
               })}
