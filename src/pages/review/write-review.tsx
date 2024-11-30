@@ -127,11 +127,14 @@ export default function WriteReview() {
             direction: "row",
             alignItems: "center",
             gap: "40px",
+            position: "ablsolute", // 절대 위치
+            width: "100%",
+            justifyContent: "center",
           })}
-          style={{ marginTop: "100px", marginLeft: "60px" }}
+          style={{ marginTop: "100px" }}
         >
-          <Logowithshadow css={{ width: "180px", height: "180px" }} />
-          <span css={typo.Heading2} style={{ fontSize: "25px" }}>
+          <Logowithshadow css={{ width: "20%", height: "10%" }} />
+          <span css={typo.Heading1} style={{ fontSize: "100%" }}>
             다녀온 곳의 리뷰를
             <br /> 써보세요 !
           </span>
@@ -142,6 +145,8 @@ export default function WriteReview() {
             direction: "column",
             alignItems: "center",
             gap: "20px",
+            position: "absolute",
+            width: "100%",
           })}
           style={{ marginTop: "20px" }}
         >
@@ -259,7 +264,7 @@ export default function WriteReview() {
           css={Block.flexBlock({
             direction: "column",
             gap: "20px",
-            margin: "30px 25px",
+            margin: "10% 4%",
           })}
         >
           <span css={typo.Heading4}>입장조건이 무엇인가요? </span>
@@ -308,9 +313,10 @@ export default function WriteReview() {
               direction: "column",
               border: "1px solid #BBBBBB",
               alignItems: "center",
+              justifyContent: "center",
               padding: "20px",
               gap: "20px",
-              width: "90%",
+              width: "92%",
               borderRadius: "20px",
             })}
             style={{
@@ -425,7 +431,7 @@ export default function WriteReview() {
               alignItems: "center",
               padding: "20px",
               gap: "20px",
-              width: "90%",
+              width: "92%",
               borderRadius: "20px",
             })}
             style={{ marginTop: "30px", flexWrap: "wrap" }}
@@ -461,7 +467,7 @@ export default function WriteReview() {
                 // textAlign: "end",
                 fontSize: "12px",
                 color: review.length > maxChars ? "red" : "#9A9EA6",
-                marginRight: "-450px",
+                marginLeft: "80%",
               }}
             >
               {review.length} / {maxChars}
@@ -475,7 +481,7 @@ export default function WriteReview() {
           >
             <button
               css={Button.mainWhiteButton({
-                width: "260px",
+                width: "45%",
                 height: "50px",
               })}
               onClick={handleBackButtonClick}
@@ -485,7 +491,7 @@ export default function WriteReview() {
             <button
               css={Button.mainPinkButton({
                 isDisabled: !rating && !selectedDogSize,
-                width: "260px",
+                width: "45%",
                 height: "50px",
               })}
               disabled={!rating}
