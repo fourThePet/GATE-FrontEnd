@@ -4,12 +4,10 @@ import { imageStyle, line, petInfo, wrapper } from "./index.styles";
 import { DogsInfoType } from "../../../../interfaces";
 import { translateGender, translateSize } from "../../../../utils/translations";
 
-
-
 export default function PetInfoCard({name, age, birthDay, imageUrl, size, gender} : DogsInfoType ){
     
     return(
-        <div css={wrapper}>
+        <div css={wrapper} >
             <div css={imageStyle}>
                 {imageUrl ? (
                     <img src={imageUrl} css={imageStyle}/>

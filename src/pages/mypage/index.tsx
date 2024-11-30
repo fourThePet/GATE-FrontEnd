@@ -14,6 +14,10 @@ export default function Mypage() {
   const { data : memberInfo} = useGetMembersInfo();
   const { data : dogsInfo } = useGetDogsProfiles();
 
+  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  // const handlePetInfoClcik = () => {
+  //   setIsModalOpen(true)
+  // }
   // 토큰 확인 함수
   const checkLoginStatus = () => {
     const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 토큰 확인
