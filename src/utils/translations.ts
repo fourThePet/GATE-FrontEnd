@@ -5,10 +5,15 @@ export const sizeMap: { [key: string]: string } = {
     LARGE: "대형견",
 };
 
-// Gender 매핑 객체
-export const genderMap: { [key: string]: string } = {
+// Pet Gender 매핑 객체
+export const petGenderMap: { [key: string]: string } = {
     MALE: "남아",
     FEMALE: "여아",
+};
+
+export const GenderMap: { [key: string]: string } = {
+    MALE: "남자",
+    FEMALE: "여자",
 };
   
 // Size 변환 함수
@@ -18,6 +23,6 @@ export const translateSize = (size: string): string => {
 
 // Gender 변환 함수
 export const translateGender = (gender: string): string => {
-    return genderMap[gender] || "알 수 없음"; // 매핑되지 않은 값은 기본값 반환
+    return petGenderMap[gender] || "알 수 없음"; // 매핑되지 않은 값은 기본값 반환
 };
   

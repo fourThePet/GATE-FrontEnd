@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { postDogsProfile } from "../../api/dogs";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getDogsProfiles, postDogsProfile } from "../../api/dogs";
 import { QUERY_KEYS } from "../query-keys";
 
 export const usePostDogsProfile = () => {
@@ -13,4 +13,17 @@ export const usePostDogsProfile = () => {
             }
         }
     })
+}
+
+export const useGetDogsProfiles = () => {
+    return useQuery({
+        queryKey: QUERY_KEYS.GET_DOGS_PROFILES,
+        queryFn: async () => {
+          try {
+            return await getDogsProfiles();
+          } catch {
+            throw new Error("반려견 정보를 가져오는 데 실패했습니다.");
+          }
+        }
+    });
 }
