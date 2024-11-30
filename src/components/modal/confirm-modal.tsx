@@ -38,10 +38,12 @@ export default function ConfirmModal({
           zIndex: 1000, // 오버레이가 항상 최상위에 위치하도록 설정
         },
         content: {
-          position: "relative",
+          position: "absolute", // 절대 위치
           width: "320px",
           height: "280px",
-          margin: "auto",
+          top: "50%", // 세로 정가운데
+          left: "50%", // 가로 정가운데
+          transform: "translate(-50%, -50%)", // 위치를 중앙으로 보정
           padding: "20px",
           borderRadius: "16px",
           backgroundColor: "#fff",
