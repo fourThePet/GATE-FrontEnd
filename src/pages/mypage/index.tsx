@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Mypage() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const [name, setName] = useState("000")
+  const [name] = useState("000")
   // 토큰 확인 함수
   const checkLoginStatus = () => {
     const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 토큰 확인
