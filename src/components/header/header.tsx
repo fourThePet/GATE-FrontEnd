@@ -1,6 +1,6 @@
 import { useLocation, matchPath } from "react-router-dom";
 import LogoBellHeader from "./logo-bell";
-import OnlyTitleHeader from "./only-title";
+// import OnlyTitleHeader from "./only-title";
 import BackTitleHeader from "./back-title";
 
 type HeaderComponentProps = {
@@ -26,7 +26,7 @@ export default function Header({ handleBackButtonClick }: Props) {
     { path: "/home", component: LogoBellHeader }, // title 없음
     // { path: "/place", title: "장소", component: OnlyTitleHeader },
     // { path: "/schedule", title: "일정", component: OnlyTitleHeader },
-    { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
+    // { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
     // { path: "/place/detail", title: "장소상세", component: BackTitleHeader },
     { path: "review/receiptcheck", title: "", component: BackTitleHeader },

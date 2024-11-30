@@ -62,7 +62,7 @@ export const LayoutContainer = {
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    height: 99px;
+    height: 80px;
     max-width: 600px;
     background-color: #ffffff;
     z-index: 10;
