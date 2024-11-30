@@ -1,4 +1,4 @@
-// import * as React from "react";
+// //import * as React from "react";
 import type { SVGProps } from "react";
 const SvgLdogwhite = (props: SVGProps<SVGSVGElement>) => (
   <svg

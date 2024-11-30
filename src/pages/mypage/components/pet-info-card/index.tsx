@@ -4,7 +4,7 @@ import colors from "../../../../styles/colors";
 import { imageStyle, line, petInfo, wrapper } from "./index.styles";
 
 export default function PetInfoCard(){
-    const [ name, setName ] = useState("")
+    const [ name ] = useState("")
     return(
         <div css={wrapper}>
             <div css={imageStyle}>
