@@ -51,7 +51,6 @@ export default function Best10() {
 // 스타일 정의
 const wrapperStyle = css`
   padding: 10px;
-  margin-top: -30px;
   margin-left: 20px;
   margin-right: 20px;
 `;
@@ -78,16 +77,15 @@ const scrollContainerStyle = css`
 const contentContainerStyle = css`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-auto-rows: 180px;
+  grid-auto-rows: 160px;
   /* gap: 1px; */
   width: max-content;
   //background-color: #f5f5f5;
-  margin-left: 10px;
   margin-bottom: 10px;
 `;
 
 const imageContainerStyle = css`
-  width: 200px; /* 가로 길이를 원하는 값으로 설정 */
+  width: 180px; /* 가로 길이를 원하는 값으로 설정 */
   height: 100%; /* 높이는 그대로 유지 */
   position: relative; /* 이미지 배치를 위한 상대 위치 설정 */
   display: flex;

@@ -26,10 +26,13 @@ export const searchInputStyle = css`
 `;
 
 export const categoryWrapperStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 20px;
+  gap: 10px;
+  padding: 10px 30px;
   text-align: center;
   background-color: #f9f9f9;
   border-radius: 25px;
@@ -42,8 +45,8 @@ export const categoryItemStyle = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 80px; /* 기본 너비 */
-  height: 80px; /* 기본 높이 */
+  width: 100%; /* 기본 너비 */
+  height: 100%; /* 기본 높이 */
   cursor: pointer;
   transition: transform 0.3s ease-in-out; /* 부드러운 확대 애니메이션 */
 
@@ -66,7 +69,7 @@ export const containerStyle = css`
 
 export const sliderContainerStyle = css`
   width: 85%;
-  height: 250px;
+  height: 100%;
   margin: 0 auto;
   border-radius: 10px;
   overflow: hidden;
