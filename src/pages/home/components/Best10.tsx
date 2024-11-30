@@ -50,9 +50,10 @@ export default function Best10() {
 
 // 스타일 정의
 const wrapperStyle = css`
-  padding: 16px;
-  margin-left: 20px;
+  padding: 10px;
   margin-top: -30px;
+  margin-left: 20px;
+  margin-right: 20px;
 `;
 
 const scrollContainerStyle = css`
@@ -75,25 +76,45 @@ const scrollContainerStyle = css`
 `;
 
 const contentContainerStyle = css`
-  display: flex;
-  flex-wrap: wrap; /* 줄바꿈 활성화 */
-  gap: 8px; /* 이미지 사이 간격 줄이기 */
-  width: max-content; /* 내용물 너비에 맞춤 */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 180px;
+  /* gap: 1px; */
+  width: max-content;
+  //background-color: #f5f5f5;
+  margin-left: 10px;
+  margin-bottom: 10px;
 `;
 
 const imageContainerStyle = css`
-  flex: 0 0 calc(20% - 10px); /* 가로 5개 배치, 간격 줄이기 */
+  width: 200px; /* 가로 길이를 원하는 값으로 설정 */
+  height: 100%; /* 높이는 그대로 유지 */
+  position: relative; /* 이미지 배치를 위한 상대 위치 설정 */
+  display: flex;
+  align-items: flex-start; /* 아이템 상단 정렬 */
+  justify-content: flex-start;
   box-sizing: border-box;
   overflow: hidden;
-  width: 140px; /* 이미지 너비 줄이기 */
-  height: 140px; /* 이미지 높이 줄이기 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* background-color: #322e2e; */
+  transition: transform 0.3s ease; /* 부드러운 전환 효과 */
+  margin-top: 10px;
+
+  &:hover {
+    transform: scale(1.1); /* hover 시 확대 */
+    z-index: 1; /* hover 시 다른 요소보다 위로 올리기 */
+  }
 
   svg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    position: absolute; /* 이미지의 위치를 고정 */
+    top: 10;
+    left: 10;
+    width: auto; /* 이미지의 가로 크기 유지 */
+    height: 100%; /* 이미지의 높이 유지 */
+    object-fit: cover; /* 이미지가 컨테이너를 채우도록 설정 */
+    transition: transform 0.3s ease; /* 부드러운 전환 효과 */
+  }
+
+  &:hover svg {
+    transform: scale(1); /* hover 시 이미지 확대 */
   }
 `;
