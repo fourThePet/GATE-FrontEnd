@@ -9,10 +9,10 @@ import QueryProvider from "./provider/query-provider";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryProvider>
-    <Layout>
-      <GlobalStyle />
-      <RouterProvider router={router} />
-    </Layout>
+      <Layout>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </Layout>
     </QueryProvider>
   </React.StrictMode>
 );
