@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
-import { GpsIcon } from "../../../../assets/svg";
-import { currentLoc } from "../../index.styles";
+import { GpsButton, Research } from "../../../../assets/svg";
+import { mapLocBtn } from "../../index.styles";
 import { useGetPlaces } from "../../../../api/places";
 
 declare global {
@@ -204,29 +204,14 @@ export default function KakaoMap() {
 
   return (
     <div ref={mapRef} css={mapStyle}>
-      <GpsIcon
-        onClick={moveMarkerToCurrentLocation}
-        width={60}
-        height={60}
-        css={currentLoc}
-      />
-
-      <button
-        onClick={moveMarkerToMapCenter}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 1000,
-          padding: "10px 20px",
-          backgroundColor: "white",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        현 위치에서 검색
-      </button>
+      <div css={mapLocBtn}>
+        <GpsButton
+          onClick={moveMarkerToCurrentLocation}
+          width={60}
+          height={60}
+        />
+        <Research onClick={moveMarkerToMapCenter} width={60} height={60} />
+      </div>
     </div>
   );
 }

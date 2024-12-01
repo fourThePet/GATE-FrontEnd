@@ -32,8 +32,9 @@ export const buttonContainer = css`
   transform: translateX(-50%);
 `;
 
-export const currentLoc = css`
+export const mapLocBtn = css`
   display: flex;
+  flex-direction: column;
   z-index: 10;
   margin: 20px;
   cursor: pointer;
