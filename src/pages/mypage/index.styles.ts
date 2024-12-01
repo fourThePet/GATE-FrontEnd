@@ -79,7 +79,7 @@ export const myWrapper = css`
 
 export const myPetWrapper = css`
     overflow-x: auto;
-    height: 200px;
+    height: 250px;
     display: flex;
     flex-direction: row;
     align-items: center;

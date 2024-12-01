@@ -4,10 +4,14 @@ import { imageStyle, line, petInfo, wrapper } from "./index.styles";
 import { DogsInfoType } from "../../../../interfaces";
 import { translateGender, translateSize } from "../../../../utils/translations";
 
-export default function PetInfoCard({name, age, birthDay, imageUrl, size, gender} : DogsInfoType ){
+interface PetInfoCardProps extends DogsInfoType {
+    onClick?: () => void;
+}
+
+export default function PetInfoCard({name, age, birthDay, imageUrl, size, gender, onClick} : PetInfoCardProps ){
     
     return(
-        <div css={wrapper} >
+        <div css={wrapper} onClick={onClick} >
             <div css={imageStyle}>
                 {imageUrl ? (
                     <img src={imageUrl} css={imageStyle}/>
@@ -15,12 +19,12 @@ export default function PetInfoCard({name, age, birthDay, imageUrl, size, gender
                 }
                
             </div>
-            <Text type="Label2">{name}</Text>
+            <Text type="Body2">{name}</Text>
             <hr color={colors.color.Gray5} css={line}/>
             <div css={petInfo}>
-                <Text type="Label4" color={colors.color.Gray1}>{birthDay} {`(만 ${age}세)`}</Text>
-                <Text type="Label4" color={colors.color.Gray1}> {translateSize(size)}</Text>
-                <Text type="Label4" color={colors.color.Gray1}>{translateGender(gender)}</Text>
+                <Text type="Label3" color={colors.color.Gray1}> {translateSize(size)}</Text>
+                <Text type="Label3" color={colors.color.Gray1}>{birthDay} {`(만 ${age}세)`}</Text>
+                <Text type="Label3" color={colors.color.Gray1}>{translateGender(gender)}</Text>
             </div>
         </div>
     )

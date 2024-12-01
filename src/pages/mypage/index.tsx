@@ -3,7 +3,7 @@ import { Text } from "../../components";
 import colors from "../../styles/colors";
 import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
-import { EmptyPetCard, PetInfoCard } from "./components";
+import { EmptyPetCard, PetInfoCard, PetInfoModal } from "./components";
 import { useNavigate } from "react-router-dom";
 import { useGetDogsProfiles, useGetMembersInfo } from "../../queries";
 
@@ -13,11 +13,12 @@ export default function Mypage() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
   const { data : memberInfo} = useGetMembersInfo();
   const { data : dogsInfo } = useGetDogsProfiles();
-
-  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  // const handlePetInfoClcik = () => {
-  //   setIsModalOpen(true)
-  // }
+  const [ dogId, setDogId ] = useState<number>(null)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const handlePetInfoClcik = (id : number) => {
+    setDogId(id)
+    setIsModalOpen(true)
+  }
   // 토큰 확인 함수
   const checkLoginStatus = () => {
     const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 토큰 확인
@@ -69,7 +70,7 @@ export default function Mypage() {
             <div css={infoWrapper}>
               <div css={titleWrapper}>
                 <Text type="Heading4">내 강아지 정보</Text>
-                {isLoggedIn && (<PlusIcon width={10}/>)}   
+                {isLoggedIn && (<PlusIcon width={10} onClick={()=> navigate('/mypage/pet-register')}/>)}   
               </div>
                 <hr color={colors.color.Gray5} css={line}/>
                 <div css={myPetWrapper}>
@@ -85,6 +86,7 @@ export default function Mypage() {
                         size={dog.size}
                         gender={dog.gender}
                         id={dog.id}
+                        onClick={() =>handlePetInfoClcik(dog.id)}
                       />
                     ))
                   ) : (
@@ -125,6 +127,9 @@ export default function Mypage() {
               </div>
             </div>
           </div>
+          {isModalOpen &&
+            <PetInfoModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} dogId={dogId}/>
+          }
         </div>
     </div>
   )
