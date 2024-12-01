@@ -1,14 +1,42 @@
 import { Block } from "../../../../components/block/block";
-import { Pagedetaileximg } from "../../../../assets/svg";
 import { Heart, HeartFill } from "../../../../assets/svg";
 import { typo } from "../../../../styles/typo";
 import { ContentContainer } from "../index.styles";
 import { useState } from "react";
+import { Divider2 } from "../../../../styles/ui";
+import { BasicInfoContainer } from "../index.styles";
+import { useGetPlacesInfo } from "../../../../queries/places";
+
 export default function StoreInfo() {
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
+  const placeId = 1; // 임시로 고정된 placeId
+
+  // React Query로 장소 정보 가져오기
+  const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
 
   const toggleHeart = () => {
     setIsLiked(!isLiked); // 클릭 시 상태 토글
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // 로딩 중 상태
+  }
+
+  if (isError || !storeData) {
+    return <div>장소 정보를 가져오는 데 실패했습니다.</div>; // 에러 처리
+  }
+
+  const interpretSizeAvailable = (size: string) => {
+    switch (size) {
+      case "SMALL":
+        return "소형견";
+      case "MEDIUM":
+        return "중형견";
+      case "LARGE":
+        return "대형견";
+      default:
+        return "알 수 없음";
+    }
   };
 
   return (
@@ -20,7 +48,9 @@ export default function StoreInfo() {
           width: "100%",
         })}
       >
-        <Pagedetaileximg
+        <img
+          src={storeData.photoUrl}
+          alt={storeData.name}
           css={Block.flexBlock({
             width: "100%",
             height: "auto",
@@ -31,7 +61,7 @@ export default function StoreInfo() {
       {/* 콘텐츠 */}
       <div css={ContentContainer}>
         <span css={typo.Body3} style={{ color: "#9A9EA6" }}>
-          강남 | 애견카페
+          {storeData.category} | {storeData.lotAddress}
         </span>
         <div
           css={Block.flexBlock({
@@ -45,7 +75,7 @@ export default function StoreInfo() {
             css={typo.Heading1}
             style={{ marginTop: "20px", marginBottom: "-5px" }}
           >
-            더왈츠 애견카페
+            {storeData.name}
           </h1>
           <div
             onClick={toggleHeart} // 클릭 이벤트 추가
@@ -60,12 +90,8 @@ export default function StoreInfo() {
             )}
           </div>
         </div>
-        <p css={typo.Body2} style={{ marginBottom: "20px", color: "#9A9EA6" }}>
-          아담한 커피 바, 반려견용 액세서리 판매 코너가 있는 쾌적한 반려견
-          카페입니다.
-        </p>
         <p css={typo.Body2} style={{ marginBottom: "-5px", color: "#9A9EA6" }}>
-          서울특별시 강남구 대치4동 916-38
+          {storeData.lotAddress}
         </p>
         <div
           css={Block.flexBlock({
@@ -81,6 +107,68 @@ export default function StoreInfo() {
             4.1 (105)
           </span>
         </div>
+      </div>
+      <Divider2 />
+      <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
+        <h2 css={typo.Heading3}>기본 정보</h2>
+        <ul style={{ marginLeft: "20px" }}>
+          <li
+            css={typo.Body2}
+            style={{
+              color: "#888888",
+              wordBreak: "break-all", // 너무 길어사 줄바꿈
+              whiteSpace: "normal", // 기본 줄바꿈
+              lineHeight: "1.5", // 줄 간격 조정
+            }}
+          >
+            - 홈페이지: {storeData.websiteUrl}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 전화번호: {storeData.phoneNumber}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 휴무일: {storeData.holiday}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 운영 시간: {storeData.operatingHours}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.parkingAvailable}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 데이터 마지막 수정일: {storeData.lastUpdated}
+          </li>
+        </ul>
+      </div>
+      <Divider2 />
+      <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
+        <h2 css={typo.Heading3}>제한 사항</h2>
+        <ul style={{ marginLeft: "20px" }}>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 애견 동반시 추가요금: {storeData.additionalPetFee}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - 입장 가능 크기: {interpretSizeAvailable(storeData.sizeAvailable)}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.isLeashRequired}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.isMuzzleRequired}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.isCageRequired}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.isVaccinationComplete}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.indoorAvailable}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            - {storeData.outdoorAvailable}
+          </li>
+        </ul>
       </div>
     </>
   );

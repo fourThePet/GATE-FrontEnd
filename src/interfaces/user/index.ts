@@ -1,5 +1,9 @@
 export interface UserInfoForm{
-    nickname: string,
-    age: string,
-    gender : string
+    nickName: string,
+    birthday: string,
+    gender : "MALE" | "FEMALE";
+}
+
+export interface PostUsersCheckNicknameBody {
+    nickName: string;
 }

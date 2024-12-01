@@ -19,11 +19,14 @@
     "axios": "^1.7.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-indiana-drag-scroll": "^2.2.0",
     "react-modal": "^3.16.1",
     "react-progress-bar": "^0.1.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.28.0",
+    "react-slick": "^0.30.2",
     "react-star-rating-component": "^1.4.1",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.13",
     "zustand": "latest"
   },
@@ -62,5 +65,5 @@
       "plugin:storybook/recommended"
     ]
   },
-  "packageManager": "yarn@4.5.1+sha512.341db9396b6e289fecc30cd7ab3af65060e05ebff4b3b47547b278b9e67b08f485ecd8c79006b405446262142c7a38154445ef7f17c1d5d1de7d90bf9ce7054d"
+  "packageManager": "yarn@4.5.1"
 }

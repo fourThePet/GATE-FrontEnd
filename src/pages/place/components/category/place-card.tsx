@@ -12,12 +12,14 @@ import {
   RatingNumber,
   ReviewCount,
 } from "./place-card.styles";
+
 export default function PlaceCard() {
   const navigate = useNavigate();
 
   const handlePlaceCardClick = () => {
     navigate("/place/detail");
   };
+
   return (
     <div css={PlaceCardWrapper} onClick={handlePlaceCardClick}>
       <div css={PlaceCardContent}>

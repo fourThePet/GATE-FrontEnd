@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
-import { Realreceipt } from "../../assets/svg";
+import Realreceipt from "../../assets/svg/Realreceipt";
 import { useNavigate } from "react-router-dom";
 import NoBorderGrayButton from "../button/no-border-gray";
 type ReceiptSubmitProps = {
@@ -50,14 +50,17 @@ export default function ReceiptSubmit({
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.5)", // 반투명 배경
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: "center", // 가로 정렬
+          alignItems: "center", // 세로 정렬
           zIndex: 1000,
         },
         content: {
+          position: "absolute", // 절대 위치
           width: "400px",
           height: "600px",
-          margin: "auto",
+          top: "50%", // 세로 정가운데
+          left: "50%", // 가로 정가운데
+          transform: "translate(-50%, -50%)", // 위치를 중앙으로 보정
           padding: "20px",
           borderRadius: "16px",
           backgroundColor: "#fff",

@@ -10,8 +10,9 @@ import {
   Communitypink,
 } from "../assets/svg";
 import { Block } from "../components/block/block";
-import { typo } from "../styles/typo";
 import { LayoutContainer } from "../styles/ui";
+import Text from "./text";
+import colors from "../styles/colors";
 
 // import { useUserId } from "../hooks/useUserId";
 
@@ -20,6 +21,7 @@ type Props = {
   isPlaceDetailPage: boolean;
   isReceiptCheckPage: boolean;
   isWriteReviewPage: boolean;
+  isOnboardingPage : boolean
 };
 
 export default function Navigator({
@@ -27,6 +29,8 @@ export default function Navigator({
   isPlaceDetailPage,
   isReceiptCheckPage,
   isWriteReviewPage,
+  isOnboardingPage
+  
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -80,15 +84,16 @@ export default function Navigator({
   ];
 
   // place/detail에서는 네비게이션을 숨김
-  const isPlaceDetailPath = location.pathname === "/place/detail";
+  const isPlaceDetailPath = location.pathname === "/place/detail/";
 
   return (
     <>
       {!isLoginPage &&
+        !isOnboardingPage &&
         !isPlaceDetailPage &&
         !isReceiptCheckPage &&
         !isWriteReviewPage &&
-        !isPlaceDetailPath && ( // /place/detail에서는 네비게이션이 렌더링되지 않음
+        !isPlaceDetailPath && (
           <div css={LayoutContainer.NavContainer}>
             <div css={Block.flexBlock}>
               {navItems.map((item, index) => {
@@ -99,7 +104,7 @@ export default function Navigator({
                     key={index}
                     css={Block.flexBlock({
                       width: "100%",
-                      height: "100px",
+                      height: "80px",
                       justifyContent: "center",
                       alignItems: "center",
                       direction: "column",
@@ -109,12 +114,7 @@ export default function Navigator({
                     onClick={() => handleNavigation(item.path)}
                   >
                     {item.icon}
-                    <span
-                      css={typo.Body2}
-                      style={{ color: isActive ? "#F1729B" : "#C9CBD4" }}
-                    >
-                      {item.label}
-                    </span>
+                    <Text type="Body3" color={isActive? colors.color.MainColor : colors.color.Gray2}>{item.label}</Text>
                   </div>
                 );
               })}

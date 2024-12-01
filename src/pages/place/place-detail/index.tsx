@@ -5,7 +5,7 @@ import { HeaderContainer } from "./index.styles";
 import { PageWrapper } from "../../../styles/ui";
 import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
 import { Divider2 } from "../../../styles/ui";
-import BasicInfo from "./components/basic-info";
+// import BasicInfo from "./components/basic-info";
 import ReviewGpt from "./components/review-gpt";
 import Reviews from "./components/reviews";
 import HowToCome from "./components/how-to-come";
@@ -76,8 +76,8 @@ export default function PlaceDetail() {
         />
       </div>
       <StoreInfo />
-      <Divider2 />
-      <BasicInfo />
+      {/* <Divider2 /> */}
+      {/* <BasicInfo /> */}
       <Divider2 />
       <ReviewGpt />
       <ReviewPercent />
