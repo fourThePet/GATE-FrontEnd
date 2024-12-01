@@ -15,12 +15,12 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@tanstack/react-query": "^5.61.3",
+    "@tanstack/react-query": "^5.61.4",
     "axios": "^1.7.8",
-    "express": "^4.21.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
+    "react-progress-bar": "^0.1.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.28.0",
     "react-star-rating-component": "^1.4.1",
@@ -38,6 +38,7 @@
     "@storybook/react-vite": "^8.4.4",
     "@storybook/test": "^8.4.4",
     "@svgr/cli": "^8.1.0",
+    "@types/axios": "^0.14.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-modal": "^3.16.3",
@@ -60,5 +61,6 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
-  }
+  },
+  "packageManager": "yarn@4.5.1+sha512.341db9396b6e289fecc30cd7ab3af65060e05ebff4b3b47547b278b9e67b08f485ecd8c79006b405446262142c7a38154445ef7f17c1d5d1de7d90bf9ce7054d"
 }
