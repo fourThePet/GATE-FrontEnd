@@ -55,6 +55,10 @@ export const router = createBrowserRouter([
         element: <OnboardingPet />,
       },
       {
+        path: "mypage/pet-register",
+        element: <OnboardingPet />,
+      },
+      {
         path: "onboarding/completion",
         element: <OnboardingCompletion />,
       }

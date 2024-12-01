@@ -3,13 +3,14 @@ import {  MainPinkButton, Text } from '../../../components'
 import colors from "../../../styles/colors";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeWrapper, validMessage, wrapper } from "./index.styles";
 import { Input, SkipButton } from '../components'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CameraIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
 import { usePostDogsProfile } from "../../../queries/dogs";
 
 
 export default function OnboardingPet(){
     const navigate = useNavigate();
+    const location = useLocation();
     const [name, setName] = useState(""); 
     const [isNameValid, setIsNameValid] = useState<boolean | null>(null);
     const [gender, setGender] = useState<string | null>(null);
@@ -81,7 +82,7 @@ export default function OnboardingPet(){
     };
 
     const handleSkipButtonClick = () =>{
-        navigate('/')
+        navigate('/onboarding/completion')
     }
 
     const handleRegisterButtonClick = () =>{
@@ -285,7 +286,9 @@ export default function OnboardingPet(){
             </div>
             <div css={bottomButtonStyle}>
                 <MainPinkButton  title="등록" onClick={handleRegisterButtonClick} isDisabled={!isValid}/>
-                <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
+                {location.pathname !== "/mypage/pet-register" &&
+                    <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
+                }
             </div>
         </div>
     )
