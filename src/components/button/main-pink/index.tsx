@@ -18,7 +18,7 @@ export default function MainPinkButton({
 }: Props) {
   return (
     <button onClick={onClick} css={buttonStyles({ width, height, isDisabled })}>
-      <Text type="Label3">{title}</Text>
+      <Text type="Label2">{title}</Text>
     </button>
   );
 }
