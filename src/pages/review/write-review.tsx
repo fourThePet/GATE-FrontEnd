@@ -2,7 +2,7 @@ import { PageWrapper } from "../../styles/ui";
 import { Block } from "../../components/block/block";
 import { Logowithshadow } from "../../assets/svg";
 import { typo } from "../../styles/typo";
-import StarRatingComponent from "react-star-rating-component";
+import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
 import { starStyles } from "./index.styles";
 import { Button } from "../../components/button/button";
@@ -47,8 +47,8 @@ export default function WriteReview() {
     );
   };
 
-  const onStarClick = (nextValue: number) => {
-    setRating(nextValue); // 별점 업데이트
+  const handleStarClick = (newRating) => {
+    setRating(newRating);
   };
 
   const handleDogSizeClick = (size: "small" | "medium" | "large") => {
@@ -151,13 +151,15 @@ export default function WriteReview() {
           style={{ marginTop: "20px" }}
         >
           <div css={starStyles}>
-            <StarRatingComponent
-              name="rate"
-              starCount={5}
-              value={rating}
-              onStarClick={onStarClick}
-              starColor="#F1729B" // 활성화된 별 색상
-              emptyStarColor="#E0E0E0" // 비활성화된 별 색상
+            <ReactStars
+              count={5} // 별의 개수
+              onChange={handleStarClick} // 별 클릭 시 이벤트 핸들러
+              size={50} // 별 크기
+              color="#E0E0E0" // 비활성화된 별 색상
+              activeColor="#F1729B" // 활성화된 별 색상
+              value={rating} // 현재 선택된 값
+              isHalf={false} // 반쪽 별 허용 여부
+              edit={true} // 사용자 입력 허용 여부
             />
           </div>
           {/* <span css={typo.Body1}>{rating}점</span> */}
