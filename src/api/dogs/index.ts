@@ -10,3 +10,8 @@ export const getDogsProfiles = async () => {
     const response = await api.get('/dogs/profiles')
     return response.data.result
 }
+
+export const getDogsProfileDogId = async (dogId : number) => {
+    const response = await api.get(`/dogs/profile/${dogId}`)
+    return response.data.result
+}

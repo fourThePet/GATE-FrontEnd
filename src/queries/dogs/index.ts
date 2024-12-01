@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getDogsProfiles, postDogsProfile } from "../../api/dogs";
+import { getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
 import { QUERY_KEYS } from "../query-keys";
 
 export const usePostDogsProfile = () => {
@@ -21,6 +21,19 @@ export const useGetDogsProfiles = () => {
         queryFn: async () => {
           try {
             return await getDogsProfiles();
+          } catch {
+            throw new Error("반려견 정보를 가져오는 데 실패했습니다.");
+          }
+        }
+    });
+}
+
+export const useGetDogsProfileDogId = (dogId : number) => {
+    return useQuery({
+        queryKey: QUERY_KEYS.GET_DOGS_PROFILE_DOGID(dogId),
+        queryFn: async () => {
+          try {
+            return await getDogsProfileDogId(dogId);
           } catch {
             throw new Error("반려견 정보를 가져오는 데 실패했습니다.");
           }
