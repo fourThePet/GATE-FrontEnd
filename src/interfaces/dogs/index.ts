@@ -7,3 +7,13 @@ export interface ProfileSaveType {
     birthDay : string,
     gender : PET_GENDER
 }
+
+export interface DogsInfoType {
+    age: number,
+    birthDay : string,
+    gender: PET_GENDER
+    id: string,
+    imageUrl : string,
+    name : string,
+    size : PET_SIZE
+}

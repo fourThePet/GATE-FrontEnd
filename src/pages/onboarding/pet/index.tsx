@@ -3,13 +3,14 @@ import {  MainPinkButton, Text } from '../../../components'
 import colors from "../../../styles/colors";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeWrapper, validMessage, wrapper } from "./index.styles";
 import { Input, SkipButton } from '../components'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CameraIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
 import { usePostDogsProfile } from "../../../queries/dogs";
 
 
 export default function OnboardingPet(){
     const navigate = useNavigate();
+    const location = useLocation();
     const [name, setName] = useState(""); 
     const [isNameValid, setIsNameValid] = useState<boolean | null>(null);
     const [gender, setGender] = useState<string | null>(null);
@@ -23,9 +24,6 @@ export default function OnboardingPet(){
     const fileInputRef = useRef<HTMLInputElement>(null);
     
     const { mutate: registerPetProfile } = usePostDogsProfile();
-    const handleImageClick = () => {
-        if (fileInputRef.current) fileInputRef.current.click();
-    };
     // 이미지 변경 핸들러
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -81,7 +79,7 @@ export default function OnboardingPet(){
     };
 
     const handleSkipButtonClick = () =>{
-        navigate('/')
+        navigate('/onboarding/completion')
     }
 
     const handleRegisterButtonClick = () =>{
@@ -112,7 +110,11 @@ export default function OnboardingPet(){
         registerPetProfile(formData, {
             onSuccess : () => {
                 console.log("반려동물 등록 성공!")
-                navigate('/onboarding/completion')
+                if(location.pathname === "/mypage/pet-register"){
+                    navigate('/mypage')
+                }else if(location.pathname === "/onboarding/pet") {
+                    navigate('/onboarding/completion')
+                }
             },
             onError : () => {
                 alert("반려동물 등록에 실패했습니다.")
@@ -152,7 +154,7 @@ export default function OnboardingPet(){
         <div css={contentWrapper}>
 
             <div css={wrapper}>
-                <div css={profileContainer} onClick={handleImageClick}>
+                <div css={profileContainer} >
                     {/* 프로필 이미지 */}
                     {profileImageSrc ? (
                         <img src={profileImageSrc} alt="프로필" css={profileIcon} />
@@ -285,7 +287,9 @@ export default function OnboardingPet(){
             </div>
             <div css={bottomButtonStyle}>
                 <MainPinkButton  title="등록" onClick={handleRegisterButtonClick} isDisabled={!isValid}/>
-                <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
+                {location.pathname !== "/mypage/pet-register" &&
+                    <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
+                }
             </div>
         </div>
     )

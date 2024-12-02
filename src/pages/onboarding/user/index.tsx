@@ -5,7 +5,7 @@ import colors from "../../../styles/colors";
 import { Input } from "../components";
 import { ageWrapper, bottomButtonStyle, buttonGroupStyle, contentWrapper, formWrapper, infoWrapper, nicknameWrapper, radioButtonStyle, textWrapper, validMessage, wrapper } from "./index.styles";
 import { useNavigate } from "react-router-dom";
-import { UserInfoForm } from "../../../interfaces/user";
+import { UserInfoForm } from "../../../interfaces";
 import { usePostMembersCheckNickname, usePostMembersSignup } from "../../../queries/members";
 import { HeaderLogo } from "../../../assets/svg";
 

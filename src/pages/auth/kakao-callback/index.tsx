@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 export default function KakaoCallback() {
   const navigate = useNavigate();
+  const login = useAuthStore((state)=> state.login)
 
   useEffect(() => {
     // URL에서 쿼리 파라미터 추출
@@ -13,6 +15,7 @@ export default function KakaoCallback() {
 
     if (accessToken && refreshToken && status) {
       // 토큰 저장
+      login(accessToken)
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
@@ -28,7 +31,7 @@ export default function KakaoCallback() {
       console.log("액세스 토큰 또는 리프레시 토큰이 없습니다.");
       
     }
-  }, [navigate]);
+  }, [login,navigate]);
 
   return <></>;
 };

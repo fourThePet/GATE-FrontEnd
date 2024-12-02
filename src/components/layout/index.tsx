@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export default function Layout({children} : LayoutProps){
     return(
-        <div css={wrapper}>
+        <div css={wrapper} id='layout'>
             {children}
         </div>
     )
