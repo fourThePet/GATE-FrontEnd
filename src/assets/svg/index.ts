@@ -71,6 +71,7 @@ export { default as Top6 } from "./Top6";
 export { default as Top7 } from "./Top7";
 export { default as Top8 } from "./Top8";
 export { default as Top9 } from "./Top9";
+export { default as Warning } from "./Warning";
 export { default as WhiteNextIcon } from "./WhiteNextIcon";
 export { default as Write } from "./Write";
 export { default as Writereview } from "./Writereview";

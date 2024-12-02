@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteDogsProfileDogId, getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
 import { QUERY_KEYS } from "../query-keys";
 import { useAuthStore } from "../../stores/useAuthStore";
 
@@ -42,4 +42,20 @@ export const useGetDogsProfileDogId = (dogId : number) => {
           }
         }
     });
+}
+
+export const useDeleteDogsProfileDogId = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+      mutationFn: async (dogId : number) => {
+        try {
+          return await deleteDogsProfileDogId(dogId);
+        } catch {
+          throw new Error("반려견 정보를 삭제하는 데 실패했습니다.");
+        }
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries(); //쿼리를 무효화하여 최신 데이터를 가져옴
+      },
+  });
 }

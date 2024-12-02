@@ -5,5 +5,6 @@ export const QUERY_KEYS = {
     POST_DOGS_PROFILE : ['POST_DOGS_PROFILE'],
     GET_DOGS_PROFILES : ['GET_DOGS_PROFILES'],
     GET_DOGS_PROFILE_DOGID : (dogId : number) => ['GET_DOGS_PROFILE_DOGID', dogId],
+    DELETE_DOGS_PROFILE_DOGID : (dogId : number) => ['DELETE_DOGS_PROFILE_DOGID', dogId],
     GET_PLACES_INFO: "GET_PLACES_INFO",
 } as const;

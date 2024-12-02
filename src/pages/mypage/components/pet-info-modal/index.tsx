@@ -5,18 +5,24 @@ import { GrayBorderButton, MainPinkButton, Text } from "../../../../components";
 import { CloseIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../../assets/svg";
 import { useGetDogsProfileDogId } from "../../../../queries";
 import { translateGender } from "../../../../utils/translations";
+import { useState } from "react";
+import DeleteModal from "../delete-modal";
 
 interface Props{
-    isOpen : boolean,
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>, // 모달 상태 변경 함수
-    dogId : number
+    isOpen : boolean;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // 모달 상태 변경 함수
+    dogId : number;
 
 }
 export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
     const {data : dogInfo} = useGetDogsProfileDogId(dogId)
-
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const handleDeleteButtonClick = () =>{
+        setIsDeleteModalOpen(true)
+    }
     const closeModal = () => {
       setIsOpen(false)
+      setIsDeleteModalOpen(false)
     }
     return (
         <>
@@ -118,10 +124,13 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
                     </div>
                 </div>
                 <div css={buttonStyle}>
-                  <GrayBorderButton width="40%" height="40px" title="삭제" onClick={()=> confirm("삭제")}/>
+                  <GrayBorderButton width="40%" height="40px" title="삭제" onClick={handleDeleteButtonClick}/>
                   <MainPinkButton width="60%" height="40px" title="수정" onClick={()=> confirm("수정")}/>
                 </div>
               </div>
+              {isDeleteModalOpen && (
+                <DeleteModal isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen} dogId={dogId} onClose={closeModal}/>
+              )}
             </ReactModal>
         </>
     )
