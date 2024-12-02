@@ -12,6 +12,8 @@ type ReceiptSubmitProps = {
 };
 import { requestOCR } from "../../api/ocr"; // OCR 요청 함수 임포트
 import { OCRField } from "../../interfaces/ocr";
+import { Receiptchecked, Receiptfail, Receiptloading } from "../../assets/svg";
+
 export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
@@ -23,7 +25,7 @@ export default function ReceiptSubmit({
   const [ocrState, setOcrState] = useState({
     isPending: false,
     error: null,
-    success: false,
+    success: null, // 초기 상태
   });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,13 +44,14 @@ export default function ReceiptSubmit({
       reader.readAsDataURL(file);
     }
   };
+
   const handleWriteReviewButtonClick = async () => {
     if (!selectedImage) {
       window.alert("이미지를 업로드해주세요.");
       return;
     }
 
-    setOcrState({ isPending: true, error: null, success: false });
+    setOcrState({ isPending: true, error: null, success: null });
 
     try {
       const file = await fetch(selectedImage).then((res) => res.blob());
@@ -71,15 +74,12 @@ export default function ReceiptSubmit({
 
       if (isReceipt) {
         setOcrState({ isPending: false, error: null, success: true });
-        window.alert("영수증 확인 성공!");
-        navigate("/review/writereview");
       } else {
         setOcrState({
           isPending: false,
           error: "영수증 판별 실패",
           success: false,
         });
-        window.alert("업로드한 이미지는 영수증이 아닙니다.");
       }
     } catch (error) {
       console.error("OCR 분석 실패:", error);
@@ -87,12 +87,13 @@ export default function ReceiptSubmit({
       window.alert("OCR 분석 중 문제가 발생했습니다.");
     }
   };
-  const openFileDialog = () => {
-    const fileInput = document.getElementById("file-input") as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click(); // 강제로 input 클릭
-    }
-  };
+
+  // const openFileDialog = () => {
+  //   const fileInput = document.getElementById("file-input") as HTMLInputElement;
+  //   if (fileInput) {
+  //     fileInput.click(); // 강제로 input 클릭
+  //   }
+  // };
 
   return (
     <ReactModal
@@ -101,29 +102,27 @@ export default function ReceiptSubmit({
       contentLabel="Receipt Submit Modal"
       style={{
         overlay: {
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // 반투명 배경
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
           display: "flex",
-          justifyContent: "center", // 가로 정렬
-          alignItems: "center", // 세로 정렬
+          justifyContent: "center",
+          alignItems: "center",
           zIndex: 1000,
         },
         content: {
-          position: "absolute", // 절대 위치
+          position: "absolute",
           width: "400px",
           height: "600px",
-          top: "50%", // 세로 정가운데
-          left: "50%", // 가로 정가운데
-          transform: "translate(-50%, -50%)", // 위치를 중앙으로 보정
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           padding: "20px",
           borderRadius: "16px",
           backgroundColor: "#fff",
           boxShadow: "0px 6px 15px rgba(0, 0, 0, 0.1)",
           border: "none",
-          overflow: "hidden",
         },
       }}
     >
-      {/* 모달 닫기 버튼 */}
       <button
         style={{
           position: "absolute",
@@ -139,99 +138,161 @@ export default function ReceiptSubmit({
         ×
       </button>
 
-      {/* 모달 내용 */}
-      <div
-        css={Block.flexBlock({
-          direction: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "20px",
-        })}
-      >
-        {/* 제목 */}
-        <span css={typo.Heading2}>영수증 제출 하기</span>
-
-        {/* 부가 텍스트 */}
-        <span
-          css={typo.Body3}
-          style={{
-            textAlign: "center",
-            color: "#9A9EA6",
-            marginTop: "-10px",
-          }}
-        >
-          전화번호, 사업자 번호, 주소가 <br /> 잘 나온 사진을 넣어주세요!
-        </span>
-        {/* 파일 선택 Input (숨김) */}
-        <input
-          type="file"
-          accept="image/*"
-          id="file-input"
-          onChange={handleFileChange} // 파일 선택 핸들러
-          style={{ display: "none" }} // 숨김 처리
-        />
-
-        {/* 첨부하기 버튼 */}
-        <NoBorderGrayButton
-          isDisabled={false}
-          onClick={openFileDialog}
-          width="80px"
-          height="40px"
-          title="첨부하기"
-        />
-
-        {/* 영수증 이미지 */}
+      {ocrState.isPending ? (
         <div
-          style={{
-            width: "260px",
-            height: "150px",
-            borderRadius: "10px",
-            display: "flex",
-            justifyContent: "center",
+          css={Block.flexBlock({
+            direction: "column",
             alignItems: "center",
-            marginTop: "80px",
-            marginBottom: "80px",
-          }}
-        >
-          {selectedImage ? (
-            <img
-              src={selectedImage}
-              alt="Selected Receipt"
-              style={{
-                width: "270px",
-                height: "300px",
-                objectFit: "cover",
-              }}
-            />
-          ) : (
-            <Realreceipt
-              style={{
-                width: "270px",
-                height: "300px",
-              }}
-            />
-          )}
-        </div>
-
-        {/* 제출하기 버튼 */}
-        <button
-          css={Button.mainPinkButton({
-            isDisabled: !selectedImage || ocrState.isPending, // 로딩 중 버튼 비활성화
-            width: "120px",
-            height: "40px",
+            justifyContent: "center",
+            gap: "10px",
           })}
-          onClick={handleWriteReviewButtonClick}
-          disabled={!selectedImage || ocrState.isPending}
-          style={{
-            backgroundColor:
-              selectedImage && !ocrState.isPending ? "#F1729B" : "#E0E0E0",
-            cursor:
-              selectedImage && !ocrState.isPending ? "pointer" : "not-allowed",
-          }}
+          style={{ display: "flex", marginTop: "30%" }}
         >
-          {ocrState.isPending ? "분석 중..." : "제출하기"}
-        </button>
-      </div>
+          <Receiptloading width="20%" height="20%" fill="#F1729B" />
+          <span css={typo.Heading2} style={{ marginTop: "70px" }}>
+            제출된 영수증을 확인 중입니다.
+          </span>
+          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
+            잠시만 기다려 주세요.
+          </span>
+        </div>
+      ) : ocrState.success ? (
+        <div
+          css={Block.flexBlock({
+            direction: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+          })}
+          style={{ display: "flex", marginTop: "30%" }}
+        >
+          <Receiptchecked width="20%" height="20%" fill="#F1729B" />
+          <span css={typo.Heading2} style={{ marginTop: "70px" }}>
+            인증이 완료되었어요!
+          </span>
+          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
+            이제 리뷰를 남겨주세요.
+          </span>
+          <button
+            css={Button.mainPinkButton({
+              isDisabled: false,
+              width: "120px",
+              height: "40px",
+            })}
+            onClick={() => navigate("/review/writereview")}
+            style={{ marginTop: "150px" }}
+          >
+            확인
+          </button>
+        </div>
+      ) : ocrState.success === false ? (
+        <div
+          css={Block.flexBlock({
+            direction: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "10px",
+          })}
+          style={{ display: "flex", marginTop: "30%" }}
+        >
+          <Receiptfail width="20%" height="20%" fill="#F1729B" />
+          <span css={typo.Heading2} style={{ marginTop: "70px" }}>
+            인증에 실패했어요.
+          </span>
+          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
+            전화번호, 사업자 번호, 주소가
+          </span>
+          <span
+            css={typo.Body2}
+            style={{ color: "#9A9EA6", marginTop: "-10px" }}
+          >
+            잘 나온 사진을 넣어주세요!
+          </span>
+          <button
+            css={Button.mainPinkButton({
+              isDisabled: false,
+              width: "120px",
+              height: "40px",
+            })}
+            onClick={() => window.location.reload()}
+            style={{ marginTop: "100px" }}
+          >
+            확인
+          </button>
+        </div>
+      ) : (
+        <div
+          css={Block.flexBlock({
+            direction: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "20px",
+          })}
+        >
+          <span css={typo.Heading2}>영수증 제출하기</span>
+          <input
+            type="file"
+            accept="image/*"
+            id="file-input"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
+          <NoBorderGrayButton
+            isDisabled={false}
+            onClick={() => document.getElementById("file-input")?.click()}
+            width="80px"
+            height="40px"
+            title="첨부하기"
+          />
+          <div
+            style={{
+              width: "260px",
+              height: "150px",
+              borderRadius: "10px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "90px",
+              marginBottom: "80px",
+            }}
+          >
+            {selectedImage ? (
+              <img
+                src={selectedImage}
+                alt="Selected Receipt"
+                style={{
+                  width: "270px",
+                  height: "300px",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <Realreceipt
+                style={{
+                  width: "270px",
+                  height: "300px",
+                }}
+              />
+            )}
+          </div>
+          <button
+            css={Button.mainPinkButton({
+              isDisabled: !selectedImage,
+              width: "120px",
+              height: "40px",
+            })}
+            onClick={handleWriteReviewButtonClick}
+            disabled={!selectedImage}
+            style={{
+              backgroundColor: selectedImage ? "#F1729B" : "#E0E0E0",
+              cursor: selectedImage ? "pointer" : "not-allowed",
+              marginTop: "20px",
+            }}
+          >
+            제출하기
+          </button>
+        </div>
+      )}
     </ReactModal>
   );
 }
