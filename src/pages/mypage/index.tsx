@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Text } from "../../components";
 import colors from "../../styles/colors";
 import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
@@ -6,42 +6,28 @@ import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } fro
 import { EmptyPetCard, PetInfoCard, PetInfoModal } from "./components";
 import { useNavigate } from "react-router-dom";
 import { useGetDogsProfiles, useGetMembersInfo } from "../../queries";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 
 export default function Mypage() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
+  const { isLoggedIn, logout } = useAuthStore();
   const { data : memberInfo} = useGetMembersInfo();
   const { data : dogsInfo } = useGetDogsProfiles();
   const [ dogId, setDogId ] = useState<number>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
   const handlePetInfoClcik = (id : number) => {
     setDogId(id)
     setIsModalOpen(true)
   }
-  // 토큰 확인 함수
-  const checkLoginStatus = () => {
-    const accessToken = localStorage.getItem("accessToken"); // 로컬 스토리지에서 토큰 확인
-    if (accessToken) {
-      setIsLoggedIn(true);
-      
-    } else {
-      setIsLoggedIn(false);
-    }
-  };
-
-  // 로그아웃 처리
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken"); // 토큰 삭제
-    
-    setIsLoggedIn(false); // 로그인 상태 초기화
-    navigate("/login"); // 로그인 페이지로 이동
-  };
-
-  // 컴포넌트 마운트 시 토큰 확인
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
+  
+  const handleLogoutClick = () => {
+    logout()
+    navigate('/login', {replace:true} )
+  }
+  
 
   return (
     <div css={contentWrapper}>
@@ -118,7 +104,7 @@ export default function Mypage() {
               <hr color={colors.color.Gray5} css={line}/>
               <div css={myActiveWrapper}>
                 {isLoggedIn ? (
-                    <Text type="Label1" color={colors.color.Gray2} onClick={handleLogout}>로그아웃</Text>
+                    <Text type="Label1" color={colors.color.Gray2} onClick={handleLogoutClick}>로그아웃</Text>
                   ) : (
                     <Text type="Label1" color={colors.color.Gray2} onClick={()=>navigate('/login')}>로그인</Text>
                   )

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../stores/useAuthStore";
 
 export const api = axios.create({
     baseURL : import.meta.env.VITE_BASE_URL,
@@ -9,7 +10,7 @@ export const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('accessToken');
+      const token = useAuthStore.getState().accessToken; // Zustand에서 토큰 가져오기
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -29,7 +30,7 @@ export const formAPI = axios.create({
 
 formAPI.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('accessToken');
+    const token = useAuthStore.getState().accessToken; // Zustand에서 토큰 가져오기
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -40,6 +41,7 @@ formAPI.interceptors.request.use(
   }
 );
 
+let isRefreshing = false
 // 응답 인터셉터: 토큰 만료 시 재발급 처리
 api.interceptors.response.use(
   (response) => response, // 응답이 성공하면 그대로 반환
@@ -47,19 +49,25 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && error.response?.data?.message === "TokenExpired") {
       // 액세스 토큰 만료: 리프레시 토큰으로 재발급 요청
       const refreshToken = localStorage.getItem("refreshToken");
-      try {
-        const { data } = await axios.post("/members/reissue", { refreshToken });
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken); // 새 리프레시 토큰 저장
-        // 원래 요청 다시 시도
-        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
-        return api.request(error.config);
-      } catch (reissueError) {
-        console.error("토큰 재발급 실패:", reissueError);
-        // 로그아웃 처리
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+      const login = useAuthStore.getState().login; // Zustand의 login 메서드
+      const logout = useAuthStore.getState().logout; // Zustand의 logout 메서드
+      if(!isRefreshing){
+        isRefreshing = true;
+        try {
+          const { data } = await axios.post("/members/reissue", { refreshToken });
+          login(data.accessToken)
+          localStorage.setItem("refreshToken", data.refreshToken); // 새 리프레시 토큰 저장
+          isRefreshing = false
+          // 원래 요청 다시 시도
+          error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+          return api.request(error.config);
+        } catch (reissueError) {
+          console.error("토큰 재발급 실패:", reissueError);
+          // 로그아웃 처리
+          logout()
+          localStorage.removeItem("refreshToken");
+          window.location.href = "/login";
+        }   
       }
     }
     return Promise.reject(error); // 기타 에러는 그대로 반환

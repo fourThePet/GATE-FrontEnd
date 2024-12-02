@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getMembersInfo, postMembersCheckNickname, postMembersSignup } from "../../api";
 import { PostUsersCheckNicknameBody, UserInfoForm } from "../../interfaces";
 import { QUERY_KEYS } from "../query-keys";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export const usePostMembersCheckNickname = () => {
     return useMutation({
@@ -30,6 +31,7 @@ export const usePostMembersSignup = () => {
 }
 
 export const useGetMembersInfo = () => {
+    const {isLoggedIn} = useAuthStore()
     return useQuery({
         queryKey: QUERY_KEYS.GET_MEMBERS_INFO,
         queryFn: async () => {
@@ -39,5 +41,6 @@ export const useGetMembersInfo = () => {
             throw new Error("회원 정보를 가져오는 데 실패했습니다.");
           }
         },
+        enabled : isLoggedIn
     });
 }

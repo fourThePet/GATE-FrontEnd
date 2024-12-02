@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
 import { QUERY_KEYS } from "../query-keys";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export const usePostDogsProfile = () => {
     return useMutation({
@@ -16,6 +17,7 @@ export const usePostDogsProfile = () => {
 }
 
 export const useGetDogsProfiles = () => {
+    const {isLoggedIn} = useAuthStore()
     return useQuery({
         queryKey: QUERY_KEYS.GET_DOGS_PROFILES,
         queryFn: async () => {
@@ -24,7 +26,8 @@ export const useGetDogsProfiles = () => {
           } catch {
             throw new Error("반려견 정보를 가져오는 데 실패했습니다.");
           }
-        }
+        },
+        enabled : isLoggedIn
     });
 }
 
