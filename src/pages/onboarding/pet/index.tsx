@@ -24,9 +24,6 @@ export default function OnboardingPet(){
     const fileInputRef = useRef<HTMLInputElement>(null);
     
     const { mutate: registerPetProfile } = usePostDogsProfile();
-    const handleImageClick = () => {
-        if (fileInputRef.current) fileInputRef.current.click();
-    };
     // 이미지 변경 핸들러
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -113,7 +110,11 @@ export default function OnboardingPet(){
         registerPetProfile(formData, {
             onSuccess : () => {
                 console.log("반려동물 등록 성공!")
-                navigate('/onboarding/completion')
+                if(location.pathname === "/mypage/pet-register"){
+                    navigate('/mypage')
+                }else if(location.pathname === "/onboarding/pet") {
+                    navigate('/onboarding/completion')
+                }
             },
             onError : () => {
                 alert("반려동물 등록에 실패했습니다.")
@@ -153,7 +154,7 @@ export default function OnboardingPet(){
         <div css={contentWrapper}>
 
             <div css={wrapper}>
-                <div css={profileContainer} onClick={handleImageClick}>
+                <div css={profileContainer} >
                     {/* 프로필 이미지 */}
                     {profileImageSrc ? (
                         <img src={profileImageSrc} alt="프로필" css={profileIcon} />

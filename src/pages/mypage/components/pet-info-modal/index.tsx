@@ -14,9 +14,6 @@ interface Props{
 }
 export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
     const {data : dogInfo} = useGetDogsProfileDogId(dogId)
-    console.log(dogInfo)
-    
-
 
     const closeModal = () => {
       setIsOpen(false)
@@ -26,7 +23,7 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
             <ReactModal 
               isOpen={isOpen} 
               style={modalStyles} 
-              appElement={document.getElementById("layout")} 
+              appElement={document.getElementById("root")} 
               onRequestClose={closeModal}
               shouldCloseOnOverlayClick={true} // 영역 밖 클릭 시 닫기
             >
