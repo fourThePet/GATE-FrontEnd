@@ -1932,15 +1932,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-star-rating-component@npm:^1.4.4":
-  version: 1.4.4
-  resolution: "@types/react-star-rating-component@npm:1.4.4"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10/f7fb56a29edcc2e79de203e739d275259cfcde091782d4fce52c23b6969db663f94f67548fe0bee39688ba3a18a29fffc77114cee1059a79431b2d323df6bc78
-  languageName: node
-  linkType: hard
-
 "@types/react@npm:*, @types/react@npm:^18.3.12":
   version: 18.3.12
   resolution: "@types/react@npm:18.3.12"
@@ -2517,9 +2508,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001669":
-  version: 1.0.30001684
-  resolution: "caniuse-lite@npm:1.0.30001684"
-  checksum: 10/35dd0941dd32319c87409441e8400faea32114c4a74938c29262a613160d2890a4f57902e24c770f076dbd0b85c4442aa135f9f641d4a74a9246fe624e6f780a
+  version: 1.0.30001685
+  resolution: "caniuse-lite@npm:1.0.30001685"
+  checksum: 10/33ea5c4df6ba120c977907d909bca9c9c7eccd527055d5d806947c6e5e56a2b6a47893258487ead32a6d197fad02e348adf6ed0fda24501014ecaa57dcd83e29
   languageName: node
   linkType: hard
 
@@ -3620,7 +3611,7 @@ __metadata:
     "@storybook/addon-interactions": "npm:^8.4.4"
     "@storybook/addon-onboarding": "npm:^8.4.4"
     "@storybook/blocks": "npm:^8.4.4"
-    "@storybook/react": "npm:^8.4.4"
+    "@storybook/react": "npm:^8.4.6"
     "@storybook/react-vite": "npm:^8.4.4"
     "@storybook/test": "npm:^8.4.4"
     "@svgr/cli": "npm:^8.1.0"
@@ -3632,7 +3623,6 @@ __metadata:
     "@types/react-dom": "npm:^18.3.1"
     "@types/react-modal": "npm:^3.16.3"
     "@types/react-router-dom": "npm:latest"
-    "@types/react-star-rating-component": "npm:^1.4.4"
     "@types/storybook__react": "npm:^5.2.1"
     "@types/styled-components": "npm:^5.1.34"
     "@vitejs/plugin-react": "npm:^4.3.3"
@@ -3760,9 +3750,9 @@ __metadata:
   linkType: hard
 
 "globals@npm:^15.11.0":
-  version: 15.12.0
-  resolution: "globals@npm:15.12.0"
-  checksum: 10/07cac4ee7cc9befa7894be9b4d1a57f46eeedf9065939f39ffb875009394908eb7bac84147712cfd4bbabab5abc7ab98fc3a6d0fd881f9548fffa10ba2e4bf67
+  version: 15.13.0
+  resolution: "globals@npm:15.13.0"
+  checksum: 10/ba84d0612d516bcc1dabdd9ce66667956e1a87401fb53be6c379f8f6a04f8e6ce415b584801ae2689a90e788e89bb38adfafc854a8a50ae8e322bb4dd35a2105
   languageName: node
   linkType: hard
 
@@ -3806,9 +3796,11 @@ __metadata:
   linkType: hard
 
 "has-proto@npm:^1.0.1":
-  version: 1.0.3
-  resolution: "has-proto@npm:1.0.3"
-  checksum: 10/0b67c2c94e3bea37db3e412e3c41f79d59259875e636ba471e94c009cdfb1fa82bf045deeffafc7dbb9c148e36cae6b467055aaa5d9fad4316e11b41e3ba551a
+  version: 1.1.0
+  resolution: "has-proto@npm:1.1.0"
+  dependencies:
+    call-bind: "npm:^1.0.7"
+  checksum: 10/75387f6f7e296057900dac29fd499a132dea316534776bb9c178378379eb4252d89ee41ca37b1aa7ef743a587126e641b24401d69fcfca6796718a546b5c800e
   languageName: node
   linkType: hard
 
@@ -5142,11 +5134,6 @@ __metadata:
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
-    classnames: "npm:^2.2.5"
-    prop-types: "npm:^15.6.1"
-  peerDependencies:
-    react: ^16.2.0
-  checksum: 10/444dd5dd0113884026b93efb391d5620dba81c2ffedc2db12f91fc2540d086b61e3944978d96258f81f19b296a7dff0692ab1023a7cbc4aacf00f1750ae4043e
     loose-envify: "npm:^1.1.0"
   checksum: 10/b9214a9bd79e99d08de55f8bef2b7fc8c39630be97c4e29d7be173d14a9a10670b5325e94485f74cd8bff4966ef3c78ee53c79a7b0b9b70cba20aa8973acc694
   languageName: node
