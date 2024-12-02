@@ -9,11 +9,11 @@ import { useGetPlacesCategories } from "../../queries";
 import { useEffect, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
 
-
 export default function Place() {
   const navigate = useNavigate();
-  const { data  } = useGetPlacesCategories();
-  const [categories, setCategories] = useState([])
+  const { data } = useGetPlacesCategories();
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("전체");
 
   useEffect(() => {
     if (data && data.isSuccess) {
@@ -30,7 +30,6 @@ export default function Place() {
     }
   }, [data]);
 
-
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");
     navigate("/place/filter");
@@ -40,8 +39,8 @@ export default function Place() {
     console.log("검색어:", value);
   };
 
-  const handleCategoryClick = (category) => {
-    console.log(`${category} 카테고리 클릭됨`);
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
   };
 
   const handleButtonClick = () => {
@@ -64,7 +63,7 @@ export default function Place() {
         <PlaceCard />
       </div>
       <div>
-        <KakaoMap />
+        <KakaoMap selectedCategory={selectedCategory} />
       </div>
       <div css={buttonContainer}>
         <MainPinkButton

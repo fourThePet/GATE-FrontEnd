@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
@@ -19,6 +19,12 @@ import {
 import { mapLocBtn } from "../../index.styles";
 import { useGetPlaces } from "../../../../api/places";
 // import { useGetPlaces2 } from "../../../../queries";
+
+interface Place {
+  category: string;
+  latitude: number;
+  longitude: number;
+}
 
 declare global {
   interface Window {
@@ -52,16 +58,42 @@ declare global {
     };
   }
 }
-
-export default function KakaoMap() {
+export default function KakaoMap({
+  selectedCategory,
+}: {
+  selectedCategory: string;
+}) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
-  const { places } = useGetPlaces(latitude, longitude);
+  const { places } = useGetPlaces(latitude, longitude) as { places: Place[] };
   // const {data: places} = useGetPlaces2({latitude, longitude})
+
+  const filteredPlaces = useMemo(() => {
+    if (selectedCategory === "전체") return places;
+    if (selectedCategory === "숙소") {
+      return places.filter(
+        (place) => place.category === "호텔" || place.category === "펜션"
+      );
+    }
+    if (selectedCategory === "의료") {
+      return places.filter(
+        (place) => place.category === "병원" || place.category === "약국"
+      );
+    }
+    if (selectedCategory === "문화시설") {
+      return places.filter(
+        (place) =>
+          place.category === "박물관" ||
+          place.category === "미술관" ||
+          place.category === "문예회관"
+      );
+    }
+    return places.filter((place) => place.category === selectedCategory);
+  }, [places, selectedCategory]);
 
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
@@ -88,11 +120,6 @@ export default function KakaoMap() {
     });
 
     console.log("현재 위치:", { latitude, longitude });
-  };
-
-  const clearMarkers = () => {
-    markers.forEach((marker) => marker.setMap(null));
-    setMarkers([]);
   };
 
   const getIconBasedOnCategory = (category: string) => {
@@ -125,11 +152,8 @@ export default function KakaoMap() {
 
   const addPlaceMarkers = (places: any[]) => {
     if (!mapInstance.current) return;
-
     const newMarkers = places.map((place) => {
-      // 카테고리 별 마커
       const icon = getIconBasedOnCategory(place.category);
-
       const marker = new window.kakao.maps.Marker({
         position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         map: mapInstance.current,
@@ -141,13 +165,12 @@ export default function KakaoMap() {
           { offset: new window.kakao.maps.Point(15, 15) }
         ),
       });
-
       return marker;
     });
     setMarkers(newMarkers);
   };
 
-  const fetchPlacesData = async (latitude: number, longitude: number) => {
+  const getPlacesData = async (latitude: number, longitude: number) => {
     try {
       const response = await axios.get("/api/places", {
         params: { lat: latitude, lng: longitude },
@@ -193,7 +216,7 @@ export default function KakaoMap() {
         setLongitude(longitude);
 
         // 장소 데이터 요청 및 콘솔 출력
-        fetchPlacesData(latitude, longitude)
+        getPlacesData(latitude, longitude)
           .then((places) => {
             console.log("현재 위치 이동 후 가져온 장소 데이터:", places);
             addPlaceMarkers(places); // 장소 데이터로 마커 추가
@@ -205,7 +228,10 @@ export default function KakaoMap() {
       (error) => console.error("현재 위치 가져오기 실패:", error)
     );
   };
-
+  const clearMarkers = () => {
+    markers.forEach((marker) => marker.setMap(null));
+    setMarkers([]);
+  };
   useEffect(() => {
     const loadKakaoMap = () => {
       const existingScript = document.querySelector(
@@ -247,12 +273,15 @@ export default function KakaoMap() {
   }, []);
 
   useEffect(() => {
-    if (places && places.length > 0) {
-      console.log("장소 데이터 업데이트:", places); // 장소 데이터 출력
-      clearMarkers(); // 기존 마커 지우기
-      addPlaceMarkers(places); // 새로운 장소 마커 추가
+    if (filteredPlaces && filteredPlaces.length > 0) {
+      console.log("필터링된 장소 데이터:", filteredPlaces);
+      clearMarkers();
+      addPlaceMarkers(filteredPlaces);
+    } else {
+      console.log("선택된 카테고리의 장소 데이터가 없습니다.");
+      clearMarkers();
     }
-  }, [places]);
+  }, [filteredPlaces]);
 
   return (
     <div ref={mapRef} css={mapStyle}>
