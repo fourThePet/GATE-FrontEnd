@@ -5,11 +5,31 @@ import CategoryList from "../place/components/category/category-search";
 import { useNavigate } from "react-router-dom";
 import { MainPinkButton } from "../../components";
 import PlaceCard from "./components/category/place-card";
-import { useGetPlacesCategories } from "../../api/places";
+import { useGetPlacesCategories } from "../../queries";
+import { useEffect, useState } from "react";
+import { categoryIcon } from "../../utils/translations";
+
 
 export default function Place() {
   const navigate = useNavigate();
-  const { categories } = useGetPlacesCategories();
+  const { data  } = useGetPlacesCategories();
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    if (data && data.isSuccess) {
+      const processedCategories = [
+        { id: 0, name: "전체", icon: categoryIcon("전체") },
+        ...data.result.map((category: { id: number; name: string }) => ({
+          ...category,
+          icon: categoryIcon(category.name),
+        })),
+      ];
+      setCategories(processedCategories);
+    } else if (data && !data.isSuccess) {
+      console.error(data.message || "카테고리 로드 실패");
+    }
+  }, [data]);
+
 
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");

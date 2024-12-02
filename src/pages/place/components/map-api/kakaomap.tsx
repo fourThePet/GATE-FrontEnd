@@ -18,6 +18,7 @@ import {
 } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
 import { useGetPlaces } from "../../../../api/places";
+// import { useGetPlaces2 } from "../../../../queries";
 
 declare global {
   interface Window {
@@ -60,6 +61,7 @@ export default function KakaoMap() {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const { places } = useGetPlaces(latitude, longitude);
+  // const {data: places} = useGetPlaces2({latitude, longitude})
 
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
@@ -151,7 +153,7 @@ export default function KakaoMap() {
         params: { lat: latitude, lng: longitude },
       });
       return response.data;
-    } catch (error) {
+    } catch {
       throw new Error("장소 데이터를 가져오는 데 실패했습니다.");
     }
   };
