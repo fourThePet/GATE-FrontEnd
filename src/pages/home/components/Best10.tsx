@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import {
   Top1,
