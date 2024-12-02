@@ -9,11 +9,29 @@ import { css } from "@emotion/react";
 import { NoticeIcon } from "../../assets/svg";
 import ResultPlace from "./components/result-place";
 import MainPinkButton from "../../components/button/main-pink";
-import { useGetPlacesCategories } from "../../api/places";
+import { useGetPlacesCategories } from "../../queries";
+import { useEffect, useState } from "react";
+import { categoryIcon } from "../../utils/translations";
 
 export default function PlaceList() {
   const navigate = useNavigate();
-  const { categories } = useGetPlacesCategories();
+  const { data  } = useGetPlacesCategories();
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    if (data && data.isSuccess) {
+      const processedCategories = [
+        { id: 0, name: "전체", icon: categoryIcon("전체") },
+        ...data.result.map((category: { id: number; name: string }) => ({
+          ...category,
+          icon: categoryIcon(category.name),
+        })),
+      ];
+      setCategories(processedCategories);
+    } else if (data && !data.isSuccess) {
+      console.error(data.message || "카테고리 로드 실패");
+    }
+  }, [data]);
 
   const handleSearchSubmit = (value) => {
     console.log("검색어:", value);

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteDogsProfileDogId, getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
+import { deleteDogsProfileDogId, getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api";
 import { QUERY_KEYS } from "../query-keys";
 import { useAuthStore } from "../../stores/useAuthStore";
 
