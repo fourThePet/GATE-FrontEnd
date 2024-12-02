@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Divider2 } from "../../../../styles/ui";
 import { BasicInfoContainer } from "../index.styles";
 import { useGetPlacesInfo } from "../../../../queries/places";
+import { postFavorite, patchFavorite } from "../../../../api/favorites";
 
 export default function StoreInfo() {
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
@@ -14,8 +15,23 @@ export default function StoreInfo() {
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
 
-  const toggleHeart = () => {
-    setIsLiked(!isLiked); // 클릭 시 상태 토글
+  const toggleHeart = async () => {
+    try {
+      if (isLiked) {
+        await patchFavorite(placeId); // 즐겨찾기 삭제
+        console.log("줄겨찾기 삭제");
+      } else {
+        await postFavorite(placeId); // 즐겨찾기 등록
+        console.log("줄겨찾기 등록");
+      }
+      setIsLiked(!isLiked); // 상태 업데이트
+    } catch (error) {
+      console.error("즐겨찾기 상태 변경 실패:", error);
+      if (error.response?.status === 401) {
+        alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+        window.location.href = "/login";
+      }
+    }
   };
 
   if (isLoading) {
@@ -78,8 +94,8 @@ export default function StoreInfo() {
             {storeData.name}
           </h1>
           <div
-            onClick={toggleHeart} // 클릭 이벤트 추가
-            style={{ marginTop: "20px", cursor: "pointer" }} // 클릭 가능하도록 커서 스타일 추가
+            onClick={toggleHeart}
+            style={{ marginTop: "20px", cursor: "pointer" }}
           >
             {isLiked ? (
               <HeartFill css={{ width: "24px", height: "24px" }} />

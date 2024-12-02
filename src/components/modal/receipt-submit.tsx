@@ -10,7 +10,8 @@ type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
+import { requestOCR } from "../../api/ocr"; // OCR 요청 함수 임포트
+import { OCRField } from "../../interfaces/ocr";
 export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
@@ -19,21 +20,73 @@ export default function ReceiptSubmit({
 
   const closeModal = () => setIsOpen(false);
   const navigate = useNavigate(); // navigate 인스턴스 생성
+  const [ocrState, setOcrState] = useState({
+    isPending: false,
+    error: null,
+    success: false,
+  });
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]; // 선택한 파일 가져오기
+    const file = event.target.files?.[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        window.alert("JPG 또는 PNG 이미지만 업로드 가능합니다.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedImage(reader.result as string); // base64로 변환된 이미지 설정
+        setSelectedImage(reader.result as string);
       };
-      reader.readAsDataURL(file); // 파일을 base64로 변환
+      reader.readAsDataURL(file);
     }
   };
-  const handleWriteReviewButtonClick = () => {
-    navigate("/review/writereview"); // 절대 경로로 이동
-  };
+  const handleWriteReviewButtonClick = async () => {
+    if (!selectedImage) {
+      window.alert("이미지를 업로드해주세요.");
+      return;
+    }
 
+    setOcrState({ isPending: true, error: null, success: false });
+
+    try {
+      const file = await fetch(selectedImage).then((res) => res.blob());
+      const ocrResponse = await requestOCR([file as File]);
+
+      const fields: OCRField[] = ocrResponse?.images?.[0]?.fields || [];
+      console.log("fields 데이터:", fields);
+
+      // isReceipt 변수 정의: OCR 필드에서 영수증 여부 확인
+      const isReceipt = fields.some((field) => {
+        const inferText = field.inferText || ""; // 필드 내 텍스트
+        return (
+          inferText.includes("영수증") ||
+          inferText.includes("금액") ||
+          inferText.includes("합계") ||
+          inferText.includes("판매일자") ||
+          inferText.includes("카드금액")
+        );
+      });
+
+      if (isReceipt) {
+        setOcrState({ isPending: false, error: null, success: true });
+        window.alert("영수증 확인 성공!");
+        navigate("/review/writereview");
+      } else {
+        setOcrState({
+          isPending: false,
+          error: "영수증 판별 실패",
+          success: false,
+        });
+        window.alert("업로드한 이미지는 영수증이 아닙니다.");
+      }
+    } catch (error) {
+      console.error("OCR 분석 실패:", error);
+      setOcrState({ isPending: false, error: "OCR 요청 실패", success: false });
+      window.alert("OCR 분석 중 문제가 발생했습니다.");
+    }
+  };
   const openFileDialog = () => {
     const fileInput = document.getElementById("file-input") as HTMLInputElement;
     if (fileInput) {
@@ -163,19 +216,20 @@ export default function ReceiptSubmit({
         {/* 제출하기 버튼 */}
         <button
           css={Button.mainPinkButton({
-            isDisabled: !selectedImage, // 이미지가 없을 경우 비활성화
+            isDisabled: !selectedImage || ocrState.isPending, // 로딩 중 버튼 비활성화
             width: "120px",
             height: "40px",
           })}
           onClick={handleWriteReviewButtonClick}
-          disabled={!selectedImage} // 이미지가 없을 경우 비활성화
+          disabled={!selectedImage || ocrState.isPending}
           style={{
-            backgroundColor: selectedImage ? "#F1729B" : "#E0E0E0", // 선택 시 활성화 색상
-            cursor: selectedImage ? "pointer" : "not-allowed", // 비활성화 시 커서 변경
-            // marginTop: "20px",
+            backgroundColor:
+              selectedImage && !ocrState.isPending ? "#F1729B" : "#E0E0E0",
+            cursor:
+              selectedImage && !ocrState.isPending ? "pointer" : "not-allowed",
           }}
         >
-          제출하기
+          {ocrState.isPending ? "분석 중..." : "제출하기"}
         </button>
       </div>
     </ReactModal>
