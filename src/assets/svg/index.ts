@@ -1,18 +1,16 @@
 
-export { default as Writereview } from "./Writereview";
 export { default as GpsButton } from "./GpsButton";
 export { default as Bell } from "./Bell";
 export { default as Bone } from "./Bone";
 export { default as CameraIcon } from "./CameraIcon";
 export { default as Car } from "./Car";
 export { default as Coffee } from "./Coffee";
-export { default as Bell } from "./Bell";
 export { default as Benefit1 } from "./Benefit1";
 export { default as Benefit2 } from "./Benefit2";
 export { default as Benefit3 } from "./Benefit3";
 export { default as Benefit4 } from "./Benefit4";
 export { default as BlackNextIcon } from "./BlackNextIcon";
-export { default as CameraIcon } from "./CameraIcon";
+export { default as CloseIcon } from "./CloseIcon";
 export { default as Communitygray } from "./Communitygray";
 export { default as Communitypink } from "./Communitypink";
 export { default as DefaultProfile } from "./DefaultProfile";
@@ -63,7 +61,6 @@ export { default as Schedulepink } from "./Schedulepink";
 export { default as Scissors } from "./Scissors";
 export { default as Sdogpink } from "./Sdogpink";
 export { default as Sdogwhite } from "./Sdogwhite";
-
 export { default as Top1 } from "./Top1";
 export { default as Top10 } from "./Top10";
 export { default as Top2 } from "./Top2";
@@ -74,8 +71,6 @@ export { default as Top6 } from "./Top6";
 export { default as Top7 } from "./Top7";
 export { default as Top8 } from "./Top8";
 export { default as Top9 } from "./Top9";
-
 export { default as WhiteNextIcon } from "./WhiteNextIcon";
-
 export { default as Write } from "./Write";
 export { default as Writereview } from "./Writereview";

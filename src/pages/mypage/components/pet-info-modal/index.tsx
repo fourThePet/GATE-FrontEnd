@@ -1,9 +1,10 @@
 import ReactModal from "react-modal";
-import modalStyles, { ageWrapper, buttonGroupStyle, buttonStyle, formWrapper, iconWrapper, imageStyle, infoWrapper, radioButtonStyle, sizeWrapper, wrapper } from "./index.styles";
+import modalStyles, { ageWrapper, buttonGroupStyle, buttonStyle, closeIcon, formWrapper, iconWrapper, imageStyle, infoWrapper, radioButtonStyle, sizeWrapper, wrapper } from "./index.styles";
 import colors from "../../../../styles/colors";
 import { GrayBorderButton, MainPinkButton, Text } from "../../../../components";
-import { Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../../assets/svg";
+import { CloseIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../../assets/svg";
 import { useGetDogsProfileDogId } from "../../../../queries";
+import { translateGender } from "../../../../utils/translations";
 
 interface Props{
     isOpen : boolean,
@@ -30,11 +31,14 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
               shouldCloseOnOverlayClick={true} // 영역 밖 클릭 시 닫기
             >
               <div css={wrapper}>
+                  <div css={closeIcon}>
+                    <CloseIcon width={12} onClick={closeModal}/>
+                  </div>
                   <Text type="Heading3">{dogInfo?.name}</Text>
                   <div css={imageStyle}>
                       {dogInfo?.imageUrl ? (
-                          <img src={dogInfo?.imageUrl} css={imageStyle}/>
-                      ) : ( <img src="/images/default_profile.png" css={imageStyle}/>)
+                          <img src={dogInfo?.imageUrl} css={imageStyle} alt="profile"/>
+                      ) : ( <img src="/images/default_profile.png" css={imageStyle} alt="profile"/>)
                       }
                     
                   </div>
@@ -109,16 +113,16 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
                             <Text type="Body3" color={colors.color.MainColor} >성별</Text>
                         </div>
                         <div css={buttonGroupStyle}>
-                          <label css={radioButtonStyle(dogInfo?.gender === "FEMALE")}>
+                          <label css={radioButtonStyle}>
                                 
-                                <Text type="Label3">남아</Text>
+                                <Text type="Label3">{translateGender(dogInfo?.gender)}</Text>
                           </label>
                         </div>
                     </div>
                 </div>
                 <div css={buttonStyle}>
-                  <GrayBorderButton width="40%" height="32px" title="삭제" onClick={()=> confirm("삭제")}/>
-                  <MainPinkButton width="60%" height="32px" title="수정" onClick={()=> confirm("수정")}/>
+                  <GrayBorderButton width="40%" height="40px" title="삭제" onClick={()=> confirm("삭제")}/>
+                  <MainPinkButton width="60%" height="40px" title="수정" onClick={()=> confirm("수정")}/>
                 </div>
               </div>
             </ReactModal>

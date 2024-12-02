@@ -18,6 +18,12 @@ export const wrapper = css`
     
 `
 
+export const closeIcon = css`
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+`
+
 export const imageStyle = css`
     width: 80px;
     height: 80px;
@@ -92,19 +98,18 @@ export const buttonGroupStyle = css`
   justify-content: center;
 `;
 
-export const radioButtonStyle = (isSelected: boolean) => css`
+export const radioButtonStyle = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 1; /* 버튼이 균등하게 배치되도록 설정 */
   /* width: 120px; */
   height: 40px;
-  border: 1px solid ${isSelected ? colors.color.MainColor : colors.color.Gray5};
+  border: 1px solid ${colors.color.MainColor};
   border-radius: 20px;
-  background-color: ${isSelected ? colors.color.MainColor : "transparent"};
-  color: ${isSelected ? colors.color.White1 : colors.color.Gray5};
+  background-color: ${colors.color.MainColor};
+  color: ${colors.color.White1 };
   
-  cursor: pointer;
 
   input {
     display: none; /* 기본 radio 버튼 숨김 */
