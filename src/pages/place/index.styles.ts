@@ -31,3 +31,11 @@ export const buttonContainer = css`
   left: 50%;
   transform: translateX(-50%);
 `;
+
+export const mapLocBtn = css`
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  margin: 20px;
+  cursor: pointer;
+`;

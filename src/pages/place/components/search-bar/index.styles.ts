@@ -102,10 +102,10 @@ export const categoryItemStyle = css`
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  &:hover {
+  &:focus {
     background-color: ${colors.color.MainColor};
     border: 2px solid ${colors.color.MainColor};
-    color: ${colors.color.White};
+    color: ${colors.color.White1};
   }
 `;
 
@@ -117,6 +117,7 @@ export const categoryButtonStyle = css`
 `;
 
 export const mapStyle = css`
+  display: flex;
   width: 100%;
   height: 80vh;
   z-index: 1;

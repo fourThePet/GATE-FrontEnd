@@ -16,13 +16,12 @@ import {
 export default function PlaceCard() {
   const navigate = useNavigate();
 
-  // 임시: placeID를 1로 설정
-  function handleCardClick() {
-    navigate("/place/detail/1");
-  }
+  const handlePlaceCardClick = () => {
+    navigate("/place/detail");
+  };
 
   return (
-    <div css={PlaceCardWrapper} onClick={handleCardClick}>
+    <div css={PlaceCardWrapper} onClick={handlePlaceCardClick}>
       <div css={PlaceCardContent}>
         <div css={PlaceImg}>이미지영역</div>
         <div css={PlaceContent}>

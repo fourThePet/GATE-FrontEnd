@@ -45,7 +45,7 @@ export const headerContainer = css`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  height: 100px;
+  height: 80px;
 `;
 
 export const searchBarWrapper = css`

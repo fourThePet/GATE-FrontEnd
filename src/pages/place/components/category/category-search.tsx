@@ -6,8 +6,8 @@ import {
 
 type Category = {
   id: number;
-  label: string;
-  icon: string;
+  name: string;
+  icon?: string;
 };
 
 type CategoryListProps = {
@@ -25,11 +25,11 @@ export default function CategoryList({
         <button
           key={category.id}
           css={categoryItemStyle}
-          onClick={() => onCategoryClick(category.label)}
+          onClick={() => onCategoryClick(category.name)}
         >
           <div css={categoryButtonStyle}>
             <span>{category.icon}</span>
-            <span>{category.label}</span>
+            <span>{category.name}</span>
           </div>
         </button>
       ))}

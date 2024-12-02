@@ -4,7 +4,7 @@ export { default as Mypage } from "./mypage";
 export { default as Schedule } from "./schedule";
 export { default as Place } from "./place";
 export { default as PlaceList } from "./place-list";
-export { default as KakaoCallback } from './auth/kakao-callback'
-export { default as OnboardingUser} from './onboarding/user'
-export { default as OnboardingPet} from './onboarding/pet'
-export { default as OnboardingCompletion} from './onboarding/completion'
+export { default as KakaoCallback } from './auth/kakao-callback';
+export { default as OnboardingUser} from './onboarding/user';
+export { default as OnboardingPet} from './onboarding/pet';
+export { default as OnboardingCompletion} from './onboarding/completion';
