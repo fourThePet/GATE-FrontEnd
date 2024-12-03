@@ -17,10 +17,12 @@ export const useAuthStore = create<AuthState>((set) => {
         isLoggedIn: true,
         accessToken: token,
       })),
-    logout: () =>
+    logout: () =>{
+      localStorage.removeItem("accessToken"); // 토큰 삭제
       set(() => ({
         isLoggedIn: false,
         accessToken: null,
-      })),
+      }))
+    }
   };
 });
