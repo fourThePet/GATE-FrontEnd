@@ -16,5 +16,5 @@ export const wrapper = css`
     align-items: center;
     width: 100%;
     overflow-y: auto;
-    padding: 40px 30px 0;
+    padding: 10px 30px 0;
 `
