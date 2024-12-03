@@ -26,3 +26,19 @@ export const translateGender = (gender: string): string => {
     return petGenderMap[gender] || "알 수 없음"; // 매핑되지 않은 값은 기본값 반환
 };
   
+
+export const iconMap: { [key: string]: string } = {
+    식당: "🍴",
+    카페: "☕",
+    의료: "🏥",
+    반려동물용품: "🦴",
+    미용: "✂️",
+    숙소: "🏡",
+    문화시설: "🎨",
+    여행지: "🚙",
+    전체: "🐾",
+}
+
+export const categoryIcon = (name:string): string =>{
+    return iconMap[name] || "🐾";
+}

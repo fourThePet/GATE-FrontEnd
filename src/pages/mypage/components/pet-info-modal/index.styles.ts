@@ -28,9 +28,23 @@ export const imageStyle = css`
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    position: relative;
 `
 
-
+export const fileInput = css`
+  display: none; /* 파일 업로드 버튼 숨김 */
+`;
+export const cameraIcon = css`
+  position: absolute; /* 부모를 기준으로 절대 위치 */
+  bottom: 0;
+  right: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; /* 아이콘 색상 */
+  cursor: pointer;
+`;
 
 export const petInfo = css`
     display: flex;
@@ -75,7 +89,7 @@ export const sizeWrapper = css`
     gap: 15px;
 `
 
-export const iconWrapper = css`
+export const iconWrapper = (isEditMode : boolean) => css`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -83,6 +97,8 @@ export const iconWrapper = css`
     width: 80px;
     height: 80px;
     gap: 8px;
+
+    cursor: ${isEditMode ? "pointer" : "default"};
 `
 
 export const ageWrapper = css`
@@ -98,7 +114,7 @@ export const buttonGroupStyle = css`
   justify-content: center;
 `;
 
-export const radioButtonStyle = css`
+export const genderStyle = css`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -110,6 +126,29 @@ export const radioButtonStyle = css`
   background-color: ${colors.color.MainColor};
   color: ${colors.color.White1 };
   
+
+  input {
+    display: none; /* 기본 radio 버튼 숨김 */
+  }
+
+  &:hover {
+    border-color: ${colors.color.MainColor};
+  }
+`;
+
+export const radioButtonStyle = (isSelected: boolean) => css`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1; /* 버튼이 균등하게 배치되도록 설정 */
+  /* width: 120px; */
+  height: 40px;
+  border: 1px solid ${isSelected ? colors.color.MainColor : colors.color.Gray5};
+  border-radius: 20px;
+  background-color: ${isSelected ? colors.color.MainColor : "transparent"};
+  color: ${isSelected ? colors.color.White1 : colors.color.Gray5};
+  
+  cursor: pointer;
 
   input {
     display: none; /* 기본 radio 버튼 숨김 */

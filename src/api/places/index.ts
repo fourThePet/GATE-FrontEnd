@@ -1,40 +1,15 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
+import { PlacesParam } from "../../interfaces/places";
 
-// 카테고리 아이콘 맵핑 함수
-const getCategoryIcon = (name: string) => {
-  const iconMap: Record<string, string> = {
-    식당: "🍴",
-    카페: "☕",
-    의료: "🏥",
-    반려동물용품: "🦴",
-    미용: "✂️",
-    숙소: "🏡",
-    문화시설: "🎨",
-    여행지: "🚙",
-    전체: "🐾",
-  };
-  return iconMap[name] || "🐾";
-};
 
 // 카테고리 데이터 요청 및 가공
-const fetchCategories = async () => {
+export const getPlacesCategories = async () => {
   try {
     const response = await api.get("/places/categories");
-    const data = response.data;
+    return response.data;
 
-    if (data.isSuccess) {
-      return [
-        { id: 0, name: "전체", icon: getCategoryIcon("전체") },
-        ...data.result.map((category: { id: number; name: string }) => ({
-          ...category,
-          icon: getCategoryIcon(category.name),
-        })),
-      ];
-    } else {
-      throw new Error(data.message || "카테고리 로드 실패");
-    }
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(error.message || "알 수 없는 오류 발생");
   }
 };
@@ -66,35 +41,16 @@ const getPlaces = async (
     } else {
       throw new Error(data.message || "장소 데이터 로드 실패");
     }
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(error.message || "알 수 없는 오류 발생");
   }
 };
 
-// 상태관리 훅 (카테고리 데이터)
-export const useGetPlacesCategories = () => {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+export const getPlaces_2 = async(params : PlacesParam) =>{
+  const response = await api.get("/places", {params})
+  return response.data.result
+}
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      setIsLoading(true);
-      try {
-        const categorieIcons = await fetchCategories();
-        setCategories(categorieIcons);
-      } catch (err: any) {
-        setError(err.message || "카테고리 데이터를 불러오는 데 실패했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadCategories();
-  }, []);
-
-  return { categories, isLoading, error };
-};
 
 // 상태관리 훅 (장소 데이터)
 export const useGetPlaces = (
@@ -105,7 +61,7 @@ export const useGetPlaces = (
   entryConditions?: string[],
   types?: string[]
 ) => {
-  const [places, setPlaces] = useState<any[]>([]);
+  const [places, setPlaces] = useState<[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -124,7 +80,7 @@ export const useGetPlaces = (
           types
         );
         setPlaces(placesData);
-      } catch (err: any) {
+      } catch (err) {
         setError(err.message || "장소 데이터를 불러오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
@@ -137,7 +93,8 @@ export const useGetPlaces = (
   return { places, isLoading, error };
 };
 
-export const getPlacesInfo = async (placeId: number) => {
+
+export const getPlacesInfo = async (placeId : number) => {
   try {
     const response = await api.get(`/places/${placeId}`);
     return response.data.result; // 필요한 데이터만 반환

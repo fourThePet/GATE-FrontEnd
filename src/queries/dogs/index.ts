@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { deleteDogsProfileDogId, getDogsProfileDogId, getDogsProfiles,  postDogsProfile } from "../../api/dogs";
+import {   useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteDogsProfileDogId, getDogsProfileDogId, getDogsProfiles,  postDogsProfile, putDogsProfileDogId } from "../../api";
 import { QUERY_KEYS } from "../query-keys";
 import { useAuthStore } from "../../stores/useAuthStore";
 
@@ -58,4 +58,23 @@ export const useDeleteDogsProfileDogId = () => {
         queryClient.invalidateQueries(); //쿼리를 무효화하여 최신 데이터를 가져옴
       },
   });
+}
+
+export const usePutDogsProfileDogId = (dogId : number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+      mutationKey : QUERY_KEYS.PUT_DOGS_PROFILE_DOGID(dogId),
+      mutationFn: async (body : FormData) => {
+          try {
+              return await putDogsProfileDogId(body, dogId);
+          }catch{
+              throw new Error('반려동물 업데이트에 실패하였습니다.')
+          }
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.GET_DOGS_PROFILES
+        })
+      }
+  })
 }
