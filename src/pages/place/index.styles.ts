@@ -27,7 +27,7 @@ export const resultItemStyle = css`
 export const buttonContainer = css`
   z-index: 10000;
   position: fixed;
-  bottom: 32%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
 `;

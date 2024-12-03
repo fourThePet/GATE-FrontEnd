@@ -60,8 +60,10 @@ declare global {
 }
 export default function KakaoMap({
   selectedCategory,
+  setSelectedCategory,
 }: {
   selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
 }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
@@ -198,6 +200,9 @@ export default function KakaoMap({
     // 상태 업데이트
     setLatitude(latitude);
     setLongitude(longitude);
+
+    // 카테고리 선택 초기화 (전체로 설정)
+    setSelectedCategory("전체");
   };
 
   const moveMarkerToCurrentLocation = () => {
@@ -214,6 +219,7 @@ export default function KakaoMap({
         // 상태 업데이트
         setLatitude(latitude);
         setLongitude(longitude);
+        clearMarkers();
 
         // 장소 데이터 요청 및 콘솔 출력
         getPlacesData(latitude, longitude)
@@ -224,10 +230,14 @@ export default function KakaoMap({
           .catch((error) => {
             console.error("장소 데이터 요청 실패:", error);
           });
+
+        // 카테고리 선택 초기화 (전체로 설정)
+        setSelectedCategory("전체");
       },
       (error) => console.error("현재 위치 가져오기 실패:", error)
     );
   };
+
   const clearMarkers = () => {
     markers.forEach((marker) => marker.setMap(null));
     setMarkers([]);

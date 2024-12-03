@@ -13,7 +13,7 @@ export default function Place() {
   const navigate = useNavigate();
   const { data } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("전체");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
 
   useEffect(() => {
     if (data && data.isSuccess) {
@@ -59,11 +59,14 @@ export default function Place() {
           onCategoryClick={handleCategoryClick}
         />
       </div>
-      <div>
+      {/* <div>
         <PlaceCard />
-      </div>
+      </div> */}
       <div>
-        <KakaoMap selectedCategory={selectedCategory} />
+        <KakaoMap
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
       <div css={buttonContainer}>
         <MainPinkButton
