@@ -8,6 +8,7 @@ export const QUERY_KEYS = {
     GET_DOGS_PROFILES : ['GET_DOGS_PROFILES'],
     GET_DOGS_PROFILE_DOGID : (dogId : number) => ['GET_DOGS_PROFILE_DOGID', dogId],
     DELETE_DOGS_PROFILE_DOGID : (dogId : number) => ['DELETE_DOGS_PROFILE_DOGID', dogId],
+    PUT_DOGS_PROFILE_DOGID : (dogId : number) => ['PUT_DOGS_PROFILE_DOGID', dogId],
     GET_PLACES_INFO: (placeId : number) => ["GET_PLACES_INFO", placeId],
     GET_PLACES_CATEGORIES : ['GET_PLACES_CATEGORIES'],
     GET_PLACES : (params : PlacesParam) => ['GET_PLACES', params],
