@@ -1,5 +1,11 @@
+import { contentWrapper, wrapper } from "../index.styles";
+
 export default function MyReview(){
     return (
-        <>my review</>
+        <div css={contentWrapper}>
+            <div css={wrapper}>
+                Myreview
+            </div>
+        </div>
     )
 }
