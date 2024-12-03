@@ -42,6 +42,7 @@ export { default as Mapicon } from "./Mapicon";
 export { default as Mdogav } from "./Mdogav";
 export { default as Mdogpink } from "./Mdogpink";
 export { default as Mdogwhite } from "./Mdogwhite";
+export { default as MenuIcon } from "./MenuIcon";
 export { default as Mouthnecessary } from "./Mouthnecessary";
 export { default as MyFriendsIcon } from "./MyFriendsIcon";
 export { default as MyPlaceIcon } from "./MyPlaceIcon";
