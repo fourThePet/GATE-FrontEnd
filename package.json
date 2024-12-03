@@ -23,9 +23,9 @@
     "react-modal": "^3.16.1",
     "react-progress-bar": "^0.1.0",
     "react-query": "^3.39.3",
+    "react-rating-stars-component": "2.2.0",
     "react-router-dom": "^6.28.0",
     "react-slick": "^0.30.2",
-    "react-star-rating-component": "^1.4.1",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.13",
     "zustand": "latest"
