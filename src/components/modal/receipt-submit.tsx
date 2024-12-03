@@ -189,7 +189,11 @@ export default function ReceiptSubmit({
               width: "120px",
               height: "40px",
             })}
-            onClick={() => navigate("/review/writereview")}
+            onClick={() =>
+              navigate("/review/writereview", {
+                state: { receiptCertificate: true }, // receiptCertificate 값을 state로 전달
+              })
+            }
             style={{ marginTop: "130px" }}
           >
             확인
