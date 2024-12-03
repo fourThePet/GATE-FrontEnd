@@ -99,7 +99,7 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
         setGender(event.target.value);
     };
 
-    const handleSaveButtonClick = () =>{ //수정 시 저장 버튼 
+    const handleSaveButtonClick = async () =>{ //수정 시 저장 버튼 
         
         const formData = new FormData();
         
@@ -114,12 +114,15 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
         // profileSaveRequest를 JSON으로 변환하여 FormData에 추가
         formData.append("profileSaveRequest", JSON.stringify(profileSaveRequest));
 
-        if (profileImageSrc) {
-            const fileInput = fileInputRef.current?.files?.[0];
-            if (fileInput) {
-                // 새로운 파일이 선택된 경우
-                formData.append('imageFile', fileInput);
-            } 
+        const fileInput = fileInputRef.current?.files?.[0];
+        if (fileInput) {
+            // 새로운 파일이 선택된 경우
+            formData.append('imageFile', fileInput);
+        } else if (profileImageSrc) {
+            // 현재 이미지를 파일로 변환
+            const file = await convertImageUrlToFile(profileImageSrc, "profile-image.png");
+            console.log(file)
+            formData.append('imageFile', file);
         }
        
         
@@ -136,6 +139,13 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
         })
 
     }
+
+    // 이미지 URL을 파일로 변환하는 함수
+    const convertImageUrlToFile = async (url, fileName) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new File([blob], fileName, { type: blob.type });
+    };
 
     // 유효성 검사
     useEffect(() => {
