@@ -13,6 +13,7 @@ type ReceiptSubmitProps = {
 import { requestOCR } from "../../api/ocr"; // OCR 요청 함수 임포트
 import { OCRField } from "../../interfaces/ocr";
 import { Receiptchecked, Receiptfail, Receiptloading } from "../../assets/svg";
+import { BarLoader } from "react-spinners";
 
 export default function ReceiptSubmit({
   isOpen,
@@ -155,6 +156,15 @@ export default function ReceiptSubmit({
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
             잠시만 기다려 주세요.
           </span>
+          {/* BarLoader 추가 */}
+          <BarLoader
+            color="#F1729B"
+            width="80%"
+            cssOverride={{
+              marginTop: "90px",
+              borderRadius: "10px",
+            }}
+          />
         </div>
       ) : ocrState.success ? (
         <div
@@ -180,7 +190,7 @@ export default function ReceiptSubmit({
               height: "40px",
             })}
             onClick={() => navigate("/review/writereview")}
-            style={{ marginTop: "150px" }}
+            style={{ marginTop: "130px" }}
           >
             확인
           </button>
