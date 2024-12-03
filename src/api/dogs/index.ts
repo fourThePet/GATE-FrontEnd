@@ -20,3 +20,8 @@ export const deleteDogsProfileDogId = async (dogId : number) => {
     const response = await api.delete(`/dogs/profile/${dogId}`)
     return response.data
 }
+
+export const putDogsProfileDogId = async (body : FormData , dogId : number) => {
+    const response = await formAPI.put(`/dogs/profile/${dogId}`, body)
+    return response.data
+}
