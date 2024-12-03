@@ -17,4 +17,5 @@ export const wrapper = css`
     width: 100%;
     overflow-y: auto;
     padding: 10px 30px 0;
+    gap: 20px;
 `
