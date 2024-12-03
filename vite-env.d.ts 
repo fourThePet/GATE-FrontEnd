@@ -1,0 +1,10 @@
+
+interface ImportMetaEnv {
+  readonly VITE_NAVER_OCR_INVOKE_URL: string;
+  readonly VITE_NAVER_X_OCR_SECRET: string;
+  // 다른 환경 변수가 있으면 추가
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}

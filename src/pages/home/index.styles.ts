@@ -36,7 +36,7 @@ export const categoryWrapperStyle = css`
   text-align: center;
   background-color: #f9f9f9;
   border-radius: 25px;
-  margin: 40px;
+  margin: 30px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
