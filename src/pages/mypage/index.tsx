@@ -76,7 +76,7 @@ export default function Mypage() {
                       />
                     ))
                   ) : (
-                    <EmptyPetCard/> // dogsInfo가 비어 있으면 EmptyPetCard 렌더링
+                    <EmptyPetCard onClick={()=> navigate('/mypage/pet-register')}/> // dogsInfo가 비어 있으면 EmptyPetCard 렌더링
                   )
                 ) : (
                   <EmptyPetCard onClick={()=>navigate('/login')}/> // 로그인하지 않은 경우 EmptyPetCard 렌더링
