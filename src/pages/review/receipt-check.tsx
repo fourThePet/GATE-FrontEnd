@@ -27,12 +27,12 @@ export default function ReceiptCheck() {
           css={Block.flexBlock({
             direction: "column",
             alignItems: "center",
-            gap: "40px",
+            gap: "30px",
           })}
         >
           <Logowithshadow
-            css={{ width: "200px", height: "200px" }}
-            style={{ marginTop: "180px" }}
+            css={{ width: "100%", height: "200px" }}
+            style={{ marginTop: "30%" }}
           />
           <span css={typo.Heading2}>다녀온 곳의 리뷰를 써보세요 !</span>
           {/* 영수증 인증 및 작성하기 버튼 */}
@@ -42,7 +42,7 @@ export default function ReceiptCheck() {
               justifyContent: "center",
               gap: "60px",
             })}
-            style={{ marginTop: "20px" }}
+            // style={{ marginTop: "20px" }}
           >
             {/* 영수증 인증 카드 */}
             <div
@@ -123,7 +123,7 @@ export default function ReceiptCheck() {
             justifyContent: "center",
           })}
           style={{
-            marginTop: "100px", // 버튼 하단 여백 추가
+            marginTop: "15%", // 버튼 하단 여백 추가
             padding: "0 20px", // 좌우 여백 추가
             textAlign: "center", // 중앙 정렬
           }}
