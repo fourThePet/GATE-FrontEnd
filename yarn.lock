@@ -1694,21 +1694,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.62.1":
-  version: 5.62.1
-  resolution: "@tanstack/query-core@npm:5.62.1"
-  checksum: 10/86050c85de78cbebc4818d6237d745eae12b2c627558fa365f5927ce5e7d036bebd25ad5231f9f2e5384f5edbe33451492903a8a8b09bd8d4d174c2236e3a1a0
+"@tanstack/query-core@npm:5.62.2":
+  version: 5.62.2
+  resolution: "@tanstack/query-core@npm:5.62.2"
+  checksum: 10/ea5c5c69b93e62cc89723d20fc2c5a1cee1190f6e4d185dfef266d6af917c409ed58ce977bc7cd2d5371b96e02bc61f848578e25be3a8d8e5f95c607abc34e4e
   languageName: node
   linkType: hard
 
 "@tanstack/react-query@npm:^5.61.4":
-  version: 5.62.1
-  resolution: "@tanstack/react-query@npm:5.62.1"
+  version: 5.62.2
+  resolution: "@tanstack/react-query@npm:5.62.2"
   dependencies:
-    "@tanstack/query-core": "npm:5.62.1"
+    "@tanstack/query-core": "npm:5.62.2"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10/92b59e412b43cea0b2abdc2ec5245691f351cdd5a8635faa9c8ee39ab4331701fabb2b346863f0342eee185d3ddd92d3ce617c690c2d78fa0ac23ffa03c25103
+  checksum: 10/2d449d8fc1935a3b3ce4d3092feab3317e58db95160bc6cc11781878c703fa67199c559b71be5882285f5829e8dc398a58fc6409ba4ee770ef1398849a006c1c
   languageName: node
   linkType: hard
 
@@ -1847,15 +1847,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jquery@npm:^3":
-  version: 3.5.32
-  resolution: "@types/jquery@npm:3.5.32"
-  dependencies:
-    "@types/sizzle": "npm:*"
-  checksum: 10/2c67cac338828870ead5c5e608f5fa5ab8101598ed4572cf49b58c342adffe8918d2e2fc94d7954e6b98a889cef8c3f4e6f44b8fecb75e80854b0f9cf9dd18a1
-  languageName: node
-  linkType: hard
-
 "@types/json-schema@npm:^7.0.15":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -1937,13 +1928,6 @@ __metadata:
   version: 1.20.6
   resolution: "@types/resolve@npm:1.20.6"
   checksum: 10/dc35f5517606b6687cd971c0281ac58bdee2c50c051b030f04647d3991688be2259c304ee97e5b5d4b9936072c36767eb5933b54611a407d6557972bb6fea4f6
-  languageName: node
-  linkType: hard
-
-"@types/sizzle@npm:*":
-  version: 2.3.9
-  resolution: "@types/sizzle@npm:2.3.9"
-  checksum: 10/413811a79e7e9f1d8f47e6047ae0aea1530449d612304cdda1c30018e3d053b8544861ec2c70bdeca75a0a010192e6bb78efc6fb4caaafdd65c4eee90066686a
   languageName: node
   linkType: hard
 
@@ -3607,7 +3591,6 @@ __metadata:
     "@svgr/cli": "npm:^8.1.0"
     "@tanstack/react-query": "npm:^5.61.4"
     "@types/axios": "npm:^0.14.4"
-    "@types/jquery": "npm:^3"
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"
     "@types/react-modal": "npm:^3.16.3"
@@ -3631,7 +3614,6 @@ __metadata:
     react-router-dom: "npm:^6.28.0"
     react-slick: "npm:^0.30.2"
     react-spinners: "npm:^0.14.1"
-    react-star-rating-component: "npm:^1.4.1"
     slick-carousel: "npm:^1.8.1"
     storybook: "npm:^8.4.4"
     styled-components: "npm:^6.1.13"
@@ -4889,7 +4871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.1, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5107,18 +5089,6 @@ __metadata:
     react: ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: 10/ea3e5450ce908fc5de5feb92a137441072d3345b8298da2dedcdd01d4d7c2f95348fc8d6abd16358ee05e48093c857fa49957afa334ab96037b3fd7f3a1a4a09
-  languageName: node
-  linkType: hard
-
-"react-star-rating-component@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "react-star-rating-component@npm:1.4.1"
-  dependencies:
-    classnames: "npm:^2.2.5"
-    prop-types: "npm:^15.6.1"
-  peerDependencies:
-    react: ^16.2.0
-  checksum: 10/444dd5dd0113884026b93efb391d5620dba81c2ffedc2db12f91fc2540d086b61e3944978d96258f81f19b296a7dff0692ab1023a7cbc4aacf00f1750ae4043e
   languageName: node
   linkType: hard
 
