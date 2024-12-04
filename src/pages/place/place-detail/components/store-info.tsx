@@ -153,6 +153,10 @@ export default function StoreInfo() {
     navigate(-1);
   };
 
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
+
   const interpretSizeAvailable = (size: string) => {
     switch (size) {
       case "SMALL":
