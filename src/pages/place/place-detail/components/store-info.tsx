@@ -2,11 +2,14 @@ import { Block } from "../../../../components/block/block";
 import { Heart, HeartFill } from "../../../../assets/svg";
 import { typo } from "../../../../styles/typo";
 import { ContentContainer } from "../index.styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Divider2 } from "../../../../styles/ui";
 import { BasicInfoContainer } from "../index.styles";
 import { useGetPlacesInfo } from "../../../../queries/places";
-import { postFavorite, patchFavorite } from "../../../../api/favorites";
+import {
+  usePostFavorite,
+  usePatchFavorite,
+} from "../../../../queries/favorites";
 import {
   Parkingavailabe,
   Sdogav,
@@ -20,7 +23,6 @@ import {
   Outdoorav,
   Ropenecessary,
 } from "../../../../assets/svg";
-import { useEffect } from "react";
 import { useAuthStore } from "../../../../stores/useAuthStore";
 
 export default function StoreInfo() {
@@ -30,30 +32,44 @@ export default function StoreInfo() {
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
-
   // 초기 로드 시 favorites 값에 따라 isLiked 상태 설정
+
   useEffect(() => {
     if (storeData?.favorites === "Y") {
       setIsLiked(true); // favorites 값이 "Y"라면 isLiked를 true로 설정
     }
   }, [storeData]);
+  // 즐겨찾기 등록 및 삭제 API
+  const postFavoriteMutation = usePostFavorite();
+  const patchFavoriteMutation = usePatchFavorite();
 
-  const toggleHeart = async () => {
-    try {
-      if (isLiked) {
-        await patchFavorite(placeId); // 즐겨찾기 삭제
-        console.log("줄겨찾기 삭제");
-      } else {
-        await postFavorite(placeId); // 즐겨찾기 등록
-        console.log("줄겨찾기 등록");
-      }
-      setIsLiked(!isLiked); // 상태 업데이트
-    } catch (error) {
-      console.error("즐겨찾기 상태 변경 실패:", error);
-      if (!isLoggedIn) {
-        alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-        window.location.href = "/login";
-      }
+  const toggleHeart = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+      window.location.href = "/login";
+      return;
+    }
+
+    if (isLiked) {
+      patchFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 삭제");
+          setIsLiked(false);
+        },
+        onError: (error) => {
+          console.error("즐겨찾기 삭제 실패:", error);
+        },
+      });
+    } else {
+      postFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 등록");
+          setIsLiked(true);
+        },
+        onError: (error) => {
+          console.error("즐겨찾기 등록 실패:", error);
+        },
+      });
     }
   };
 
