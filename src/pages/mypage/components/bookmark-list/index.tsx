@@ -6,13 +6,16 @@ import colors from "../../../../styles/colors";
 import { listWrapper, menuWrapper, wrapper } from "./index.styles";
 import { useState } from "react";
 import IconsActions from "../icons-actions";
-import { usePatchFavorites } from "../../../../queries";
+import { usePatchFavorite } from "../../../../queries";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../../../queries/query-keys";
 
 
 
 export default function BookMarkList({ placeId, placeName, roadAddress} : FavoritesListType){
     const navigate = useNavigate();
-    const {mutate: deleteFavorite} = usePatchFavorites()
+    const deleteFavorite = usePatchFavorite();
+    const queryClient = useQueryClient();
     const [isIconVisible, setIsIconVisible] = useState<boolean>(false)
     const handleMenuIconClick = () => {
         setIsIconVisible((prev)=> !prev)
@@ -21,8 +24,15 @@ export default function BookMarkList({ placeId, placeName, roadAddress} : Favori
     const handleDeleteClick = () => {
         
         if(placeId){
-            console.log(placeId)
-            deleteFavorite(placeId)
+            deleteFavorite.mutate(placeId, {
+                onSuccess: () => {
+                  console.log("즐겨찾기 삭제");
+                  queryClient.invalidateQueries({
+                    queryKey : QUERY_KEYS.GET_FAVORITES_LIST
+                  });
+                },
+            })
+
         }
     }
     return ( 

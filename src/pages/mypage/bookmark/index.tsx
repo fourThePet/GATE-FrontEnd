@@ -34,8 +34,7 @@ export default function MyBookMark(){
                 <div css={allListWrapper}>
                     {bookMarkList?.map((bookmark : FavoritesListType) => 
                         <BookMarkList
-                            key={bookmark.favoritesId}
-                            favoritesId={bookmark.favoritesId}
+                            key={bookmark.placeId}
                             placeId={bookmark.placeId}
                             placeName={bookmark.placeName}
                             roadAddress={bookmark.roadAddress}

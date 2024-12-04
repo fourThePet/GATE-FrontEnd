@@ -4,7 +4,7 @@ import { api } from "../api";
 export const getFavoritesList = async () => {
   try {
     const response = await api.get("/favorites");
-    return response.data.result;
+    return response.data.result || [];
   } catch (error) {
     console.error("Error fetching favorites list:", error);
     throw error;

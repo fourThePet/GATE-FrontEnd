@@ -1,5 +1,5 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFavoritesList, patchFavorite } from "../../api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getFavoritesList, patchFavorite, postFavorite } from "../../api";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { QUERY_KEYS } from "../query-keys";
 
