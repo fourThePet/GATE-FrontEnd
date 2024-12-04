@@ -104,7 +104,7 @@ export default function Reviews() {
         >
           <Sdogpink css={{ width: "40px", height: "40px" }} />
           <button
-            css={Button.mainPinkButton({
+            css={Button.tagPinkButton({
               isDisabled: false,
               width: "120px",
               height: "40px",
@@ -114,7 +114,7 @@ export default function Reviews() {
             입마개는 필수예요 🐾
           </button>
           <button
-            css={Button.mainPinkButton({
+            css={Button.tagPinkButton({
               isDisabled: false,
               width: "120px",
               height: "40px",

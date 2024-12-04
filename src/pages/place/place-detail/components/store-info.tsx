@@ -2,11 +2,14 @@ import { Block } from "../../../../components/block/block";
 import { Heart, HeartFill } from "../../../../assets/svg";
 import { typo } from "../../../../styles/typo";
 import { ContentContainer } from "../index.styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Divider2 } from "../../../../styles/ui";
 import { BasicInfoContainer } from "../index.styles";
 import { useGetPlacesInfo } from "../../../../queries/places";
-import { postFavorite, patchFavorite } from "../../../../api/favorites";
+import {
+  usePostFavorite,
+  usePatchFavorite,
+} from "../../../../queries/favorites";
 import {
   Parkingavailabe,
   Sdogav,
@@ -20,41 +23,88 @@ import {
   Outdoorav,
   Ropenecessary,
 } from "../../../../assets/svg";
-import { useEffect } from "react";
 import { useAuthStore } from "../../../../stores/useAuthStore";
+import axios from "axios";
+import { HeaderContainer } from "../index.styles";
+import BackTitleHeader from "../../../../components/header/back-title";
+import { useNavigate } from "react-router-dom";
 
 export default function StoreInfo() {
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const placeId = 10; // 임시로 고정된 placeId
   const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
-
   // 초기 로드 시 favorites 값에 따라 isLiked 상태 설정
+
   useEffect(() => {
     if (storeData?.favorites === "Y") {
       setIsLiked(true); // favorites 값이 "Y"라면 isLiked를 true로 설정
     }
   }, [storeData]);
+  // 즐겨찾기 등록 및 삭제 API
+  const postFavoriteMutation = usePostFavorite();
+  const patchFavoriteMutation = usePatchFavorite();
 
-  const toggleHeart = async () => {
-    try {
-      if (isLiked) {
-        await patchFavorite(placeId); // 즐겨찾기 삭제
-        console.log("줄겨찾기 삭제");
-      } else {
-        await postFavorite(placeId); // 즐겨찾기 등록
-        console.log("줄겨찾기 등록");
-      }
-      setIsLiked(!isLiked); // 상태 업데이트
-    } catch (error) {
-      console.error("즐겨찾기 상태 변경 실패:", error);
-      if (!isLoggedIn) {
-        alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-        window.location.href = "/login";
-      }
+  const toggleHeart = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+      window.location.href = "/login";
+      return;
     }
+
+    if (isLiked) {
+      patchFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 삭제");
+          setIsLiked(false);
+        },
+        onError: (error) => {
+          if (axios.isAxiosError(error)) {
+            // AxiosError로 처리
+            if (error.response?.status === 401) {
+              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+              window.location.href = "/login";
+            } else {
+              console.error("즐겨찾기 삭제 실패:", error.response?.data);
+              alert("즐겨찾기 삭제 중 문제가 발생했습니다.");
+            }
+          } else {
+            console.error("알 수 없는 오류:", error);
+            alert("예기치 못한 문제가 발생했습니다.");
+          }
+        },
+      });
+    } else {
+      postFavoriteMutation.mutate(placeId, {
+        onError: (error) => {
+          if (axios.isAxiosError(error)) {
+            // AxiosError로 처리
+            if (error.response?.status === 401) {
+              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+              window.location.href = "/login";
+            } else {
+              console.error("즐겨찾기 등록 실패:", error.response?.data);
+              alert("즐겨찾기 등록 중 문제가 발생했습니다.");
+            }
+          } else {
+            console.error("알 수 없는 오류:", error);
+            alert("예기치 못한 문제가 발생했습니다.");
+          }
+        },
+        onSuccess: () => {
+          console.log("즐겨찾기 등록 성공");
+          setIsLiked(true);
+        },
+      });
+    }
+  };
+
+  const handleBackButtonClick = () => {
+    navigate(-1);
   };
 
   const interpretSizeAvailable = (size: string) => {
@@ -93,6 +143,12 @@ export default function StoreInfo() {
 
   return (
     <>
+      <div css={HeaderContainer}>
+        <BackTitleHeader
+          title={storeData.name}
+          handleBackButtonClick={handleBackButtonClick}
+        />
+      </div>
       {/* 이미지 */}
       <div
         css={Block.flexBlock({
