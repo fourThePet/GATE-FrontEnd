@@ -14,3 +14,10 @@ export const listWrapper = css`
     gap: 4px;
     margin-right: auto;
 `
+
+export const menuWrapper = css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;  
+`
