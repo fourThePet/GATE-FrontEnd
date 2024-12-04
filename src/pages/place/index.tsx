@@ -14,6 +14,7 @@ export default function Place() {
   const { data } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
 
   useEffect(() => {
     if (data && data.isSuccess) {
@@ -44,7 +45,7 @@ export default function Place() {
   };
 
   const handleButtonClick = () => {
-    navigate("/place/list");
+    navigate("/place/list", { state: { selectedCategory, filteredPlaces } });
   };
 
   return (
@@ -59,13 +60,12 @@ export default function Place() {
           onCategoryClick={handleCategoryClick}
         />
       </div>
-      {/* <div>
-        <PlaceCard />
-      </div> */}
       <div>
         <KakaoMap
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          filteredPlaces={filteredPlaces}
+          setFilteredPlaces={setFilteredPlaces}
         />
       </div>
       <div css={buttonContainer}>

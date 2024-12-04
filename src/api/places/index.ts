@@ -2,20 +2,18 @@ import { useEffect, useState } from "react";
 import { api } from "../api";
 import { PlacesParam } from "../../interfaces/places";
 
-
 // 카테고리 데이터 요청 및 가공
 export const getPlacesCategories = async () => {
   try {
     const response = await api.get("/places/categories");
     return response.data;
-
   } catch (error) {
     throw new Error(error.message || "알 수 없는 오류 발생");
   }
 };
 
 // 장소 데이터 요청
-const getPlaces = async (
+export const getPlaces = async (
   latitude: number,
   longitude: number,
   category?: string,
@@ -46,11 +44,10 @@ const getPlaces = async (
   }
 };
 
-export const getPlaces_2 = async(params : PlacesParam) =>{
-  const response = await api.get("/places", {params})
-  return response.data.result
-}
-
+export const getPlaces_2 = async (params: PlacesParam) => {
+  const response = await api.get("/places", { params });
+  return response.data.result;
+};
 
 // 상태관리 훅 (장소 데이터)
 export const useGetPlaces = (
@@ -93,8 +90,7 @@ export const useGetPlaces = (
   return { places, isLoading, error };
 };
 
-
-export const getPlacesInfo = async (placeId : number) => {
+export const getPlacesInfo = async (placeId: number) => {
   try {
     const response = await api.get(`/places/${placeId}`);
     return response.data.result; // 필요한 데이터만 반환

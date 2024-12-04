@@ -58,12 +58,43 @@ declare global {
     };
   }
 }
+
+export const getFilteredPlaces = (
+  places: Place[],
+  selectedCategory: string
+) => {
+  if (selectedCategory === "전체") return places;
+  if (selectedCategory === "숙소") {
+    return places.filter(
+      (place) => place.category === "호텔" || place.category === "펜션"
+    );
+  }
+  if (selectedCategory === "의료") {
+    return places.filter(
+      (place) => place.category === "병원" || place.category === "약국"
+    );
+  }
+  if (selectedCategory === "문화시설") {
+    return places.filter(
+      (place) =>
+        place.category === "박물관" ||
+        place.category === "미술관" ||
+        place.category === "문예회관"
+    );
+  }
+  return places.filter((place) => place.category === selectedCategory);
+};
+
 export default function KakaoMap({
   selectedCategory,
   setSelectedCategory,
+  filteredPlaces,
+  setFilteredPlaces,
 }: {
   selectedCategory: string;
   setSelectedCategory: (category: string) => void;
+  filteredPlaces: Place[];
+  setFilteredPlaces: (places: Place[]) => void;
 }) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
@@ -73,29 +104,6 @@ export default function KakaoMap({
   const [longitude, setLongitude] = useState<number | null>(null);
   const { places } = useGetPlaces(latitude, longitude) as { places: Place[] };
   // const {data: places} = useGetPlaces2({latitude, longitude})
-
-  const filteredPlaces = useMemo(() => {
-    if (selectedCategory === "전체") return places;
-    if (selectedCategory === "숙소") {
-      return places.filter(
-        (place) => place.category === "호텔" || place.category === "펜션"
-      );
-    }
-    if (selectedCategory === "의료") {
-      return places.filter(
-        (place) => place.category === "병원" || place.category === "약국"
-      );
-    }
-    if (selectedCategory === "문화시설") {
-      return places.filter(
-        (place) =>
-          place.category === "박물관" ||
-          place.category === "미술관" ||
-          place.category === "문예회관"
-      );
-    }
-    return places.filter((place) => place.category === selectedCategory);
-  }, [places, selectedCategory]);
 
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
@@ -283,8 +291,15 @@ export default function KakaoMap({
   }, []);
 
   useEffect(() => {
+    console.log("필터링 전 places:", places);
+    console.log("현재 선택된 카테고리:", selectedCategory);
+    const filtered = getFilteredPlaces(places, selectedCategory);
+    setFilteredPlaces(filtered);
+    console.log("필터링된 데이터:", filtered);
+  }, [places, selectedCategory, setFilteredPlaces]);
+
+  useEffect(() => {
     if (filteredPlaces && filteredPlaces.length > 0) {
-      console.log("필터링된 장소 데이터:", filteredPlaces);
       clearMarkers();
       addPlaceMarkers(filteredPlaces);
     } else {

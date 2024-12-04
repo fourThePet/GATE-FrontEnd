@@ -12,11 +12,20 @@ import MainPinkButton from "../../components/button/main-pink";
 import { useGetPlacesCategories } from "../../queries";
 import { useEffect, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
+import { useLocation } from "react-router-dom";
 
 export default function PlaceList() {
   const navigate = useNavigate();
-  const { data  } = useGetPlacesCategories();
-  const [categories, setCategories] = useState([])
+  const location = useLocation();
+  const { data } = useGetPlacesCategories();
+  const [categories, setCategories] = useState([]);
+
+  const { selectedCategory, filteredPlaces } = location.state || {
+    selectedCategory: [],
+    filteredPlaces: [],
+  };
+
+  console.log("ResultPlace에 전달된 places 데이터:", filteredPlaces);
 
   useEffect(() => {
     if (data && data.isSuccess) {
@@ -45,7 +54,7 @@ export default function PlaceList() {
     navigate(-1);
   };
   const handleMapButtonClick = () => {
-    navigate("/place");
+    navigate("/place", { state: { selectedCategory, filteredPlaces } });
   };
 
   return (
@@ -71,7 +80,7 @@ export default function PlaceList() {
           원하는 장소를 선택해보세요
         </label>
       </div>
-      <ResultPlace />
+      <ResultPlace places={filteredPlaces} />
       <div css={buttonContainer}>
         <MainPinkButton
           onClick={handleMapButtonClick}
