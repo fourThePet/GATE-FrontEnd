@@ -63,17 +63,41 @@ export default function StoreInfo() {
           setIsLiked(false);
         },
         onError: (error) => {
-          console.error("즐겨찾기 삭제 실패:", error);
+          if (axios.isAxiosError(error)) {
+            // AxiosError로 처리
+            if (error.response?.status === 401) {
+              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+              window.location.href = "/login";
+            } else {
+              console.error("즐겨찾기 삭제 실패:", error.response?.data);
+              alert("즐겨찾기 삭제 중 문제가 발생했습니다.");
+            }
+          } else {
+            console.error("알 수 없는 오류:", error);
+            alert("예기치 못한 문제가 발생했습니다.");
+          }
         },
       });
     } else {
       postFavoriteMutation.mutate(placeId, {
-        onSuccess: () => {
-          console.log("즐겨찾기 등록");
-          setIsLiked(true);
-        },
         onError: (error) => {
-          console.error("즐겨찾기 등록 실패:", error);
+          if (axios.isAxiosError(error)) {
+            // AxiosError로 처리
+            if (error.response?.status === 401) {
+              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+              window.location.href = "/login";
+            } else {
+              console.error("즐겨찾기 등록 실패:", error.response?.data);
+              alert("즐겨찾기 등록 중 문제가 발생했습니다.");
+            }
+          } else {
+            console.error("알 수 없는 오류:", error);
+            alert("예기치 못한 문제가 발생했습니다.");
+          }
+        },
+        onSuccess: () => {
+          console.log("즐겨찾기 등록 성공");
+          setIsLiked(true);
         },
       });
     }
