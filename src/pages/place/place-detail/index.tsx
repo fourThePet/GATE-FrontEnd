@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import BackTitleHeader from "../../../components/header/back-title";
-import { HeaderContainer } from "./index.styles";
 import { PageWrapper } from "../../../styles/ui";
 import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
 import { Divider2 } from "../../../styles/ui";
@@ -19,10 +17,6 @@ export default function PlaceDetail() {
   const navigate = useNavigate();
   const [isButtonVisible, setIsButtonVisible] = useState(false); // 버튼 보임 상태
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
-
-  const handleBackButtonClick = () => {
-    navigate(-1);
-  };
 
   const handleAllReviewButtonClick = () => {
     navigate("/review"); // /receiptcheck 경로로 이동
@@ -69,12 +63,7 @@ export default function PlaceDetail() {
       </style>
 
       {/* 헤더 */}
-      <div css={HeaderContainer}>
-        <BackTitleHeader
-          title="더왈츠 애견카페"
-          handleBackButtonClick={handleBackButtonClick}
-        />
-      </div>
+
       <StoreInfo />
       {/* <Divider2 /> */}
       {/* <BasicInfo /> */}

@@ -25,8 +25,13 @@ import {
 } from "../../../../assets/svg";
 import { useAuthStore } from "../../../../stores/useAuthStore";
 import axios from "axios";
+import { HeaderContainer } from "../index.styles";
+import BackTitleHeader from "../../../../components/header/back-title";
+import { useNavigate } from "react-router-dom";
 
 export default function StoreInfo() {
+  const navigate = useNavigate();
+
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const placeId = 10; // 임시로 고정된 placeId
   const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
@@ -98,6 +103,10 @@ export default function StoreInfo() {
     }
   };
 
+  const handleBackButtonClick = () => {
+    navigate(-1);
+  };
+
   const interpretSizeAvailable = (size: string) => {
     switch (size) {
       case "SMALL":
@@ -134,6 +143,12 @@ export default function StoreInfo() {
 
   return (
     <>
+      <div css={HeaderContainer}>
+        <BackTitleHeader
+          title={storeData.name}
+          handleBackButtonClick={handleBackButtonClick}
+        />
+      </div>
       {/* 이미지 */}
       <div
         css={Block.flexBlock({
