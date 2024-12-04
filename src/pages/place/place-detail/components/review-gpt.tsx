@@ -5,10 +5,12 @@ import { BasicInfoContainer } from "../index.styles";
 import { Block } from "../../../../components/block/block";
 import { Writereview } from "../../../../assets/svg";
 import { Gpt } from "../../../../assets/svg";
+import { useAuthStore } from "../../../../stores/useAuthStore";
 
 export default function ReviewGpt() {
   const [activeTab, setActiveTab] = useState<"high" | "low">("high"); // 탭 상태
   const navigate = useNavigate(); // navigate 인스턴스 생성
+  const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
 
   const handleTabClick = (tab: "high" | "low") => {
     setActiveTab(tab);
@@ -34,7 +36,17 @@ export default function ReviewGpt() {
           {/* 버튼 클릭 이벤트 추가 */}
           <Writereview
             css={{ width: "70px", height: "70px", cursor: "pointer" }}
-            onClick={handleReviewButtonClick}
+            onClick={() => {
+              console.log(isLoggedIn);
+              if (!isLoggedIn) {
+                // 로그인되지 않은 경우
+                alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+                navigate("/login"); // 로그인 페이지로 이동
+              } else {
+                // 로그인된 경우
+                handleReviewButtonClick(); // 리뷰 작성 페이지로 이동
+              }
+            }}
           />
         </div>
 

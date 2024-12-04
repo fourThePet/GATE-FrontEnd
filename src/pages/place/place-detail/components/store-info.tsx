@@ -21,10 +21,12 @@ import {
   Ropenecessary,
 } from "../../../../assets/svg";
 import { useEffect } from "react";
+import { useAuthStore } from "../../../../stores/useAuthStore";
 
 export default function StoreInfo() {
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const placeId = 10; // 임시로 고정된 placeId
+  const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
@@ -48,7 +50,7 @@ export default function StoreInfo() {
       setIsLiked(!isLiked); // 상태 업데이트
     } catch (error) {
       console.error("즐겨찾기 상태 변경 실패:", error);
-      if (error.response?.status === 401) {
+      if (!isLoggedIn) {
         alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
         window.location.href = "/login";
       }

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   searchBarWrapperStyle,
   searchIconStyle,
@@ -6,9 +7,28 @@ import {
   categoryWrapperStyle,
 } from "../index.styles";
 import { useNavigate } from "react-router-dom";
+import { useGetPlacesCategories } from "../../../queries";
+import { categoryIcon } from "../../../utils/translations";
 
 export default function SearchbarCategory() {
+  const { data } = useGetPlacesCategories();
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (data && data.isSuccess) {
+      const processedCategories = [
+        { id: 0, name: "전체", icon: categoryIcon("전체") },
+        ...data.result.map((category: { id: number; name: string }) => ({
+          ...category,
+          icon: categoryIcon(category.name),
+        })),
+      ];
+      setCategories(processedCategories);
+    } else if (data && !data.isSuccess) {
+      console.error(data.message || "카테고리 로드 실패");
+    }
+  }, [data]);
 
   const handleSearchbarClick = () => {
     console.log("필터 적용 페이지 호출");
@@ -29,19 +49,10 @@ export default function SearchbarCategory() {
       </div>
       {/* 카테고리 */}
       <div css={categoryWrapperStyle}>
-        {[
-          { emoji: "🏨", label: "숙소" },
-          { emoji: "☕", label: "카페" },
-          { emoji: "🍴", label: "식당" },
-          { emoji: "🎢", label: "문화시설" },
-          { emoji: "🏥", label: "병원" },
-          { emoji: "💊", label: "약국" },
-          { emoji: "✂️", label: "미용" },
-          { emoji: "🐶", label: "용품점" },
-        ].map((item, index) => (
-          <div key={index} css={categoryItemStyle}>
-            <span style={{ fontSize: "2rem" }}>{item.emoji}</span>
-            <span>{item.label}</span>
+        {categories.slice(1).map((item) => (
+          <div key={item.id} css={categoryItemStyle}>
+            <span style={{ fontSize: "2rem" }}>{item.icon}</span>
+            <span>{item.name}</span>
           </div>
         ))}
       </div>

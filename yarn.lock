@@ -3630,6 +3630,8 @@ __metadata:
     react-rating-stars-component: "npm:2.2.0"
     react-router-dom: "npm:^6.28.0"
     react-slick: "npm:^0.30.2"
+    react-spinners: "npm:^0.14.1"
+    react-star-rating-component: "npm:^1.4.1"
     slick-carousel: "npm:^1.8.1"
     storybook: "npm:^8.4.4"
     styled-components: "npm:^6.1.13"
@@ -4887,7 +4889,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2":
+"prop-types@npm:^15.6.1, prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -5095,6 +5097,28 @@ __metadata:
     react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
   checksum: 10/695d58fd14e40707ebad6e085b4b112fe5eeb0667203a507403dde8670b23e862aaca13770fc85cfecaa1f194997d53e7b32c659e9d71067b3fd30884b099703
+  languageName: node
+  linkType: hard
+
+"react-spinners@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "react-spinners@npm:0.14.1"
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/ea3e5450ce908fc5de5feb92a137441072d3345b8298da2dedcdd01d4d7c2f95348fc8d6abd16358ee05e48093c857fa49957afa334ab96037b3fd7f3a1a4a09
+  languageName: node
+  linkType: hard
+
+"react-star-rating-component@npm:^1.4.1":
+  version: 1.4.1
+  resolution: "react-star-rating-component@npm:1.4.1"
+  dependencies:
+    classnames: "npm:^2.2.5"
+    prop-types: "npm:^15.6.1"
+  peerDependencies:
+    react: ^16.2.0
+  checksum: 10/444dd5dd0113884026b93efb391d5620dba81c2ffedc2db12f91fc2540d086b61e3944978d96258f81f19b296a7dff0692ab1023a7cbc4aacf00f1750ae4043e
   languageName: node
   linkType: hard
 
