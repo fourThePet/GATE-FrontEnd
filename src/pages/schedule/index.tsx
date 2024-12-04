@@ -2,16 +2,14 @@ import { useState } from "react";
 import { Schedulemain } from "../../assets/svg";
 import { PageWrapper } from "../../styles/ui";
 import { Imgblock } from "./index.styles";
-
 import { css } from "@emotion/react";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
-import { Block } from "../../components/block/block";
 import { TravelForm } from "./components/travel-form";
 
 export default function Schedule() {
-  const [showComingTravel, setShowComingTravel] = useState(true); // 디폴트 상태를 true로 설정
-  const [showPastTravel, setShowPastTravel] = useState(true); // 디폴트 상태를 true로 설정
+  const [showComingTravel, setShowComingTravel] = useState(true);
+  const [showPastTravel, setShowPastTravel] = useState(true);
 
   const toggleComingTravel = () => setShowComingTravel((prev) => !prev);
   const togglePastTravel = () => setShowPastTravel((prev) => !prev);
@@ -21,67 +19,78 @@ export default function Schedule() {
       <div
         css={css`
           ${PageWrapper};
-          height: 100%; /* 부모 요소 높이를 100vh로 고정 */
-          overflow-y: scroll; /* 스크롤 활성화 */
-          overflow-x: hidden; /* 가로 스크롤 제거 */
-          scrollbar-width: none; /* Firefox에서 스크롤바 숨김 */
-          -ms-overflow-style: none; /* IE/Edge에서 스크롤바 숨김 */
-          position: relative; /* 상대 위치 지정 */
+          height: 100%;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          position: relative;
         `}
       >
         <style>
           {`
           div::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge에서 스크롤바 숨기기 */
+            display: none;
           }
         `}
         </style>
         <div
           css={css`
             ${Imgblock};
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
           `}
         >
-          <Schedulemain />
+          <div
+            css={css`
+              width: 100%; /* 가로를 화면 전체로 설정 */
+              height: auto;
+              position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+            `}
+          >
+            <Schedulemain
+              css={css`
+                width: 100%; /* 화면 가로에 맞춤 */
+                max-width: 100%; /* 최대 가로 크기 */
+                height: auto; /* 비율 유지 */
+                object-fit: cover; /* 이미지 꽉 채우기 */
+              `}
+            />
+          </div>
           <div
             css={css`
               position: absolute;
-              top: 40%;
-              left: 40%;
-              transform: translate(-60%, -60%);
+              bottom: 10%; /* 이미지 바닥보다 20% 위로 위치 */
+              left: 35%;
+              transform: translateX(-50%);
               display: flex;
               flex-direction: column;
               align-items: center;
+              gap: 250px;
             `}
-            className="text-overlay"
           >
-            <div
-              css={Block.flexBlock({
-                position: "absolute",
-                direction: "column",
-              })}
-              style={{ marginTop: "100%" }}
-            >
+            <div>
               <span css={typo.Heading3}>
-                OO 님, 반갑습니다 <br /> 뭉치와 함께하는 일정을 세워볼까요? 🐾
+                OO 님, 반갑습니다 <br /> GATE와 함께하는 일정을 세워볼까요? 🐾
               </span>
-
-              <button
-                css={Button.mainPinkButton({
-                  isDisabled: false,
-                  width: "100%", // 버튼 너비
-                  height: "50px", // 버튼 높이
-                })}
-                onClick={() => {
-                  // 버튼 클릭 시 동작
-                }}
-                style={{
-                  marginTop: "80%",
-                  marginLeft: "30%",
-                }}
-              >
-                📅 일정 생성하기
-              </button>
             </div>
+            <button
+              css={Button.mainPinkButton({
+                isDisabled: false,
+                width: "100%",
+                height: "50px",
+              })}
+              style={{ marginLeft: "50%" }}
+            >
+              📅 일정 생성하기
+            </button>
           </div>
         </div>
 
@@ -89,7 +98,7 @@ export default function Schedule() {
         <div
           css={css`
             padding: 20px;
-            margin-top: 30%;
+            /* margin-top: 20px; */
           `}
         >
           <h3 css={typo.Heading3}>🐶 여행지 추천</h3>
@@ -149,13 +158,13 @@ export default function Schedule() {
               `}
             >
               <TravelForm
-                imageUrl="https://via.placeholder.com/80" // 예제 이미지 URL
+                imageUrl="https://via.placeholder.com/80"
                 travelName="도쿄 여행"
                 date="2024.11.19"
                 dogCount={1}
               />
               <TravelForm
-                imageUrl="https://via.placeholder.com/80" // 예제 이미지 URL
+                imageUrl="https://via.placeholder.com/80"
                 travelName="삿포로 여행"
                 date="2024.11.27 - 11.29"
                 dogCount={1}
@@ -190,13 +199,13 @@ export default function Schedule() {
               `}
             >
               <TravelForm
-                imageUrl="https://via.placeholder.com/80" // 예제 이미지 URL
+                imageUrl="https://via.placeholder.com/80"
                 travelName="도쿄 여행"
                 date="2024.11.19"
                 dogCount={1}
               />
               <TravelForm
-                imageUrl="https://via.placeholder.com/80" // 예제 이미지 URL
+                imageUrl="https://via.placeholder.com/80"
                 travelName="삿포로 여행"
                 date="2024.11.27 - 11.29"
                 dogCount={1}
