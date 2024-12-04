@@ -62,8 +62,6 @@ export default function PlaceDetail() {
         `}
       </style>
 
-      {/* 헤더 */}
-
       <StoreInfo />
       {/* <Divider2 /> */}
       {/* <BasicInfo /> */}

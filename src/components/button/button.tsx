@@ -179,4 +179,23 @@ export const Button = {
       background-color: #d0d0d0; /* active 시 배경색 */
     }
   `,
+
+  tagPinkButton: ({
+    isDisabled,
+    width = "100%",
+    height = "53px",
+  }: {
+    isDisabled: boolean;
+    width?: string;
+    height?: string;
+  }) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${width};
+    height: ${height};
+    border-radius: 100px;
+    color: #ffffff;
+    background-color: ${isDisabled ? "#e8e8e8" : "#F1729B"};
+  `,
 };
