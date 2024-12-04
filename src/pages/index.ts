@@ -9,3 +9,4 @@ export { default as OnboardingUser} from './onboarding/user';
 export { default as OnboardingPet} from './onboarding/pet';
 export { default as OnboardingCompletion} from './onboarding/completion';
 export { default as MyReview} from './mypage/my-review';
+export { default as NotFound} from './not-found';
