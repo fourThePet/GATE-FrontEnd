@@ -6,14 +6,29 @@ import colors from "../../../../styles/colors";
 import { listWrapper, menuWrapper, wrapper } from "./index.styles";
 import { useState } from "react";
 import IconsActions from "../icons-actions";
+import { usePatchFavorites } from "../../../../queries";
 
 
 
-export default function BookMarkList({placeid, placeName, roadAddress} : FavoritesListType){
+export default function BookMarkList({favoriteId, placeid, placeName, roadAddress} : FavoritesListType){
     const navigate = useNavigate();
+    const {mutate: deleteFavorite} = usePatchFavorites()
     const [isIconVisible, setIsIconVisible] = useState<boolean>(false)
     const handleMenuIconClick = () => {
         setIsIconVisible((prev)=> !prev)
+    }
+
+    const handleDeleteClick = () => {
+        if(favoriteId){
+            deleteFavorite(favoriteId, {
+                onSuccess : () => {
+                    console.log("즐겨찾기 삭제 성공")
+                },
+                onError : () => {
+                    alert("즐겨찾기 삭제 성공")
+                },
+            })
+        }
     }
     return ( 
         <div css={wrapper}>
@@ -24,7 +39,7 @@ export default function BookMarkList({placeid, placeName, roadAddress} : Favorit
             </div>
             <div css={menuWrapper}>
                 <MenuIcon width={16} onClick={handleMenuIconClick}/>
-                {isIconVisible && (<IconsActions/>) }
+                {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick}/>) }
             </div>
         </div>
     )

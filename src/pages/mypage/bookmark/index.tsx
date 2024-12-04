@@ -6,16 +6,21 @@ import { BookMarkList } from "../components";
 import { allListWrapper, bottomButtonStyle, contentWrapper, countWrapper, wrapper } from "./index.styles";
 import { FavoritesListType } from "../../../interfaces/favorites";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 export default function MyBookMark(){
+    const {isLoggedIn} = useAuthStore();
     const navigate = useNavigate();
     const {data : bookMarkList} = useGetFavoritesList()
     const [count, setCount] = useState<number>(0)
     useEffect(() => {
+        if(!isLoggedIn){
+            navigate('/login')
+        }
         if (bookMarkList) {
             setCount(bookMarkList.length);
         }
-    }, [bookMarkList]);
+    }, [bookMarkList, isLoggedIn, navigate]);
 
     return(
         <div css={contentWrapper}>
@@ -28,7 +33,8 @@ export default function MyBookMark(){
                 <div css={allListWrapper}>
                     {bookMarkList?.map((bookmark : FavoritesListType) => 
                         <BookMarkList
-                            key={bookmark.placeid}
+                            key={bookmark.favoriteId}
+                            favoriteId={bookmark.favoriteId}
                             placeid={bookmark.placeid}
                             placeName={bookmark.placeName}
                             roadAddress={bookmark.roadAddress}
