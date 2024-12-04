@@ -43,6 +43,7 @@ export { default as Mdogpink } from "./Mdogpink";
 export { default as Mdogwhite } from "./Mdogwhite";
 export { default as MenuIcon } from "./MenuIcon";
 export { default as Mouthnecessary } from "./Mouthnecessary";
+export { default as MyBookmark } from "./MyBookmark";
 export { default as MyFriendsIcon } from "./MyFriendsIcon";
 export { default as MyPlaceIcon } from "./MyPlaceIcon";
 export { default as MyReviewIcon } from "./MyReviewIcon";

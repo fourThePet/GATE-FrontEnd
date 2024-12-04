@@ -24,29 +24,15 @@ export default function Header({ handleBackButtonClick }: Props) {
   }[] = [
     { path: "", component: LogoBellHeader }, // title 없음
     { path: "/home", component: LogoBellHeader }, // title 없음
-    // { path: "/place", title: "장소", component: OnlyTitleHeader },
-    // { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
-    // { path: "/place/detail", title: "장소상세", component: BackTitleHeader },
     { path: "review/receiptcheck", title: "", component: BackTitleHeader },
     { path: "review/writereview", title: "", component: BackTitleHeader },
     { path: "/review", title: "리뷰", component: BackTitleHeader },
-    { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader },
-    {
-      path: "/onboarding/pet",
-      title: "반려동물 프로필 설정",
-      component: BackTitleHeader,
-    },
-    {
-      path: "/mypage/pet-register",
-      title: "반려동물 프로필 설정",
-      component: BackTitleHeader,
-    },
-    {
-      path: "/mypage/review-list",
-      title: "내 리뷰내역",
-      component: BackTitleHeader,
-    },
+    { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader},
+    { path: "/onboarding/pet", title: "반려동물 프로필 설정", component: BackTitleHeader},
+    { path: "/mypage/pet-register", title: "반려동물 프로필 설정", component: BackTitleHeader},
+    { path: "/mypage/review-list", title: "내 리뷰내역", component: BackTitleHeader},
+    { path: "/mypage/bookmark", title: "내 즐겨찾기", component: BackTitleHeader},
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기
