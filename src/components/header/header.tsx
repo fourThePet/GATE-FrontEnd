@@ -35,6 +35,7 @@ export default function Header({ handleBackButtonClick }: Props) {
     { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader},
     { path: "/onboarding/pet", title: "반려동물 프로필 설정", component: BackTitleHeader},
     { path: "/mypage/pet-register", title: "반려동물 프로필 설정", component: BackTitleHeader},
+    { path: "/mypage/review-list", title: "내 리뷰내역", component: BackTitleHeader},
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기

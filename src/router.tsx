@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 
-import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet, OnboardingCompletion } from "./pages";
+import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet, OnboardingCompletion, MyReview } from "./pages";
 import PlaceList from "./pages/place-list";
 import FilterPlace from "./pages/place/filter-place";
 import PlaceDetail from "./pages/place/place-detail";
@@ -61,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "onboarding/completion",
         element: <OnboardingCompletion />,
+      },
+      {
+        path: "mypage/review-list",
+        element: <MyReview/>,
       }
     ],
   },

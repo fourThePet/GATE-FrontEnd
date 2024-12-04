@@ -8,3 +8,4 @@ export { default as KakaoCallback } from './auth/kakao-callback';
 export { default as OnboardingUser} from './onboarding/user';
 export { default as OnboardingPet} from './onboarding/pet';
 export { default as OnboardingCompletion} from './onboarding/completion';
+export { default as MyReview} from './mypage/my-review';

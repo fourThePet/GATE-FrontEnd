@@ -63,6 +63,12 @@ export const typo = {
     font-size: ${calcRem(13)};
     line-height: 140%;
   `,
+  Label21: css`
+    font-family: "Pretendard";
+    font-weight: 400;
+    font-size: ${calcRem(13)};
+    line-height: 140%;
+  `,
   Label3: css`
     font-family: "Pretendard";
     font-weight: 400;
