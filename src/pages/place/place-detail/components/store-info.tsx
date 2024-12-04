@@ -63,6 +63,28 @@ export default function StoreInfo() {
           setIsLiked(false);
         },
         onError: (error) => {
+          console.error("즐겨찾기 삭제 실패:", error);
+        },
+      });
+    } else {
+      postFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 등록");
+          setIsLiked(true);
+        },
+        onError: (error) => {
+          console.error("즐겨찾기 등록 실패:", error);
+        },
+      });
+    }
+
+    if (isLiked) {
+      patchFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 삭제");
+          setIsLiked(false);
+        },
+        onError: (error) => {
           if (axios.isAxiosError(error)) {
             // AxiosError로 처리
             if (error.response?.status === 401) {
