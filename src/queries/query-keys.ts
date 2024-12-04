@@ -13,4 +13,5 @@ export const QUERY_KEYS = {
     GET_PLACES_CATEGORIES : ['GET_PLACES_CATEGORIES'],
     GET_PLACES : (params : PlacesParam) => ['GET_PLACES', params],
     GET_FAVORITES_LIST : ['GET_FAVORITES_LIST'],
+    PATCH_FAVOTIRES : (placeId: number) => ['PATCH_FAVOTIRES', placeId]
 } as const;

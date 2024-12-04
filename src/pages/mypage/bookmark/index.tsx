@@ -13,6 +13,7 @@ export default function MyBookMark(){
     const navigate = useNavigate();
     const {data : bookMarkList} = useGetFavoritesList()
     const [count, setCount] = useState<number>(0)
+    
     useEffect(() => {
         if(!isLoggedIn){
             navigate('/login')
@@ -33,9 +34,9 @@ export default function MyBookMark(){
                 <div css={allListWrapper}>
                     {bookMarkList?.map((bookmark : FavoritesListType) => 
                         <BookMarkList
-                            key={bookmark.favoriteId}
-                            favoriteId={bookmark.favoriteId}
-                            placeid={bookmark.placeid}
+                            key={bookmark.favoritesId}
+                            favoritesId={bookmark.favoritesId}
+                            placeId={bookmark.placeId}
                             placeName={bookmark.placeName}
                             roadAddress={bookmark.roadAddress}
                         />

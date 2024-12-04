@@ -10,7 +10,7 @@ import { usePatchFavorites } from "../../../../queries";
 
 
 
-export default function BookMarkList({favoriteId, placeid, placeName, roadAddress} : FavoritesListType){
+export default function BookMarkList({ placeId, placeName, roadAddress} : FavoritesListType){
     const navigate = useNavigate();
     const {mutate: deleteFavorite} = usePatchFavorites()
     const [isIconVisible, setIsIconVisible] = useState<boolean>(false)
@@ -19,21 +19,16 @@ export default function BookMarkList({favoriteId, placeid, placeName, roadAddres
     }
 
     const handleDeleteClick = () => {
-        if(favoriteId){
-            deleteFavorite(favoriteId, {
-                onSuccess : () => {
-                    console.log("즐겨찾기 삭제 성공")
-                },
-                onError : () => {
-                    alert("즐겨찾기 삭제 성공")
-                },
-            })
+        
+        if(placeId){
+            console.log(placeId)
+            deleteFavorite(placeId)
         }
     }
     return ( 
         <div css={wrapper}>
             <MyBookmark width={24}/>
-            <div css={listWrapper} onClick={()=> navigate(`/place/detail/${placeid}`) }>
+            <div css={listWrapper} onClick={()=> navigate(`/place/detail/${placeId}`) }>
                 <Text type="Body2">{placeName}</Text>
                 <Text type="Label3" color={colors.color.Gray1}>{roadAddress}</Text>
             </div>

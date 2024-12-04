@@ -1,6 +1,6 @@
 export interface FavoritesListType{
-    favoriteId : number;
-    placeid : number;
+    favoritesId : number;
+    placeId : number;
     placeName : string;
     roadAddress : string;
 }
