@@ -1,5 +1,11 @@
 import SearchFilterHeader from "../place/components/search-bar/index";
-import { buttonContainer, containerStyle } from "./index.styles";
+import {
+  buttonContainer,
+  containerStyle,
+  modalContent,
+  modalOverlay,
+  noticeStyle,
+} from "./index.styles";
 import KakaoMap from "../place/components/map-api/kakaomap";
 import CategoryList from "../place/components/category/category-search";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +14,11 @@ import PlaceCard from "./components/category/place-card";
 import { useGetPlacesCategories } from "../../queries";
 import { useEffect, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
+import ResultPlace from "./place-detail/components/result-place";
+import { typo } from "../../styles/typo";
+import colors from "../../styles/colors";
+import { css } from "@emotion/react";
+import { NoticeIcon } from "../../assets/svg";
 
 export default function Place() {
   const navigate = useNavigate();
@@ -15,6 +26,8 @@ export default function Place() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [filteredPlaces, setFilteredPlaces] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [buttonText, setButtonText] = useState("목록 보기");
 
   useEffect(() => {
     if (data && data.isSuccess) {
@@ -45,7 +58,13 @@ export default function Place() {
   };
 
   const handleButtonClick = () => {
-    navigate("/place/list", { state: { selectedCategory, filteredPlaces } });
+    if (isModalOpen) {
+      setIsModalOpen(false);
+      setButtonText("목록 보기");
+    } else {
+      setIsModalOpen(true);
+      setButtonText("지도 보기");
+    }
   };
 
   return (
@@ -71,12 +90,32 @@ export default function Place() {
       <div css={buttonContainer}>
         <MainPinkButton
           onClick={handleButtonClick}
-          isDisabled={false} // 비활성화 여부
-          title={"목록 보기"}
+          isDisabled={false}
+          title={buttonText}
           width="10vh"
           height="4vh"
         />
       </div>
+      {isModalOpen && (
+        <div css={modalOverlay}>
+          <div css={modalContent}>
+            <div css={noticeStyle}>
+              <NoticeIcon width={18} height={18} />
+              <label
+                css={css`
+                  ${typo.Label1};
+                  color: ${colors.color.Gray1};
+                  padding: 5px 0;
+                  font-weight: 400;
+                `}
+              >
+                원하는 장소를 선택해보세요
+              </label>
+            </div>
+            <ResultPlace places={filteredPlaces} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
