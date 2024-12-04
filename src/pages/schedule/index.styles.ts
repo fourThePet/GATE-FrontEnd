@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Imgblock = styled.div`
   position: relative;
-  margin-top: -100px;
+  /* margin-top: -100px; */
   width: 100%;
   height: 800px; /* 원하는 높이 설정 */
   display: flex;
