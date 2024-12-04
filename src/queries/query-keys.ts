@@ -12,4 +12,5 @@ export const QUERY_KEYS = {
     GET_PLACES_INFO: (placeId : number) => ["GET_PLACES_INFO", placeId],
     GET_PLACES_CATEGORIES : ['GET_PLACES_CATEGORIES'],
     GET_PLACES : (params : PlacesParam) => ['GET_PLACES', params],
+    GET_FAVORITES_LIST : ['GET_FAVORITES_LIST']
 } as const;
