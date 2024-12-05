@@ -1,15 +1,14 @@
-////import * as React from "react";
 import type { SVGProps } from "react";
 const SvgSchedulemain = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     fill="none"
-    viewBox="0 0 402 458"
+    viewBox="0 0 402 408"
     {...props}
   >
-    <path fill="#D9D9D9" d="M0 0h402v458H0z" />
-    <path fill="url(#schedulemain_svg__a)" d="M0 0h402v458H0z" />
+    <path fill="#D9D9D9" d="M0 0h402v408H0z" />
+    <path fill="url(#schedulemain_svg__a)" d="M0 0h402v408H0z" />
     <defs>
       <pattern
         id="schedulemain_svg__a"
@@ -19,7 +18,7 @@ const SvgSchedulemain = (props: SVGProps<SVGSVGElement>) => (
       >
         <use
           xlinkHref="#schedulemain_svg__b"
-          transform="matrix(.00164 0 0 .00144 0 -.16)"
+          transform="matrix(.00164 0 0 .00162 0 -.24)"
         />
       </pattern>
       <image
