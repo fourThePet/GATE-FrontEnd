@@ -1,4 +1,5 @@
 export { default as GpsButton } from "./GpsButton";
+export { default as AddIcon } from "./AddIcon";
 export { default as Bell } from "./Bell";
 export { default as Benefit1 } from "./Benefit1";
 export { default as Benefit2 } from "./Benefit2";
@@ -16,6 +17,7 @@ export { default as Communitypink } from "./Communitypink";
 export { default as DefaultProfile } from "./DefaultProfile";
 export { default as DeleteIcon } from "./DeleteIcon";
 export { default as Extracharge } from "./Extracharge";
+export { default as FileDelete } from "./FileDelete";
 export { default as Filter } from "./Filter";
 export { default as Food } from "./Food";
 export { default as Gpt } from "./Gpt";
