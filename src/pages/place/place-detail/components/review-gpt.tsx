@@ -1,10 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { typo } from "../../../../styles/typo";
 import { BasicInfoContainer } from "../index.styles";
 import { Block } from "../../../../components/block/block";
 import { Gpt } from "../../../../assets/svg";
-import { useAuthStore } from "../../../../stores/useAuthStore";
 import { useGetPlaceReviews } from "../../../../queries/reviews";
 
 type ReviewGptProps = {
@@ -36,46 +34,15 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   );
 };
 
-export default function ReviewGpt({ placeId }: ReviewGptProps) {
+export default function ReviewGpt({}: ReviewGptProps) {
   const [activeTab, setActiveTab] = useState<"high" | "low">("high");
-  const navigate = useNavigate();
-  const { isLoggedIn } = useAuthStore();
 
   const handleTabClick = (tab: "high" | "low") => {
     setActiveTab(tab);
   };
 
-  const handleReviewButtonClick = () => {
-    navigate(`/review/receiptcheck/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
-  };
-
   return (
     <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
-      {/* 상단 리뷰 제목 및 아이콘 */}
-      <div
-        css={Block.flexBlock({
-          direction: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-        })}
-      >
-        <h1 css={typo.Heading3}>리뷰</h1>
-        <Writereview
-          css={{ width: "70px", height: "70px", cursor: "pointer" }}
-          onClick={() => {
-            if (!isLoggedIn) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              navigate("/login");
-            } else {
-              handleReviewButtonClick();
-            }
-          }}
-        />
-      </div>
-      {/* 평점 표시 */}
-      <PlaceReviewList placeId={placeId} />{" "}
-      {/* `placeId`를 실제 데이터로 전달 */}
       <div
         css={Block.flexBlock({
           direction: "column",
