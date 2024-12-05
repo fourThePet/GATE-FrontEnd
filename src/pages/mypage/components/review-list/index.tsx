@@ -2,14 +2,20 @@ import { useState } from "react";
 import { MenuIcon, Sdogpink } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import colors from "../../../../styles/colors";
-import { cardWrapper, dateWrapper, imageStyle, imageWrapper, labelWrapper, line, menuIcon, textWrapper, titleWrapper, wrapper } from "./index.styles";
+import { cardWrapper, dateWrapper, imageStyle, imageWrapper, labelWrapper, line, menuWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import FilterLabel from "../../../../components/label";
+import IconsActions from "../icons-actions";
 
 export default function ReviewList(){
     const [isExpanded, setIsExpanded] = useState(false)
     const toggleText = () => {
         setIsExpanded((prev) => !prev);
     };
+
+    const [isIconVisible, setIsIconVisible] = useState<boolean>(false)
+    const handleMenuIconClick = () => {
+        setIsIconVisible((prev)=> !prev)
+    }
     
     const fullText = `다른 어떤 애견동반 카페보다 좋았어요!! 친절하신 사장님 진짜 너무
                 감동이었구요 ㅠㅠㅠ! 우리 멍멍이 한마리가 너무 예민해서 강아지
@@ -28,7 +34,10 @@ export default function ReviewList(){
                 <div css={titleWrapper}>
                     <Text type="Body2">{'더왈츠 애견카페'}</Text>
                     <Text type="Label3" color={colors.color.Gray1}>{'서울특별시 강남구 역삼로 134'}</Text>
-                    <MenuIcon width={16} css={menuIcon}/>
+                    <div css={menuWrapper}>
+                        <MenuIcon width={16} onClick={handleMenuIconClick}/>
+                        {isIconVisible && (<IconsActions/>) }
+                    </div>
                 </div>
                 <hr css={line} color={colors.color.Gray3}/>
                 <div css={textWrapper}>

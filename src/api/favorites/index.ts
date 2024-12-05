@@ -4,7 +4,7 @@ import { api } from "../api";
 export const getFavoritesList = async () => {
   try {
     const response = await api.get("/favorites");
-    return response.data;
+    return response.data.result || [];
   } catch (error) {
     console.error("Error fetching favorites list:", error);
     throw error;
@@ -12,7 +12,7 @@ export const getFavoritesList = async () => {
 };
 
 // 즐겨찾기 등록 API
-export const postFavorite = async (placeId) => {
+export const postFavorite = async (placeId : number) => {
   try {
     const response = await api.post("/favorites", { placeId });
     return response.data;
@@ -23,7 +23,7 @@ export const postFavorite = async (placeId) => {
 };
 
 // 즐겨찾기 삭제 API
-export const patchFavorite = async (favoriteId) => {
+export const patchFavorite = async (favoriteId : number) => {
   try {
     const response = await api.patch(`/favorites/${favoriteId}`);
     return response.data;

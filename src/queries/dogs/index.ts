@@ -55,7 +55,9 @@ export const useDeleteDogsProfileDogId = () => {
         }
       },
       onSuccess: () => {
-        queryClient.invalidateQueries(); //쿼리를 무효화하여 최신 데이터를 가져옴
+        queryClient.invalidateQueries({
+          queryKey : QUERY_KEYS.GET_DOGS_PROFILES
+        }); //쿼리를 무효화하여 최신 데이터를 가져옴
       },
   });
 }

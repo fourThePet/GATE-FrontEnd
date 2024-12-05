@@ -26,7 +26,7 @@ export const cardWrapper = css`
 export const titleWrapper = css`
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 12px;
     width: 100%;
@@ -36,15 +36,21 @@ export const line = css`
     margin: 2px 0px;
     width: 100%;
 `
-export const menuIcon = css`
-    margin-left: auto;
-`
+
 export const textWrapper = css`
     display: flex;
     flex-direction: column;
     gap: 12px;
     padding-top: 8px;
 
+`
+
+export const menuWrapper = css`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative; 
+    margin-left: auto;
 `
 
 export const labelWrapper = css`
