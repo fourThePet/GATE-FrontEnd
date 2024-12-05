@@ -9,7 +9,6 @@ export const wrapper = css`
     gap: 10px;
 `
 export const dateWrapper = css`
-    padding-inline: 12px;
     width: 100%;
 `
 export const cardWrapper = css`
@@ -58,6 +57,7 @@ export const labelWrapper = css`
     flex-direction: row;
     gap: 10px;
     padding: 10px 0;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
 `
 
 export const imageWrapper = css`
