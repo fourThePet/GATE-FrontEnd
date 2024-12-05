@@ -22,7 +22,7 @@ export default function PlaceDetail() {
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
   const handleAllReviewButtonClick = () => {
-    navigate("/review", { state: { placeId } }); // placeId 전달
+    navigate(`/review/${placeId}`, { state: { placeId } });
   };
 
   useEffect(() => {

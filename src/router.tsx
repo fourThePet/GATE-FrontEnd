@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
 
       { path: "review/receiptcheck/:placeId", element: <ReceiptCheck /> },
       { path: "review/writereview/:placeId", element: <WriteReview /> },
-      { path: "review", element: <Review /> },
+      { path: "review/:placeId", element: <Review /> },
       { path: "auth/kakao", element: <KakaoCallback /> },
       {
         path: "onboarding/user",

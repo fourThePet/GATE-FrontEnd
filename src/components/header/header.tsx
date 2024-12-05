@@ -37,7 +37,7 @@ export default function Header({ handleBackButtonClick }: Props) {
       title: "",
       component: BackTitleHeader,
     },
-    { path: "/review", title: "리뷰", component: BackTitleHeader },
+    { path: "/review/:placeId", title: "리뷰", component: BackTitleHeader },
     { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader },
     {
       path: "/onboarding/pet",

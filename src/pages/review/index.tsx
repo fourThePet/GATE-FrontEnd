@@ -20,23 +20,66 @@ export default function Review() {
   if (isLoading) return <div>리뷰를 불러오는 중입니다...</div>;
   if (error || !data) return <div>리뷰를 가져오는 데 실패했습니다.</div>;
 
-  const { starRateAvg, reviewCount, reviewResponseList } = data;
+  const { starRateAvg = "0", reviewCount = 0, reviewResponseList = [] } = data;
 
   // 별점 렌더링 함수
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
-      stars.push(
-        <span
-          key={i}
-          style={{
-            color: i < Math.floor(rating) ? "#F1729B" : "#E0E0E0",
-            fontSize: "24px",
-          }}
-        >
-          ★
-        </span>
-      );
+      if (i < Math.floor(rating)) {
+        stars.push(
+          <span
+            key={i}
+            style={{
+              color: "#F1729B",
+              fontSize: "24px",
+            }}
+          >
+            ★
+          </span>
+        );
+      } else if (i < rating) {
+        stars.push(
+          <span
+            key={`${i}-half`}
+            style={{
+              color: "#F1729B",
+              fontSize: "24px",
+              position: "relative",
+              display: "inline-block",
+              overflow: "hidden",
+              width: "12px", // 반만 칠해짐
+            }}
+          >
+            ★
+          </span>
+        );
+        stars.push(
+          <span
+            key={`${i}-empty`}
+            style={{
+              color: "#E0E0E0",
+              fontSize: "24px",
+              position: "relative",
+              display: "inline-block",
+            }}
+          >
+            ★
+          </span>
+        );
+      } else {
+        stars.push(
+          <span
+            key={i}
+            style={{
+              color: "#E0E0E0",
+              fontSize: "24px",
+            }}
+          >
+            ★
+          </span>
+        );
+      }
     }
     return stars;
   };
@@ -79,7 +122,8 @@ export default function Review() {
         {/* 평균 평점 */}
         <div>
           <span css={typo.Heading1} style={{ color: "#000000" }}>
-            {starRateAvg.toFixed(1)}
+            {/* starRateAvg 값을 문자열에서 숫자로 변환 후 출력 */}
+            {starRateAvg ? parseFloat(starRateAvg).toFixed(1) : "0.0"}
           </span>
         </div>
 
@@ -94,7 +138,7 @@ export default function Review() {
           <span css={typo.Body2} style={{ color: "#000000" }}>
             후기 {reviewCount}개
           </span>
-          <div>{renderStars(starRateAvg)}</div>
+          <div>{renderStars(parseFloat(starRateAvg))}</div>
         </div>
       </div>
       <Divider style={{ marginLeft: "30px", width: "90%" }} />
