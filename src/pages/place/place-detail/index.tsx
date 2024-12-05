@@ -47,6 +47,7 @@ export default function PlaceDetail() {
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
   const { isLoggedIn } = useAuthStore();
 
+
   const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
