@@ -6,15 +6,17 @@ import { cardWrapper, dateWrapper, imageStyle, imageWrapper, labelWrapper, line,
 import IconsActions from "../icons-actions";
 import { ReviewDataType } from "../../../../interfaces";
 import { useDeleteReviews } from "../../../../queries";
+import { useNavigate } from "react-router-dom";
 
 export default function ReviewList({id, placeName, roadAddress, content, fileUrlList, keywordList, size, updateAt} : ReviewDataType){
-    const {mutate : deleteReview} = useDeleteReviews()
-    const [isExpanded, setIsExpanded] = useState<boolean>(false)
+    const {mutate : deleteReview} = useDeleteReviews();
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
+    const navigate = useNavigate();
     const toggleText = () => {
         setIsExpanded((prev) => !prev);
     };
 
-    const [isIconVisible, setIsIconVisible] = useState<boolean>(false)
+    const [isIconVisible, setIsIconVisible] = useState<boolean>(false);
     const handleMenuIconClick = () => {
         setIsIconVisible((prev)=> !prev)
     }
@@ -34,6 +36,10 @@ export default function ReviewList({id, placeName, roadAddress, content, fileUrl
         }
     }
 
+    const handleModifyClick = () =>{
+        navigate(`/review/edit/${id}`)
+    }
+
     return(
         <div css={wrapper}>
             <div css={dateWrapper}>
@@ -45,7 +51,7 @@ export default function ReviewList({id, placeName, roadAddress, content, fileUrl
                     <Text type="Label3" color={colors.color.Gray1}>{roadAddress}</Text>
                     <div css={menuWrapper}>
                         <MenuIcon width={16} onClick={handleMenuIconClick}/>
-                        {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick}/>) }
+                        {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick} onModifyButtonClick={handleModifyClick}/>) }
                     </div>
                 </div>
                 <hr css={line} color={colors.color.Gray3}/>
