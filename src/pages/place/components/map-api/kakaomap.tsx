@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
