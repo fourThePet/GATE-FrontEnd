@@ -7,12 +7,9 @@ import {
 } from "../index.styles";
 import { typo } from "../../../../styles/typo";
 import { useGetPlaceReviews } from "../../../../queries/reviews"; // useGetPlaceReviews import
+import { ReviewProps } from "../../../../interfaces/reviews";
 
-type ReviewPercentProps = {
-  placeId: number; // placeId를 props로 받음
-};
-
-export default function ReviewPercent({ placeId }: ReviewPercentProps) {
+export default function ReviewPercent({ placeId }: ReviewProps) {
   // 장소 리뷰 데이터 가져오기
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 

@@ -5,10 +5,9 @@ import { typo } from "../../../../styles/typo";
 import { Button } from "../../../../components/button/button";
 import { useGetPlaceReviews } from "../../../../queries/reviews";
 import { NotFoundIcon } from "../../../../assets/svg";
-type ReviewsProps = {
-  placeId: number; // placeId를 props로 받음
-};
-export default function Reviews({ placeId }: ReviewsProps) {
+import { ReviewProps } from "../../../../interfaces/reviews";
+
+export default function Reviews({ placeId }: ReviewProps) {
   const [isExpanded, setIsExpanded] = useState(false); // "더보기" 상태를 관리
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // useGetPlaceReviews 사용
 

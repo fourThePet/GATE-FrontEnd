@@ -40,3 +40,7 @@ export interface PlaceReviewResponse {
   keywordResponseList: ReviewKeyword[];
   reviewResponseList: ReviewResponse[];
 }
+
+export interface ReviewProps {
+  placeId: number; // placeId를 props로 받음
+}

@@ -29,12 +29,9 @@ import { HeaderContainer } from "../index.styles";
 import BackTitleHeader from "../../../../components/header/back-title";
 import { useNavigate } from "react-router-dom";
 import { PlaceReviewList } from "./review-gpt";
+import { ReviewProps } from "../../../../interfaces/reviews";
 
-type StoreInfoProps = {
-  placeId: number; // placeId를 props로 받음
-};
-
-export default function StoreInfo({ placeId }: StoreInfoProps) {
+export default function StoreInfo({ placeId }: ReviewProps) {
   const navigate = useNavigate();
 
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
