@@ -4,6 +4,7 @@ import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { HeartFill } from "../../assets/svg";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   isOpen: boolean; // 모달 열림/닫힘 상태
@@ -12,6 +13,7 @@ type Props = {
   subText?: string; // 부가 설명 텍스트 (옵션)
   confirmText?: string; // 확인 버튼 텍스트
   onConfirm?: () => void; // 확인 버튼 클릭 핸들러 (옵션)
+  placeId: number; // 이동할 placeId
 };
 
 export default function ConfirmModal({
@@ -21,8 +23,17 @@ export default function ConfirmModal({
   subText,
   confirmText = "확인", // 기본값 설정
   onConfirm,
+  placeId,
 }: Props) {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
   const closeModal = () => setIsOpen(false); // 모달 닫기 핸들러
+
+  const handleConfirm = () => {
+    if (onConfirm) onConfirm(); // 확인 클릭 시 핸들러 실행
+    closeModal(); // 모달 닫기
+    navigate(`/place/detail/${placeId}`); // /place/detail/:placeId 경로로 이동
+  };
 
   return (
     <ReactModal
@@ -92,10 +103,7 @@ export default function ConfirmModal({
             width: "120px",
             height: "40px",
           })}
-          onClick={() => {
-            if (onConfirm) onConfirm(); // 확인 클릭 시 핸들러 실행
-            closeModal(); // 모달 닫기
-          }}
+          onClick={handleConfirm} // 확인 버튼 클릭 시 handleConfirm 호출
         >
           {confirmText}
         </button>

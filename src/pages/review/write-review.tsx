@@ -87,7 +87,7 @@ export default function WriteReview() {
     if (selectedFiles.length > 0) {
       selectedFiles.forEach((file) => formData.append("files", file));
     } else {
-      formData.append("files", new Blob(), "empty-file.txt"); // 파일이 없을 경우 빈 파일 추가
+      formData.append("files", new Blob(), null); // 파일이 없을 경우 빈 파일 추가
     }
 
     // FormData 내용 확인 (디버깅 용도)
@@ -560,6 +560,7 @@ export default function WriteReview() {
             subText="마이페이지 > 내 리뷰 조회에서 확인해보세요"
             confirmText="확인"
             onConfirm={() => setIsModalOpen(false)} // 모달 닫기 동작
+            placeId={placeId} // placeId 추가
           />
         </div>
       </div>

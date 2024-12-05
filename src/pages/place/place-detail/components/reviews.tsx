@@ -147,29 +147,32 @@ export default function Reviews({ placeId }: ReviewsProps) {
         </div>
 
         {/* 리뷰 이미지 */}
-        {firstReview.fileUrlList?.length > 0 && (
-          <div
-            css={Block.flexBlock({
-              direction: "row",
-              gap: "10px",
-            })}
-            style={{ marginTop: "10px" }}
-          >
-            {firstReview.fileUrlList.map((fileUrl: string, index: number) => (
-              <img
-                key={index}
-                src={fileUrl}
-                alt={`리뷰 이미지 ${index + 1}`}
-                css={{
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "10px",
-                  objectFit: "cover",
-                }}
-              />
-            ))}
-          </div>
-        )}
+        {firstReview.fileUrlList?.length > 0 &&
+          firstReview.fileUrlList[0] !== null && (
+            <div
+              css={Block.flexBlock({
+                direction: "row",
+                gap: "10px",
+              })}
+              style={{ marginTop: "10px" }}
+            >
+              {firstReview.fileUrlList.map(
+                (fileUrl: string | null, index: number) =>
+                  fileUrl ? ( // fileUrl이 null이 아닌 경우에만 렌더링
+                    <img
+                      key={index}
+                      src={fileUrl}
+                      css={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "10px",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : null
+              )}
+            </div>
+          )}
 
         {/* 날짜 */}
         <div

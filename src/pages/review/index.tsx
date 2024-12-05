@@ -22,11 +22,11 @@ export default function Review() {
 
   const { starRateAvg = "0", reviewCount = 0, reviewResponseList = [] } = data;
 
-  // 별점 렌더링 함수
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
       if (i < Math.floor(rating)) {
+        // 완전히 채워진 별
         stars.push(
           <span
             key={i}
@@ -38,17 +38,19 @@ export default function Review() {
             ★
           </span>
         );
-      } else if (i < rating) {
+      } else if (i < Math.ceil(rating)) {
+        // 반만 채워진 별
         stars.push(
           <span
-            key={`${i}-half`}
+            key={i}
             style={{
-              color: "#F1729B",
-              fontSize: "24px",
               position: "relative",
               display: "inline-block",
+              fontSize: "24px",
+              width: "12px", // 별의 절반만 채움
               overflow: "hidden",
-              width: "12px", // 반만 칠해짐
+              color: "#F1729B",
+              top: "6px",
             }}
           >
             ★
@@ -58,16 +60,16 @@ export default function Review() {
           <span
             key={`${i}-empty`}
             style={{
-              color: "#E0E0E0",
               fontSize: "24px",
-              position: "relative",
-              display: "inline-block",
+              color: "#E0E0E0",
+              marginLeft: "-12px",
             }}
           >
             ★
           </span>
         );
       } else {
+        // 빈 별
         stars.push(
           <span
             key={i}
@@ -83,7 +85,6 @@ export default function Review() {
     }
     return stars;
   };
-
   const toggleExpand = (id: number) => {
     setExpandedReviews((prev) => ({
       ...prev,
@@ -121,10 +122,13 @@ export default function Review() {
       >
         {/* 평균 평점 */}
         <div>
-          <span css={typo.Heading1} style={{ color: "#000000" }}>
-            {/* starRateAvg 값을 문자열에서 숫자로 변환 후 출력 */}
-            {starRateAvg ? parseFloat(starRateAvg).toFixed(1) : "0.0"}
-          </span>
+          <div>
+            <span css={typo.Heading1} style={{ color: "#000000" }}>
+              {typeof starRateAvg === "string"
+                ? parseFloat(starRateAvg).toFixed(1) // 문자열인 경우 숫자로 변환
+                : starRateAvg.toFixed(1)}{" "}
+            </span>
+          </div>
         </div>
 
         {/* 후기 및 별점 */}
@@ -138,7 +142,13 @@ export default function Review() {
           <span css={typo.Body2} style={{ color: "#000000" }}>
             후기 {reviewCount}개
           </span>
-          <div>{renderStars(parseFloat(starRateAvg))}</div>
+          <div>
+            {renderStars(
+              typeof starRateAvg === "string"
+                ? parseFloat(starRateAvg)
+                : starRateAvg
+            )}
+          </div>
         </div>
       </div>
       <Divider style={{ marginLeft: "30px", width: "90%" }} />
@@ -257,31 +267,36 @@ export default function Review() {
             </div>
 
             {/* 리뷰 이미지 */}
-            {review.fileUrlList?.length > 0 && (
-              <div
-                css={{
-                  overflowX: "auto", // 가로 스크롤 활성화
-                  whiteSpace: "nowrap", // 줄바꿈 방지
-                  marginTop: "10px",
-                }}
-              >
-                {review.fileUrlList.map((fileUrl: string, index: number) => (
-                  <img
-                    key={index}
-                    src={fileUrl}
-                    alt={`리뷰 이미지 ${index + 1}`}
-                    css={{
-                      display: "inline-block", // 가로 배치
-                      width: "100px",
-                      height: "100px",
-                      borderRadius: "10px",
-                      objectFit: "cover",
-                      marginRight: "10px", // 이미지 간격
-                    }}
-                  />
-                ))}
-              </div>
-            )}
+
+            {review.fileUrlList?.length > 0 &&
+              review.fileUrlList[0] !== null && (
+                <div
+                  css={{
+                    overflowX: "auto", // 가로 스크롤 활성화
+                    whiteSpace: "nowrap", // 줄바꿈 방지
+                    marginTop: "10px",
+                  }}
+                >
+                  {review.fileUrlList.map(
+                    (fileUrl: string | null, index: number) =>
+                      fileUrl ? ( // fileUrl이 null이 아닌 경우에만 렌더링
+                        <img
+                          key={index}
+                          src={fileUrl}
+                          // alt={`리뷰 이미지 ${index + 1}`}
+                          css={{
+                            display: "inline-block", // 가로 배치
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "10px",
+                            objectFit: "cover",
+                            marginRight: "10px", // 이미지 간격
+                          }}
+                        />
+                      ) : null
+                  )}
+                </div>
+              )}
 
             {/* 날짜 */}
             <div

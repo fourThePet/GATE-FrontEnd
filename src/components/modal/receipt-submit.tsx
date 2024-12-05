@@ -9,6 +9,7 @@ import NoBorderGrayButton from "../button/no-border-gray";
 type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  placeId: number; // placeId 추가
 };
 import { requestOCR } from "../../api/ocr"; // OCR 요청 함수 임포트
 import { OCRField } from "../../interfaces/ocr";
@@ -18,6 +19,7 @@ import { BarLoader } from "react-spinners";
 export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
+  placeId, // placeId props 추가
 }: ReceiptSubmitProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null); // 선택된 이미지 상태 관리
 
@@ -190,8 +192,8 @@ export default function ReceiptSubmit({
               height: "40px",
             })}
             onClick={() =>
-              navigate("/review/writereview", {
-                state: { receiptCertificate: true }, // receiptCertificate 값을 state로 전달
+              navigate(`/review/writereview/${placeId}`, {
+                state: { receiptCertificate: true, placeId }, // receiptCertificate 값을 state로 전달
               })
             }
             style={{ marginTop: "130px" }}

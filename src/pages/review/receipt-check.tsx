@@ -149,6 +149,7 @@ export default function ReceiptCheck() {
         <ReceiptSubmit
           isOpen={isReceiptModalOpen}
           setIsOpen={setIsReceiptModalOpen}
+          placeId={placeId}
         />
       </div>
     </>
