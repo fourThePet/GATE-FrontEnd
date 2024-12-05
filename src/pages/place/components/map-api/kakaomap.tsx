@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
@@ -17,14 +16,10 @@ import {
   Car,
 } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
-import { useGetPlaces } from "../../../../api/places";
+import { useLocationStore } from "../../../../stores/useLocationState";
+import { Place } from "../../../../interfaces/places";
+import { useNavigate } from "react-router-dom";
 // import { useGetPlaces2 } from "../../../../queries";
-
-interface Place {
-  category: string;
-  latitude: number;
-  longitude: number;
-}
 
 declare global {
   interface Window {
@@ -59,50 +54,30 @@ declare global {
   }
 }
 
-export const getFilteredPlaces = (
-  places: Place[],
-  selectedCategory: string
-) => {
-  if (selectedCategory === "전체") return places;
-  if (selectedCategory === "숙소") {
-    return places.filter(
-      (place) => place.category === "호텔" || place.category === "펜션"
-    );
-  }
-  if (selectedCategory === "의료") {
-    return places.filter(
-      (place) => place.category === "병원" || place.category === "약국"
-    );
-  }
-  if (selectedCategory === "문화시설") {
-    return places.filter(
-      (place) =>
-        place.category === "박물관" ||
-        place.category === "미술관" ||
-        place.category === "문예회관"
-    );
-  }
-  return places.filter((place) => place.category === selectedCategory);
-};
+interface KaKaoMapProps {
+  places: Place[];
+
+  // 현재 보고있는 위치
+  currentLatitude?: number;
+  currentLongitude?: number;
+
+  setSelectedCategory: (category: string) => void;
+}
 
 export default function KakaoMap({
-  selectedCategory,
+  places,
+  currentLatitude,
+  currentLongitude,
   setSelectedCategory,
-  filteredPlaces,
-  setFilteredPlaces,
-}: {
-  selectedCategory: string;
-  setSelectedCategory: (category: string) => void;
-  filteredPlaces: Place[];
-  setFilteredPlaces: (places: Place[]) => void;
-}) {
+}: KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
-  const { places } = useGetPlaces(latitude, longitude) as { places: Place[] };
+  const { setLatitude, setLongitude } = useLocationStore(); // Zustand 사용
+
+  // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
+  const navigate = useNavigate();
   // const {data: places} = useGetPlaces2({latitude, longitude})
 
   const initializeMap = (latitude: number, longitude: number) => {
@@ -160,7 +135,7 @@ export default function KakaoMap({
     } else return <LocMarker width={20} height={20} />;
   };
 
-  const addPlaceMarkers = (places: any[]) => {
+  const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
     const newMarkers = places.map((place) => {
       const icon = getIconBasedOnCategory(place.category);
@@ -178,17 +153,6 @@ export default function KakaoMap({
       return marker;
     });
     setMarkers(newMarkers);
-  };
-
-  const getPlacesData = async (latitude: number, longitude: number) => {
-    try {
-      const response = await axios.get("/api/places", {
-        params: { lat: latitude, lng: longitude },
-      });
-      return response.data;
-    } catch {
-      throw new Error("장소 데이터를 가져오는 데 실패했습니다.");
-    }
   };
 
   const moveMarkerToMapCenter = () => {
@@ -211,6 +175,10 @@ export default function KakaoMap({
 
     // 카테고리 선택 초기화 (전체로 설정)
     setSelectedCategory("전체");
+
+    // 필터 초기화
+    // replace: true -  히스토리에 새로운 기록을 남기지 않음.
+    navigate("/place", { replace: true });
   };
 
   const moveMarkerToCurrentLocation = () => {
@@ -227,20 +195,11 @@ export default function KakaoMap({
         // 상태 업데이트
         setLatitude(latitude);
         setLongitude(longitude);
-        clearMarkers();
-
-        // 장소 데이터 요청 및 콘솔 출력
-        getPlacesData(latitude, longitude)
-          .then((places) => {
-            console.log("현재 위치 이동 후 가져온 장소 데이터:", places);
-            addPlaceMarkers(places); // 장소 데이터로 마커 추가
-          })
-          .catch((error) => {
-            console.error("장소 데이터 요청 실패:", error);
-          });
 
         // 카테고리 선택 초기화 (전체로 설정)
         setSelectedCategory("전체");
+        // 필터 초기화 (replace: true -  히스토리에 새로운 기록을 남기지 않음.)
+        navigate("/place", { replace: true });
       },
       (error) => console.error("현재 위치 가져오기 실패:", error)
     );
@@ -266,9 +225,13 @@ export default function KakaoMap({
         window.kakao.maps.load(() => {
           navigator.geolocation.getCurrentPosition(
             ({ coords: { latitude, longitude } }) => {
-              initializeMap(latitude, longitude);
-              setLatitude(latitude);
-              setLongitude(longitude);
+              // 이미 위치 정보가 존재한다면 현 위치가 아닌, 해당 위치 정보 기반으로 위경도 설정
+              initializeMap(
+                currentLatitude || latitude,
+                currentLongitude || longitude
+              );
+              setLatitude(currentLatitude || latitude);
+              setLongitude(currentLongitude || longitude);
             },
             (error) => console.error("위치 정보 가져오기 실패:", error)
           );
@@ -291,22 +254,15 @@ export default function KakaoMap({
   }, []);
 
   useEffect(() => {
-    console.log("필터링 전 places:", places);
-    console.log("현재 선택된 카테고리:", selectedCategory);
-    const filtered = getFilteredPlaces(places, selectedCategory);
-    setFilteredPlaces(filtered);
-    console.log("필터링된 데이터:", filtered);
-  }, [places, selectedCategory, setFilteredPlaces]);
-
-  useEffect(() => {
-    if (filteredPlaces && filteredPlaces.length > 0) {
+    if (places && places.length > 0) {
+      console.log(`총 ${places.length}개의 장소 데이터를 조회하였습니다.`);
       clearMarkers();
-      addPlaceMarkers(filteredPlaces);
+      addPlaceMarkers(places);
     } else {
       console.log("선택된 카테고리의 장소 데이터가 없습니다.");
       clearMarkers();
     }
-  }, [filteredPlaces]);
+  }, [places]);
 
   return (
     <div ref={mapRef} css={mapStyle}>

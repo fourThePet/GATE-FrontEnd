@@ -18,13 +18,16 @@ import {
 } from "../../../assets/svg";
 import { Button } from "../../../components/button/button";
 import { css } from "@emotion/react";
+import { Dispatch, SetStateAction } from "react";
 
 interface FilterSectionProps {
-  setFilters: (filters: {
-    conditions: Record<string, boolean>;
-    facilities: Record<string, boolean>;
-    dogSize: "SMALL" | "MEDIUM" | "LARGE" | null;
-  }) => void;
+  setFilters: Dispatch<
+    SetStateAction<{
+      conditions: Record<string, boolean>;
+      facilities: Record<string, boolean>;
+      dogSize: "SMALL" | "MEDIUM" | "LARGE" | null;
+    }>
+  >;
 }
 
 export default function FilterSection({ setFilters }: FilterSectionProps) {
@@ -48,12 +51,19 @@ export default function FilterSection({ setFilters }: FilterSectionProps) {
     outdoorAvailable: false,
   });
 
-  // 크기 클릭 핸들러
+  // 필터 변경 시 전달
+  useEffect(() => {
+    setFilters({
+      conditions: selectedConditions,
+      facilities: selectedFacilities,
+      dogSize: selectedDogSize,
+    });
+  }, [selectedDogSize, selectedConditions, selectedFacilities, setFilters]);
+
   const handleDogSizeClick = (size: "SMALL" | "MEDIUM" | "LARGE") => {
     setSelectedDogSize(size);
   };
 
-  // 조건 클릭 핸들러
   const handleConditionClick = (key: keyof typeof selectedConditions) => {
     setSelectedConditions((prev) => ({
       ...prev,
@@ -61,22 +71,12 @@ export default function FilterSection({ setFilters }: FilterSectionProps) {
     }));
   };
 
-  // 시설 클릭 핸들러
   const handleFacilityClick = (key: keyof typeof selectedFacilities) => {
     setSelectedFacilities((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
-
-  // 필터 업데이트
-  useEffect(() => {
-    setFilters({
-      conditions: selectedConditions,
-      facilities: selectedFacilities,
-      dogSize: selectedDogSize,
-    });
-  }, [selectedConditions, selectedFacilities, selectedDogSize, setFilters]);
 
   return (
     <div css={filterContainer}>

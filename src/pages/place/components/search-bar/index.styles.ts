@@ -103,7 +103,7 @@ export const categoryItemStyle = css`
   white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  &:focus {
+  &.active {
     background-color: ${colors.color.MainColor};
     border: 2px solid ${colors.color.MainColor};
     color: ${colors.color.White1};

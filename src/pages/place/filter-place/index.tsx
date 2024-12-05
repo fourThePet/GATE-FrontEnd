@@ -7,23 +7,77 @@ import { css } from "@emotion/react";
 import { Button } from "../../../components/button/button";
 import colors from "../../../styles/colors";
 import { useState } from "react";
+import { useLocationStore } from "../../../stores/useLocationState";
 
 export default function FilterPlace() {
   const navigate = useNavigate();
-  const [filters, setFilters] = useState({}); // 선택된 필터 값을 관리하는 상태
+  const [filters, setFilters] = useState({
+    conditions: {
+      isLeashRequired: false,
+      isMuzzleRequired: false,
+      isCageRequired: false,
+      isVaccinationComplete: false,
+    },
+    facilities: {
+      parkingAvailable: false,
+      indoorAvailable: false,
+      outdoorAvailable: false,
+    },
+    dogSize: null,
+  });
+  const { latitude, longitude } = useLocationStore();
 
   const handleBackButtonClick = () => {
-    navigate(-1);
+    navigate(-1); // 뒤로 가기
   };
 
   const handleReset = () => {
-    setFilters({}); // 필터 값 초기화
-    navigate("/place"); // /place로 리다이렉션
+    setFilters({
+      conditions: {
+        isLeashRequired: false,
+        isMuzzleRequired: false,
+        isCageRequired: false,
+        isVaccinationComplete: false,
+      },
+      facilities: {
+        parkingAvailable: false,
+        indoorAvailable: false,
+        outdoorAvailable: false,
+      },
+      dogSize: null,
+    });
+    navigate("/place"); // 초기화된 상태로 리다이렉션
   };
 
   const handleApply = () => {
-    console.log("적용된 필터 값:", filters); // 콘솔에 선택된 필터 값 출력
-    navigate("/place", { state: { filters } }); // /place 페이지로 값 전달
+    // 쿼리 스트링에 포함할 값 정의
+    const queryParams = {
+      latitude: latitude, // 위도 추가
+      longitude: longitude, // 경도 추가
+      size: filters.dogSize || undefined, // 강아지 크기 필터
+      entryConditions: Object.keys(filters.conditions)
+        .filter((key) => filters.conditions[key]) // 선택된 조건 필터
+        .join(","),
+      types: Object.keys(filters.facilities)
+        .filter((key) => filters.facilities[key]) // 선택된 시설 필터
+        .join(","),
+    };
+
+    // 쿼리 스트링 생성
+    const queryString = Object.entries(queryParams)
+      .filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ""
+      ) // 값이 유효한 경우만 포함
+      .map(
+        ([key, value]) =>
+          `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`
+      )
+      .join("&");
+
+    console.log("생성된 쿼리스트링:", queryString);
+
+    // 생성된 쿼리스트링을 사용해 리다이렉트
+    navigate(`/place?${queryString}`);
   };
 
   return (
@@ -43,7 +97,7 @@ export default function FilterPlace() {
         />
       </div>
       <div>
-        <FilterSection setFilters={setFilters} /> {/* 필터 상태 전달 */}
+        <FilterSection setFilters={setFilters} />
       </div>
       <div
         css={[
