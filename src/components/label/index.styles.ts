@@ -10,4 +10,5 @@ export const labelWrapper = css`
     justify-content: center;
     align-items: center;
     background-color: ${colors.color.MainColor};
+    white-space: nowrap;
 `

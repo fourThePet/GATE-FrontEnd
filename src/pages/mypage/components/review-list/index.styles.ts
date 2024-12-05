@@ -57,6 +57,7 @@ export const labelWrapper = css`
     flex-direction: row;
     gap: 10px;
     padding: 10px 0;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
 `
 
 export const imageWrapper = css`

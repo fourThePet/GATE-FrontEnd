@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { Ldogpink, Mdogpink, MenuIcon, Sdogpink } from "../../../../assets/svg";
-import { Text } from "../../../../components";
+import { Text, FilterLabel } from "../../../../components";
 import colors from "../../../../styles/colors";
 import { cardWrapper, dateWrapper, imageStyle, imageWrapper, labelWrapper, line, menuWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
-import FilterLabel from "../../../../components/label";
 import IconsActions from "../icons-actions";
 import { ReviewDataType } from "../../../../interfaces";
+import { useDeleteReviews } from "../../../../queries";
 
 export default function ReviewList({id, content, fileUrlList, keywordList, size, updateAt} : ReviewDataType){
-    console.log(id)
+    const {mutate : deleteReview} = useDeleteReviews()
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const toggleText = () => {
         setIsExpanded((prev) => !prev);
@@ -28,7 +28,12 @@ export default function ReviewList({id, content, fileUrlList, keywordList, size,
     // 100자만 자른 텍스트 생성
     const previewText = `${content.slice(0, 100)}${content.length > 100 ? "..." : ""}`;
     
-    
+    const handleDeleteClick = () =>{
+        if(id){
+            deleteReview(id)
+        }
+    }
+
     return(
         <div css={wrapper}>
             <div css={dateWrapper}>
@@ -40,7 +45,7 @@ export default function ReviewList({id, content, fileUrlList, keywordList, size,
                     <Text type="Label3" color={colors.color.Gray1}>{'서울특별시 강남구 역삼로 134'}</Text>
                     <div css={menuWrapper}>
                         <MenuIcon width={16} onClick={handleMenuIconClick}/>
-                        {isIconVisible && (<IconsActions/>) }
+                        {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick}/>) }
                     </div>
                 </div>
                 <hr css={line} color={colors.color.Gray3}/>
@@ -53,7 +58,7 @@ export default function ReviewList({id, content, fileUrlList, keywordList, size,
                 <div css={labelWrapper}>
                     {components[size] || null}
                     {keywordList?.map((keyword)=>
-                        <FilterLabel>{keyword}</FilterLabel>
+                        <FilterLabel key={keyword}>{keyword}</FilterLabel>
                     )}
                     
                 </div>

@@ -9,7 +9,7 @@ import { contentWrapper, countWrapper, wrapper } from './index.styles';
 export default function MyReview(){
     const {data : reviewList} = useGetReviewsMy()
     const [count, setCount] = useState<number>(0)
-    console.log(reviewList)
+    
     useEffect(()=>{
         if(reviewList?.length>0)
         setCount(reviewList.length)
