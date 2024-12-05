@@ -16,10 +16,12 @@ import {
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
 import ConfirmModal from "../../components/modal/confirm-modal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useGetReviewKeywords } from "../../queries/reviews";
+
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
+  const [selectedConditions, setSelectedConditions] = useState<number[]>([]); // 선택된 조건 상태 관리 (id 값 사용)
   const [selectedDogSize, setSelectedDogSize] = useState<
     "small" | "medium" | "large" | null
   >(null); // 아이 크기 상태 관리
@@ -30,6 +32,9 @@ export default function WriteReview() {
   const [selectedFiles, setSelectedFiles] = useState<
     { url: string; type: "image" | "video" }[]
   >([]); // 파일 URL과 타입 관리
+  const location = useLocation(); // 전달된 state를 가져옴
+  const placeId = location.state?.placeId;
+  const receiptCertificate = location.state?.receiptCertificate; // receiptCertificate 가져오기
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {
@@ -37,15 +42,17 @@ export default function WriteReview() {
     }
   };
 
-  const handleConditionClick = (condition: string) => {
+  const handleConditionClick = (id: number) => {
     // 조건을 선택/해제하는 로직
     setSelectedConditions(
       (prev) =>
-        prev.includes(condition)
-          ? prev.filter((c) => c !== condition) // 이미 선택된 경우 제거
-          : [...prev, condition] // 선택되지 않은 경우 추가
+        prev.includes(id)
+          ? prev.filter((conditionId) => conditionId !== id) // 이미 선택된 경우 제거
+          : [...prev, id] // 선택되지 않은 경우 추가
     );
   };
+
+  const { data: keywords, isLoading } = useGetReviewKeywords(placeId);
 
   const handleStarClick = (newRating) => {
     setRating(newRating);
@@ -102,6 +109,7 @@ export default function WriteReview() {
   const handleBackButtonClick = () => {
     navigate(-1); // 이전 페이지로 이동
   };
+
   return (
     <>
       <div
@@ -278,36 +286,35 @@ export default function WriteReview() {
               width: "90%",
             })}
             style={{
-              flexWrap: "wrap", //크기 맞춤
+              flexWrap: "wrap", // 크기 맞춤
             }}
           >
-            {[
-              "입마개는 필수예요 🐾",
-              "케이지를 사용했어요 🙏",
-              "기저귀를 착용해요 ☁️",
-              "리드줄을 착용했어요 〰️",
-              "실내 동반이 가능해요 🛋️",
-              "테라스 이용만 가능해요 🏕️",
-            ].map((condition, index) => (
-              <button
-                key={index}
-                css={
-                  selectedConditions.includes(condition)
-                    ? Button.mainPinkButton({
-                        isDisabled: false, // 추가
-                        width: "260px",
-                        height: "50px",
-                      })
-                    : Button.grayBorderButton({
-                        width: "260px",
-                        height: "50px",
-                      })
-                }
-                onClick={() => handleConditionClick(condition)}
-              >
-                {condition}
-              </button>
-            ))}
+            {/* 키워드 로딩 중인 경우 */}
+            {isLoading && <div>로딩 중...</div>}
+
+            {/* 키워드 렌더링 */}
+            {!isLoading &&
+              keywords &&
+              keywords.map(({ id, content }) => (
+                <button
+                  key={id}
+                  css={
+                    selectedConditions.includes(id)
+                      ? Button.mainPinkButton({
+                          isDisabled: false,
+                          width: "260px",
+                          height: "50px",
+                        })
+                      : Button.grayBorderButton({
+                          width: "260px",
+                          height: "50px",
+                        })
+                  }
+                  onClick={() => handleConditionClick(id)}
+                >
+                  {content}
+                </button>
+              ))}
           </div>
           {/* 사진/영상을 추가해 주세요 */}
           <div

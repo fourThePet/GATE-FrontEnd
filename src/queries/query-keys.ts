@@ -17,6 +17,9 @@ export const QUERY_KEYS = {
   GET_PLACES: (params: PlacesParam) => ["GET_PLACES", params],
   GET_FAVORITES_LIST: ["GET_FAVORITES_LIST"],
   PATCH_FAVOTIRES: (placeId: number) => ["PATCH_FAVOTIRES", placeId],
-  GET_PLACE_REVIEWS: (placeId: number) => ["placeReviews", placeId],
   GET_REVIEWS_MY: ["GET_REVIEWS_MY"],
+  POST_CREATE_REVIEW: ["POST_CREATE_REVIEW"],
+  GET_PLACE_REVIEWS: (placeId: number) => ["placeReviews", placeId] as const,
+  GET_REVIEW_KEYWORDS: (placeId: number) =>
+    ["reviewKeywords", placeId] as const,
 } as const;

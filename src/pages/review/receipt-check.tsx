@@ -1,19 +1,26 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { PageWrapper } from "../../styles/ui";
 import { Logowithshadow } from "../../assets/svg";
 import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Receipt } from "../../assets/svg";
 import { Write } from "../../assets/svg";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import ReceiptSubmit from "../../components/modal/receipt-submit"; // ReceiptSubmit 모달 컴포넌트 import
+import ReceiptSubmit from "../../components/modal/receipt-submit";
 
 export default function ReceiptCheck() {
-  const navigate = useNavigate(); // navigate 인스턴스 생성
-  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false); // ReceiptSubmit 모달 상태 관리
+  const navigate = useNavigate();
+  const location = useLocation(); // 전달된 state를 가져옴
+  const placeId = location.state?.placeId; // placeId 가져오기
+  const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
 
   const handleWriteReviewButtonClick = () => {
-    navigate("/review/writereview"); // 절대 경로로 이동
+    navigate(`/review/writereview/${placeId}`, {
+      state: {
+        placeId,
+        receiptCertificate: true, // receiptCertificate 값을 추가로 전달
+      },
+    });
   };
 
   const openReceiptModal = () => {

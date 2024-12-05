@@ -15,9 +15,9 @@ export interface ReviewDataType {
 }
 
 export interface ReviewKeyword {
-  keywordId: number;
-  content: string;
-  keywordCount: number;
+  id: number; // 키워드 ID
+  content: string; // 키워드 내용
+  keywordCount?: number; // 선택적 키워드 개수
 }
 
 export interface ReviewResponse {

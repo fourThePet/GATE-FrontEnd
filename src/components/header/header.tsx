@@ -27,8 +27,16 @@ export default function Header({ handleBackButtonClick }: Props) {
     // { path: "/place", title: "장소", component: OnlyTitleHeader },
     // { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
-    { path: "review/receiptcheck", title: "", component: BackTitleHeader },
-    { path: "review/writereview", title: "", component: BackTitleHeader },
+    {
+      path: "review/receiptcheck/:placeId",
+      title: "",
+      component: BackTitleHeader,
+    },
+    {
+      path: "review/writereview/:placeId",
+      title: "",
+      component: BackTitleHeader,
+    },
     { path: "/review", title: "리뷰", component: BackTitleHeader },
     { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader },
     {
