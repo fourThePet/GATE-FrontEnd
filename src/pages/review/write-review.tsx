@@ -40,7 +40,8 @@ export default function WriteReview() {
   const [selectedFiles, setSelectedFiles] = useState<
     { url: string; type: "image" | "video" }[]
   >([]); // 파일 URL과 타입 관리
-  const receiptCertificate = location.state?.receiptCertificate; // receiptCertificate 가져오기
+
+  const receiptCertificate = location.state?.receiptCertificate ?? false; // receiptCertificate 가져오기
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {

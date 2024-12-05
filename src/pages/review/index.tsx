@@ -63,6 +63,8 @@ export default function Review() {
               fontSize: "24px",
               color: "#E0E0E0",
               marginLeft: "-12px",
+              position: "relative",
+              display: "inline-block",
             }}
           >
             ★
@@ -85,13 +87,6 @@ export default function Review() {
     }
     return stars;
   };
-  const toggleExpand = (id: number) => {
-    setExpandedReviews((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
   const toggleExpand = (id: number) => {
     setExpandedReviews((prev) => ({
       ...prev,
