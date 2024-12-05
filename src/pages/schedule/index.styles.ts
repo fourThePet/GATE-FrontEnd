@@ -2,27 +2,22 @@ import { css } from "@emotion/react";
 
 export const Imgblock = css`
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100%; /* 가로를 화면 전체로 설정 */
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 16 / 14; /* 16:9 비율 */
 
   svg {
-    position: absolute;
-    object-fit: cover; /* 배경 이미지를 꽉 채우도록 설정 */
+    width: 100%;
+    height: auto; /* 세로 비율 유지 */
+    object-fit: cover;
   }
 
   .text-overlay {
     position: absolute;
     z-index: 2;
-    // text-align: center; /* 텍스트 가운데 정렬 */
-    color: black; /* 텍스트 색상 */
+    color: black;
   }
-`;
-
-export const Greeting = css``;
-
-export const Section = css`
-  /* margin-bottom: 30px; */
 `;
