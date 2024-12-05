@@ -15,6 +15,7 @@ import {
   NotFound,
   MyBookMark,
   PlanDetail,
+  ReviewEdit
 } from "./pages";
 import FilterPlace from "./pages/place/filter-place";
 import PlaceDetail from "./pages/place/place-detail";
@@ -92,6 +93,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/create",
         element: <PlanCreate />,
+      },
+      {
+        path: "review/edit/:reviewId",
+        element: <ReviewEdit/>,
       },
     ],
   },

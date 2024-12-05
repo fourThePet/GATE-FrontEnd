@@ -11,3 +11,4 @@ export { default as MyReview } from "./mypage/my-review";
 export { default as NotFound } from "./not-found";
 export { default as MyBookMark } from "./mypage/bookmark";
 export { default as PlanDetail } from "./plan/detail";
+export { default as ReviewEdit} from './review/review-edit';
