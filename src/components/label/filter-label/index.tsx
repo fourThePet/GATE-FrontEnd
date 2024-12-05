@@ -1,5 +1,6 @@
-import colors from "../../styles/colors";
-import Text from "../text";
+
+import colors from "../../../styles/colors";
+import Text from "../../text";
 import { labelWrapper } from "./index.styles";
 
 export default function FilterLabel({children}){
