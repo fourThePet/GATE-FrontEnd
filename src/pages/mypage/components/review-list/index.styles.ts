@@ -9,7 +9,6 @@ export const wrapper = css`
     gap: 10px;
 `
 export const dateWrapper = css`
-    padding-inline: 12px;
     width: 100%;
 `
 export const cardWrapper = css`

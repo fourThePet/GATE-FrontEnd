@@ -7,7 +7,7 @@ export const postDogsProfile = async (body: FormData) => {
 
 export const getDogsProfiles = async () => {
   const response = await api.get("/dogs/profiles");
-  return response.data.result;
+  return response.data.result || [];
 };
 
 export const getDogsProfileDogId = async (dogId: number) => {

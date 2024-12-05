@@ -16,6 +16,10 @@ export const wrapper = css`
     align-items: center;
     width: 100%;
     overflow-y: auto;
-    padding: 10px 30px 0;
+    padding: 10px 30px 30px;
     gap: 20px;
+`
+
+export const countWrapper = css`
+    width: 100%;
 `
