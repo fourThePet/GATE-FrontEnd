@@ -7,7 +7,7 @@ import IconsActions from "../icons-actions";
 import { ReviewDataType } from "../../../../interfaces";
 import { useDeleteReviews } from "../../../../queries";
 
-export default function ReviewList({id, content, fileUrlList, keywordList, size, updateAt} : ReviewDataType){
+export default function ReviewList({id, placeName, roadAddress, content, fileUrlList, keywordList, size, updateAt} : ReviewDataType){
     const {mutate : deleteReview} = useDeleteReviews()
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
     const toggleText = () => {
@@ -41,8 +41,8 @@ export default function ReviewList({id, content, fileUrlList, keywordList, size,
             </div>
             <div css={cardWrapper}>
                 <div css={titleWrapper}>
-                    <Text type="Body2">{'더왈츠 애견카페'}</Text>
-                    <Text type="Label3" color={colors.color.Gray1}>{'서울특별시 강남구 역삼로 134'}</Text>
+                    <Text type="Body2">{placeName}</Text>
+                    <Text type="Label3" color={colors.color.Gray1}>{roadAddress}</Text>
                     <div css={menuWrapper}>
                         <MenuIcon width={16} onClick={handleMenuIconClick}/>
                         {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick}/>) }

@@ -26,6 +26,8 @@ export default function MyReview(){
                     <ReviewList
                         key={review.id}
                         id={review.id}
+                        placeName={review.placeName}
+                        roadAddress={review.roadAddress}
                         content={review.content}
                         fileUrlList={review.fileUrlList}
                         size={review.size}

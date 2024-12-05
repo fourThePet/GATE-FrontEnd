@@ -1,6 +1,8 @@
 export interface ReviewDataType {
     id : number;
     nickName?: string;
+    placeName?: string;
+    roadAddress?: string;
     profileUrl? : string;
     starRate? : number;
     receiptCertificate? : boolean;
