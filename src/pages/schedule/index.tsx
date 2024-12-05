@@ -67,7 +67,7 @@ export default function Schedule() {
           <div
             css={css`
               position: absolute;
-              bottom: 10%; /* 이미지 바닥보다 20% 위로 위치 */
+              bottom: 10%;
               left: 35%;
               transform: translateX(-50%);
               display: flex;
