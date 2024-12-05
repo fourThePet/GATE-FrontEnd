@@ -92,6 +92,13 @@ export default function Review() {
     }));
   };
 
+  const toggleExpand = (id: number) => {
+    setExpandedReviews((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   return (
     <div
       css={PageWrapper}
