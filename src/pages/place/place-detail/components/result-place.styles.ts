@@ -1,11 +1,14 @@
-import colors from "../../../styles/colors";
+import colors from "../../../../styles/colors";
 import { css } from "@emotion/react";
 
 export const PlaceList = css`
   margin: 10px 30px;
+  height: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   background-color: ${colors.color.White};
+  padding-bottom: 180px;
 `;
 
 export const PlaceItem = css`

@@ -1,37 +1,35 @@
 import { useEffect, useState } from "react";
 import { api } from "../api";
-import { PlacesParam } from "../../interfaces/places";
-
+import { Place, PlacesParam } from "../../interfaces/places";
 
 // 카테고리 데이터 요청 및 가공
 export const getPlacesCategories = async () => {
   try {
     const response = await api.get("/places/categories");
     return response.data;
-
   } catch (error) {
     throw new Error(error.message || "알 수 없는 오류 발생");
   }
 };
 
 // 장소 데이터 요청
-const getPlaces = async (
+export const getPlaces = async (
   latitude: number,
   longitude: number,
-  category?: string,
   size?: string,
   entryConditions?: string[],
-  types?: string[]
+  types?: string[],
+  category?: string
 ) => {
   try {
     const response = await api.get("/places", {
       params: {
         latitude, // API에 맞는 파라미터 이름 사용
         longitude,
-        category,
         size,
         entryConditions: entryConditions?.join(","),
         types: types?.join(","),
+        category,
       },
     });
     const data = response.data;
@@ -46,22 +44,18 @@ const getPlaces = async (
   }
 };
 
-export const getPlaces_2 = async(params : PlacesParam) =>{
-  const response = await api.get("/places", {params})
-  return response.data.result
-}
-
+export const getPlaces_2 = async (params: PlacesParam) => {
+  const response = await api.get("/places", { params });
+  return response.data.result;
+};
 
 // 상태관리 훅 (장소 데이터)
-export const useGetPlaces = (
-  latitude: number,
-  longitude: number,
-  category?: string,
-  size?: string,
-  entryConditions?: string[],
-  types?: string[]
-) => {
-  const [places, setPlaces] = useState<[]>([]);
+export const useGetPlaces = (params: PlacesParam) => {
+  const { latitude, longitude, size, entryConditions, types, category } =
+    params;
+
+  // States
+  const [places, setPlaces] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,12 +68,13 @@ export const useGetPlaces = (
         const placesData = await getPlaces(
           latitude,
           longitude,
-          category,
           size,
           entryConditions,
-          types
+          types,
+          category
         );
-        setPlaces(placesData);
+        // 응답값이 존재하지 않으면 'result'가 내려오지 않는 현상 존재
+        setPlaces(placesData || []);
       } catch (err) {
         setError(err.message || "장소 데이터를 불러오는 데 실패했습니다.");
       } finally {
@@ -88,13 +83,12 @@ export const useGetPlaces = (
     };
 
     loadPlaces();
-  }, [latitude, longitude, category, size, entryConditions, types]);
+  }, [latitude, longitude, size, entryConditions, types, category]);
 
   return { places, isLoading, error };
 };
 
-
-export const getPlacesInfo = async (placeId : number) => {
+export const getPlacesInfo = async (placeId: number) => {
   try {
     const response = await api.get(`/places/${placeId}`);
     return response.data.result; // 필요한 데이터만 반환
