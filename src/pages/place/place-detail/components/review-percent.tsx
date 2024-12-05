@@ -6,19 +6,27 @@ import {
   percentageStyle,
 } from "../index.styles";
 import { typo } from "../../../../styles/typo";
-export default function ReviewPercent() {
-  // 샘플 데이터
-  const reviewData = [
-    { label: "입마개는 필수예요 🐾", value: 339 },
-    { label: "기저귀를 착용해요 ☁️", value: 129 },
-    { label: "케이지를 사용했어요 🙏", value: 88 },
-    { label: "실내 동반이 가능해요 🛋️", value: 259 },
-  ];
+import { useGetPlaceReviews } from "../../../../queries/reviews"; // useGetPlaceReviews import
+import { ReviewProps } from "../../../../interfaces/reviews";
+
+export default function ReviewPercent({ placeId }: ReviewProps) {
+  // 장소 리뷰 데이터 가져오기
+  const { data, isLoading, error } = useGetPlaceReviews(placeId);
+
+  if (isLoading) return <div>리뷰 데이터를 불러오는 중입니다...</div>;
+  if (error) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
+
+  // keywordResponseList에서 label과 value로 변환
+  const reviewData =
+    data?.keywordResponseList.map((keyword: any) => ({
+      label: keyword.content, // content를 label로
+      value: keyword.keywordCount, // keywordCount를 value로
+    })) || [];
 
   const totalValue = reviewData.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <div css={wrapperStyle}>
+    <div css={wrapperStyle} style={{ marginTop: "-20px" }}>
       {reviewData.map((item, index) => (
         <div css={barContainerStyle} key={index}>
           {/* 레이블 */}

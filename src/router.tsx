@@ -1,6 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { Login, Home, Schedule, Mypage, Place, KakaoCallback,  OnboardingUser, OnboardingPet, OnboardingCompletion, MyReview, NotFound,MyBookMark } from "./pages";
+
+import {
+  Login,
+  Home,
+  Schedule,
+  Mypage,
+  Place,
+  KakaoCallback,
+  OnboardingUser,
+  OnboardingPet,
+  OnboardingCompletion,
+  MyReview,
+  NotFound,
+  MyBookMark,
+} from "./pages";
+import PlaceList from "./pages/place";
 import FilterPlace from "./pages/place/filter-place";
 import PlaceDetail from "./pages/place/place-detail";
 import ReceiptCheck from "./pages/review/receipt-check";
@@ -11,7 +26,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement : <NotFound/>,
+    errorElement: <NotFound />,
     children: [
       {
         path: "",
@@ -41,9 +56,9 @@ export const router = createBrowserRouter([
       { path: "place/filter", element: <FilterPlace /> },
       // { path: "place/list", element: <PlaceList /> },
 
-      { path: "review/receiptcheck", element: <ReceiptCheck /> },
-      { path: "review/writereview", element: <WriteReview /> },
-      { path: "review", element: <Review /> },
+      { path: "review/receiptcheck/:placeId", element: <ReceiptCheck /> },
+      { path: "review/writereview/:placeId", element: <WriteReview /> },
+      { path: "review/:placeId", element: <Review /> },
       { path: "auth/kakao", element: <KakaoCallback /> },
       {
         path: "onboarding/user",
@@ -63,11 +78,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "mypage/review-list",
-        element: <MyReview/>,
+        element: <MyReview />,
       },
       {
         path: "mypage/bookmark",
-        element: <MyBookMark/>,
+        element: <MyBookMark />,
       },
     ],
   },

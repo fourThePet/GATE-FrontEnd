@@ -93,3 +93,21 @@ export const percentageStyle = css`
   text-align: right;
   color: #f1729b;
 `;
+
+export const wrapper = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  margin: auto auto;
+  width: 100%;
+`;
+
+export const textWrapper = css`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+`;

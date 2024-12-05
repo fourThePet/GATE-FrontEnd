@@ -16,10 +16,16 @@ import {
 } from "../../assets/svg";
 import { Pinkpencil } from "../../assets/svg";
 import ConfirmModal from "../../components/modal/confirm-modal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useGetReviewKeywords,
+  usePostCreateReview,
+} from "../../queries/reviews";
+import { AxiosError } from "axios";
+
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]); // 선택된 조건 상태 관리
+  const [selectedConditions, setSelectedConditions] = useState<number[]>([]); // 선택된 조건 상태 관리 (id 값 사용)
   const [selectedDogSize, setSelectedDogSize] = useState<
     "small" | "medium" | "large" | null
   >(null); // 아이 크기 상태 관리
@@ -27,9 +33,13 @@ export default function WriteReview() {
   const [review, setReview] = useState(""); // 리뷰 상태 관리
   const maxChars = 400; // 최대 글자 수
   const navigate = useNavigate();
-  const [selectedFiles, setSelectedFiles] = useState<
-    { url: string; type: "image" | "video" }[]
-  >([]); // 파일 URL과 타입 관리
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // File 배열로 변경
+  const [filePreviews, setFilePreviews] = useState<string[]>([]); // 파일 미리보기 URL
+
+  const location = useLocation(); // 전달된 state를 가져옴
+  const placeId = location.state?.placeId;
+  const { mutate: postCreateReview } = usePostCreateReview();
+  const receiptCertificate = location.state?.receiptCertificate ?? false; // receiptCertificate 가져오기
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {
@@ -37,15 +47,17 @@ export default function WriteReview() {
     }
   };
 
-  const handleConditionClick = (condition: string) => {
+  const handleConditionClick = (id: number) => {
     // 조건을 선택/해제하는 로직
     setSelectedConditions(
       (prev) =>
-        prev.includes(condition)
-          ? prev.filter((c) => c !== condition) // 이미 선택된 경우 제거
-          : [...prev, condition] // 선택되지 않은 경우 추가
+        prev.includes(id)
+          ? prev.filter((conditionId) => conditionId !== id) // 이미 선택된 경우 제거
+          : [...prev, id] // 선택되지 않은 경우 추가
     );
   };
+
+  const { data: keywords, isLoading } = useGetReviewKeywords(placeId);
 
   const handleStarClick = (newRating) => {
     setRating(newRating);
@@ -56,7 +68,50 @@ export default function WriteReview() {
   };
 
   const handleRegister = () => {
-    setIsModalOpen(true); // 모달 열기
+    const formData = new FormData();
+
+    // JSON 데이터 구성
+    const reviewData = {
+      placeId: placeId, // 장소 ID
+      receiptCertificate: receiptCertificate, // 영수증 인증 여부
+      keywords: selectedConditions, // 선택된 키워드 배열
+      starRate: rating, // 별점
+      size: selectedDogSize?.toUpperCase(), // 선택된 크기 (SMALL, MEDIUM, LARGE 등)
+      content: review, // 작성된 리뷰 내용
+    };
+
+    // JSON 데이터 문자열로 변환 후 FormData에 추가
+    formData.append("request", JSON.stringify(reviewData));
+
+    // 첨부 파일 추가
+    if (selectedFiles.length > 0) {
+      selectedFiles.forEach((file) => formData.append("files", file));
+    } else {
+      formData.append("files", new Blob(), null); // 파일이 없을 경우 빈 파일 추가
+    }
+
+    // FormData 내용 확인 (디버깅 용도)
+    console.log("FormData 내용:");
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    });
+
+    // 리뷰 작성 API 호출
+    postCreateReview(formData, {
+      onSuccess: () => {
+        setIsModalOpen(true); // 성공 시 모달 열기
+      },
+      onError: (error: AxiosError) => {
+        if (error.response) {
+          console.error("리뷰 작성 실패:", error.response.status);
+          console.error("에러 메시지:", error.response.data);
+        } else if (error.request) {
+          console.error("요청이 서버에 도달하지 못했습니다.");
+        } else {
+          console.error("에러:", error.message);
+        }
+      },
+    });
   };
 
   const openFileDialog = () => {
@@ -69,39 +124,29 @@ export default function WriteReview() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files; // 선택한 파일 가져오기
     if (files) {
-      const newFiles = Array.from(files)
-        .map((file) => {
-          const fileType = file.type.includes("image")
-            ? "image"
-            : file.type.includes("video")
-            ? "video"
-            : null;
+      const newFiles = Array.from(files);
+      const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
 
-          if (!fileType) return null;
-
-          return {
-            url: URL.createObjectURL(file),
-            type: fileType as "image" | "video", // 타입을 명시적으로 설정
-          };
-        })
-        .filter(
-          (file): file is { url: string; type: "image" | "video" } =>
-            file !== null
-        ); // null 값 필터링
-
-      setSelectedFiles((prev) => [...prev, ...newFiles]); // 상태 업데이트
+      // 새로운 파일 및 미리보기 URL 추가
+      setSelectedFiles((prev) => [...prev, ...newFiles]);
+      setFilePreviews((prev) => [...prev, ...newPreviews]);
     }
   };
 
-  const handleFileRemove = (fileUrl: string) => {
-    // 파일 삭제
-    setSelectedFiles((prev) => prev.filter((file) => file.url !== fileUrl));
-    URL.revokeObjectURL(fileUrl); // URL 해제
+  const handleFileRemove = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+    setFilePreviews((prev) => {
+      // URL 해제
+      URL.revokeObjectURL(prev[index]);
+      return prev.filter((_, i) => i !== index);
+    });
   };
+
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
     navigate(-1); // 이전 페이지로 이동
   };
+
   return (
     <>
       <div
@@ -278,36 +323,35 @@ export default function WriteReview() {
               width: "90%",
             })}
             style={{
-              flexWrap: "wrap", //크기 맞춤
+              flexWrap: "wrap", // 크기 맞춤
             }}
           >
-            {[
-              "입마개는 필수예요 🐾",
-              "케이지를 사용했어요 🙏",
-              "기저귀를 착용해요 ☁️",
-              "리드줄을 착용했어요 〰️",
-              "실내 동반이 가능해요 🛋️",
-              "테라스 이용만 가능해요 🏕️",
-            ].map((condition, index) => (
-              <button
-                key={index}
-                css={
-                  selectedConditions.includes(condition)
-                    ? Button.mainPinkButton({
-                        isDisabled: false, // 추가
-                        width: "260px",
-                        height: "50px",
-                      })
-                    : Button.grayBorderButton({
-                        width: "260px",
-                        height: "50px",
-                      })
-                }
-                onClick={() => handleConditionClick(condition)}
-              >
-                {condition}
-              </button>
-            ))}
+            {/* 키워드 로딩 중인 경우 */}
+            {isLoading && <div>로딩 중...</div>}
+
+            {/* 키워드 렌더링 */}
+            {!isLoading &&
+              keywords &&
+              keywords.map(({ id, content }) => (
+                <button
+                  key={id}
+                  css={
+                    selectedConditions.includes(id)
+                      ? Button.mainPinkButton({
+                          isDisabled: false,
+                          width: "260px",
+                          height: "50px",
+                        })
+                      : Button.grayBorderButton({
+                          width: "260px",
+                          height: "50px",
+                        })
+                  }
+                  onClick={() => handleConditionClick(id)}
+                >
+                  {content}
+                </button>
+              ))}
           </div>
           {/* 사진/영상을 추가해 주세요 */}
           <div
@@ -344,7 +388,7 @@ export default function WriteReview() {
                 position: "relative",
               }}
             >
-              {selectedFiles.map((file, index) => (
+              {filePreviews.map((url, index) => (
                 <div
                   key={index}
                   style={{
@@ -355,9 +399,9 @@ export default function WriteReview() {
                     position: "relative",
                   }}
                 >
-                  {file.type === "video" ? (
+                  {selectedFiles[index].type.startsWith("video/") ? (
                     <video
-                      src={file.url}
+                      src={url}
                       controls
                       style={{
                         width: "100%",
@@ -368,7 +412,7 @@ export default function WriteReview() {
                     ></video>
                   ) : (
                     <img
-                      src={file.url}
+                      src={url}
                       alt="uploaded"
                       style={{
                         width: "100%",
@@ -380,7 +424,7 @@ export default function WriteReview() {
                   )}
                   {/* 삭제 버튼 */}
                   <button
-                    onClick={() => handleFileRemove(file.url)}
+                    onClick={() => handleFileRemove(index)}
                     style={{
                       position: "absolute",
                       top: "5px",
@@ -516,6 +560,7 @@ export default function WriteReview() {
             subText="마이페이지 > 내 리뷰 조회에서 확인해보세요"
             confirmText="확인"
             onConfirm={() => setIsModalOpen(false)} // 모달 닫기 동작
+            placeId={placeId} // placeId 추가
           />
         </div>
       </div>
