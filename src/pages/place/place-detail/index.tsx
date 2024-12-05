@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { PageWrapper } from "../../../styles/ui";
 import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
 import { Divider2 } from "../../../styles/ui";
-// import BasicInfo from "./components/basic-info";
 import ReviewGpt from "./components/review-gpt";
 import Reviews from "./components/reviews";
 import HowToCome from "./components/how-to-come";
@@ -12,14 +11,18 @@ import { Block } from "../../../components/block/block";
 import { typo } from "../../../styles/typo";
 import { Mapicon } from "../../../assets/svg";
 import ReviewPercent from "./components/review-percent";
+import { useGetPlaceReviews } from "../../../queries/reviews"; // 리뷰 데이터 가져오기 훅
 
 export default function PlaceDetail() {
   const navigate = useNavigate();
-  const [isButtonVisible, setIsButtonVisible] = useState(false); // 버튼 보임 상태
+  const [isButtonVisible, setIsButtonVisible] = useState(false); // 지도보기 버튼 보임 상태
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
 
+  const placeId = 1; // 임시 placeId
+  const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
+
   const handleAllReviewButtonClick = () => {
-    navigate("/review"); // /receiptcheck 경로로 이동
+    navigate("/review", { state: { placeId } }); // placeId 전달
   };
 
   useEffect(() => {
@@ -40,6 +43,11 @@ export default function PlaceDetail() {
       }
     };
   }, []);
+
+  if (isLoading) return <div>리뷰를 불러오는 중입니다...</div>;
+  if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
+
+  const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
   return (
     <div
@@ -62,29 +70,30 @@ export default function PlaceDetail() {
         `}
       </style>
 
-      <StoreInfo />
-      {/* <Divider2 /> */}
-      {/* <BasicInfo /> */}
+      <StoreInfo placeId={placeId} />
       <Divider2 />
-      <ReviewGpt />
-      <ReviewPercent />
-      <Reviews />
+      {reviewResponseList.length > 0 && <ReviewGpt placeId={placeId} />}
+      <ReviewPercent placeId={placeId} />
+      <Reviews placeId={placeId} />
+
       {/* 리뷰 전체보기 버튼 */}
-      <button
-        css={Button.pinkBorderButton({
-          width: "90%",
-          height: "50px",
-        })}
-        style={{
-          marginTop: "20px",
-          display: "block", // 버튼을 블록 요소로 설정
-          marginLeft: "auto", // 자동 왼쪽 마진
-          marginRight: "auto", // 자동 오른쪽 마진 (가운데 정렬)
-        }}
-        onClick={handleAllReviewButtonClick}
-      >
-        리뷰 전체보기
-      </button>
+      {reviewResponseList.length > 0 && (
+        <button
+          css={Button.pinkBorderButton({
+            width: "90%",
+            height: "50px",
+          })}
+          style={{
+            marginTop: "20px",
+            display: "block", // 버튼을 블록 요소로 설정
+            marginLeft: "auto", // 자동 왼쪽 마진
+            marginRight: "auto", // 자동 오른쪽 마진 (가운데 정렬)
+          }}
+          onClick={handleAllReviewButtonClick}
+        >
+          리뷰 전체보기
+        </button>
+      )}
       <Divider2 />
       <div ref={howToComeRef}>
         <HowToCome />

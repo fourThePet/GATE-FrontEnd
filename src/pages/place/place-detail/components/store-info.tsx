@@ -28,12 +28,16 @@ import axios from "axios";
 import { HeaderContainer } from "../index.styles";
 import BackTitleHeader from "../../../../components/header/back-title";
 import { useNavigate } from "react-router-dom";
+import { PlaceReviewList } from "./review-gpt";
 
-export default function StoreInfo() {
+type StoreInfoProps = {
+  placeId: number; // placeId를 props로 받음
+};
+
+export default function StoreInfo({ placeId }: StoreInfoProps) {
   const navigate = useNavigate();
 
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
-  const placeId = 10; // 임시로 고정된 placeId
   const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
 
   // React Query로 장소 정보 가져오기
@@ -54,52 +58,6 @@ export default function StoreInfo() {
       alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
       window.location.href = "/login";
       return;
-    }
-
-    if (isLiked) {
-      patchFavoriteMutation.mutate(placeId, {
-        onSuccess: () => {
-          console.log("즐겨찾기 삭제");
-          setIsLiked(false);
-        },
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
-            if (error.response?.status === 401) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              window.location.href = "/login";
-            } else {
-              console.error("즐겨찾기 삭제 실패:", error.response?.data);
-              alert("즐겨찾기 삭제 중 문제가 발생했습니다.");
-            }
-          } else {
-            console.error("알 수 없는 오류:", error);
-            alert("예기치 못한 문제가 발생했습니다.");
-          }
-        },
-      });
-    } else {
-      postFavoriteMutation.mutate(placeId, {
-        onError: (error) => {
-          if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
-            if (error.response?.status === 401) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              window.location.href = "/login";
-            } else {
-              console.error("즐겨찾기 등록 실패:", error.response?.data);
-              alert("즐겨찾기 등록 중 문제가 발생했습니다.");
-            }
-          } else {
-            console.error("알 수 없는 오류:", error);
-            alert("예기치 못한 문제가 발생했습니다.");
-          }
-        },
-        onSuccess: () => {
-          console.log("즐겨찾기 등록 성공");
-          setIsLiked(true);
-        },
-      });
     }
 
     if (isLiked) {
@@ -244,23 +202,10 @@ export default function StoreInfo() {
             )}
           </div>
         </div>
-        <p css={typo.Body2} style={{ marginBottom: "-5px", color: "#9A9EA6" }}>
+        <p css={typo.Body2} style={{ marginBottom: "10px", color: "#9A9EA6" }}>
           {storeData.lotAddress}
         </p>
-        <div
-          css={Block.flexBlock({
-            direction: "row",
-            alignItems: "center",
-            gap: "5px",
-          })}
-        >
-          <span css={typo.Body1} style={{ color: "#F1729B" }}>
-            ★
-          </span>
-          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
-            4.1 (105)
-          </span>
-        </div>
+        <PlaceReviewList placeId={placeId} />{" "}
       </div>
       {/* 정보 아이콘 */}
       <div
