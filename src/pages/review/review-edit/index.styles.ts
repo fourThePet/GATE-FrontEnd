@@ -113,7 +113,7 @@ export const reviewTitle = css`
 
 export const textArea = css`
     width: 100%;
-    height: auto;
+    height: 300px;
 
 `
 export const imageWrapper = css`
@@ -122,7 +122,6 @@ export const imageWrapper = css`
     justify-content: space-between;
     gap: 20px;
     width: 100%;
-    height: auto;
     flex-wrap: wrap;
     border-radius: 20px;
     padding: 10px;
@@ -134,18 +133,20 @@ export const fileWrapper = css`
     align-items: center;
     justify-content: center;
     position: relative;
+    height: 150px;
 `
 
 export const fileSize = css`
-    /* width: 100px;
-    height: 100px; */
+    width: 100px;
+    height: 100px;
 `
 
 export const deleteIcon = css`
     position: absolute;
-    top: 5px;
+    top: 30px;
     right: 5px;
     cursor: pointer;
+    
 `
 
 export const charsCount = css`
