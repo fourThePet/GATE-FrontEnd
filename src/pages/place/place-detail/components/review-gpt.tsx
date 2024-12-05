@@ -46,7 +46,7 @@ export default function ReviewGpt({ placeId }: ReviewGptProps) {
   };
 
   const handleReviewButtonClick = () => {
-    navigate("/review/receiptcheck");
+    navigate(`/review/receiptcheck/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
   };
 
   return (

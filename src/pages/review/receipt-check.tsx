@@ -18,7 +18,7 @@ export default function ReceiptCheck() {
     navigate(`/review/writereview/${placeId}`, {
       state: {
         placeId,
-        receiptCertificate: false, // receiptCertificate 값을 추가로 전달
+        receiptCertificate: true, // receiptCertificate 값을 추가로 전달
       },
     });
   };
