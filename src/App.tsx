@@ -8,7 +8,7 @@ function App() {
   const isLoginPage = location.pathname.startsWith("/login");
   const isPlaceDetailPage = location.pathname.startsWith("/place/detail");
   const isReceiptCheckPage = location.pathname.startsWith("/review");
-  const isWriteReviewPage = location.pathname.startsWith("/review/writereview");
+  const isWriteReviewPage = location.pathname.startsWith("/review/write");
 
   const isOnboardingPage =
     location.pathname.startsWith("/onboarding") ||

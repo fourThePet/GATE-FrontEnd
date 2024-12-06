@@ -21,7 +21,7 @@ type Props = {
   isPlaceDetailPage: boolean;
   isReceiptCheckPage: boolean;
   isWriteReviewPage: boolean;
-  isOnboardingPage : boolean
+  isOnboardingPage: boolean;
 };
 
 export default function Navigator({
@@ -29,8 +29,7 @@ export default function Navigator({
   isPlaceDetailPage,
   isReceiptCheckPage,
   isWriteReviewPage,
-  isOnboardingPage
-  
+  isOnboardingPage,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,13 +61,13 @@ export default function Navigator({
       requiresAuth: false,
     },
     {
-      icon: location.pathname.startsWith("/schedule") ? (
+      icon: location.pathname.startsWith("/plan") ? (
         <Schedulepink width={31} />
       ) : (
         <Schedulegray width={31} />
       ),
       label: "일정",
-      path: "/schedule",
+      path: "/plan",
       requiresAuth: false,
     },
     {
@@ -114,7 +113,14 @@ export default function Navigator({
                     onClick={() => handleNavigation(item.path)}
                   >
                     {item.icon}
-                    <Text type="Body3" color={isActive? colors.color.MainColor : colors.color.Gray2}>{item.label}</Text>
+                    <Text
+                      type="Body3"
+                      color={
+                        isActive ? colors.color.MainColor : colors.color.Gray2
+                      }
+                    >
+                      {item.label}
+                    </Text>
                   </div>
                 );
               })}

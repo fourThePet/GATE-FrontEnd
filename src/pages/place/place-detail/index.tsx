@@ -47,7 +47,6 @@ export default function PlaceDetail() {
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
   const { isLoggedIn } = useAuthStore();
 
-
   const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
@@ -80,7 +79,7 @@ export default function PlaceDetail() {
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
   const handleReviewButtonClick = () => {
-    navigate(`/review/receiptcheck/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
+    navigate(`/review/receipt-check/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
   };
 
   return (

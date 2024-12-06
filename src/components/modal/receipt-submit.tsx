@@ -192,7 +192,7 @@ export default function ReceiptSubmit({
               height: "40px",
             })}
             onClick={() =>
-              navigate(`/review/writereview/${placeId}`, {
+              navigate(`/review/write/${placeId}`, {
                 state: { receiptCertificate: true, placeId }, // receiptCertificate 값을 state로 전달
               })
             }

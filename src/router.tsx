@@ -4,7 +4,7 @@ import App from "./App";
 import {
   Login,
   Home,
-  Schedule,
+  Plan,
   Mypage,
   Place,
   KakaoCallback,
@@ -15,7 +15,6 @@ import {
   NotFound,
   MyBookMark,
 } from "./pages";
-
 import FilterPlace from "./pages/place/filter-place";
 import PlaceDetail from "./pages/place/place-detail";
 import ReceiptCheck from "./pages/review/receipt-check";
@@ -41,8 +40,8 @@ export const router = createBrowserRouter([
         element: <Place />,
       },
       {
-        path: "schedule",
-        element: <Schedule />,
+        path: "plan",
+        element: <Plan />,
       },
       {
         path: "mypage",
@@ -56,8 +55,8 @@ export const router = createBrowserRouter([
       { path: "place/filter", element: <FilterPlace /> },
       // { path: "place/list", element: <PlaceList /> },
 
-      { path: "review/receiptcheck/:placeId", element: <ReceiptCheck /> },
-      { path: "review/writereview/:placeId", element: <WriteReview /> },
+      { path: "review/receipt-check/:placeId", element: <ReceiptCheck /> },
+      { path: "review/write/:placeId", element: <WriteReview /> },
       { path: "review/:placeId", element: <Review /> },
       { path: "auth/kakao", element: <KakaoCallback /> },
       {

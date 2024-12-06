@@ -7,7 +7,7 @@ import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 
-export default function Schedule() {
+export default function Plan() {
   const [showComingTravel, setShowComingTravel] = useState(true);
   const [showPastTravel, setShowPastTravel] = useState(true);
 
