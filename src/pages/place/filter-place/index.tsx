@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackTitleHeader from "../../../components/header/back-title";
 import FilterSection from "./filter-list";
 import { headerContainer } from "../../../components/header/back-search";
@@ -6,11 +6,12 @@ import { Block } from "../../../components/block/block";
 import { css } from "@emotion/react";
 import { Button } from "../../../components/button/button";
 import colors from "../../../styles/colors";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useLocationStore } from "../../../stores/useLocationState";
 
 export default function FilterPlace() {
   const navigate = useNavigate();
+  const { search } = useLocation();
   const [filters, setFilters] = useState({
     conditions: {
       isLeashRequired: false,
@@ -26,6 +27,12 @@ export default function FilterPlace() {
     dogSize: null,
   });
   const { latitude, longitude } = useLocationStore();
+
+  // 쿼리스트링에서 카테고리 값을 추출
+  const { category } = useMemo(() => {
+    const params = new URLSearchParams(search);
+    return { category: params.get("category") || "전체" }; // 기본값: 전체
+  }, [search]);
 
   const handleBackButtonClick = () => {
     navigate(-1); // 뒤로 가기
@@ -54,6 +61,7 @@ export default function FilterPlace() {
     const queryParams = {
       latitude: latitude, // 위도 추가
       longitude: longitude, // 경도 추가
+      category: category, // 기존 카테고리 유지
       size: filters.dogSize || undefined, // 강아지 크기 필터
       entryConditions: Object.keys(filters.conditions)
         .filter((key) => filters.conditions[key]) // 선택된 조건 필터

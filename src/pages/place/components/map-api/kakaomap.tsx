@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
@@ -18,7 +18,7 @@ import {
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { useGetPlaces2 } from "../../../../queries";
 
 declare global {
@@ -75,6 +75,9 @@ export default function KakaoMap({
   const mapInstance = useRef<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const { setLatitude, setLongitude } = useLocationStore(); // Zustand 사용
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const categoryFromQuery = queryParams.get("category") || "전체";
 
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
