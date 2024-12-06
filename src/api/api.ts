@@ -52,17 +52,21 @@ api.interceptors.response.use(
       const login = useAuthStore.getState().login; // Zustand의 login 메서드
       const logout = useAuthStore.getState().logout; // Zustand의 logout 메서드
       try {
-        const { data } = await axios.post("/members/reissue", { refreshToken });
+        const { data } = await axios.post("/api/v1/members/reissue", null, {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`, // 헤더에 토큰 포함
+          },
+        });
         
         login(data.accessToken)
         localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken); 
         // 원래 요청 다시 시도
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         return api.request(error.config);
       } catch (reissueError) {
         console.error("토큰 재발급 실패:", reissueError);
         // 로그아웃 처리
+        alert("세션이 만료되었습니다. 다시 로그인해주세요")
         logout()
         localStorage.removeItem("refreshToken");
         window.location.href = "/login";
