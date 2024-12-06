@@ -33,14 +33,12 @@ export default function WriteReview() {
   const [review, setReview] = useState(""); // 리뷰 상태 관리
   const maxChars = 400; // 최대 글자 수
   const navigate = useNavigate();
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // File 배열로 변경
   const [filePreviews, setFilePreviews] = useState<string[]>([]); // 파일 미리보기 URL
+
   const location = useLocation(); // 전달된 state를 가져옴
   const placeId = location.state?.placeId;
   const { mutate: postCreateReview } = usePostCreateReview();
-  const [selectedFiles, setSelectedFiles] = useState<
-    { url: string; type: "image" | "video" }[]
-  >([]); // 파일 URL과 타입 관리
-
   const receiptCertificate = location.state?.receiptCertificate ?? false; // receiptCertificate 가져오기
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
