@@ -34,6 +34,10 @@ export default function SearchbarCategory() {
     console.log("필터 적용 페이지 호출");
     navigate("/place"); // 검색바 클릭 시 페이지 이동
   };
+  const handleCategoryClick = (category) => {
+    console.log(`${category} 필터 적용 페이지 호출`);
+    navigate(`/place?category=${encodeURIComponent(category)}`); // 카테고리 값 전달
+  };
 
   return (
     <>
@@ -50,7 +54,11 @@ export default function SearchbarCategory() {
       {/* 카테고리 */}
       <div css={categoryWrapperStyle}>
         {categories.slice(1).map((item) => (
-          <div key={item.id} css={categoryItemStyle}>
+          <div
+            key={item.id}
+            css={categoryItemStyle}
+            onClick={() => handleCategoryClick(item.name)}
+          >
             <span style={{ fontSize: "2rem" }}>{item.icon}</span>
             <span>{item.name}</span>
           </div>
