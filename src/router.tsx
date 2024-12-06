@@ -14,6 +14,7 @@ import {
   MyReview,
   NotFound,
   MyBookMark,
+  PlanDetail,
 } from "./pages";
 import FilterPlace from "./pages/place/filter-place";
 import PlaceDetail from "./pages/place/place-detail";
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: "mypage/bookmark",
         element: <MyBookMark />,
+      },
+      {
+        path: "plan/:planId",
+        element: <PlanDetail />,
       },
     ],
   },

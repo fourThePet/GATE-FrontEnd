@@ -2,6 +2,7 @@ import { useLocation, matchPath } from "react-router-dom";
 import LogoBellHeader from "./logo-bell";
 // import OnlyTitleHeader from "./only-title";
 import BackTitleHeader from "./back-title";
+import PinkBackHeader from "./pink-back";
 
 type HeaderComponentProps = {
   title?: string; // title은 선택적 속성으로 설정
@@ -58,6 +59,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       path: "/mypage/bookmark",
       title: "내 즐겨찾기",
       component: BackTitleHeader,
+    },
+    {
+      path: "/plan/:planId",
+      title: "",
+      component: PinkBackHeader,
     },
   ];
 
