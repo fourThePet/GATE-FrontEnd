@@ -8,6 +8,7 @@ export const contentWrapper = css`
     height: 100vh; /* 화면 전체 높이 */
     overflow: hidden; //내부 콘텐츠만 스크롤 가능
     position: relative;
+    padding-top: 80px;
 `
 export const wrapper = css`
     flex: 1; //나머지 공간을 차지
@@ -16,10 +17,17 @@ export const wrapper = css`
     align-items: center;
     width: 100%;
     overflow-y: auto;
-    padding: 40px 30px 0;
+    padding: 0 30px;
     gap: 20px;
 `
+export const mainWrapper = css`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
+`
 export const titleWrapper = css`
     width: 100%;
     display: flex;
@@ -39,20 +47,15 @@ export const starStyles = css`
         align-items: center;
     }
     .react-stars span {
-        font-size: 50px; /* 원하는 별 크기 */
         margin-right: 10px; /* 별 간격 */
-        color: #e0e0e0; /* 비활성화된 별 색상 */
         transition: color 0.3s ease, transform 0.2s ease; /* 부드러운 전환 효과 */
     }
 
     .react-stars span:hover {
-        color: #f1729b; /* 호버 시 활성화된 별 색상 */
+        color: ${colors.color.MainColor}; /* 호버 시 활성화된 별 색상 */
         transform: scale(1.2); /* 호버 시 확대 효과 */
     }
 
-    .react-stars span.filled {
-        color: #f1729b !important; /* 활성화된 별 색상 */
-    }
 `
 
 export const formTitleWrapper = css`
@@ -113,13 +116,14 @@ export const reviewTitle = css`
 
 export const textArea = css`
     width: 100%;
-    height: 300px;
+    height: 170px;
 
 `
-export const imageWrapper = css`
+export const imageWrapper =(isCentered: boolean) => css`
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: ${isCentered ? "center" : "flex-start"};
+    align-items: center;
     gap: 20px;
     width: 100%;
     flex-wrap: wrap;
@@ -139,6 +143,7 @@ export const fileWrapper = css`
 export const fileSize = css`
     width: 100px;
     height: 100px;
+    border-radius: 5px;
 `
 
 export const deleteIcon = css`
@@ -171,4 +176,15 @@ export const bottomButtonStyle = css`
     padding: 12px;
     gap: 20px;
     background-color: ${colors.color.White1};
+`;
+
+export const addIcon = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+`
+
+export const fileInput = css`
+  display: none; /* 파일 업로드 버튼 숨김 */
 `;

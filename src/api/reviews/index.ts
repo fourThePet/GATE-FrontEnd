@@ -26,13 +26,29 @@ export const getReviewKeywords = async (placeId: number) => {
 };
 
 // 리뷰 작성 API
-export const postCreateReview = async (reviewData: FormData): Promise<any> => {
+export const postCreateReview = async (reviewData: FormData) => {
   try {
-    const response = await formAPI.post("/reviews", reviewData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const response = await formAPI.post("/reviews", reviewData);
     return response.data.result;
-  } catch (error) {
+  } catch {
     throw new Error("리뷰 작성에 실패했습니다.");
   }
 };
+
+export const getReviewsReviewId = async(reviewId: number)=>{
+  try{
+    const response = await api.get(`/reviews/${reviewId}`);
+    return response.data.result;
+  }catch(error){
+    console.error(error.response.data.detail)
+  }
+}
+
+export const putReviewByReviewId = async(body : FormData,reviewId:number) =>{
+  try{
+    const response = await formAPI.put(`/reviews/${reviewId}`, body);
+    return response.data;
+  }catch(error){
+    console.error(error.response)
+  }
+}

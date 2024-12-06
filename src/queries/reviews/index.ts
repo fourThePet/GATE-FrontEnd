@@ -3,12 +3,13 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getPlaceReviews,
   getReviewKeywords,
+  getReviewsReviewId,
   postCreateReview,
+  putReviewByReviewId,
 } from "../../api/reviews";
 import { QUERY_KEYS } from "../query-keys";
 import { deleteReviews, getReviewsMy } from "../../api";
-import { PlaceReviewResponse } from "../../interfaces/reviews";
-import { ReviewKeyword } from "../../interfaces/reviews";
+import { PlaceReviewResponse, ReviewKeyword } from "../../interfaces";
 
 export const useGetReviewsMy = () => {
   const { isLoggedIn } = useAuthStore();
@@ -95,3 +96,36 @@ export const usePostCreateReview = () => {
     },
   });
 };
+
+export const useGetReviewsReviewId = (reviewId : number) => {
+  const { isLoggedIn } = useAuthStore();
+  return useQuery({
+    queryKey: QUERY_KEYS.GET_REVIEWS_REVIEWID(reviewId),
+    queryFn: async () => {
+      try {
+        return await getReviewsReviewId(reviewId);
+      } catch {
+        throw new Error("리뷰를 조회하는 데 실패했습니다.");
+      }
+    },
+    enabled: isLoggedIn,
+  });
+};
+
+export const usePutReviewByReviewId = (reviewId : number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+      mutationFn: async (body : FormData) => {
+          try {
+              return await putReviewByReviewId(body, reviewId);
+          }catch{
+              throw new Error('리뷰 수정에 실패하였습니다.')
+          }
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.GET_REVIEWS_MY
+        })
+      }
+  })
+}

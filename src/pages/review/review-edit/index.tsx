@@ -1,4 +1,4 @@
-import { ChangeEvent,  useEffect,  useState } from "react";
+import { ChangeEvent,  useEffect,  useRef,  useState } from "react";
 import { CertificateLabel, GrayBorderButton, MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import { addIcon, borderWrapper, bottomButtonStyle, charsCount, contentWrapper, deleteIcon, fileInput, fileSize, fileWrapper, formTitleWrapper, iconWrapper, imageWrapper, labelWrapper, mainWrapper, reviewTitle, sizeWrapper, starStyles, textArea, titleWrapper, wrapper } from "./index.styles";
@@ -6,7 +6,7 @@ import ReactStars from "react-rating-stars-component"
 import { AddIcon, FileDelete, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Pinkpencil, Sdogpink, Sdogwhite } from "../../../assets/svg";
 import ConditionLabel from "../../../components/label/condition-label";
 import { useLocation, useNavigate} from "react-router-dom";
-import { useGetReviewKeywords, useGetReviewsReviewId } from "../../../queries";
+import { useGetReviewKeywords, useGetReviewsReviewId, usePutReviewByReviewId } from "../../../queries";
 interface FileWithPreview {
     file?: File;
     url: string;
@@ -21,16 +21,14 @@ export default function ReviewEdit(){
     
     const [rating, setRating] = useState<number>(0);
     const [reviewText, setReviewText] = useState<string>("");
-    
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFiles, setSelectedFiles] = useState<FileWithPreview[]>([]); // File 배열로 변경
-    const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+    const [selectedKeywords, setSelectedKeywords] = useState<number[]>([]);
     const maxChars = 400; //최대 글자수 
-    const [selectedDogSize, setSelectedDogSize] = useState<"SMALL" | "MEDIUM" | "LARGE" | null>(); 
-    const handleStarClick = (newRating : number) => {
-        setRating(newRating);
-    };
+    const [selectedDogSize, setSelectedDogSize] = useState<"SMALL" | "MEDIUM" | "LARGE" | null>(null); 
     
-    // reviewData.size를 기반으로 초기 상태 설정
+    const { mutate : modifyReview } = usePutReviewByReviewId(id)
+    // reviewData를 기반으로 초기 상태 설정
     useEffect(() => {
         if (reviewData) {
             const processedFileList = Array.isArray(reviewData?.fileUrlList)
@@ -43,21 +41,39 @@ export default function ReviewEdit(){
                 };
                 }).filter((item) => item !== null) // null 값 제거
             : [];
-            setSelectedFiles(processedFileList)
-            setReviewText(reviewData?.content)
-            setRating(reviewData?.starRate)
-            setSelectedDogSize(reviewData?.size); // 초기값 설정
+            setSelectedFiles(processedFileList) //파일
+            setReviewText(reviewData?.content) //리뷰 내용
+            setRating(reviewData?.starRate) //별점
+            setSelectedDogSize(reviewData?.size); // 반려견 크기
             
         }
     }, [reviewData]);
 
     // placeId 기반으로 키워드 데이터 가져오기
     const placeId = reviewData?.placeId;
-    const { data: keywordsData} = useGetReviewKeywords(placeId);
-    
-    
-    // console.log(reviewData, keywordsData)
-    
+    const { data: keywordsData} = useGetReviewKeywords(placeId); 
+
+    const [enrichedKeywords, setEnrichedKeywords] = useState([]);
+
+    useEffect(() => { //키워드 
+        if (keywordsData && reviewData?.keywordList) {
+            const enriched = keywordsData.map((keyword) => ({
+                id: keyword.id,
+                content: keyword.content,
+                selected: reviewData.keywordList.includes(keyword.content),
+            }));
+
+            setEnrichedKeywords(enriched);
+            setSelectedKeywords(
+                enriched.filter((keyword) => keyword.selected).map((keyword) => keyword.id)
+            );
+        }
+    }, [keywordsData, reviewData]);
+
+    //별점
+    const handleStarClick = (newRating : number) => {
+        setRating(newRating);
+    };
 
     //견종 크기
     const handleSizeClick = (size:"SMALL" | "MEDIUM" | "LARGE" ) => {
@@ -65,11 +81,13 @@ export default function ReviewEdit(){
         
     };
 
+    //리뷰 작성 변경 이벤트
     const handleReviewChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
         setReviewText(value)
     }
 
+    //파일 변경 이벤트
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files) {
@@ -83,6 +101,7 @@ export default function ReviewEdit(){
         }
     };
 
+    //파일 삭제 이벤트
     const handleFileRemove = (index: number) => {
         setSelectedFiles((prev) => {
           URL.revokeObjectURL(prev[index].url); // URL 해제
@@ -90,7 +109,8 @@ export default function ReviewEdit(){
         });
     };
 
-    const handleModifyButtonClick = () =>{
+    //수정하기 버튼 이벤트
+    const handleModifyButtonClick = async () =>{
         const formData = new FormData();
         const request = {
             placeId,
@@ -100,22 +120,38 @@ export default function ReviewEdit(){
             size : selectedDogSize,
             keywords : selectedKeywords,
         }
-        formData.append("request",JSON.stringify(request));
-        // 선택된 파일 추가
-        selectedFiles.forEach((fileWithPreview) => {
+        formData.append("request", JSON.stringify(request));
+        
+        // 기존 선택된 파일 추가
+        for (const fileWithPreview of selectedFiles) {
+            
             if (fileWithPreview.file) {
-                formData.append("files", fileWithPreview.file); // 서버가 기대하는 필드 이름으로 추가
+                // 파일 객체가 존재하면 그대로 추가
+                formData.append("files", fileWithPreview.file);
+            } else {
+                // URL만 있는 경우 URL을 파일로 변환 후 추가
+                
+                const file = await convertImageUrlToFile(fileWithPreview.url, "uploaded-file.png");
+                formData.append("files", file);
             }
-        });
-        //console.log(placeId,selectedKeywords, selectedDogSize, rating, reviewText, selectedFiles, )
-        // FormData 내용 출력
-        for (const [key, value] of formData.entries()) {
-            console.log(`${key}:`, value);
         }
+
+        modifyReview(formData, {
+            onSuccess : () => {
+                console.log("리뷰 수정 성공!")
+                navigate(-1)
+                
+            },
+            onError : () => {
+                alert("리뷰 수정 실패.")
+                
+            },
+        })
     }
 
-    // 이미지 URL을 파일로 변환하는 함수
+    //이미지 URL을 파일로 변환하는 함수
     const convertImageUrlToFile = async (url, fileName) => {
+        
         const response = await fetch(url);
         const blob = await response.blob();
         return new File([blob], fileName, { type: blob.type });
@@ -172,21 +208,18 @@ export default function ReviewEdit(){
                 <div css={formTitleWrapper}>
                     <Text type="Heading4">입장조건이 무엇인가요?</Text>
                     <div css={labelWrapper}>
-                        {keywordsData?.map((keyword, index)=>{
-                            
-                            const isChecked = reviewData?.keywordList?.includes(keyword.content);
-                            // console.log(keyword.id,reviewData?.keywordList, isChecked)
+                        {enrichedKeywords?.map((keyword, index)=>{
                             return (
                                 <ConditionLabel
                                     key={index}
-                                    initialSelected={isChecked}
+                                    initialSelected={keyword.selected}
                                     onToggle={(isSelected) => {
                                         if (isSelected) {
                                           // 선택된 경우 추가
-                                          setSelectedKeywords((prev) => [...prev, keyword.content]);
+                                          setSelectedKeywords((prev) => [...prev, keyword.id]);
                                         } else {
                                           // 선택 해제된 경우 제거
-                                          setSelectedKeywords((prev) => prev.filter((k) => k !== keyword.content));
+                                          setSelectedKeywords((prev) => prev.filter((k) => k !== keyword.id));
                                         }
                                     }}
                                 >{keyword.content}</ConditionLabel>
@@ -216,6 +249,7 @@ export default function ReviewEdit(){
                             accept="image/*,video/*"
                             multiple
                             css={fileInput}
+                            ref={fileInputRef}
                             onChange={handleFileChange}
                         />
                     </label>
