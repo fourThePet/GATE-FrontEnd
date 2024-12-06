@@ -7,6 +7,7 @@ import { typo } from "../../styles/typo";
 import { Divider } from "../../styles/ui";
 import { Button } from "../../components/button/button";
 import { BasicInfoContainer } from "../place/place-detail/index.styles";
+import { Sdogpink, Mdogpink, Ldogpink } from "../../assets/svg";
 
 export default function Review() {
   const location = useLocation();
@@ -247,8 +248,33 @@ export default function Review() {
                 direction: "row",
                 gap: "10px",
               })}
-              style={{ marginTop: "10px" }}
+              style={{ marginBottom: "20px" }}
             >
+              {/* 크기 아이콘 표시 */}
+              {review.size === "SMALL" && (
+                <Sdogpink
+                  css={{
+                    width: "40px",
+                    height: "40px",
+                  }}
+                />
+              )}
+              {review.size === "MEDIUM" && (
+                <Mdogpink
+                  css={{
+                    width: "45px",
+                    height: "45px",
+                  }}
+                />
+              )}
+              {review.size === "LARGE" && (
+                <Ldogpink
+                  css={{
+                    width: "50px",
+                    height: "50px",
+                  }}
+                />
+              )}
               {review.keywordList.map((keyword: string, index: number) => (
                 <button
                   key={index}

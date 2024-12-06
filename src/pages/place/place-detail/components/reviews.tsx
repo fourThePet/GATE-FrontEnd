@@ -126,8 +126,33 @@ export default function Reviews({ placeId }: ReviewsProps) {
             direction: "row",
             gap: "10px",
           })}
-          style={{ marginTop: "10px" }}
+          style={{ marginBottom: "20px" }}
         >
+          {/* 크기 아이콘 표시 */}
+          {firstReview.size === "SMALL" && (
+            <Sdogpink
+              css={{
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          )}
+          {firstReview.size === "MEDIUM" && (
+            <Mdogpink
+              css={{
+                width: "45px",
+                height: "45px",
+              }}
+            />
+          )}
+          {firstReview.size === "LARGE" && (
+            <Ldogpink
+              css={{
+                width: "50px",
+                height: "50px",
+              }}
+            />
+          )}
           {firstReview.keywordList.map((keyword: string, index: number) => (
             <button
               key={index}
@@ -142,34 +167,6 @@ export default function Reviews({ placeId }: ReviewsProps) {
                 alignItems: "center",
               }}
             >
-              {/* 크기 아이콘 표시 */}
-              {firstReview.size === "SMALL" && (
-                <Sdogpink
-                  css={{
-                    width: "20px",
-                    height: "20px",
-                    marginRight: "8px", // 아이콘과 텍스트 간격 조정
-                  }}
-                />
-              )}
-              {firstReview.size === "MEDIUM" && (
-                <Mdogpink
-                  css={{
-                    width: "20px",
-                    height: "20px",
-                    marginRight: "8px",
-                  }}
-                />
-              )}
-              {firstReview.size === "LARGE" && (
-                <Ldogpink
-                  css={{
-                    width: "20px",
-                    height: "20px",
-                    marginRight: "8px",
-                  }}
-                />
-              )}
               {keyword}
             </button>
           ))}
