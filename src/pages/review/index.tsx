@@ -223,18 +223,27 @@ export default function Review() {
             <div style={{ marginTop: "10px", marginLeft: "10px" }}>
               <p
                 css={typo.Body2}
-                style={{ lineHeight: "1.5", color: "#66707A" }}
+                style={{
+                  lineHeight: "1.5", // 줄 간격
+                  color: "#66707A", // 텍스트 색상
+                  wordWrap: "break-word", // 단어 단위로 줄바꿈
+                  whiteSpace: "pre-wrap", // 줄바꿈 및 공백 유지
+                }}
               >
                 {review.content.length > 100
                   ? expandedReviews[review.id]
-                    ? review.content
-                    : `${review.content.slice(0, 100)}...`
+                    ? review.content // 전체 내용 표시
+                    : `${review.content.slice(0, 100)}...` // 100자까지만 표시
                   : review.content}
               </p>
               {review.content.length > 100 && !expandedReviews[review.id] && (
                 <span
                   css={typo.Body3}
-                  style={{ color: "#F1729B", cursor: "pointer" }}
+                  style={{
+                    color: "#F1729B", // 버튼 색상
+                    cursor: "pointer", // 마우스 포인터 변경
+                    display: "inline-block", // 텍스트 줄바꿈 유지
+                  }}
                   onClick={() => toggleExpand(review.id)}
                 >
                   더보기
@@ -254,8 +263,8 @@ export default function Review() {
               {review.size === "SMALL" && (
                 <Sdogpink
                   css={{
-                    width: "40px",
-                    height: "40px",
+                    width: "45px",
+                    height: "45px",
                   }}
                 />
               )}
@@ -270,8 +279,8 @@ export default function Review() {
               {review.size === "LARGE" && (
                 <Ldogpink
                   css={{
-                    width: "50px",
-                    height: "50px",
+                    width: "45px",
+                    height: "45px",
                   }}
                 />
               )}
@@ -295,7 +304,6 @@ export default function Review() {
             </div>
 
             {/* 리뷰 이미지 */}
-
             {review.fileUrlList?.length > 0 &&
               review.fileUrlList[0] !== null && (
                 <div
@@ -306,26 +314,69 @@ export default function Review() {
                   }}
                 >
                   {review.fileUrlList.map(
-                    (fileUrl: string | null, index: number) =>
-                      fileUrl ? ( // fileUrl이 null이 아닌 경우에만 렌더링
-                        <img
+                    (fileUrl: string | null, index: number) => {
+                      if (!fileUrl) return null; // fileUrl이 null인 경우 렌더링하지 않음
+
+                      // 비디오인지 확인 (확장자를 기반으로 체크)
+                      const isVideo = /\.(mp4|mov|avi|webm|ogg)$/i.test(
+                        fileUrl
+                      );
+
+                      return isVideo ? (
+                        <div
                           key={index}
-                          src={fileUrl}
-                          // alt={`리뷰 이미지 ${index + 1}`}
-                          css={{
-                            display: "inline-block", // 가로 배치
+                          style={{
+                            flex: "0 0 auto",
                             width: "100px",
                             height: "100px",
                             borderRadius: "10px",
-                            objectFit: "cover",
-                            marginRight: "10px", // 이미지 간격
+                            position: "relative",
+                            display: "inline-block", // 가로 배치
+                            marginRight: "5px",
                           }}
-                        />
-                      ) : null
+                        >
+                          <video
+                            src={fileUrl}
+                            controls
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              borderRadius: "10px",
+                              objectFit: "cover",
+                              display: "inline-block", // 가로 배치
+                            }}
+                          ></video>
+                        </div>
+                      ) : (
+                        <div
+                          key={index}
+                          style={{
+                            flex: "0 0 auto",
+                            width: "100px",
+                            height: "100px",
+                            borderRadius: "10px",
+                            position: "relative",
+                            display: "inline-block", // 가로 배치
+                            marginRight: "5px",
+                          }}
+                        >
+                          <img
+                            src={fileUrl}
+                            alt={`리뷰 이미지 ${index + 1}`}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              borderRadius: "10px",
+                              objectFit: "cover",
+                              display: "inline-block", // 가로 배치
+                            }}
+                          />
+                        </div>
+                      );
+                    }
                   )}
                 </div>
               )}
-
             {/* 날짜 */}
             <div
               css={typo.Body3}
