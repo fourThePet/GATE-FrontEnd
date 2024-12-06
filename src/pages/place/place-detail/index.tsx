@@ -79,7 +79,7 @@ export default function PlaceDetail() {
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
   const handleReviewButtonClick = () => {
-    navigate(`/review/receiptcheck/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
+    navigate(`/review/receipt-check/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
   };
 
   return (

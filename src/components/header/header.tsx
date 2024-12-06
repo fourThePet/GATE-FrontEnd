@@ -28,12 +28,12 @@ export default function Header({ handleBackButtonClick }: Props) {
     // { path: "/mypage", title: "마이페이지", component: OnlyTitleHeader },
     { path: "/login", title: "로그인", component: BackTitleHeader },
     {
-      path: "review/receiptcheck/:placeId",
+      path: "review/receipt-check/:placeId",
       title: "",
       component: BackTitleHeader,
     },
     {
-      path: "review/writereview/:placeId",
+      path: "review/write/:placeId",
       title: "",
       component: BackTitleHeader,
     },

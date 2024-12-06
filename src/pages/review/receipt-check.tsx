@@ -15,7 +15,7 @@ export default function ReceiptCheck() {
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
 
   const handleWriteReviewButtonClick = () => {
-    navigate(`/review/writereview/${placeId}`, {
+    navigate(`/review/write/${placeId}`, {
       state: {
         placeId,
         receiptCertificate: false, // receiptCertificate 값을 추가로 전달
