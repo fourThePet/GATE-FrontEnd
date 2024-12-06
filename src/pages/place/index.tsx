@@ -24,9 +24,12 @@ import { PlacesParam } from "../../interfaces/places";
 
 export default function Place() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { data } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get("category") || "전체";
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [buttonText, setButtonText] = useState("목록 보기");
   const { latitude, longitude } = useLocationStore();
@@ -69,11 +72,15 @@ export default function Place() {
       latitude,
       longitude,
       category: isAll ? undefined : selectedCategory,
-      size: size,
-      entryConditions: entryConditions,
-      types: types,
     };
   }, [selectedCategory, latitude, longitude, size, entryConditions, types]);
+
+  /* 홈화면에서 전달받은 카테고리 */
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryFromQuery = queryParams.get("category") || "전체";
+    setSelectedCategory(categoryFromQuery);
+  }, [location.search]);
 
   /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
   const { places } = useGetPlaces(placesQuery);
