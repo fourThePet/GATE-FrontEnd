@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
@@ -19,7 +19,6 @@ import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
 import { useLocation, useNavigate } from "react-router-dom";
-import colors from "../../../../styles/colors";
 // import { useGetPlaces2 } from "../../../../queries";
 
 declare global {
@@ -38,9 +37,6 @@ declare global {
         MarkerImage: new (url: string, size: any, options?: any) => any;
         Size: new (width: number, height: number) => any;
         Point: new (width: number, height: number) => any;
-        CustomOverlay: new (options: any) => {
-          setMap: (map: any | null) => void;
-        };
         event: {
           addListener: (
             target: any,
@@ -145,16 +141,6 @@ export default function KakaoMap({
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
-    let activeOverlay: any = null;
-
-    // 지도 클릭 시 활성 오버레이 닫기 이벤트 추가
-    window.kakao.maps.event.addListener(mapInstance.current, "click", () => {
-      if (activeOverlay) {
-        activeOverlay.setMap(null);
-        activeOverlay = null;
-      }
-    });
-
     const newMarkers = places.map((place) => {
       const icon = getIconBasedOnCategory(place.category);
 
@@ -171,51 +157,18 @@ export default function KakaoMap({
         ),
       });
 
-      // 커스텀 오버레이 HTML 콘텐츠
-      const content = `
-        <div id="overlay-${place.id}" style="
-          padding: 10px;
-          background: ${colors.color.White1};
-          border: 1px solid ${colors.color.Gray4};
-          border-radius: 5px;
-          box-shadow: 0px 2px 4px ${colors.color.Black1};
-          cursor: pointer;
-        ">
-          <strong class="overlay-name" data-place-id="${place.id}">${place.name}</strong><br />
-          <span>${place.category}</span><br />
-          <span>${place.roadAddress}</span>
-        </div>
-      `;
-
-      // 커스텀 오버레이 생성
-      const overlay = new window.kakao.maps.CustomOverlay({
-        content,
-        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
-        yAnchor: 1.5,
-        clickable: true, // 클릭 가능한 오버레이 설정
-      });
-
       // 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, "click", () => {
-        if (activeOverlay) activeOverlay.setMap(null); // 기존 오버레이 닫기
+        // 쿼리스트링 업데이트
+        navigate(`/place/detail/${place.id}`, {
+          replace: false,
+          state: place.id,
+        });
 
-        overlay.setMap(mapInstance.current);
-        activeOverlay = overlay;
-
-        // 이벤트가 추가되지 않았다면 여기서 추가
-        const overlayElement = document.querySelector(`#overlay-${place.id}`);
-        if (overlayElement) {
-          overlayElement.addEventListener("click", (e) => {
-            const target = e.target as HTMLElement;
-            if (target.classList.contains("overlay-name")) {
-              navigate(`/place/detail/${place.id}`, { replace: false });
-            }
-            e.stopPropagation();
-          });
-        }
+        console.log(`마커 클릭: ${place.id}`);
       });
 
-      return { marker, overlay };
+      return marker;
     });
 
     setMarkers(newMarkers);
