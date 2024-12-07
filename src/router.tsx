@@ -21,6 +21,7 @@ import PlaceDetail from "./pages/place/place-detail";
 import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
+import PlanCreate from "./pages/plan/plan-create";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/:planId",
         element: <PlanDetail />,
+      },
+      {
+        path: "plan/create",
+        element: <PlanCreate />,
       },
     ],
   },

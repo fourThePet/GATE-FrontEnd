@@ -32,7 +32,7 @@ export default function ConfirmModal({
   const handleConfirm = () => {
     if (onConfirm) onConfirm(); // 확인 클릭 시 핸들러 실행
     closeModal(); // 모달 닫기
-    navigate(`/place/detail/${placeId}`); // /place/detail/:placeId 경로로 이동
+    navigate(`/place/detail/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
   };
 
   return (
