@@ -27,7 +27,7 @@ jobs:
       - name: Yarn Install
         run: |
           yarn install
-          
+
       - name: Create .env file
         run: |
           echo "VITE_BASE_URL=${{secrets.VITE_BASE_URL}}" >> .env

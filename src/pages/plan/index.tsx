@@ -8,7 +8,6 @@ import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
-import { Block } from "../../components/block/block";
 export default function Plan() {
   const navigate = useNavigate();
 
@@ -185,6 +184,7 @@ export default function Plan() {
           css={css`
             padding: 20px;
             margin-bottom: 100px;
+            margin-top: -20px;
           `}
         >
           {/* 탭 */}
@@ -200,23 +200,33 @@ export default function Plan() {
           >
             <div
               onClick={() => handleTabClick("coming")}
-              style={{
-                cursor: "pointer",
-                fontWeight: activeTab === "coming" ? "bold" : "normal",
-                color: activeTab === "coming" ? "#a4a4a4" : "#f1729b",
-                borderBottom: "5px solid #f1729b",
-              }}
+              css={css`
+                cursor: pointer;
+                font-weight: ${activeTab === "coming" ? "bold" : "normal"};
+                color: ${activeTab === "coming" ? "#F1729B" : "#A4A4A4"};
+                border-bottom: ${activeTab === "coming"
+                  ? "5px solid #F1729B"
+                  : "none"};
+                padding-bottom: 10px;
+                width: 160px; /* 길이를 조정 */
+                text-align: center; /* 가운데 정렬 */
+              `}
             >
               다가오는 여행
             </div>
             <div
               onClick={() => handleTabClick("past")}
-              style={{
-                cursor: "pointer",
-                fontWeight: activeTab === "past" ? "bold" : "normal",
-                color: activeTab === "coming" ? "#a4a4a4" : "#f1729b",
-                borderBottom: "5px solid #f1729b",
-              }}
+              css={css`
+                cursor: pointer;
+                font-weight: ${activeTab === "past" ? "bold" : "normal"};
+                color: ${activeTab === "past" ? "#F1729B" : "#A4A4A4"};
+                border-bottom: ${activeTab === "past"
+                  ? "5px solid #F1729B"
+                  : "none"};
+                padding-bottom: 10px;
+                width: 160px; /* 길이를 조정 */
+                text-align: center; /* 가운데 정렬 */
+              `}
             >
               지난 여행
             </div>

@@ -2,13 +2,6 @@
 import { css } from "@emotion/react";
 import { typo } from "../../../../styles/typo";
 
-interface TravelFormProps {
-  imageUrl: string;
-  travelName: string;
-  date: string;
-  dogCount: number;
-}
-
 export const TravelForm = ({
   imageUrl,
   travelName,
@@ -27,7 +20,6 @@ export const TravelForm = ({
         align-items: center;
         margin-bottom: 10px;
         padding: 10px 0;
-        border-bottom: 1px solid #eaeaea;
       `}
     >
       <img
