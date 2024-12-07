@@ -114,6 +114,7 @@ export default function PlaceDetail() {
           })}
         >
           <h1 css={typo.Heading3}>리뷰</h1>
+          {/* 리뷰작성 */}
           <Writereview
             css={{ width: "70px", height: "70px", cursor: "pointer" }}
             onClick={() => {

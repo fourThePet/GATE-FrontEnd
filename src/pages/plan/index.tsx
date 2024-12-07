@@ -6,13 +6,18 @@ import { css } from "@emotion/react";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
-
-export default function Plan() {
+import { useGetPlacesCities } from "../../queries";
+export default function () {
   const [showComingTravel, setShowComingTravel] = useState(true);
   const [showPastTravel, setShowPastTravel] = useState(true);
 
   const toggleComingTravel = () => setShowComingTravel((prev) => !prev);
   const togglePastTravel = () => setShowPastTravel((prev) => !prev);
+
+  const { data: cities, isLoading, isError } = useGetPlacesCities();
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
 
   return (
     <>
@@ -98,7 +103,6 @@ export default function Plan() {
         <div
           css={css`
             padding: 20px;
-            /* margin-top: 20px; */
           `}
         >
           <h3 css={typo.Heading3}>🐶 여행지 추천</h3>
@@ -107,29 +111,33 @@ export default function Plan() {
               display: flex;
               gap: 10px;
               margin-top: 10px;
+              overflow-x: auto; /* 가로 스크롤 활성화 */
+              white-space: nowrap; /* 버튼 줄바꿈 방지 */
+              padding-bottom: 10px; /* 스크롤바 공간 확보 */
+              &::-webkit-scrollbar {
+                height: 6px; /* 스크롤바 높이 설정 */
+              }
+              &::-webkit-scrollbar-thumb {
+                background-color: #ccc; /* 스크롤바 색상 */
+                border-radius: 3px; /* 스크롤바 모양 */
+              }
+              &::-webkit-scrollbar-track {
+                background-color: #f1f1f1; /* 스크롤바 트랙 색상 */
+              }
             `}
           >
-            <button
-              css={Button.grayBorderButton({
-                width: "100px",
-              })}
-            >
-              경기도
-            </button>
-            <button
-              css={Button.grayBorderButton({
-                width: "100px",
-              })}
-            >
-              서울특별시
-            </button>
-            <button
-              css={Button.grayBorderButton({
-                width: "100px",
-              })}
-            >
-              인천광역시
-            </button>
+            {cities?.map((city: { id: number; cityName: string }) => (
+              <button
+                key={city.id}
+                css={Button.grayBorderButton({
+                  width: "100px",
+                  height: "50px",
+                })}
+                style={{ padding: "8px 40px" }}
+              >
+                {city.cityName}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -137,6 +145,7 @@ export default function Plan() {
         <div
           css={css`
             padding: 20px;
+            margin-top: -20px;
           `}
         >
           <div
@@ -177,6 +186,8 @@ export default function Plan() {
         <div
           css={css`
             padding: 20px;
+            margin-top: -20px;
+
             margin-bottom: 100px;
           `}
         >

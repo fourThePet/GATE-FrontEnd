@@ -97,3 +97,18 @@ export const getPlacesInfo = async (placeId: number) => {
     throw error;
   }
 };
+
+// 지역 리스트 조회 API
+export const getPlacesCities = async () => {
+  try {
+    const response = await api.get("/places/cities");
+    const data = response.data;
+    if (data.isSuccess) {
+      return data.result;
+    } else {
+      throw new Error(data.message || "지역 리스트 조회에 실패했습니다.");
+    }
+  } catch (error: any) {
+    throw new Error(error.message || "알 수 없는 오류가 발생했습니다.");
+  }
+};

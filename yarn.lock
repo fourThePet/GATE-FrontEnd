@@ -1712,7 +1712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.61.4":
+"@tanstack/react-query@npm:^5.62.2":
   version: 5.62.2
   resolution: "@tanstack/react-query@npm:5.62.2"
   dependencies:
@@ -3581,7 +3581,7 @@ __metadata:
     "@storybook/react-vite": "npm:^8.4.4"
     "@storybook/test": "npm:^8.4.4"
     "@svgr/cli": "npm:^8.1.0"
-    "@tanstack/react-query": "npm:^5.61.4"
+    "@tanstack/react-query": "npm:^5.62.2"
     "@types/axios": "npm:^0.14.4"
     "@types/react": "npm:^18.3.12"
     "@types/react-dom": "npm:^18.3.1"

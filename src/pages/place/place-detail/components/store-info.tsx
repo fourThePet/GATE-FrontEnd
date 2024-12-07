@@ -85,8 +85,8 @@ export default function StoreInfo({ placeId }: ReviewProps) {
           if (axios.isAxiosError(error)) {
             // AxiosError로 처리
             if (error.response?.status === 401) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              window.location.href = "/login";
+              // alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+              // window.location.href = "/login";
             } else {
               console.error("즐겨찾기 등록 실패:", error.response?.data);
               alert("즐겨찾기 등록 중 문제가 발생했습니다.");
