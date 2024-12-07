@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
@@ -18,7 +18,7 @@ import {
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { useGetPlaces2 } from "../../../../queries";
 
 declare global {
@@ -75,9 +75,9 @@ export default function KakaoMap({
   const mapInstance = useRef<any>(null);
   const [markers, setMarkers] = useState<any[]>([]);
   const { setLatitude, setLongitude } = useLocationStore(); // Zustand 사용
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const categoryFromQuery = queryParams.get("category") || "전체";
+  // const location = useLocation();
+  // const queryParams = new URLSearchParams(location.search);
+  // const categoryFromQuery = queryParams.get("category") || "전체";
 
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
@@ -156,16 +156,14 @@ export default function KakaoMap({
           { offset: new window.kakao.maps.Point(15, 15) }
         ),
       });
-
       // 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, "click", () => {
-        // 쿼리스트링 업데이트
-        navigate(`/place/detail/${place.id}`, {
-          replace: false,
-          state: place.id,
+        // URL로 이동하며 파라미터와 state 전달
+        const queryParams = `?latitude=${place.latitude}&longitude=${place.longitude}`;
+        const stateData = { placeId: place.id };
+        navigate(`/place/detail/${place.id}${queryParams}`, {
+          state: stateData,
         });
-
-        console.log(`마커 클릭: ${place.id}`);
       });
 
       return marker;
