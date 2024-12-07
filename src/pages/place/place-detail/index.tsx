@@ -15,6 +15,7 @@ import { useGetPlaceReviews } from "../../../queries/reviews"; // 리뷰 데이�
 import { Writereview } from "../../../assets/svg";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { BasicInfoContainer } from "./index.styles";
+import { useLocation } from "react-router-dom";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
@@ -46,8 +47,10 @@ export default function PlaceDetail() {
   const [isButtonVisible, setIsButtonVisible] = useState(false); // 지도보기 버튼 보임 상태
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
   const { isLoggedIn } = useAuthStore();
+  const location = useLocation(); // `state`로 전달된 데이터 접근
+  const placeId = location.state?.placeId; // state에서 placeId 가져오기
 
-  const placeId = 1; // 임시 placeId
+  // const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
   const handleAllReviewButtonClick = () => {

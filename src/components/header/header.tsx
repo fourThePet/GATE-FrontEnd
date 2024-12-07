@@ -65,6 +65,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       title: "",
       component: PinkBackHeader,
     },
+    {
+      path: "/plan/create",
+      title: "",
+      component: BackTitleHeader,
+    },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기

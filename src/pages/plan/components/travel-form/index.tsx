@@ -2,67 +2,63 @@
 import { css } from "@emotion/react";
 import { typo } from "../../../../styles/typo";
 
-interface TravelFormProps {
-  imageUrl: string;
-  travelName: string;
-  date: string;
-  dogCount: number;
-}
-
 export const TravelForm = ({
   imageUrl,
   travelName,
   date,
   dogCount,
-}: TravelFormProps) => {
+}: {
+  imageUrl: string;
+  travelName: string;
+  date: string;
+  dogCount: number;
+}) => {
   return (
     <div
       css={css`
         display: flex;
         align-items: center;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+        padding: 10px 0;
       `}
     >
-      {/* 이미지 */}
       <img
         src={imageUrl}
         alt={travelName}
         css={css`
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
           object-fit: cover;
-          margin-right: 15px;
+          margin-right: 10px;
         `}
       />
-      {/* 여행 정보 */}
       <div>
-        <h4
+        <div
           css={css`
-            ${typo.Heading3};
-            margin: 0;
+            ${typo.Body1};
+            font-weight: bold;
+            margin-bottom: 5px;
           `}
         >
           {travelName}
-        </h4>
-        <p
+        </div>
+        <div
           css={css`
             ${typo.Body2};
-            margin: 5px 0 0;
             color: #888;
           `}
         >
           {date}
-        </p>
-        <p
+        </div>
+        <div
           css={css`
-            ${typo.Body2};
-            margin: 0;
-            color: #888;
+            ${typo.Body3};
+            color: #aaa;
           `}
         >
-          {dogCount}마리의 강아지와 함께
-        </p>
+          {dogCount}개 도시
+        </div>
       </div>
     </div>
   );

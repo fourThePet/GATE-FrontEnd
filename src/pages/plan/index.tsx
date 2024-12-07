@@ -7,17 +7,54 @@ import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 import { useGetPlacesCities } from "../../queries";
-export default function () {
-  const [showComingTravel, setShowComingTravel] = useState(true);
-  const [showPastTravel, setShowPastTravel] = useState(true);
+import { useNavigate } from "react-router-dom";
+export default function Plan() {
+  const navigate = useNavigate();
 
-  const toggleComingTravel = () => setShowComingTravel((prev) => !prev);
-  const togglePastTravel = () => setShowPastTravel((prev) => !prev);
+  const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
+
+  const handleTabClick = (tab: "coming" | "past") => {
+    setActiveTab(tab);
+  };
+
+  const comingTravels = [
+    {
+      imageUrl: "https://via.placeholder.com/80",
+      travelName: "도쿄 여행",
+      date: "2024.11.19",
+      dogCount: 1,
+    },
+    {
+      imageUrl: "https://via.placeholder.com/80",
+      travelName: "삿포로 여행",
+      date: "2024.11.27 - 11.29",
+      dogCount: 1,
+    },
+  ];
+
+  const pastTravels = [
+    {
+      imageUrl: "https://via.placeholder.com/80",
+      travelName: "제주 여행",
+      date: "2021.6.21 - 6.24",
+      dogCount: 1,
+    },
+    {
+      imageUrl: "https://via.placeholder.com/80",
+      travelName: "부산 여행",
+      date: "2020.11.1 - 11.3",
+      dogCount: 1,
+    },
+  ];
 
   const { data: cities, isLoading, isError } = useGetPlacesCities();
 
   if (isLoading) return <p>로딩 중...</p>;
   if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
+
+  const handleCreateButtonClick = () => {
+    navigate(`/plan/create`);
+  };
 
   return (
     <>
@@ -93,6 +130,7 @@ export default function () {
                 height: "50px",
               })}
               style={{ marginLeft: "50%" }}
+              onClick={handleCreateButtonClick}
             >
               📅 일정 생성하기
             </button>
@@ -145,84 +183,78 @@ export default function () {
         <div
           css={css`
             padding: 20px;
-            margin-top: -20px;
-          `}
-        >
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            `}
-          >
-            <h3 css={typo.Heading3}>🏝️ 다가오는 여행</h3>
-            <button style={{ fontSize: "25px" }} onClick={toggleComingTravel}>
-              {showComingTravel ? "⌃" : "⌄"}
-            </button>
-          </div>
-          {showComingTravel && (
-            <div
-              css={css`
-                margin-top: 10px;
-              `}
-            >
-              <TravelForm
-                imageUrl="https://via.placeholder.com/80"
-                travelName="도쿄 여행"
-                date="2024.11.19"
-                dogCount={1}
-              />
-              <TravelForm
-                imageUrl="https://via.placeholder.com/80"
-                travelName="삿포로 여행"
-                date="2024.11.27 - 11.29"
-                dogCount={1}
-              />
-            </div>
-          )}
-        </div>
-
-        {/* 지난 여행 */}
-        <div
-          css={css`
-            padding: 20px;
-            margin-top: -20px;
-
             margin-bottom: 100px;
+            margin-top: -20px;
           `}
         >
+          {/* 탭 */}
           <div
             css={css`
               display: flex;
-              justify-content: space-between;
+              justify-content: space-around;
               align-items: center;
+              margin: 20px 0;
+              padding: 10px;
+              width: 100%;
             `}
           >
-            <h3 css={typo.Heading3}>🗺️ 지난 여행</h3>
-            <button style={{ fontSize: "25px" }} onClick={togglePastTravel}>
-              {showPastTravel ? "⌃" : "⌄"}
-            </button>
-          </div>
-          {showPastTravel && (
             <div
+              onClick={() => handleTabClick("coming")}
               css={css`
-                margin-top: 10px;
+                cursor: pointer;
+                font-weight: ${activeTab === "coming" ? "bold" : "normal"};
+                color: ${activeTab === "coming" ? "#F1729B" : "#A4A4A4"};
+                border-bottom: ${activeTab === "coming"
+                  ? "5px solid #F1729B"
+                  : "none"};
+                padding-bottom: 10px;
+                width: 160px; /* 길이를 조정 */
+                text-align: center; /* 가운데 정렬 */
               `}
             >
-              <TravelForm
-                imageUrl="https://via.placeholder.com/80"
-                travelName="도쿄 여행"
-                date="2024.11.19"
-                dogCount={1}
-              />
-              <TravelForm
-                imageUrl="https://via.placeholder.com/80"
-                travelName="삿포로 여행"
-                date="2024.11.27 - 11.29"
-                dogCount={1}
-              />
+              다가오는 여행
             </div>
-          )}
+            <div
+              onClick={() => handleTabClick("past")}
+              css={css`
+                cursor: pointer;
+                font-weight: ${activeTab === "past" ? "bold" : "normal"};
+                color: ${activeTab === "past" ? "#F1729B" : "#A4A4A4"};
+                border-bottom: ${activeTab === "past"
+                  ? "5px solid #F1729B"
+                  : "none"};
+                padding-bottom: 10px;
+                width: 160px; /* 길이를 조정 */
+                text-align: center; /* 가운데 정렬 */
+              `}
+            >
+              지난 여행
+            </div>
+          </div>
+
+          {/* 탭 내용 */}
+          <div>
+            {activeTab === "coming" &&
+              comingTravels.map((travel, index) => (
+                <TravelForm
+                  key={index}
+                  imageUrl={travel.imageUrl}
+                  travelName={travel.travelName}
+                  date={travel.date}
+                  dogCount={travel.dogCount}
+                />
+              ))}
+            {activeTab === "past" &&
+              pastTravels.map((travel, index) => (
+                <TravelForm
+                  key={index}
+                  imageUrl={travel.imageUrl}
+                  travelName={travel.travelName}
+                  date={travel.date}
+                  dogCount={travel.dogCount}
+                />
+              ))}
+          </div>
         </div>
       </div>
     </>

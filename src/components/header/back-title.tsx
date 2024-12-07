@@ -21,7 +21,7 @@ export default function BackTitleHeader({
       )}
       <div css={Block.flexBlock} style={{ justifyContent: "center" }}>
         {title && <span css={typo.Heading3}>{title}</span>}
-      </div>{" "}
+      </div>
     </div>
   );
 }
