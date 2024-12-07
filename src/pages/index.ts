@@ -10,3 +10,4 @@ export { default as OnboardingCompletion } from "./onboarding/completion";
 export { default as MyReview } from "./mypage/my-review";
 export { default as NotFound } from "./not-found";
 export { default as MyBookMark } from "./mypage/bookmark";
+export { default as PlanDetail } from "./plan/detail";
