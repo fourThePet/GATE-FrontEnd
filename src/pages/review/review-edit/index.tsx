@@ -169,6 +169,7 @@ export default function ReviewEdit(){
                 </div>
                 <div css={starStyles}>
                     <ReactStars
+                        key={rating}
                         count={5}
                         size={50}
                         color={colors.color.Gray4}
@@ -177,7 +178,7 @@ export default function ReviewEdit(){
                         onChange={handleStarClick}
                         isHalf={false}
                         edit={true}
-                    />
+                    /> 
                 </div>
                 <div css={formTitleWrapper}>
                     <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
