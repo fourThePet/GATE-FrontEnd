@@ -20,7 +20,6 @@ export const TravelForm = ({
         align-items: center;
         margin-bottom: 10px;
         padding: 10px 0;
-        border-bottom: 1px solid #eaeaea;
       `}
     >
       <img
