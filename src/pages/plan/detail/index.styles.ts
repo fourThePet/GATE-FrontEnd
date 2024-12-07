@@ -43,3 +43,19 @@ export const dateWrapper = css`
     gap: 8px;
     margin-block: auto;
 `
+
+export const mapWrapper = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+`
+
+export const listWrapper = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 500px;
+`

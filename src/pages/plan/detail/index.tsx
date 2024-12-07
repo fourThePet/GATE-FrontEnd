@@ -1,7 +1,7 @@
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { Text } from "../../../components";
 import colors from "../../../styles/colors";
-import { contentWrapper, dateWrapper, deleteIcon, info, wrapper } from "./index.styles";
+import { contentWrapper, dateWrapper, deleteIcon, info, listWrapper, mapWrapper, wrapper } from "./index.styles";
 
 export default function PlanDetail(){
     return(
@@ -17,6 +17,12 @@ export default function PlanDetail(){
                         <Text type="Body2" color={colors.color.White1}>2024.11.19</Text>
                         <WhiteCalender width={16}/>
                     </div>
+                </div>
+                <div css={mapWrapper}>
+                    지도
+                </div>
+                <div css={listWrapper}>
+                    일정
                 </div>
             </div>
         
