@@ -24,12 +24,9 @@ import { PlacesParam } from "../../interfaces/places";
 
 export default function Place() {
   const navigate = useNavigate();
-  const location = useLocation();
   const { data } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
-  const queryParams = new URLSearchParams(location.search);
-  const initialCategory = queryParams.get("category") || "전체";
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedCategory, setSelectedCategory] = useState("전체");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [buttonText, setButtonText] = useState("목록 보기");
   const { latitude, longitude } = useLocationStore();
@@ -40,6 +37,7 @@ export default function Place() {
   /** 필터 페이지에서 넘겨준 쿼리스트링 기반으로 파라메터 생성 */
   const {
     entryConditions,
+    category,
     latitude: currentLatitude,
     longitude: currentLongitude,
     size,
@@ -47,6 +45,7 @@ export default function Place() {
   } = useMemo(() => {
     const params = new URLSearchParams(search);
     const queryParams: {
+      category?: string;
       size?: string;
       entryConditions?: string[];
       types?: string[];
@@ -63,6 +62,10 @@ export default function Place() {
     return queryParams;
   }, [search]);
 
+  useEffect(() => {
+    setSelectedCategory(category || "전체");
+  }, [category]);
+
   /** 시설 리스트 조회 Query */
   const placesQuery = useMemo<PlacesParam>(() => {
     // '전체' 카테고리 선택시 쿼리 스트링에서 카테고리 제거
@@ -72,15 +75,11 @@ export default function Place() {
       latitude,
       longitude,
       category: isAll ? undefined : selectedCategory,
+      size: size,
+      entryConditions: entryConditions,
+      types: types,
     };
   }, [selectedCategory, latitude, longitude, size, entryConditions, types]);
-
-  /* 홈화면에서 전달받은 카테고리 */
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const categoryFromQuery = queryParams.get("category") || "전체";
-    setSelectedCategory(categoryFromQuery);
-  }, [location.search]);
 
   /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
   const { places } = useGetPlaces(placesQuery);
@@ -101,16 +100,28 @@ export default function Place() {
   }, [data]);
 
   const handleFilterButtonClick = () => {
-    console.log("필터 적용 페이지 호출");
-    navigate(`/place/filter?lat=${latitude}&lng=${longitude}`);
-  };
+    const params = new URLSearchParams(search);
 
+    // 기존 쿼리스트링에 새로운 필터 값 추가
+    params.set("lat", latitude.toString());
+    params.set("lng", longitude.toString());
+    params.set("category", selectedCategory);
+
+    console.log("필터 적용 페이지 호출:", params.toString());
+    navigate(`/place/filter?${params.toString()}`);
+  };
   const handleSearchSubmit = (value) => {
     console.log("검색어:", value);
   };
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
+    const params = new URLSearchParams(search);
+
+    // 카테고리 값 업데이트
+    params.set("category", category);
+
+    console.log("카테고리 클릭:", params.toString());
+    navigate(`/place?${params.toString()}`);
   };
 
   const handleButtonClick = () => {
