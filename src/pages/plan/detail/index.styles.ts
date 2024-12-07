@@ -8,7 +8,7 @@ export const contentWrapper = css`
     height: 100vh; /* 화면 전체 높이 */
     overflow: hidden; //내부 콘텐츠만 스크롤 가능
     position: relative;
-    padding-bottom  : 80px;
+    padding : 79px 0;
 `
 export const wrapper = css`
     flex: 1; //나머지 공간을 차지
@@ -16,8 +16,8 @@ export const wrapper = css`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    height: 100%;
     overflow-y: auto;
-    padding-top: 79px;
 `
 export const deleteIcon = css`
     display: flex;
@@ -53,14 +53,14 @@ export const mapWrapper = css`
 `
 
 export const listWrapper = css`
-    padding: 0 30px;
+    padding: 0px 30px 20px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
-    height: 500px;
     gap: 12px;
+    overflow-y: auto;
 `
 
 export const actionWrapper = css`
