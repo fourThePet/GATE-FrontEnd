@@ -145,6 +145,7 @@ export default function () {
         <div
           css={css`
             padding: 20px;
+            margin-top: -20px;
           `}
         >
           <div
@@ -185,6 +186,8 @@ export default function () {
         <div
           css={css`
             padding: 20px;
+            margin-top: -20px;
+
             margin-bottom: 100px;
           `}
         >
