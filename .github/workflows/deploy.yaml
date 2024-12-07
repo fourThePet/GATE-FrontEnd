@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - develop #빌드하고싶은 브랜치
+      - fix/deploy-2 #빌드하고싶은 브랜치
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,11 +27,13 @@ jobs:
       - name: Yarn Install
         run: |
           yarn install
-          
+
       - name: Create .env file
         run: |
-          echo "VITE_BASE_URL=${{secrets.VITE_BASE_URL}}" >> .env
+          echo "VITE_BASE_URL2=${{secrets.VITE_BASE_URL2}}" >> .env
           echo "VITE_KAKAO_MAP=${{secrets.VITE_KAKAO_MAP}}" >> .env
+          echo "VITE_NAVER_OCR_INVOKE_URL=${{secrets.VITE_OCR}}" >> .env
+          echo "VITE_NAVER_X_OCR_SECRET=${{secrets.VITE_OCR_SECRET}}" >> .env
 
       - name: Yarn Build
         run: |
@@ -42,8 +44,8 @@ jobs:
         with:
           args: --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME2 }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY2 }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY2 }}
           AWS_REGION: ${{secrets.AWS_REGION}}
           SOURCE_DIR: "dist"

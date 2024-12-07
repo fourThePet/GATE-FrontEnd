@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../stores/useAuthStore";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL2,
   headers: {
     "Content-Type": "application/json",
   },
@@ -22,7 +22,7 @@ api.interceptors.request.use(
 );
 
 export const formAPI = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL2,
   headers: {
     "Content-Type": "multipart/form-data",
   },
@@ -58,7 +58,7 @@ api.interceptors.response.use(
         isRefreshing = true;
         try {
           const { data } = await axios.post(
-            `${import.meta.env.VITE_BASE_URL}/members/reissue`,
+            `${import.meta.env.VITE_BASE_URL2}/members/reissue`,
             {}, // 요청 바디가 필요 없다면 비워둘 수 있음
             {
               headers: {
