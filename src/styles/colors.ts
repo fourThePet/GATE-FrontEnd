@@ -6,6 +6,7 @@ const fontColor = {
   LightPink: "#F8A8C2",
   Blue: "#7EB6FF", //인증
   Star: "#FFA31A", //별점
+  Sequence : "#975FFF",
 
   //gray
   White1: "#FFFFFF",

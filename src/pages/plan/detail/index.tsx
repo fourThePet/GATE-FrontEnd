@@ -1,9 +1,19 @@
+import { useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { Text } from "../../../components";
 import colors from "../../../styles/colors";
-import { contentWrapper, dateWrapper, deleteIcon, info, listWrapper, mapWrapper, wrapper } from "./index.styles";
+import { actionWrapper, contentWrapper, dateWrapper, deleteIcon, info, listWrapper, mapWrapper, planWrapper, wrapper } from "./index.styles";
+import PlanListCard from "../components/plan-list-card";
 
 export default function PlanDetail(){
+    const [ isEditMode, setIsEditMode ] = useState<boolean>(false);
+
+    const handleEditButtonClick = () =>{
+        setIsEditMode((prev)=> !prev)
+    }
+    const handleCompleteButtonClick = () =>{
+        setIsEditMode((prev)=> !prev)
+    }
     return(
         <div css={contentWrapper}>
             <div css={wrapper}>
@@ -22,7 +32,19 @@ export default function PlanDetail(){
                     지도
                 </div>
                 <div css={listWrapper}>
-                    일정
+                    <div css={actionWrapper}>
+                        {isEditMode ? (
+                            <Text type="Body2" color={colors.color.MainColor} onClick={handleCompleteButtonClick}>완료</Text>
+
+                        ) : (
+                            <Text type="Body2" color={colors.color.Gray1} onClick={handleEditButtonClick}>편집</Text>
+
+                        )}
+                        </div>
+                        <div css={planWrapper}>
+                            <PlanListCard number={1}/>
+                            <PlanListCard number={2}/>
+                        </div>
                 </div>
             </div>
         

@@ -53,9 +53,27 @@ export const mapWrapper = css`
 `
 
 export const listWrapper = css`
+    padding: 0 30px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
     height: 500px;
+    gap: 12px;
 `
+
+export const actionWrapper = css`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+`
+
+export const planWrapper = css`
+    display: flex;
+    width: 100%;
+    overflow-y: auto;
+    flex-direction: column;
+    gap: 12px;
+`
+
