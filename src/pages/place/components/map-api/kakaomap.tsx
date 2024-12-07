@@ -158,12 +158,16 @@ export default function KakaoMap({
       });
       // 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, "click", () => {
-        // URL로 이동하며 파라미터와 state 전달
-        const queryParams = `?latitude=${place.latitude}&longitude=${place.longitude}`;
-        const stateData = { placeId: place.id };
-        navigate(`/place/detail/${place.id}${queryParams}`, {
-          state: stateData,
-        });
+        // 쿼리스트링 업데이트
+        navigate(
+          `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
+          {
+            replace: false,
+            state: { placeId: place.id },
+          }
+        );
+
+        console.log(`마커 클릭: ${place.id}`);
       });
 
       return marker;

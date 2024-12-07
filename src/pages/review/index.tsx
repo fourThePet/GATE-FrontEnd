@@ -64,8 +64,6 @@ export default function Review() {
               fontSize: "24px",
               color: "#E0E0E0",
               marginLeft: "-12px",
-              position: "relative",
-              display: "inline-block",
             }}
           >
             ★
