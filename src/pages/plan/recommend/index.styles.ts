@@ -7,7 +7,7 @@ export const contentWrapper = css`
     height: 100vh; /* 화면 전체 높이 */
     /* overflow: hidden; //내부 콘텐츠만 스크롤 가능 */
     position: relative;
-    padding : 79px 0;
+    padding : 79px 0 0;
 `
 export const wrapper = css`
     flex: 1; //나머지 공간을 차지
@@ -24,7 +24,7 @@ export const infoWrapper = css`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 200px;
+    height: 150px;
     width: 100%;
 `
 
@@ -37,7 +37,7 @@ export const mapWrapper = css`
 `
 
 export const listWrapper = css`
-    padding: 0 30px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -47,3 +47,33 @@ export const listWrapper = css`
     gap: 12px;
     overflow-y: auto;
 `
+
+export const PlanRegisterWrapper = css`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+`
+
+export const recommendText = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
+export const bottomButtonStyle = css`
+    position: sticky; /* 스크롤 시에도 화면 하단에 고정 */
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto 0 0 0;
+    padding: 12px;
+`;
