@@ -23,4 +23,5 @@ export const QUERY_KEYS = {
   GET_PLACES_CITIES: ["GET_PLACES_CITIES"], // 지역 리스트 조회 키
   GET_REVIEW_KEYWORDS: (placeId: number) => ['GET_REVIEW_KEYWORDS',placeId],
   GET_REVIEWS_REVIEWID : (reviewId : number) => ['GET_REVIEWS_REVIEWID', reviewId],
+  GET_PLAN_PLANID: (planId : number) => ["GET_PLAN_PLANID", planId], 
 } as const;

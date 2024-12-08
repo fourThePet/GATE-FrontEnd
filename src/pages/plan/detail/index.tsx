@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { Text } from "../../../components";
 import colors from "../../../styles/colors";
@@ -6,68 +6,78 @@ import { actionWrapper, contentWrapper, dateWrapper, deleteIcon, info, listWrapp
 
 import { DragDropContext } from "react-beautiful-dnd";
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
+import { useGetPlanByPlanId } from "../../../queries/plan";
+import { useParams } from "react-router-dom";
 // 예시 데이터
-const result = {
-    id: 1,
-    date: "2024-12-28",
-    city: {
-      id: 1,
-      cityName: "서울"
-    },
-    planPlaces: [
-      {
-        id: 1,
-        sequence: 1,
-        place: {
-          id: 1,
-          name: "멍멍이카페",
-          category: "카페",
-          latitude: 37.7519573928855,
-          longitude: 127.049286104824
-        }
-      },
-      {
-        id: 2,
-        sequence: 2,
-        place: {
-          id: 2,
-          name: "반려동물공원",
-          category: "공원",
-          latitude: 37.7749295,
-          longitude: 127.0627361
-        },
-      },
-      {
-        id: 3,
-        sequence: 3,
-        place: {
-          id: 3,
-          name: "희망공원",
-          category: "공원",
-          latitude: 37.7749295,
-          longitude: 127.0627361
-        },
-      },
-      {
-        id: 4,
-        sequence: 4,
-        place: {
-          id: 4,
-          name: "평화공원",
-          category: "공원",
-          latitude: 37.7749295,
-          longitude: 127.0627361
-        },
-      }
-    ]
-};
+// const result = {
+//     id: 1,
+//     date: "2024-12-28",
+//     city: {
+//       id: 1,
+//       cityName: "서울"
+//     },
+//     planPlaces: [
+//       {
+//         id: 1,
+//         sequence: 1,
+//         place: {
+//           id: 1,
+//           name: "멍멍이카페",
+//           category: "카페",
+//           latitude: 37.7519573928855,
+//           longitude: 127.049286104824
+//         }
+//       },
+//       {
+//         id: 2,
+//         sequence: 2,
+//         place: {
+//           id: 2,
+//           name: "반려동물공원",
+//           category: "공원",
+//           latitude: 37.7749295,
+//           longitude: 127.0627361
+//         },
+//       },
+//       {
+//         id: 3,
+//         sequence: 3,
+//         place: {
+//           id: 3,
+//           name: "희망공원",
+//           category: "공원",
+//           latitude: 37.7749295,
+//           longitude: 127.0627361
+//         },
+//       },
+//       {
+//         id: 4,
+//         sequence: 4,
+//         place: {
+//           id: 4,
+//           name: "평화공원",
+//           category: "공원",
+//           latitude: 37.7749295,
+//           longitude: 127.0627361
+//         },
+//       }
+//     ]
+// };
 export default function PlanDetail(){
+    const { planId } = useParams(); // URL에서 planId를 가져옴
+    const {data} = useGetPlanByPlanId(Number(planId))
+    console.log(data)
     const [ isEditMode, setIsEditMode ] = useState<boolean>(false); //편집 모드
-    const [plan, setPlan] = useState(result);
+    const [plan, setPlan] = useState(null);
+
+    useEffect(()=>(
+        setPlan(data)
+    ),[data])
+
     // useMemo를 사용하여 계산된 남은 일수를 저장
     const remainingDays = useMemo(() => {
         const today = new Date();
-        const targetDate = new Date(plan.date);
+        const targetDate = new Date(plan?.date);
 
         // 밀리초 단위 차이 계산
         const diffTime = targetDate.getTime() - today.getTime();
@@ -77,7 +87,7 @@ export default function PlanDetail(){
 
         // 부호 처리
         return diffDays < 0 ? `+${Math.abs(diffDays)}` : `-${Math.abs(diffDays)}`;
-    }, [plan.date]); // plan.date가 변경될 때만 계산
+    }, [plan?.date]); // plan.date가 변경될 때만 계산
 
     const handleEditButtonClick = () =>{ //편집 버튼 눌렀을 때 이벤트
         setIsEditMode((prev)=> !prev)
@@ -88,14 +98,14 @@ export default function PlanDetail(){
         setIsEditMode((prev)=> !prev)
     }
 
-    const handleOnDragEnd = (result) => {
-        const { destination, source } = result;
+    const handleOnDragEnd = (res) => {
+        const { destination, source } = res;
 
         // 목적지가 없으면 아무 작업도 하지 않음
         if (!destination) return;
 
         // 순서 변경 로직
-        const reorderedPlaces = Array.from(plan.planPlaces);
+        const reorderedPlaces = [...plan.planPlaces];
         const [removed] = reorderedPlaces.splice(source.index, 1);
         reorderedPlaces.splice(destination.index, 0, removed);
 
@@ -112,7 +122,7 @@ export default function PlanDetail(){
         }));
     }
 
-    console.log(plan.planPlaces)
+    // console.log(plan.planPlaces)
     return(
         <div css={contentWrapper}>
             <div css={wrapper}>
@@ -121,10 +131,10 @@ export default function PlanDetail(){
                         <DeleteIcon width={20}/>
                         {/* <Text type="Label4" color={colors.color.White2}>삭제</Text> 아이콘이 아래와 겹쳐서 고민 */}
                     </div>
-                    <Text type="Heading3" color={colors.color.White1}>{plan.city.cityName} 여행</Text>
+                    <Text type="Heading3" color={colors.color.White1}>{plan?.city.cityName} 여행</Text>
                     <Text type="Heading2" color={colors.color.White1}>두근두근, 데이트 D{remainingDays}</Text>
                     <div css={dateWrapper}>
-                        <Text type="Body2" color={colors.color.White1}>{plan.date}</Text>
+                        <Text type="Body2" color={colors.color.White1}>{plan?.date}</Text>
                         <WhiteCalender width={16}/>
                     </div>
                 </div>
@@ -151,7 +161,7 @@ export default function PlanDetail(){
                                             {...provided.droppableProps}
                                             style={{ listStyleType: 'none' }}
                                         >
-                                            {plan.planPlaces.map((place, index)=>(
+                                            {plan?.planPlaces.map((place, index)=>(
                                                 <PlanEditCard sequence={place.sequence} place={place.place} index={index}/>
                                             ))}
                                             {provided.placeholder}
@@ -161,7 +171,7 @@ export default function PlanDetail(){
                             </DragDropContext>
                         ) : (
                             <>
-                            {plan.planPlaces.map((place)=>(
+                            {plan?.planPlaces.map((place)=>(
                                 <PlanListCard sequence={place.sequence} place={place.place}/>
                             ))}
                             </>
