@@ -15,7 +15,7 @@ export const listCardWrapper = css`
     border-radius: 4px;
     border: 1px solid ${colors.color.Gray5};
     padding:20px 10px;
-
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 `
 
 export const titleWrapper = css`

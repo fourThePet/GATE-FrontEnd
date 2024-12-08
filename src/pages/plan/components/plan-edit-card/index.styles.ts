@@ -17,6 +17,7 @@ export const listCardWrapper = css`
     padding:20px 10px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
 `
 
 export const titleWrapper = css`
