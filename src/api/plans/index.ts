@@ -2,7 +2,6 @@ import { PlansApiResponse } from "./../../interfaces/plans/index";
 import { api } from "../api";
 
 // 일정 리스트 조회 API
-
 export const getPlans = async (
   dateFilter: "AFTER" | "BEFORE",
   sortOrder: "ASC" | "DESC",
@@ -24,4 +23,13 @@ export const postCreatePlan = async (body: {
 }) => {
   const response = await api.post("/plans", body);
   return response.data.result;
+};
+
+export const getPlanByPlanId = async (planId: number) => {
+  try {
+    const response = await api.get(`/plan/${planId}`);
+    return response.data.result;
+  } catch (error) {
+    console.log(error);
+  }
 };
