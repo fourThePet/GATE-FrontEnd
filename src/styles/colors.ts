@@ -17,6 +17,7 @@ const fontColor = {
   Gray3: "#C7C7CC",
   Gray2: "#AEAEB2",
   Gray1: "#8E8E93",
+  Gray0: "#888888",
   Gray: "#E8E8E8",
   Black: "#1C1C1E",
 };

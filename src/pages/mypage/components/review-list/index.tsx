@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Ldogpink, Mdogpink, MenuIcon, Sdogpink } from "../../../../assets/svg";
-import { Text, FilterLabel } from "../../../../components";
+import { Text, FilterLabel, CertificateLabel } from "../../../../components";
 import colors from "../../../../styles/colors";
 import { cardWrapper, dateWrapper, imageStyle, imageWrapper, labelWrapper, line, menuWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import IconsActions from "../icons-actions";
@@ -8,7 +8,7 @@ import { ReviewDataType } from "../../../../interfaces";
 import { useDeleteReviews } from "../../../../queries";
 import { useNavigate } from "react-router-dom";
 
-export default function ReviewList({id, placeName, roadAddress, content, fileUrlList, keywordList, size, updateAt} : ReviewDataType){
+export default function ReviewList({id, placeName, roadAddress, content, fileUrlList, keywordList, size, updateAt, receiptCertificate} : ReviewDataType){
     const {mutate : deleteReview} = useDeleteReviews();
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ export default function ReviewList({id, placeName, roadAddress, content, fileUrl
     }
 
     const handleModifyClick = () =>{
-        navigate(`/review/edit/${id}`)
+        navigate(`/review/edit/${id}`, {state:id})
     }
 
     return(
@@ -49,6 +49,7 @@ export default function ReviewList({id, placeName, roadAddress, content, fileUrl
                 <div css={titleWrapper}>
                     <Text type="Body2">{placeName}</Text>
                     <Text type="Label3" color={colors.color.Gray1}>{roadAddress}</Text>
+                    {receiptCertificate == true && <CertificateLabel/>}
                     <div css={menuWrapper}>
                         <MenuIcon width={16} onClick={handleMenuIconClick}/>
                         {isIconVisible && (<IconsActions onDeleteButtonClick={handleDeleteClick} onModifyButtonClick={handleModifyClick}/>) }

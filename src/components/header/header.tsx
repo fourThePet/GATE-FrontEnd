@@ -70,6 +70,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       title: "",
       component: BackTitleHeader,
     },
+    {
+      path: "/review/edit/:reviewId",
+      title: "리뷰 수정",
+      component: BackTitleHeader,
+    },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기

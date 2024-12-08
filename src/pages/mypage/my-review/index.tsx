@@ -33,6 +33,7 @@ export default function MyReview(){
                         size={review.size}
                         keywordList={review.keywordList}
                         updateAt={review.updateAt}
+                        receiptCertificate={review.receiptCertificate}
                     />
                 )}
             </div>
