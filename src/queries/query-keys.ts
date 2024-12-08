@@ -27,11 +27,7 @@ export const QUERY_KEYS = {
     reviewId,
   ],
   GET_PLAN_PLANID: (planId: number) => ["GET_PLAN_PLANID", planId],
-  GET_PLANS: (
-    dateFilter: "AFTER" | "BEFORE",
-    sortOrder: "ASC" | "DESC",
-    page: number,
-    size: number
-  ) => ["GET_PLANS", dateFilter, sortOrder, page, size] as const,
-  CREATE_PLAN: ["CREATE_PLAN"],
+  GET_PLANS: (dateFilter: "AFTER" | "BEFORE", sortOrder: "ASC" | "DESC") =>
+    ["GET_PLANS", dateFilter, sortOrder] as const,
+  POST_CREATE_PLAN: ["POST_CREATE_PLAN"],
 } as const;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Schedulemain } from "../../assets/svg";
 import { PageWrapper } from "../../styles/ui";
 import { Imgblock } from "./index.styles";
@@ -8,44 +8,72 @@ import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
+import { useGetPlans } from "../../queries/plans";
+const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
+
 export default function Plan() {
   const navigate = useNavigate();
-
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
+
+  // 다가오는 여행 데이터
+  const {
+    data: comingTravelsData,
+    fetchNextPage: fetchNextComingPage,
+    hasNextPage: hasComingNextPage,
+    isFetchingNextPage: isFetchingComingNextPage,
+  } = useGetPlans("AFTER", "ASC");
+
+  // 지난 여행 데이터
+  const {
+    data: pastTravelsData,
+    fetchNextPage: fetchNextPastPage,
+    hasNextPage: hasPastNextPage,
+    isFetchingNextPage: isFetchingPastNextPage,
+  } = useGetPlans("BEFORE", "DESC");
+
+  // IntersectionObserver를 위한 Ref
+  const comingObserver = useRef<IntersectionObserver | null>(null);
+  const pastObserver = useRef<IntersectionObserver | null>(null);
+
+  // 다가오는 여행 무한 스크롤 핸들러
+  const handleComingObserver = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetchingComingNextPage) return;
+      if (comingObserver.current) comingObserver.current.disconnect();
+      comingObserver.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasComingNextPage) {
+          fetchNextComingPage();
+        }
+      });
+      if (node) comingObserver.current.observe(node);
+    },
+    [isFetchingComingNextPage, hasComingNextPage, fetchNextComingPage]
+  );
+
+  // 지난 여행 무한 스크롤 핸들러
+  const handlePastObserver = useCallback(
+    (node: HTMLDivElement) => {
+      if (isFetchingPastNextPage) return;
+      if (pastObserver.current) pastObserver.current.disconnect();
+      pastObserver.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasPastNextPage) {
+          fetchNextPastPage();
+        }
+      });
+      if (node) pastObserver.current.observe(node);
+    },
+    [isFetchingPastNextPage, hasPastNextPage, fetchNextPastPage]
+  );
 
   const handleTabClick = (tab: "coming" | "past") => {
     setActiveTab(tab);
   };
 
-  const comingTravels = [
-    {
-      imageUrl: "https://via.placeholder.com/80",
-      travelName: "도쿄 여행",
-      date: "2024.11.19",
-      dogCount: 1,
-    },
-    {
-      imageUrl: "https://via.placeholder.com/80",
-      travelName: "삿포로 여행",
-      date: "2024.11.27 - 11.29",
-      dogCount: 1,
-    },
-  ];
-
-  const pastTravels = [
-    {
-      imageUrl: "https://via.placeholder.com/80",
-      travelName: "제주 여행",
-      date: "2021.6.21 - 6.24",
-      dogCount: 1,
-    },
-    {
-      imageUrl: "https://via.placeholder.com/80",
-      travelName: "부산 여행",
-      date: "2020.11.1 - 11.3",
-      dogCount: 1,
-    },
-  ];
+  // 데이터 매핑
+  const comingTravels =
+    comingTravelsData?.pages.flatMap((page) => page.content) || [];
+  const pastTravels =
+    pastTravelsData?.pages.flatMap((page) => page.content) || [];
 
   const { data: cities, isLoading, isError } = useGetPlacesCities();
 
@@ -88,7 +116,7 @@ export default function Plan() {
         >
           <div
             css={css`
-              width: 100%; /* 가로를 화면 전체로 설정 */
+              width: 100%;
               height: auto;
               position: relative;
               display: flex;
@@ -99,10 +127,10 @@ export default function Plan() {
           >
             <Schedulemain
               css={css`
-                width: 100%; /* 화면 가로에 맞춤 */
-                max-width: 100%; /* 최대 가로 크기 */
-                height: auto; /* 비율 유지 */
-                object-fit: cover; /* 이미지 꽉 채우기 */
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+                object-fit: cover;
               `}
             />
           </div>
@@ -149,18 +177,18 @@ export default function Plan() {
               display: flex;
               gap: 10px;
               margin-top: 10px;
-              overflow-x: auto; /* 가로 스크롤 활성화 */
-              white-space: nowrap; /* 버튼 줄바꿈 방지 */
-              padding-bottom: 10px; /* 스크롤바 공간 확보 */
+              overflow-x: auto;
+              white-space: nowrap;
+              padding-bottom: 10px;
               &::-webkit-scrollbar {
-                height: 6px; /* 스크롤바 높이 설정 */
+                height: 6px;
               }
               &::-webkit-scrollbar-thumb {
-                background-color: #ccc; /* 스크롤바 색상 */
-                border-radius: 3px; /* 스크롤바 모양 */
+                background-color: #ccc;
+                border-radius: 3px;
               }
               &::-webkit-scrollbar-track {
-                background-color: #f1f1f1; /* 스크롤바 트랙 색상 */
+                background-color: #f1f1f1;
               }
             `}
           >
@@ -208,11 +236,11 @@ export default function Plan() {
                   ? "5px solid #F1729B"
                   : "none"};
                 padding-bottom: 10px;
-                width: 160px; /* 길이를 조정 */
-                text-align: center; /* 가운데 정렬 */
+                width: 160px;
+                text-align: center;
               `}
             >
-              다가오는 여행
+              ✈️ 다가오는 여행
             </div>
             <div
               onClick={() => handleTabClick("past")}
@@ -224,37 +252,43 @@ export default function Plan() {
                   ? "5px solid #F1729B"
                   : "none"};
                 padding-bottom: 10px;
-                width: 160px; /* 길이를 조정 */
-                text-align: center; /* 가운데 정렬 */
+                width: 160px;
+                text-align: center;
               `}
             >
-              지난 여행
+              🏝️ 지난 여행
             </div>
           </div>
 
           {/* 탭 내용 */}
           <div>
             {activeTab === "coming" &&
-              comingTravels.map((travel, index) => (
+              comingTravels.map((travel) => (
                 <TravelForm
-                  key={index}
-                  imageUrl={travel.imageUrl}
-                  travelName={travel.travelName}
+                  key={travel.id}
+                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                  travelName={travel.cityName}
                   date={travel.date}
-                  dogCount={travel.dogCount}
+                  dogCount={travel.dogSize}
                 />
               ))}
             {activeTab === "past" &&
-              pastTravels.map((travel, index) => (
+              pastTravels.map((travel) => (
                 <TravelForm
-                  key={index}
-                  imageUrl={travel.imageUrl}
-                  travelName={travel.travelName}
+                  key={travel.id}
+                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                  travelName={travel.cityName}
                   date={travel.date}
-                  dogCount={travel.dogCount}
+                  dogCount={travel.dogSize}
                 />
               ))}
           </div>
+          {activeTab === "coming" && hasComingNextPage && (
+            <div ref={handleComingObserver}>Loading more...</div>
+          )}
+          {activeTab === "past" && hasPastNextPage && (
+            <div ref={handlePastObserver}>Loading more...</div>
+          )}
         </div>
       </div>
     </>
