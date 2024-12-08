@@ -2,6 +2,7 @@ import { PlansApiResponse } from "./../../interfaces/plans/index";
 import { api } from "../api";
 
 // 일정 리스트 조회 API
+
 export const getPlans = async (
   dateFilter: "AFTER" | "BEFORE",
   sortOrder: "ASC" | "DESC",
