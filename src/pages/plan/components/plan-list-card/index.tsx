@@ -1,18 +1,26 @@
 import { Text } from "../../../../components";
 import colors from "../../../../styles/colors";
-import { listCardWrapper, numberLabel, wrapper } from "./index.styles";
+import SequenceLabel from "../sequence-label";
+import { detailInfoWrapper, listCardWrapper, titleWrapper, wrapper } from "./index.styles";
 
 interface Props {
-    sequence : number
+    sequence : number;
+    place : {
+        name: string;
+        category : string
+    }
 }
-export default function PlanListCard({sequence} : Props){
+export default function PlanListCard({sequence, place} : Props){
     return(
         <div css={wrapper}>
-            <label css={numberLabel}>
-                <Text type="Label21" color={colors.color.White1}>{sequence}</Text>
-            </label>
+            <SequenceLabel backgroundColor={colors.color.Sequence}>{sequence}</SequenceLabel>
             <div css={listCardWrapper}>
-
+                <div css={titleWrapper}>
+                    <Text type="Body2">{place.name}</Text>
+                </div>
+                <div css={detailInfoWrapper}>
+                    <Text type="Label21" color={colors.color.Gray1}>{place.category}</Text>
+                </div>
             </div>
         </div>
     )

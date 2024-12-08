@@ -6,7 +6,7 @@ export const contentWrapper = css`
     flex-direction: column;
     width: 100%;
     height: 100vh; /* 화면 전체 높이 */
-    overflow: hidden; //내부 콘텐츠만 스크롤 가능
+    /* overflow: hidden; //내부 콘텐츠만 스크롤 가능 */
     position: relative;
     padding : 79px 0;
 `
@@ -16,7 +16,7 @@ export const wrapper = css`
     flex-direction: column;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 79px); /* 전체 화면 높이에서 패딩 제외 */
     overflow-y: auto;
 `
 export const deleteIcon = css`
@@ -74,6 +74,7 @@ export const planWrapper = css`
     width: 100%;
     overflow-y: auto;
     flex-direction: column;
+    height: calc(100vh - 300px - 150px - 79px); /* 남은 높이 계산 */
     gap: 12px;
 `
 

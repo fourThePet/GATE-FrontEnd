@@ -1,25 +1,51 @@
 import { GrayDeleteIcon, PlanChange } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import colors from "../../../../styles/colors";
-import { listCardWrapper, numberLabel, wrapper } from "./index.styles";
+import SequenceLabel from "../sequence-label";
+import { detailInfoWrapper, listCardWrapper, titleWrapper, wrapper } from "./index.styles";
+import { Draggable } from "react-beautiful-dnd";
 
-interface Props{
-    sequence : number
+interface Props {
+    sequence: number;
+    index: number;
+    place : {
+        name: string;
+        category : string
+    }
 }
-export default function PlanEditCard({sequence} : Props){
-    return(
-        <div css={wrapper}>
-            <div>
-                <GrayDeleteIcon width={24} />
-            </div>
-            <div css={listCardWrapper}>
-                <label css={numberLabel}>
-                    <Text type="Label21" color={colors.color.White1}>{sequence}</Text>
-                </label>
-            </div>
-            <div>
-                <PlanChange width={24}/>
-            </div>
-        </div>
-    )
+
+export default function PlanEditCard({ sequence, place,index }: Props) {
+    return (
+        <Draggable draggableId={String(sequence)} index={index}>
+            {(provided) => (
+                <div
+                    css={wrapper}
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}  // 드래그 가능한 속성을 적용
+                    style={{
+                        ...provided.draggableProps.style,
+                        marginBottom: '16px',
+                    }}
+                >
+                    <div>
+                        <GrayDeleteIcon width={24} />
+                    </div>
+                    <div css={listCardWrapper}>
+                        <div css={titleWrapper}>
+                            <SequenceLabel backgroundColor={colors.color.Gray3}>{sequence}</SequenceLabel>
+                            <Text type="Body2">{place.name}</Text>
+                        </div>
+                        <div css={detailInfoWrapper}>
+                            <Text type="Label21" color={colors.color.Gray1}>{place.category}</Text>
+                        </div>
+                    </div>
+                    <div
+                        {...provided.dragHandleProps}  // PlanChange 아이콘에만 드래그 핸들러 연결
+                    >
+                        <PlanChange width={24} />
+                    </div>
+                </div>
+            )}
+        </Draggable>
+    );
 }
