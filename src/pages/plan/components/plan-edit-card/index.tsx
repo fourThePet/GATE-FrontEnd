@@ -9,12 +9,14 @@ interface Props {
     sequence: number;
     index: number;
     place : {
+        id : number;
         name: string;
         category : string
-    }
+    };
+    onDelete : (placeId: number) => void;
 }
 
-export default function PlanEditCard({ sequence, place,index }: Props) {
+export default function PlanEditCard({ sequence, place,index, onDelete }: Props) {
     return (
         <Draggable draggableId={String(sequence)} index={index}>
             {(provided) => (
@@ -28,7 +30,7 @@ export default function PlanEditCard({ sequence, place,index }: Props) {
                     }}
                 >
                     <div>
-                        <GrayDeleteIcon width={24} />
+                        <GrayDeleteIcon width={24} onClick={() => onDelete(place.id)}/>
                     </div>
                     <div css={listCardWrapper}>
                         <div css={titleWrapper}>

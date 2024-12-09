@@ -98,7 +98,7 @@ export default function PlanDetail(){
         setIsEditMode((prev)=> !prev)
     }
 
-    const handleOnDragEnd = (res) => {
+    const handleOnDragEnd = (res) => {//드래그 끝날때 이벤트
         const { destination, source } = res;
 
         // 목적지가 없으면 아무 작업도 하지 않음
@@ -121,6 +121,22 @@ export default function PlanDetail(){
             planPlaces: updatedPlaces,
         }));
     }
+
+    const handleListDeleteClick = (placeId: number) => { //리스트의 삭제 아이콘 눌렀을 때 이벤트
+        const updatedPlanPlaces = plan?.planPlaces.filter(place => place.id !== placeId);
+    
+        // 시퀀스 재정렬
+        const updatedPlaces = updatedPlanPlaces.map((place, index) => ({
+          ...place,
+          sequence: index + 1,
+        }));
+    
+        // 상태 업데이트
+        setPlan(prevPlan => ({
+          ...prevPlan,
+          planPlaces: updatedPlaces,
+        }));
+    };
 
     // console.log(plan.planPlaces)
     return(
@@ -162,7 +178,12 @@ export default function PlanDetail(){
                                             style={{ listStyleType: 'none' }}
                                         >
                                             {plan?.planPlaces.map((place, index)=>(
-                                                <PlanEditCard sequence={place.sequence} place={place.place} index={index}/>
+                                                <PlanEditCard 
+                                                sequence={place.sequence} 
+                                                place={place.place} 
+                                                index={index}
+                                                onDelete={handleListDeleteClick}
+                                                />
                                             ))}
                                             {provided.placeholder}
                                         </div>
