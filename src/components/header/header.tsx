@@ -3,6 +3,7 @@ import LogoBellHeader from "./logo-bell";
 // import OnlyTitleHeader from "./only-title";
 import BackTitleHeader from "./back-title";
 import PinkBackHeader from "./pink-back";
+import CloseHeader from "./close";
 
 type HeaderComponentProps = {
   title?: string; // title은 선택적 속성으로 설정
@@ -61,8 +62,7 @@ export default function Header({ handleBackButtonClick }: Props) {
       component: BackTitleHeader,
     },
     {
-      path: "/plan/:planId",
-      title: "",
+      path: "/plan/detail/:planId",
       component: PinkBackHeader,
     },
     {
@@ -74,6 +74,10 @@ export default function Header({ handleBackButtonClick }: Props) {
       path: "/review/edit/:reviewId",
       title: "리뷰 수정",
       component: BackTitleHeader,
+    },
+    {
+      path: "/plan/recommend",
+      component: CloseHeader,
     },
   ];
 

@@ -84,7 +84,7 @@ export default function Navigator({
 
   // place/detail에서는 네비게이션을 숨김
   const isPlaceDetailPath = location.pathname === "/place/detail/";
-
+  const isPlanRecommendPath = location.pathname === "/plan/recommend";
   return (
     <>
       {!isLoginPage &&
@@ -92,7 +92,8 @@ export default function Navigator({
         !isPlaceDetailPage &&
         !isReceiptCheckPage &&
         !isWriteReviewPage &&
-        !isPlaceDetailPath && (
+        !isPlaceDetailPath &&
+        !isPlanRecommendPath && (
           <div css={LayoutContainer.NavContainer}>
             <div css={Block.flexBlock}>
               {navItems.map((item, index) => {

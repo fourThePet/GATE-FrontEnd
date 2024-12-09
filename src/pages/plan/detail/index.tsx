@@ -6,7 +6,7 @@ import { actionWrapper, contentWrapper, dateWrapper, deleteIcon, info, listWrapp
 
 import { DragDropContext } from "react-beautiful-dnd";
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useGetPlanByPlanId } from "../../../queries/plan";
+import { useGetPlanByPlanId } from "../../../queries";
 import { useParams } from "react-router-dom";
 // 예시 데이터
 // const result = {
