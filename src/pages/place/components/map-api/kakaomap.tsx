@@ -286,7 +286,7 @@ export default function KakaoMap({
   }, [places]);
 
   return (
-    <div ref={mapRef} css={mapStyle}>
+    <div ref={mapRef} css={mapStyle} className="kakaoMap">
       <div css={mapLocBtn}>
         <GpsButton
           onClick={moveMarkerToCurrentLocation}

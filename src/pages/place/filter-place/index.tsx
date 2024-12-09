@@ -99,10 +99,10 @@ export default function FilterPlace() {
       ]}
     >
       <div css={headerContainer}>
-        <BackTitleHeader
-          handleBackButtonClick={handleBackButtonClick}
+        {/* <BackTitleHeader
+          // handleBackButtonClick={handleBackButtonClick}
           title="필터"
-        />
+        /> */}
       </div>
       <div>
         <FilterSection setFilters={setFilters} />

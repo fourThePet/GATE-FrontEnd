@@ -42,22 +42,24 @@ export const mapLocBtn = css`
 `;
 
 export const modalOverlay = css`
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  /* top: 0; */
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
   height: 87%;
   justify-content: center;
   align-items: center;
   z-index: 10;
+  overflow-y: scroll;
+  pointer-events: none; // 오버레이 클릭 방지
 `;
 
 export const modalContent = css`
-  position: sticky;
+  border-radius: 5% 5% 0 0;
+  position: relative;
+  top: 0;
   background-color: ${colors.color.White1};
   width: 100%;
   max-height: 80vh;
@@ -65,6 +67,7 @@ export const modalContent = css`
   padding-top: 2%;
   max-width: 600px;
   overflow-y: scroll;
+  pointer-events: auto; // 모달 내부 클릭 허용
 `;
 
 export const noticeStyle = css`
