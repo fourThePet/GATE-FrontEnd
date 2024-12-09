@@ -71,6 +71,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       component: PinkBackHeader,
     },
     {
+      path: "/plan/create/place-choice",
+      title: "",
+      component: BackTitleHeader,
+    },
+    {
       path: "/review/edit/:reviewId",
       title: "리뷰 수정",
       component: BackTitleHeader,

@@ -25,6 +25,7 @@ import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
 import PlanCreate from "./pages/plan/plan-create";
 import PetChoice from "./pages/plan/pet-choice";
+import PlaceChoice from "./pages/plan/place-choice";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/create",
         element: <PlanCreate />,
+      },
+      {
+        path:"plan/create/place-choice",
+        element : <PlaceChoice />
       },
       {
         path: "review/edit/:reviewId",
