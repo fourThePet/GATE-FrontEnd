@@ -32,6 +32,8 @@ jobs:
         run: |
           echo "VITE_BASE_URL=${{secrets.VITE_BASE_URL}}" >> .env
           echo "VITE_KAKAO_MAP=${{secrets.VITE_KAKAO_MAP}}" >> .env
+          echo "VITE_NAVER_OCR_INVOKE_URL=${{secrets.VITE_OCR}}" >> .env
+          echo "VITE_NAVER_X_OCR_SECRET=${{secrets.VITE_OCR_SECRET}}" >> .env
 
       - name: Yarn Build
         run: |
