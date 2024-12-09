@@ -57,7 +57,7 @@ export const TravelForm = ({
             color: #aaa;
           `}
         >
-          {dogCount}개 도시
+          {dogCount}마리의 강아지와 함께
         </div>
       </div>
     </div>
