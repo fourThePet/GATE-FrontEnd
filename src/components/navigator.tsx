@@ -22,6 +22,7 @@ type Props = {
   isReceiptCheckPage: boolean;
   isWriteReviewPage: boolean;
   isOnboardingPage: boolean;
+  isPlanCreatePage: boolean;
 };
 
 export default function Navigator({
@@ -30,6 +31,7 @@ export default function Navigator({
   isReceiptCheckPage,
   isWriteReviewPage,
   isOnboardingPage,
+  isPlanCreatePage,
 }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -93,7 +95,8 @@ export default function Navigator({
         !isReceiptCheckPage &&
         !isWriteReviewPage &&
         !isPlaceDetailPath &&
-        !isPlanRecommendPath && (
+        !isPlanRecommendPath &&
+        !isPlanCreatePage && (
           <div css={LayoutContainer.NavContainer}>
             <div css={Block.flexBlock}>
               {navItems.map((item, index) => {
