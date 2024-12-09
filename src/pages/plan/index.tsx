@@ -263,24 +263,50 @@ export default function Plan() {
           {/* 탭 내용 */}
           <div>
             {activeTab === "coming" &&
-              comingTravels.map((travel) => (
-                <TravelForm
-                  key={travel.id}
-                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
-                  travelName={travel.cityName}
-                  date={travel.date}
-                  dogCount={travel.dogSize}
-                />
+              (comingTravels.length > 0 ? (
+                comingTravels.map((travel) => (
+                  <TravelForm
+                    key={travel.id}
+                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    travelName={travel.cityName}
+                    date={travel.date}
+                    dogCount={travel.dogSize}
+                  />
+                ))
+              ) : (
+                <div
+                  css={css`
+                    text-align: center;
+                    color: #9a9ea6;
+                    font-size: 16px;
+                    margin-top: 20px;
+                  `}
+                >
+                  다가오는 여행 일정이 없습니다.
+                </div>
               ))}
             {activeTab === "past" &&
-              pastTravels.map((travel) => (
-                <TravelForm
-                  key={travel.id}
-                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
-                  travelName={travel.cityName}
-                  date={travel.date}
-                  dogCount={travel.dogSize}
-                />
+              (pastTravels.length > 0 ? (
+                pastTravels.map((travel) => (
+                  <TravelForm
+                    key={travel.id}
+                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    travelName={travel.cityName}
+                    date={travel.date}
+                    dogCount={travel.dogSize}
+                  />
+                ))
+              ) : (
+                <div
+                  css={css`
+                    text-align: center;
+                    color: #9a9ea6;
+                    font-size: 16px;
+                    margin-top: 20px;
+                  `}
+                >
+                  지난 여행 일정이 없습니다.
+                </div>
               ))}
           </div>
           {activeTab === "coming" && hasComingNextPage && (
