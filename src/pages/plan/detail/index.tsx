@@ -18,7 +18,6 @@ import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
 import { useGetPlanByPlanId } from "../../../queries/plans";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-// 예시 데이터
 
 export default function PlanDetail() {
   const { planId } = useParams(); // URL에서 planId를 가져옴
