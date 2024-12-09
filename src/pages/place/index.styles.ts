@@ -25,12 +25,13 @@ export const resultItemStyle = css`
   }
 `;
 
-export const buttonContainer = css`
-  z-index: 10000;
+export const buttonContainer =({isModalOpen, isFilterModalOpen} : {isFilterModalOpen, isModalOpen:boolean}) => css`
+  z-index: 100;
   position: fixed;
-  bottom: 12%;
+  bottom: ${isModalOpen ? '50%' : '12%'};
   left: 50%;
   transform: translateX(-50%);
+  display: ${isFilterModalOpen ? 'none' : 'block'};  // isFilterModalOpen이 true일 때 버튼 숨기기
 `;
 
 export const mapLocBtn = css`

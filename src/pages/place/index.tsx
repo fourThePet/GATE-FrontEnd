@@ -4,20 +4,16 @@ import {
   containerStyle,
   modalContent,
   modalOverlay,
-  noticeStyle,
 } from "./index.styles";
 import KakaoMap from "../place/components/map-api/kakaomap";
 import CategoryList from "../place/components/category/category-search";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { MainPinkButton } from "../../components";
 import { useGetPlacesCategories } from "../../queries";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
 import ResultPlace from "./place-detail/components/result-place";
-import { typo } from "../../styles/typo";
-import colors from "../../styles/colors";
 import { css } from "@emotion/react";
-import { NoticeIcon } from "../../assets/svg";
 import { useLocationStore } from "../../stores/useLocationState";
 import { useGetPlaces } from "../../api";
 import { PlacesParam } from "../../interfaces/places";
@@ -36,6 +32,7 @@ export default function Place() {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [buttonText, setButtonText] = useState("목록 보기");
   const { latitude, longitude } = useLocationStore();
+  const navigate = useNavigate();
 
   /** Filter 페이지에서 쿼리스트링으로 넘겨준 필터링값을 받아오기 */
   const { search } = useLocation();
@@ -43,6 +40,7 @@ export default function Place() {
   /** 필터 페이지에서 넘겨준 쿼리스트링 기반으로 파라메터 생성 */
   const {
     entryConditions,
+    category,
     latitude: currentLatitude,
     longitude: currentLongitude,
     size,
@@ -50,6 +48,7 @@ export default function Place() {
   } = useMemo(() => {
     const params = new URLSearchParams(search);
     const queryParams: {
+      category?: string;
       size?: string;
       entryConditions?: string[];
       types?: string[];
@@ -75,8 +74,16 @@ export default function Place() {
       latitude,
       longitude,
       category: isAll ? undefined : selectedCategory,
+      size: size,
+      entryConditions: entryConditions,
+      types: types,
     };
   }, [selectedCategory, latitude, longitude, size, entryConditions, types]);
+
+  useEffect(() => {
+    setSelectedCategory(category || "전체");
+  }, [category]);
+
 
   /* 홈화면에서 전달받은 카테고리 */
   useEffect(() => {
@@ -110,7 +117,6 @@ export default function Place() {
     } else {
       setIsFilterModalOpen(true);
     }
-    // navigate(`/place/filter?latitude=${latitude}&longitude=${longitude}`);
   };
 
   const handleSearchSubmit = (value) => {
@@ -119,6 +125,7 @@ export default function Place() {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    navigate(`/place?category=${encodeURIComponent(category)}`)
   };
 
   const handleButtonClick = () => {
@@ -239,7 +246,7 @@ export default function Place() {
           setSelectedCategory={setSelectedCategory}
         />
       </div>
-      <div css={buttonContainer}>
+      <div css={buttonContainer({isModalOpen, isFilterModalOpen})}>
         <MainPinkButton
           onClick={handleButtonClick}
           isDisabled={false}
@@ -274,14 +281,14 @@ export default function Place() {
                   <button
                     css={Button.pinkBorderButton({
                       width: "50px",
-                      height: "2s0px",
+                      height: "20px",
                     })}
                     onClick={handleTopTab}
                   >
                     TOP
                   </button>
                 </div>
-                <FilterPlace />
+                <FilterPlace setIsFilterModalOpen={setIsFilterModalOpen}/>
                 {/* <FilterSection
                   setFilters={setFilters}
                   latitude={latitude}

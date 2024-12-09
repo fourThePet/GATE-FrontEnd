@@ -1,17 +1,22 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import BackTitleHeader from "../../../components/header/back-title";
 import FilterSection from "./filter-list";
-import { headerContainer } from "../../../components/header/back-search";
 import { Block } from "../../../components/block/block";
 import { css } from "@emotion/react";
-import { Button } from "../../../components/button/button";
 import colors from "../../../styles/colors";
-import { useMemo, useState } from "react";
+import { 
+  // useEffect, 
+  useMemo, 
+  useState } from "react";
 import { useLocationStore } from "../../../stores/useLocationState";
+import { GrayBorderButton, MainPinkButton } from "../../../components";
 
-export default function FilterPlace() {
+interface Props {
+  setIsFilterModalOpen? : (isOpen:boolean) => void;
+  
+}
+export default function FilterPlace({setIsFilterModalOpen } : Props) {
   const navigate = useNavigate();
-  const { search } = useLocation();
+  const  location  = useLocation();
   const [filters, setFilters] = useState({
     conditions: {
       isLeashRequired: false,
@@ -30,13 +35,9 @@ export default function FilterPlace() {
 
   // 쿼리스트링에서 카테고리 값을 추출
   const { category } = useMemo(() => {
-    const params = new URLSearchParams(search);
+    const params = new URLSearchParams(location.search);
     return { category: params.get("category") || "전체" }; // 기본값: 전체
-  }, [search]);
-
-  const handleBackButtonClick = () => {
-    navigate(-1); // 뒤로 가기
-  };
+  }, [location.search]);
 
   const handleReset = () => {
     setFilters({
@@ -53,6 +54,7 @@ export default function FilterPlace() {
       },
       dogSize: null,
     });
+    setIsFilterModalOpen(false)  // 모달 닫기
     navigate("/place"); // 초기화된 상태로 리다이렉션
   };
 
@@ -83,7 +85,7 @@ export default function FilterPlace() {
       .join("&");
 
     console.log("생성된 쿼리스트링:", queryString);
-
+    setIsFilterModalOpen(false)  // 모달 닫기
     // 생성된 쿼리스트링을 사용해 리다이렉트
     navigate(`/place?${queryString}`);
   };
@@ -98,12 +100,6 @@ export default function FilterPlace() {
         `,
       ]}
     >
-      <div css={headerContainer}>
-        {/* <BackTitleHeader
-          // handleBackButtonClick={handleBackButtonClick}
-          title="필터"
-        /> */}
-      </div>
       <div>
         <FilterSection setFilters={setFilters} />
       </div>
@@ -118,25 +114,8 @@ export default function FilterPlace() {
           }),
         ]}
       >
-        <button
-          css={Button.pinkBorderButton({
-            width: "260px",
-            height: "60px",
-          })}
-          onClick={handleReset}
-        >
-          초기화
-        </button>
-        <button
-          css={Button.mainPinkButton({
-            isDisabled: false,
-            width: "260px",
-            height: "60px",
-          })}
-          onClick={handleApply}
-        >
-          적용하기
-        </button>
+        <GrayBorderButton title="초기화" width="50%" height="48px" onClick={handleReset}/>
+        <MainPinkButton title="적용하기" width="50%" height="48px" onClick={handleApply} />
       </div>
     </div>
   );
