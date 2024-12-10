@@ -25,6 +25,7 @@ import {
   Review,
   PlanCreate,
   PlaceAdd,
+  PetChoice,
 } from "./pages";
 // 라우터 정의
 export const router = createBrowserRouter([

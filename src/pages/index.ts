@@ -21,4 +21,5 @@ export { default as WriteReview } from "./review/write-review";
 export { default as Review } from "./review";
 export { default as PlanCreate } from "./plan/plan-create";
 export { default as PlaceAdd } from "./plan/place-add";
+export { default as PetChoice } from "./plan/pet-choice";
 

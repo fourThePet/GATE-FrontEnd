@@ -43,7 +43,7 @@ export default function PlaceChoice(){
                     
                 </div>
                 <div css={bottomButtonStyle}>
-                    <MainPinkButton title="다음" />
+                    <MainPinkButton title="다음" onClick={()=>navigate('/plan/recommend')}/>
                 </div>
             </div>
         </div>

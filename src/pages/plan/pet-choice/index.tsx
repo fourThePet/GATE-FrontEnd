@@ -25,6 +25,12 @@ export default function PetChoice() {
     navigate("/mypage/pet-register"); // Replace with the correct route for pet registration
   };
 
+  const handleNextClick = () =>{
+      console.log("Selected Pets:", selectedPets);
+      navigate("/plan/create/place-choice", {state : selectedPets})
+
+  }
+
   return (
     <>
       {/* Page Wrapper */}
@@ -186,9 +192,7 @@ export default function PetChoice() {
                 transition: background-color 0.3s ease;
               `,
             ]}
-            onClick={() => {
-              console.log("Selected Pets:", selectedPets);
-            }}
+            onClick={handleNextClick}
             disabled={selectedPets.length === 0}
           >
             다음
