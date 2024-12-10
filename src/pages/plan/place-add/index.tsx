@@ -83,6 +83,7 @@ export default function PlaceAdd(){
                             />
                             </div>
                             <PlaceListCard 
+                            placeId={1}
                             placeName={'더왈츠'} 
                             roadAddress={'서울특별시'}
                             setSelectItems={setSelectItems} 

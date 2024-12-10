@@ -105,7 +105,7 @@ export const selectionWrapper = css`
     flex-direction: row;
     width: 100%;
     height: 200px;
-    background-color: ${colors.color.White2};
+    border: 0.5px solid ${colors.color.White2};
     align-items: center;
     justify-content: flex-start;
     padding: 0 30px;
