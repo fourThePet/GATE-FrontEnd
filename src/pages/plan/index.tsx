@@ -86,6 +86,10 @@ export default function Plan() {
     navigate(`/plan/create`);
   };
 
+  const handleTravelClick =(planId : number) => {
+    navigate(`/plan/detail/${planId}`)
+  }
+
   return (
     <>
       <div
@@ -274,6 +278,7 @@ export default function Plan() {
                     travelName={travel.cityName}
                     date={travel.date}
                     dogCount={travel.dogSize}
+                    onClick={()=>handleTravelClick(travel.id)}
                   />
                 ))
               ) : (
@@ -297,6 +302,7 @@ export default function Plan() {
                     travelName={travel.cityName}
                     date={travel.date}
                     dogCount={travel.dogSize}
+                    onClick={()=>handleTravelClick(travel.id)}
                   />
                 ))
               ) : (
