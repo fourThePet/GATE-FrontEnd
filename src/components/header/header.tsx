@@ -68,7 +68,7 @@ export default function Header({ handleBackButtonClick }: Props) {
     {
       path: "/plan/create",
       title: "",
-      component: BackTitleHeader,
+      component: PinkBackHeader,
     },
     {
       path: "/review/edit/:reviewId",
