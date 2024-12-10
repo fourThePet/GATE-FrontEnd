@@ -22,6 +22,10 @@ export default function PetChoice() {
     );
   };
 
+  const handleRegisterPet = () => {
+    navigate("/mypage/pet-register"); // Replace with the correct route for pet registration
+  };
+
   return (
     <>
       {/* Page Wrapper */}
