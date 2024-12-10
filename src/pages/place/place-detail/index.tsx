@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { PageWrapper } from "../../../styles/ui";
 import StoreInfo from "./components/store-info"; // StoreInfo 컴포넌트 import
 import { Divider2 } from "../../../styles/ui";
@@ -44,7 +44,7 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
 
 export default function PlaceDetail() {
   const navigate = useNavigate();
-  const [isButtonVisible, setIsButtonVisible] = useState(false); // 지도보기 버튼 보임 상태
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
   const { isLoggedIn } = useAuthStore();
   const location = useLocation(); // `state`로 전달된 데이터 접근
@@ -57,24 +57,25 @@ export default function PlaceDetail() {
     navigate(`/review/${placeId}`, { state: { placeId } });
   };
 
+  // Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsButtonVisible(entry.isIntersecting); // HowToCome이 화면에 보일 때만 버튼 보이게 설정
+        setIsButtonVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 } // 10%가 보이면 화면에 있다고 간주
+      { threshold: 0.1 }
     );
 
     if (howToComeRef.current) {
-      observer.observe(howToComeRef.current); // HowToCome 컴포넌트를 감시
+      observer.observe(howToComeRef.current);
     }
 
     return () => {
       if (howToComeRef.current) {
-        observer.unobserve(howToComeRef.current); // 컴포넌트 언마운트 시 감시 해제
+        observer.unobserve(howToComeRef.current);
       }
     };
-  }, []);
+  }, [howToComeRef.current]); // `
 
   if (isLoading) return <div>리뷰를 불러오는 중입니다...</div>;
   if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;

@@ -26,6 +26,11 @@ export const QUERY_KEYS = {
     "GET_REVIEWS_REVIEWID",
     reviewId,
   ],
+  GET_REVIEW_SUMMARY: (placeId: number, type: string) => [
+    "GET_REVIEW_SUMMARY",
+    placeId,
+    type,
+  ],
   GET_PLAN_PLANID: (planId: number) => ["GET_PLAN_PLANID", planId],
   GET_PLANS: (dateFilter: "AFTER" | "BEFORE", sortOrder: "ASC" | "DESC") =>
     ["GET_PLANS", dateFilter, sortOrder] as const,

@@ -97,7 +97,7 @@ export const usePostCreateReview = () => {
   });
 };
 
-export const useGetReviewsReviewId = (reviewId : number) => {
+export const useGetReviewsReviewId = (reviewId: number) => {
   const { isLoggedIn } = useAuthStore();
   return useQuery({
     queryKey: QUERY_KEYS.GET_REVIEWS_REVIEWID(reviewId),
@@ -112,20 +112,36 @@ export const useGetReviewsReviewId = (reviewId : number) => {
   });
 };
 
-export const usePutReviewByReviewId = (reviewId : number) => {
+export const usePutReviewByReviewId = (reviewId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-      mutationFn: async (body : FormData) => {
-          try {
-              return await putReviewByReviewId(body, reviewId);
-          }catch{
-              throw new Error('리뷰 수정에 실패하였습니다.')
-          }
-      },
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: QUERY_KEYS.GET_REVIEWS_MY
-        })
+    mutationFn: async (body: FormData) => {
+      try {
+        return await putReviewByReviewId(body, reviewId);
+      } catch {
+        throw new Error("리뷰 수정에 실패하였습니다.");
       }
-  })
-}
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.GET_REVIEWS_MY,
+      });
+    },
+  });
+};
+
+import { getReviewSummary } from "../../api/reviews";
+
+export const useGetReviewSummary = (placeId: number, type: string) => {
+  return useQuery({
+    queryKey: QUERY_KEYS.GET_REVIEW_SUMMARY(placeId, type),
+    queryFn: async () => {
+      try {
+        return await getReviewSummary(placeId, type);
+      } catch {
+        throw new Error("리뷰 요약 조회에 실패했습니다.");
+      }
+    },
+    enabled: !!placeId, // placeId와 type이 존재할 때만 요청
+  });
+};
