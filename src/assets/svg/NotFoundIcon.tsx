@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import * as React from "react";
+>>>>>>> 8bcf9b6 (feat: petchoice UI 구현)
 import type { SVGProps } from "react";
 const SvgNotFoundIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
