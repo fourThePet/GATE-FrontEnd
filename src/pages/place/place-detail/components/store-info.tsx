@@ -208,9 +208,9 @@ export default function StoreInfo({ placeId }: ReviewProps) {
       <div
         css={{
           display: "flex",
-          overflowX: "auto", // 가로 스크롤 활성화
-          overflowY: "hidden", // 세로 스크롤 비활성화
-          whiteSpace: "nowrap", // 줄바꿈 방지
+          overflowX: "auto",
+          overflowY: "hidden",
+          whiteSpace: "nowrap",
           padding: "10px 0",
           gap: "30px",
           marginLeft: "20px",
@@ -285,36 +285,45 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             css={typo.Body2}
             style={{
               color: "#888888",
-              wordBreak: "break-all", // 너무 길어사 줄바꿈
-              whiteSpace: "normal", // 기본 줄바꿈
-              lineHeight: "1", // 줄 간격 조정
+              wordBreak: "break-all",
+              whiteSpace: "normal",
+              lineHeight: "1",
             }}
           >
             - 홈페이지:{" "}
-            <a
-              href={storeData.websiteUrl}
-              target="_blank" // 새 탭에서 열기
-              rel="noopener noreferrer" // 보안 및 성능 최적화
-              style={{
-                display: "inline-block", // 한 줄에서 줄임표시 적용
-                maxWidth: "200px", // 최대 너비 설정 (필요에 따라 조정 가능)
-                overflow: "hidden", // 넘친 부분 숨기기
-                whiteSpace: "nowrap", // 한 줄로 제한
-                textOverflow: "ellipsis", // 줄임표(...) 적용
-                color: "#F8A8C2", // 링크 색상
-                textDecoration: "underline", // 밑줄 추가
-              }}
-            >
-              {storeData.websiteUrl}
-            </a>
+            {storeData.websiteUrl !== "정보없음" ? (
+              <a
+                href={storeData.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  maxWidth: "250px",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  color: "#F8A8C2",
+                  textDecoration: "underline",
+                }}
+              >
+                {(() => {
+                  const url = storeData.websiteUrl;
+                  const trimmedUrl = url.includes(".com")
+                    ? url.split(".com")[0] + ".com"
+                    : url;
+                  return trimmedUrl;
+                })()}
+              </a>
+            ) : (
+              <span>정보 없음</span>
+            )}
           </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
             - 전화번호:{" "}
             <a
               href={`tel:${storeData.phoneNumber}`}
               style={{
-                color: "#F8A8C2", // 링크 색상
-                textDecoration: "underline", // 밑줄 추가
+                color: "#F8A8C2",
+                textDecoration: "underline",
               }}
             >
               {storeData.phoneNumber}
