@@ -1,6 +1,6 @@
-
+import * as React from "react";
 import type { SVGProps } from "react";
-const SvgNotFound = (props: SVGProps<SVGSVGElement>) => (
+const SvgNotFoundIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
@@ -73,4 +73,4 @@ const SvgNotFound = (props: SVGProps<SVGSVGElement>) => (
     />
   </svg>
 );
-export default SvgNotFound;
+export default SvgNotFoundIcon;

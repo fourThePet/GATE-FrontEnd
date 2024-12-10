@@ -9,6 +9,7 @@ function App() {
   const isPlaceDetailPage = location.pathname.startsWith("/place/detail");
   const isReceiptCheckPage = location.pathname.startsWith("/review");
   const isWriteReviewPage = location.pathname.startsWith("/review/write");
+  const isPlanCreatePage = location.pathname.startsWith("/plan/create");
 
   const isOnboardingPage =
     location.pathname.startsWith("/onboarding") ||
@@ -36,6 +37,7 @@ function App() {
         isReceiptCheckPage={isReceiptCheckPage}
         isWriteReviewPage={isWriteReviewPage}
         isOnboardingPage={isOnboardingPage}
+        isPlanCreatePage={isPlanCreatePage}
       />
     </>
   );

@@ -14,6 +14,8 @@ export const useGetPlans = (
   dateFilter: "AFTER" | "BEFORE",
   sortOrder: "ASC" | "DESC"
 ) => {
+  const { isLoggedIn } = useAuthStore();
+
   return useInfiniteQuery<PlansApiResponse, Error>({
     queryKey: QUERY_KEYS.GET_PLANS(dateFilter, sortOrder),
     queryFn: async ({ pageParam = 0 }) => {
@@ -26,6 +28,7 @@ export const useGetPlans = (
       return page + 1 < totalPages ? page + 1 : undefined; // 다음 페이지 반환
     },
     initialPageParam: 0, // 초기 pageParam을 설정
+    enabled: isLoggedIn,
   });
 };
 
@@ -57,7 +60,6 @@ export const usePostCreatePlan = () => {
 };
 
 export const useGetPlanByPlanId = (planId: number) => {
-  const { isLoggedIn } = useAuthStore();
   return useQuery({
     queryKey: QUERY_KEYS.GET_PLAN_PLANID(planId),
     queryFn: async () => {
@@ -67,6 +69,5 @@ export const useGetPlanByPlanId = (planId: number) => {
         throw new Error("일정 정보를 가져오는 데 실패했습니다.");
       }
     },
-    enabled: isLoggedIn,
   });
 };

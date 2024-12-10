@@ -68,7 +68,7 @@ export default function Header({ handleBackButtonClick }: Props) {
     {
       path: "/plan/create",
       title: "",
-      component: BackTitleHeader,
+      component: PinkBackHeader,
     },
     {
       path: "/review/edit/:reviewId",
@@ -78,6 +78,11 @@ export default function Header({ handleBackButtonClick }: Props) {
     {
       path: "/plan/recommend",
       component: CloseHeader,
+    },
+    {
+      path: "/plan/create/pet-choice",
+      title: "",
+      component: BackTitleHeader,
     },
   ];
 

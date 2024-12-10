@@ -10,10 +10,12 @@ import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
+import { useGetMembersInfo } from "../../queries";
 
 export default function Plan() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
+  const { data: memberInfo } = useGetMembersInfo();
 
   // 다가오는 여행 데이터
   const {
@@ -148,7 +150,8 @@ export default function Plan() {
           >
             <div>
               <span css={typo.Heading3}>
-                OO 님, 반갑습니다 <br /> GATE와 함께하는 일정을 세워볼까요? 🐾
+                {memberInfo?.nickname || "게스트"}님, 반갑습니다 <br /> GATE와
+                함께하는 일정을 세워볼까요? 🐾
               </span>
             </div>
             <button
@@ -263,24 +266,50 @@ export default function Plan() {
           {/* 탭 내용 */}
           <div>
             {activeTab === "coming" &&
-              comingTravels.map((travel) => (
-                <TravelForm
-                  key={travel.id}
-                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
-                  travelName={travel.cityName}
-                  date={travel.date}
-                  dogCount={travel.dogSize}
-                />
+              (comingTravels.length > 0 ? (
+                comingTravels.map((travel) => (
+                  <TravelForm
+                    key={travel.id}
+                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    travelName={travel.cityName}
+                    date={travel.date}
+                    dogCount={travel.dogSize}
+                  />
+                ))
+              ) : (
+                <div
+                  css={css`
+                    text-align: center;
+                    color: #9a9ea6;
+                    font-size: 16px;
+                    margin-top: 20px;
+                  `}
+                >
+                  다가오는 여행 일정이 없습니다.
+                </div>
               ))}
             {activeTab === "past" &&
-              pastTravels.map((travel) => (
-                <TravelForm
-                  key={travel.id}
-                  imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
-                  travelName={travel.cityName}
-                  date={travel.date}
-                  dogCount={travel.dogSize}
-                />
+              (pastTravels.length > 0 ? (
+                pastTravels.map((travel) => (
+                  <TravelForm
+                    key={travel.id}
+                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    travelName={travel.cityName}
+                    date={travel.date}
+                    dogCount={travel.dogSize}
+                  />
+                ))
+              ) : (
+                <div
+                  css={css`
+                    text-align: center;
+                    color: #9a9ea6;
+                    font-size: 16px;
+                    margin-top: 20px;
+                  `}
+                >
+                  지난 여행 일정이 없습니다.
+                </div>
               ))}
           </div>
           {activeTab === "coming" && hasComingNextPage && (
