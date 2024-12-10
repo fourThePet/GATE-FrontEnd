@@ -44,3 +44,12 @@ export interface PlaceReviewResponse {
 export interface ReviewProps {
   placeId: number; // placeId를 props로 받음
 }
+
+export interface ReviewSummaryResponse {
+  answer: string; // 요약된 리뷰 내용
+}
+
+export interface ReviewSummaryRequest {
+  placeId: number;
+  type: "POSITIVE" | "NEGATIVE" | "OVERALL";
+}

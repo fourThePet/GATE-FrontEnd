@@ -35,20 +35,36 @@ export const postCreateReview = async (reviewData: FormData) => {
   }
 };
 
-export const getReviewsReviewId = async(reviewId: number)=>{
-  try{
+export const getReviewsReviewId = async (reviewId: number) => {
+  try {
     const response = await api.get(`/reviews/${reviewId}`);
     return response.data.result;
-  }catch(error){
-    console.error(error.response.data.detail)
+  } catch (error) {
+    console.error(error.response.data.detail);
   }
-}
+};
 
-export const putReviewByReviewId = async(body : FormData,reviewId:number) =>{
-  try{
+export const putReviewByReviewId = async (body: FormData, reviewId: number) => {
+  try {
     const response = await formAPI.put(`/reviews/${reviewId}`, body);
     return response.data;
-  }catch(error){
-    console.error(error.response)
+  } catch (error) {
+    console.error(error.response);
   }
-}
+};
+
+// 리뷰 요약 조회 API
+export const getReviewSummary = async (placeId: number, type: string) => {
+  try {
+    const response = await api.get(`/reviews/summary`, {
+      params: { placeId, type },
+    });
+    return response.data.result;
+  } catch (error) {
+    console.error(
+      "리뷰 요약 조회 실패:",
+      error.response?.data?.message || error.message
+    );
+    throw new Error("리뷰 요약 조회에 실패했습니다.");
+  }
+};

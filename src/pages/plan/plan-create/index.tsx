@@ -17,21 +17,12 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { datepickerCustomStyles } from "../index.styles";
 import { useNavigate } from "react-router-dom";
+import { useGetPlacesCities } from "../../../queries";
+
 export default function PlanCreate() {
   const [selectedCity, setSelectedCity] = useState<number | null>(null); // Change to number | null
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const navigate = useNavigate();
-  const cities = [
-    { id: 1, name: "가평·양평", description: "가평, 양평" },
-    { id: 2, name: "강릉·속초", description: "강릉, 속초, 양양" },
-    { id: 3, name: "경주", description: "경주" },
-    { id: 4, name: "부산", description: "부산" },
-    { id: 5, name: "여수", description: "여수, 순천" },
-    { id: 6, name: "인천", description: "인천, 강화도" },
-    { id: 7, name: "전주", description: "전주, 군산" },
-    { id: 8, name: "제주", description: "제주, 서귀포" },
-    { id: 9, name: "춘천·홍천", description: "춘천, 홍천" },
-  ];
 
   const handleCityClick = (id: number) => {
     // Ensure id is of type number
@@ -41,6 +32,11 @@ export default function PlanCreate() {
   const handlePetChoiceButtonClick = () => {
     navigate(`/plan/create/pet-choice`);
   };
+
+  const { data: cities, isLoading, isError } = useGetPlacesCities();
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
 
   return (
     <>
@@ -67,12 +63,11 @@ export default function PlanCreate() {
               <div css={CityInfoWrapperStyle}>
                 <img
                   src={`https://via.placeholder.com/50?text=${city.name}`}
-                  alt={city.name}
+                  alt={city.cityName}
                   css={CityImageStyle}
                 />
                 <div>
-                  <p>{city.name}</p>
-                  <p>{city.description}</p>
+                  <p>{city.cityName}</p>
                 </div>
               </div>
               <button

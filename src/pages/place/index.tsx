@@ -17,7 +17,7 @@ import { css } from "@emotion/react";
 import { useLocationStore } from "../../stores/useLocationState";
 import { useGetPlaces } from "../../api";
 import { PlacesParam } from "../../interfaces/places";
-import { useSpring, animated } from "react-spring";
+import { useSpring } from "react-spring";
 import FilterPlace from "./filter-place";
 import { Button } from "../../components/button/button";
 import { AnimatedProps } from "react-spring";
@@ -30,6 +30,7 @@ type AnimatedDivProps = AnimatedProps<{
   children?: React.ReactNode;
 }>;
 
+import { animated } from "@react-spring/web";
 export default function Place() {
   const location = useLocation();
   const { data } = useGetPlacesCategories();

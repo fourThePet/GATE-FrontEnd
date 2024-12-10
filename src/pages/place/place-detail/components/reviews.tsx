@@ -6,6 +6,7 @@ import { Button } from "../../../../components/button/button";
 import { useGetPlaceReviews } from "../../../../queries/reviews";
 import { NotFoundIcon } from "../../../../assets/svg";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../../../assets/svg";
+import formatReviewDate from "../../../review/format-review-date";
 type ReviewsProps = {
   placeId: number; // placeId를 props로 받음
 };
@@ -267,9 +268,13 @@ export default function Reviews({ placeId }: ReviewsProps) {
         {/* 날짜 */}
         <div
           css={typo.Body3}
-          style={{ color: "#9A9EA6", textAlign: "right", marginTop: "10px" }}
+          style={{
+            color: "#9A9EA6",
+            textAlign: "right",
+            marginTop: "10px",
+          }}
         >
-          {new Date(firstReview.createAt).toLocaleDateString("ko-KR")}
+          {formatReviewDate(firstReview.createAt)}
         </div>
       </div>
     </>

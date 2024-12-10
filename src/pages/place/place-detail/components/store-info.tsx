@@ -208,9 +208,9 @@ export default function StoreInfo({ placeId }: ReviewProps) {
       <div
         css={{
           display: "flex",
-          overflowX: "auto", // 가로 스크롤 활성화
-          overflowY: "hidden", // 세로 스크롤 비활성화
-          whiteSpace: "nowrap", // 줄바꿈 방지
+          overflowX: "auto",
+          overflowY: "hidden",
+          whiteSpace: "nowrap",
           padding: "10px 0",
           gap: "30px",
           marginLeft: "20px",
@@ -285,15 +285,49 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             css={typo.Body2}
             style={{
               color: "#888888",
-              wordBreak: "break-all", // 너무 길어사 줄바꿈
-              whiteSpace: "normal", // 기본 줄바꿈
-              lineHeight: "1.5", // 줄 간격 조정
+              wordBreak: "break-all",
+              whiteSpace: "normal",
+              lineHeight: "1",
             }}
           >
-            - 홈페이지: {storeData.websiteUrl}
+            - 홈페이지:{" "}
+            {storeData.websiteUrl !== "정보없음" ? (
+              <a
+                href={storeData.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  maxWidth: "250px",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  color: "#F8A8C2",
+                  textDecoration: "underline",
+                }}
+              >
+                {(() => {
+                  const url = storeData.websiteUrl;
+                  const trimmedUrl = url.includes(".com")
+                    ? url.split(".com")[0] + ".com"
+                    : url;
+                  return trimmedUrl;
+                })()}
+              </a>
+            ) : (
+              <span>정보 없음</span>
+            )}
           </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 전화번호: {storeData.phoneNumber}
+            - 전화번호:{" "}
+            <a
+              href={`tel:${storeData.phoneNumber}`}
+              style={{
+                color: "#F8A8C2",
+                textDecoration: "underline",
+              }}
+            >
+              {storeData.phoneNumber}
+            </a>
           </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
             - 입장료: {storeData.admissionFee}

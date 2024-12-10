@@ -1,6 +1,4 @@
-import { 
-  useEffect,
-   useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { Text } from "../../../components";
 import colors from "../../../styles/colors";
@@ -21,61 +19,6 @@ import { useGetPlanByPlanId } from "../../../queries/plans";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 // 예시 데이터
-// const result = {
-//     id: 1,
-//     date: "2024-12-28",
-//     city: {
-//       id: 1,
-//       cityName: "서울"
-//     },
-//     planPlaces: [
-//       {
-//         id: 1,
-//         sequence: 1,
-//         place: {
-//           id: 1,
-//           name: "멍멍이카페",
-//           category: "카페",
-//           latitude: 37.7519573928855,
-//           longitude: 127.049286104824
-//         }
-//       },
-//       {
-//         id: 2,
-//         sequence: 2,
-//         place: {
-//           id: 2,
-//           name: "반려동물공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       },
-//       {
-//         id: 3,
-//         sequence: 3,
-//         place: {
-//           id: 3,
-//           name: "희망공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       },
-//       {
-//         id: 4,
-//         sequence: 4,
-//         place: {
-//           id: 4,
-//           name: "평화공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       }
-//     ]
-// };
-
 
 export default function PlanDetail() {
   const { planId } = useParams(); // URL에서 planId를 가져옴

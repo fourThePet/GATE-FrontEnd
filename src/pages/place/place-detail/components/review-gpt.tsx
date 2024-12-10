@@ -3,8 +3,9 @@ import { typo } from "../../../../styles/typo";
 import { BasicInfoContainer } from "../index.styles";
 import { Block } from "../../../../components/block/block";
 import { Gpt } from "../../../../assets/svg";
-import { useAuthStore } from "../../../../stores/useAuthStore";
 import { useGetPlaceReviews } from "../../../../queries/reviews";
+import { useGetReviewSummary } from "../../../../queries/reviews";
+
 type ReviewGptProps = {
   placeId: number; // placeId를 props로 받음
 };
@@ -13,7 +14,7 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
   if (isLoading) return <p>리뷰를 불러오는 중입니다...</p>;
-  if (error) return <p>리뷰를 가져오는 데 실패했습니다.</p>;
+  if (error) return <p>리뷰를 못 가져왔습니다.</p>;
 
   return (
     <div
@@ -34,17 +35,25 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   );
 };
 
-export default function ReviewGpt({}: ReviewGptProps) {
+export default function ReviewGpt({ placeId }: ReviewGptProps) {
   const [activeTab, setActiveTab] = useState<"high" | "low">("high");
-  const {} = useAuthStore();
   const handleTabClick = (tab: "high" | "low") => {
     setActiveTab(tab);
   };
 
+  // Fetch review summary based on activeTab
+  const {
+    data: reviewSummary,
+    isLoading: isSummaryLoading,
+    error: summaryError,
+  } = useGetReviewSummary(
+    placeId,
+    activeTab === "high" ? "POSITIVE" : "NEGATIVE"
+  );
+
   return (
     <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
       {/* 상단 리뷰 제목 및 아이콘 */}
-
       <div
         css={Block.flexBlock({
           direction: "column",
@@ -116,19 +125,17 @@ export default function ReviewGpt({}: ReviewGptProps) {
           })}
           style={{ marginTop: "-30px" }}
         >
-          {activeTab === "high" && (
+          {isSummaryLoading ? (
             <p css={typo.Body2} style={{ color: "#666666" }}>
-              주차가 다소 불편하다는 의견이 있으나, 기계식 주차가 가능하여
-              편리함도 제공합니다. 전반적으로 깨끗하고 깔끔한 분위기를 유지하며,
-              인근에 식당과 마트가 있어 편리합니다. 특히 세탁기와 시설이 잘
-              갖춰져 있어 자취하는 느낌을 주며, 테라스와 쾌적한 객실로
-              만족스러운 숙박 경험을 제공합니다.
+              리뷰 요약을 불러오는 중입니다...
             </p>
-          )}
-          {activeTab === "low" && (
+          ) : summaryError ? (
             <p css={typo.Body2} style={{ color: "#666666" }}>
-              다만, 수건 상태나 청소 관련 지적도 있으니 주의가 필요합니다.
-              다양한 편의시설과 함께 가성비 좋은 선택으로 추천됩니다.
+              리뷰를 못 가져왔습니다.
+            </p>
+          ) : (
+            <p css={typo.Body2} style={{ color: "#666666" }}>
+              {reviewSummary?.answer}
             </p>
           )}
         </div>
