@@ -1,23 +1,24 @@
 import { BasicInfoContainer } from "../index.styles";
 import { typo } from "../../../../styles/typo";
 import { Block } from "../../../../components/block/block";
-import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { useGetPlaces } from "../../../../api/places";
+import { useEffect, useRef } from "react";
 import ReactDOMServer from "react-dom/server";
 import { LocMarker } from "../../../../assets/svg";
-import { Place } from "../../../../interfaces";
 
-interface HowToComeProps {
-  place: Place[];
-}
-
-export default function HowToCome({ place }: HowToComeProps) {
+export default function HowToCome() {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
-  const latitude = parseFloat(queryParams.get("latitude"));
-  const longitude = parseFloat(queryParams.get("longitude"));
+  const latitude = parseFloat(queryParams.get("latitude") || "0");
+  const longitude = parseFloat(queryParams.get("longitude") || "0");
+
+  const { places, isLoading, error } = useGetPlaces({ latitude, longitude });
+
+  const roadAddress =
+    places.length > 0 ? places[0].roadAddress : "주소를 찾을 수 없습니다.";
 
   useEffect(() => {
     const loadKakaoMap = () => {
@@ -48,7 +49,11 @@ export default function HowToCome({ place }: HowToComeProps) {
         map,
         image: customIcon,
       });
+
+      const zoomControl = new window.kakao.maps.ZoomControl();
+      map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
     };
+
     if (window.kakao && window.kakao.maps) {
       loadKakaoMap();
     } else {
@@ -75,11 +80,13 @@ export default function HowToCome({ place }: HowToComeProps) {
         >
           <div ref={mapRef} style={{ width: "100%", height: "100%" }} />
         </div>
-        {place.map((item) => (
-          <p key={item.id} css={typo.Label3}>
-            {item.roadAddress}
-          </p>
-        ))}
+        {isLoading ? (
+          <p css={typo.Label3}>주소를 불러오는 중입니다...</p>
+        ) : error ? (
+          <p css={typo.Label3}>{error}</p>
+        ) : (
+          <p css={typo.Label3}>{roadAddress}</p>
+        )}
       </div>
     </>
   );
