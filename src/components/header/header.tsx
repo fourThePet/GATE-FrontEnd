@@ -71,6 +71,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       component: PinkBackHeader,
     },
     {
+      path: "/plan/create/place-choice",
+      title: "",
+      component: BackTitleHeader,
+    },
+    {
       path: "/review/edit/:reviewId",
       title: "리뷰 수정",
       component: BackTitleHeader,
@@ -82,6 +87,11 @@ export default function Header({ handleBackButtonClick }: Props) {
     {
       path: "/plan/create/pet-choice",
       title: "",
+      component: BackTitleHeader,
+    },
+    {
+      path: "/plan/create/place-add",
+      title: "장소 추가",
       component: BackTitleHeader,
     },
   ];

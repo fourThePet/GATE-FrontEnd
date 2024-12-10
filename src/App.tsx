@@ -14,6 +14,7 @@ function App() {
   const isOnboardingPage =
     location.pathname.startsWith("/onboarding") ||
     location.pathname.startsWith("/mypage/pet-register");
+
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
     if(location.pathname.startsWith("/plan/recommend")){ //추천일정 경로에서 닫기 버튼 누르면 일정으로 돌아가기

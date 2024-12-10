@@ -17,14 +17,16 @@ import {
   PlanDetail,
   ReviewEdit,
   PlanRecommend,
+  PlaceChoice,
+  FilterPlace,
+  PlaceDetail,
+  ReceiptCheck,
+  WriteReview,
+  Review,
+  PlanCreate,
+  PlaceAdd,
+  PetChoice,
 } from "./pages";
-import FilterPlace from "./pages/place/filter-place";
-import PlaceDetail from "./pages/place/place-detail";
-import ReceiptCheck from "./pages/review/receipt-check";
-import WriteReview from "./pages/review/write-review";
-import Review from "./pages/review";
-import PlanCreate from "./pages/plan/plan-create";
-import PetChoice from "./pages/plan/pet-choice";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -97,6 +99,10 @@ export const router = createBrowserRouter([
         element: <PlanCreate />,
       },
       {
+        path:"plan/create/place-choice",
+        element : <PlaceChoice />
+      },
+      {
         path: "review/edit/:reviewId",
         element: <ReviewEdit />,
       },
@@ -107,6 +113,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/create/pet-choice",
         element: <PetChoice />,
+      },
+      {
+        path: "plan/create/place-add",
+        element: <PlaceAdd />,
       },
     ],
   },

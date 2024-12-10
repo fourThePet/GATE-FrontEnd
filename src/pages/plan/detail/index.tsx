@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { 
+  // useEffect,
+   useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { Text } from "../../../components";
 import colors from "../../../styles/colors";
@@ -16,71 +18,72 @@ import {
 
 import { DragDropContext } from "react-beautiful-dnd";
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useGetPlanByPlanId } from "../../../queries/plans";
+// import { useGetPlanByPlanId } from "../../../queries/plans";
 import { useParams } from "react-router-dom";
 // 예시 데이터
-// const result = {
-//     id: 1,
-//     date: "2024-12-28",
-//     city: {
-//       id: 1,
-//       cityName: "서울"
-//     },
-//     planPlaces: [
-//       {
-//         id: 1,
-//         sequence: 1,
-//         place: {
-//           id: 1,
-//           name: "멍멍이카페",
-//           category: "카페",
-//           latitude: 37.7519573928855,
-//           longitude: 127.049286104824
-//         }
-//       },
-//       {
-//         id: 2,
-//         sequence: 2,
-//         place: {
-//           id: 2,
-//           name: "반려동물공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       },
-//       {
-//         id: 3,
-//         sequence: 3,
-//         place: {
-//           id: 3,
-//           name: "희망공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       },
-//       {
-//         id: 4,
-//         sequence: 4,
-//         place: {
-//           id: 4,
-//           name: "평화공원",
-//           category: "공원",
-//           latitude: 37.7749295,
-//           longitude: 127.0627361
-//         },
-//       }
-//     ]
-// };
+const result = {
+    id: 1,
+    date: "2024-12-28",
+    city: {
+      id: 1,
+      cityName: "서울"
+    },
+    planPlaces: [
+      {
+        id: 1,
+        sequence: 1,
+        place: {
+          id: 1,
+          name: "멍멍이카페",
+          category: "카페",
+          latitude: 37.7519573928855,
+          longitude: 127.049286104824
+        }
+      },
+      {
+        id: 2,
+        sequence: 2,
+        place: {
+          id: 2,
+          name: "반려동물공원",
+          category: "공원",
+          latitude: 37.7749295,
+          longitude: 127.0627361
+        },
+      },
+      {
+        id: 3,
+        sequence: 3,
+        place: {
+          id: 3,
+          name: "희망공원",
+          category: "공원",
+          latitude: 37.7749295,
+          longitude: 127.0627361
+        },
+      },
+      {
+        id: 4,
+        sequence: 4,
+        place: {
+          id: 4,
+          name: "평화공원",
+          category: "공원",
+          latitude: 37.7749295,
+          longitude: 127.0627361
+        },
+      }
+    ]
+};
 export default function PlanDetail() {
   const { planId } = useParams(); // URL에서 planId를 가져옴
-  const { data } = useGetPlanByPlanId(Number(planId));
-  console.log(data);
+  // const { data } = useGetPlanByPlanId(Number(planId));
+  // console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드
-  const [plan, setPlan] = useState(null);
+  // const [plan, setPlan] = useState(null);
+  const [plan, setPlan] = useState(result);
 
-  useEffect(() => setPlan(data), [data]);
+  // useEffect(() => setPlan(data), [data]);
 
   // useMemo를 사용하여 계산된 남은 일수를 저장
   const remainingDays = useMemo(() => {
