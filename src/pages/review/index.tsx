@@ -8,7 +8,7 @@ import { Divider } from "../../styles/ui";
 import { Button } from "../../components/button/button";
 import { BasicInfoContainer } from "../place/place-detail/index.styles";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../assets/svg";
-
+import formatReviewDate from "./format-review-date";
 export default function Review() {
   const location = useLocation();
   const placeId = location.state?.placeId; // 전달받은 placeId
@@ -384,7 +384,7 @@ export default function Review() {
                 marginTop: "10px",
               }}
             >
-              {new Date(review.createAt).toLocaleDateString("ko-KR")}
+              {formatReviewDate(review.createAt)}
             </div>
           </div>
           <Divider style={{ marginLeft: "30px", width: "90%" }} />
