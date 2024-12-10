@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import {
   PageWrapperStyle,
@@ -17,10 +16,11 @@ import { typo } from "../../../styles/typo";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { datepickerCustomStyles } from "../index.styles";
+import { useNavigate } from "react-router-dom";
 export default function PlanCreate() {
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [selectedCity, setSelectedCity] = useState<number | null>(null); // Change to number | null
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+  const navigate = useNavigate();
   const cities = [
     { id: 1, name: "가평·양평", description: "가평, 양평" },
     { id: 2, name: "강릉·속초", description: "강릉, 속초, 양양" },
@@ -33,8 +33,13 @@ export default function PlanCreate() {
     { id: 9, name: "춘천·홍천", description: "춘천, 홍천" },
   ];
 
-  const handleCityClick = (id: string) => {
+  const handleCityClick = (id: number) => {
+    // Ensure id is of type number
     setSelectedCity(id === selectedCity ? null : id);
+  };
+
+  const handlePetChoiceButtonClick = () => {
+    navigate(`/plan/create/pet-choice`);
   };
 
   return (
@@ -47,11 +52,11 @@ export default function PlanCreate() {
         <div css={[InputWrapperStyle, datepickerCustomStyles]}>
           <span>📅</span>
           <DatePicker
-            selected={selectedDate} // 선택된 날짜
-            onChange={(date: Date) => setSelectedDate(date)} // 날짜 변경 핸들러
-            placeholderText="여행 날짜를 선택해주세요." // 입력 필드에 표시되는 기본 텍스트
-            dateFormat="yyyy-MM-dd" // 날짜 형식 지정
-            css={InputFieldStyle} // 스타일 적용
+            selected={selectedDate} // Selected date
+            onChange={(date: Date) => setSelectedDate(date)} // Date change handler
+            placeholderText="여행 날짜를 선택해주세요." // Placeholder text
+            dateFormat="yyyy-MM-dd" // Date format
+            css={InputFieldStyle} // Styles
           />
         </div>
       </div>
@@ -86,6 +91,7 @@ export default function PlanCreate() {
               isDisabled: false,
               width: "80%",
             })}
+            onClick={handlePetChoiceButtonClick}
           >
             선택완료
           </button>

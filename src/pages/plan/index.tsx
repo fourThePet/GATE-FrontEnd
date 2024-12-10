@@ -10,7 +10,6 @@ import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
-
 export default function Plan() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");

@@ -24,6 +24,7 @@ import ReceiptCheck from "./pages/review/receipt-check";
 import WriteReview from "./pages/review/write-review";
 import Review from "./pages/review";
 import PlanCreate from "./pages/plan/plan-create";
+import PetChoice from "./pages/plan/pet-choice";
 // 라우터 정의
 export const router = createBrowserRouter([
   {
@@ -102,6 +103,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/recommend",
         element: <PlanRecommend />,
+      },
+      {
+        path: "plan/create/pet-choice",
+        element: <PetChoice />,
       },
     ],
   },

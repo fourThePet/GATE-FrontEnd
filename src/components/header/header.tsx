@@ -79,6 +79,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       path: "/plan/recommend",
       component: CloseHeader,
     },
+    {
+      path: "/plan/create/pet-choice",
+      title: "",
+      component: BackTitleHeader,
+    },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기
