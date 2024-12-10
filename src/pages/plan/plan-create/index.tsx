@@ -52,11 +52,11 @@ export default function PlanCreate() {
         <div css={[InputWrapperStyle, datepickerCustomStyles]}>
           <span>📅</span>
           <DatePicker
-            selected={selectedDate} // Selected date
-            onChange={(date: Date) => setSelectedDate(date)} // Date change handler
-            placeholderText="여행 날짜를 선택해주세요." // Placeholder text
-            dateFormat="yyyy-MM-dd" // Date format
-            css={InputFieldStyle} // Styles
+            selected={selectedDate}
+            onChange={(date: Date) => setSelectedDate(date)}
+            placeholderText="여행 날짜를 선택해주세요."
+            dateFormat="yyyy-MM-dd"
+            css={InputFieldStyle}
           />
         </div>
       </div>

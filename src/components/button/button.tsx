@@ -21,7 +21,7 @@ export const Button = {
     cursor: ${isDisabled ? "not-allowed" : "pointer"};
 
     &:hover {
-      background-color: #d04578; /* hover 시 배경색 변경 */
+      background-color: ${isDisabled ? "#e8e8e8" : "#d04578"};
     }
   `,
 
