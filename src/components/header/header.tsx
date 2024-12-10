@@ -89,6 +89,11 @@ export default function Header({ handleBackButtonClick }: Props) {
       title: "",
       component: BackTitleHeader,
     },
+    {
+      path: "/plan/create/place-add",
+      title: "장소 추가",
+      component: BackTitleHeader,
+    },
   ];
 
   // 현재 경로에 맞는 페이지 데이터 찾기
