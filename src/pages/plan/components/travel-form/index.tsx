@@ -7,11 +7,13 @@ export const TravelForm = ({
   travelName,
   date,
   dogCount,
+  onClick,
 }: {
   imageUrl: string;
   travelName: string;
   date: string;
   dogCount: number;
+  onClick: ()=>void;
 }) => {
   return (
     <div
@@ -21,6 +23,7 @@ export const TravelForm = ({
         margin-bottom: 10px;
         padding: 10px 0;
       `}
+      onClick={onClick}
     >
       <img
         src={imageUrl}
