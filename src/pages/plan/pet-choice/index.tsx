@@ -21,15 +21,6 @@ export default function PetChoice() {
     );
   };
 
-  const handleRegisterPet = () => {
-    navigate("/mypage/pet-register"); // Replace with the correct route for pet registration
-  };
-
-  const handleNextClick = () => {
-    console.log("Selected Pets:", selectedPets);
-    navigate("/plan/create/place-choice", { state: selectedPets });
-  };
-
   return (
     <>
       {/* Page Wrapper */}
@@ -179,25 +170,25 @@ export default function PetChoice() {
       </div>
 
       {/* Footer */}
-      {dogsProfiles && dogsProfiles.length > 0 && (
-        <footer css={FooterStyle}>
-          <button
-            css={[
-              Button.mainPinkButton({
-                isDisabled: selectedPets.length === 0,
-                width: "80%",
-              }),
-              css`
-                transition: background-color 0.3s ease;
-              `,
-            ]}
-            onClick={handleNextClick}
-            disabled={selectedPets.length === 0}
-          >
-            다음
-          </button>
-        </footer>
-      )}
+      <footer css={FooterStyle}>
+        <button
+          css={[
+            Button.mainPinkButton({
+              isDisabled: selectedPets.length === 0,
+              width: "90%",
+            }),
+            css`
+              transition: background-color 0.3s ease;
+            `,
+          ]}
+          onClick={() => {
+            console.log("Selected Pets:", selectedPets);
+          }}
+          disabled={selectedPets.length === 0}
+        >
+          다음
+        </button>
+      </footer>
     </>
   );
 }
