@@ -18,3 +18,89 @@ export interface Place {
   postalCode: string;
   favorites: "N" | "Y";
 }
+
+// 맵
+declare global {
+  interface Window {
+    kakao: {
+      maps: {
+        load: (callback: () => void) => void;
+        Map: new (container: HTMLElement, options: any) => kakao.maps.Map;
+        LatLng: new (lat: number, lng: number) => kakao.maps.LatLng;
+        Marker: new (options: {
+          position: kakao.maps.LatLng;
+          map?: kakao.maps.Map;
+          image?: kakao.maps.MarkerImage;
+        }) => kakao.maps.Marker;
+        MarkerImage: new (
+          url: string,
+          size: kakao.maps.Size,
+          options?: {
+            offset?: kakao.maps.Point;
+          }
+        ) => kakao.maps.MarkerImage;
+        Size: new (width: number, height: number) => kakao.maps.Size;
+        Point: new (x: number, y: number) => kakao.maps.Point;
+        CustomOverlay: new (options: {
+          position: kakao.maps.LatLng;
+          content: HTMLElement | string;
+          map?: kakao.maps.Map;
+          xAnchor?: number;
+          yAnchor?: number;
+          zIndex?: number;
+          clickable?: boolean;
+        }) => kakao.maps.CustomOverlay;
+        ZoomControl: new () => kakao.maps.ZoomControl;
+        event: {
+          addListener: (
+            target: any,
+            type: string,
+            callback: () => void
+          ) => void;
+          removeListener: (
+            target: any,
+            type: string,
+            callback: () => void
+          ) => void;
+        };
+        ControlPosition: {
+          TOP: number;
+          LEFT: number;
+          RIGHT: number;
+          BOTTOM: number;
+          TOPLEFT: number;
+          TOPRIGHT: number;
+          BOTTOMLEFT: number;
+          BOTTOMRIGHT: number;
+        };
+      };
+    };
+  }
+
+  namespace kakao.maps {
+    interface Map {
+      setCenter: (latlng: kakao.maps.LatLng) => void;
+      getCenter: () => kakao.maps.LatLng;
+      addControl: (control: kakao.maps.ZoomControl, position: number) => void;
+    }
+    interface LatLng {
+      getLat: () => number;
+      getLng: () => number;
+    }
+    interface Marker {
+      setMap: (map: kakao.maps.Map | null) => void;
+      setPosition: (latlng: kakao.maps.LatLng) => void;
+    }
+    interface MarkerImage {}
+    interface Size {}
+    interface Point {}
+    interface CustomOverlay {
+      setMap: (map: kakao.maps.Map | null) => void;
+      setPosition: (latlng: kakao.maps.LatLng) => void;
+      setContent: (content: HTMLElement | string) => void;
+    }
+    interface ZoomControl {}
+  }
+}
+
+export {};

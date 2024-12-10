@@ -4,26 +4,24 @@ import {
   containerStyle,
   modalContent,
   modalOverlay,
-  noticeStyle,
 } from "./index.styles";
 import KakaoMap from "../place/components/map-api/kakaomap";
 import CategoryList from "../place/components/category/category-search";
 import { useLocation, useNavigate } from "react-router-dom";
 import { MainPinkButton } from "../../components";
 import { useGetPlacesCategories } from "../../queries";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
 import ResultPlace from "./place-detail/components/result-place";
-import { typo } from "../../styles/typo";
-import colors from "../../styles/colors";
 import { css } from "@emotion/react";
-import { NoticeIcon } from "../../assets/svg";
 import { useLocationStore } from "../../stores/useLocationState";
 import { useGetPlaces } from "../../api";
 import { PlacesParam } from "../../interfaces/places";
+import { useSpring, animated } from "react-spring";
+import FilterPlace from "./filter-place";
+import { Button } from "../../components/button/button";
 
 export default function Place() {
-  const navigate = useNavigate();
   const location = useLocation();
   const { data } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
@@ -31,8 +29,10 @@ export default function Place() {
   const initialCategory = queryParams.get("category") || "전체";
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [buttonText, setButtonText] = useState("목록 보기");
   const { latitude, longitude } = useLocationStore();
+  const navigate = useNavigate();
 
   /** Filter 페이지에서 쿼리스트링으로 넘겨준 필터링값을 받아오기 */
   const { search } = useLocation();
@@ -40,6 +40,7 @@ export default function Place() {
   /** 필터 페이지에서 넘겨준 쿼리스트링 기반으로 파라메터 생성 */
   const {
     entryConditions,
+    category,
     latitude: currentLatitude,
     longitude: currentLongitude,
     size,
@@ -47,6 +48,7 @@ export default function Place() {
   } = useMemo(() => {
     const params = new URLSearchParams(search);
     const queryParams: {
+      category?: string;
       size?: string;
       entryConditions?: string[];
       types?: string[];
@@ -72,8 +74,16 @@ export default function Place() {
       latitude,
       longitude,
       category: isAll ? undefined : selectedCategory,
+      size: size,
+      entryConditions: entryConditions,
+      types: types,
     };
   }, [selectedCategory, latitude, longitude, size, entryConditions, types]);
+
+  useEffect(() => {
+    setSelectedCategory(category || "전체");
+  }, [category]);
+
 
   /* 홈화면에서 전달받은 카테고리 */
   useEffect(() => {
@@ -102,7 +112,11 @@ export default function Place() {
 
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");
-    navigate(`/place/filter?latitude=${latitude}&longitude=${longitude}`);
+    if (isFilterModalOpen) {
+      setIsFilterModalOpen(false);
+    } else {
+      setIsFilterModalOpen(true);
+    }
   };
 
   const handleSearchSubmit = (value) => {
@@ -111,6 +125,7 @@ export default function Place() {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
+    navigate(`/place?category=${encodeURIComponent(category)}`)
   };
 
   const handleButtonClick = () => {
@@ -120,6 +135,93 @@ export default function Place() {
     } else {
       setIsModalOpen(true);
       setButtonText("지도 보기");
+    }
+  };
+
+  const animation = useSpring({
+    transform: isModalOpen ? "translateY(40%)" : "translateY(100%)",
+    opacity: isModalOpen ? 1 : 0,
+    config: {
+      tension: 200, // 낮추면 더 부드러워짐
+      friction: 15, // 높이면 더 빠르게 멈춤
+      mass: 1, // 질량 조절 (기본값 1)
+      clamp: true, // 애니메이션 끝에서 튀어오르지 않도록 함
+    },
+  });
+
+  const filterAnimation = useSpring({
+    transform: isFilterModalOpen ? "translateY(40%)" : "translateY(100%)",
+    opacity: isFilterModalOpen ? 1 : 0,
+    config: {
+      tension: 200, // 낮추면 더 부드러워짐
+      friction: 15, // 높이면 더 빠르게 멈춤
+      mass: 1, // 질량 조절 (기본값 1)
+      clamp: true, // 애니메이션 끝에서 튀어오르지 않도록 함
+    },
+  });
+
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const kakaoMapElements = document.getElementsByClassName("kakaoMap");
+
+    Array.from(kakaoMapElements).forEach((element) => {
+      element.addEventListener("click", handleKakaoMapClick);
+    });
+
+    return () => {
+      Array.from(kakaoMapElements).forEach((element) => {
+        element.removeEventListener("click", handleKakaoMapClick);
+      });
+    };
+  }, [isFilterModalOpen]);
+
+  const handleKakaoMapClick = () => {
+    const bottomTabs = document.getElementsByClassName("checkFilterBottomTab");
+    const bottomTabs2 = document.getElementsByClassName("checkPlaceBottomTab");
+
+    if (isFilterModalOpen && bottomTabs) {
+      Array.from(bottomTabs).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(80%)";
+        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+      });
+    } else if (bottomTabs2) {
+      Array.from(bottomTabs2).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(80%)";
+        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+      });
+    } else {
+      Array.from(bottomTabs).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(0)";
+      });
+    }
+  };
+
+  const handleTopTab = () => {
+    const bottomTabs = document.getElementsByClassName("checkFilterBottomTab");
+    const bottomTabs2 = document.getElementsByClassName("checkPlaceBottomTab");
+
+    // 바깥쪽 스크롤을 하는것을 감지해서 필터 내리기
+    if (isFilterModalOpen) {
+      Array.from(bottomTabs).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(40%)";
+        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+      });
+    } else if (isModalOpen) {
+      Array.from(bottomTabs2).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(40%)";
+        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+      });
+    } else {
+      Array.from(bottomTabs).forEach((tab) => {
+        const element = tab as HTMLElement;
+        element.style.transform = "translateY(0)";
+      });
     }
   };
 
@@ -144,7 +246,7 @@ export default function Place() {
           setSelectedCategory={setSelectedCategory}
         />
       </div>
-      <div css={buttonContainer}>
+      <div css={buttonContainer({isModalOpen, isFilterModalOpen})}>
         <MainPinkButton
           onClick={handleButtonClick}
           isDisabled={false}
@@ -153,9 +255,79 @@ export default function Place() {
           height="4vh"
         />
       </div>
+      {/* TODO : 에이든 - 목록,필터 보기 작업분 */}
+      {/* 라운드 적용 && 슬라이드 tap 바텀 to 탑 */}
+      {isFilterModalOpen && (
+        <div css={modalOverlay}>
+          <animated.div
+            css={modalContent}
+            style={filterAnimation}
+            className="checkFilterBottomTab"
+          >
+            <div css={modalContent} ref={modalRef}>
+              <div
+                css={css`
+                  // margin-bottom: 30%;
+                `}
+              >
+                <div
+                  css={css`
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    // margin-bottom: 15px;
+                  `}
+                >
+                  <button
+                    css={Button.pinkBorderButton({
+                      width: "50px",
+                      height: "20px",
+                    })}
+                    onClick={handleTopTab}
+                  >
+                    TOP
+                  </button>
+                </div>
+                <FilterPlace setIsFilterModalOpen={setIsFilterModalOpen}/>
+                {/* <FilterSection
+                  setFilters={setFilters}
+                  latitude={latitude}
+                  longitude={longitude}
+                /> */}
+              </div>
+            </div>
+          </animated.div>
+        </div>
+      )}
       {isModalOpen && (
         <div css={modalOverlay}>
-          <div css={modalContent}>
+          <animated.div
+            css={modalContent}
+            style={animation}
+            className="checkPlaceBottomTab"
+            // ref={modalRef}
+          >
+            {/* TODO : 버버거림 원인 : 컴포넌트 마진,패딩 체크 */}
+            {/* 디자인 바꾸시면서 마진 없애시면 될거같아요 ~! */}
+
+            {/* <div
+              css={css`
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // margin-bottom: 15px;
+              `}
+            >
+              <button
+                css={Button.pinkBorderButton({
+                  width: "50px",
+                  height: "2s0px",
+                })}
+                onClick={handleTopTab}
+              >
+                TOP
+              </button>
+            </div>
             <div css={noticeStyle}>
               <NoticeIcon width={18} height={18} />
               <label
@@ -168,9 +340,9 @@ export default function Place() {
               >
                 원하는 장소를 선택해보세요
               </label>
-            </div>
+            </div> */}
             <ResultPlace places={places} />
-          </div>
+          </animated.div>
         </div>
       )}
     </div>

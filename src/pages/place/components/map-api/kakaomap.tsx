@@ -2,57 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
-import {
-  GpsButton,
-  Research,
-  Scissors,
-  Hospital,
-  Bone,
-  Food,
-  Coffee,
-  Lodging,
-  Pill,
-  Palette,
-  Car,
-} from "../../../../assets/svg";
+import { GpsButton, Research } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
 import { useNavigate } from "react-router-dom";
-// import { useGetPlaces2 } from "../../../../queries";
+import colors from "../../../../styles/colors";
+import { getIconBasedOnCategory } from "./categoryIcon";
 
-declare global {
-  interface Window {
-    kakao: {
-      maps: {
-        load: (callback: () => void) => void;
-        Map: new (container: HTMLElement, options: any) => any;
-        LatLng: new (lat: number, lng: number) => {
-          lat: () => number;
-          lng: () => number;
-        };
-        Marker: new (options: any) => {
-          setMap: (map: any | null) => void;
-        };
-        MarkerImage: new (url: string, size: any, options?: any) => any;
-        Size: new (width: number, height: number) => any;
-        Point: new (width: number, height: number) => any;
-        event: {
-          addListener: (
-            target: any,
-            type: string,
-            callback: () => void
-          ) => void;
-          removeListener: (
-            target: any,
-            type: string,
-            callback: () => void
-          ) => void;
-        };
-      };
-    };
-  }
-}
+// import { useGetPlaces2 } from "../../../../queries";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -73,7 +31,6 @@ export default function KakaoMap({
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
-  const [markers, setMarkers] = useState<any[]>([]);
   const { setLatitude, setLongitude } = useLocationStore(); // Zustand 사용
   // const location = useLocation();
   // const queryParams = new URLSearchParams(location.search);
@@ -89,7 +46,7 @@ export default function KakaoMap({
 
     const mapOption = {
       center: new window.kakao.maps.LatLng(latitude, longitude),
-      level: 3,
+      level: 3, // 기본 레벨
     };
     const map = new window.kakao.maps.Map(mapContainer, mapOption);
     mapInstance.current = map;
@@ -107,41 +64,24 @@ export default function KakaoMap({
       image: icon,
     });
 
+    // **줌 컨트롤러 추가**
+    const zoomControl = new window.kakao.maps.ZoomControl();
+    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
     console.log("현재 위치:", { latitude, longitude });
   };
 
-  const getIconBasedOnCategory = (category: string) => {
-    if (category === "미용") {
-      return <Scissors width={20} height={20} />;
-    } else if (category === "병원") {
-      return <Hospital width={20} height={20} />;
-    } else if (category === "약국") {
-      return <Pill width={20} height={20} />;
-    } else if (category === "반려동물용품") {
-      return <Bone width={20} height={20} />;
-    } else if (category === "식당") {
-      return <Food width={20} height={20} />;
-    } else if (category === "카페") {
-      return <Coffee width={20} height={20} />;
-    } else if (category === "호텔") {
-      return <Lodging width={20} height={20} />;
-    } else if (category === "펜션") {
-      return <Lodging width={20} height={20} />;
-    } else if (category === "박물관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "미술관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "문예회관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "여행지") {
-      return <Car width={20} height={20} />;
-    } else return <LocMarker width={20} height={20} />;
-  };
+  const [markerOverlayPairs, setMarkerOverlayPairs] = useState<
+    { marker: kakao.maps.Marker; overlay: kakao.maps.CustomOverlay }[]
+  >([]);
 
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
-    const newMarkers = places.map((place) => {
+    // 기존 마커와 오버레이 제거
+    clearMarkers();
+
+    const newMarkerOverlayPairs = places.map((place) => {
       const icon = getIconBasedOnCategory(place.category);
 
       // 마커 생성
@@ -156,9 +96,34 @@ export default function KakaoMap({
           { offset: new window.kakao.maps.Point(15, 15) }
         ),
       });
+
+      // 커스텀 오버레이 생성
+      const overlayContent = document.createElement("div");
+      overlayContent.style.backgroundColor = "transparent";
+      overlayContent.style.border = "none";
+      overlayContent.style.fontSize = "12px";
+      overlayContent.style.fontWeight = "bold";
+      overlayContent.style.color = `${colors.color.Black}`;
+      overlayContent.style.textAlign = "center";
+      overlayContent.style.whiteSpace = "nowrap";
+      overlayContent.style.textShadow = `
+                                          -1px -1px 0 white,
+                                          1px -1px 0 white,
+                                          -1px  1px 0 white,
+                                          1px  1px 0 white
+                                       `;
+      overlayContent.innerText = place.name;
+
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+        content: overlayContent,
+        map: mapInstance.current,
+        xAnchor: 0.5,
+        yAnchor: 2,
+      });
+
       // 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, "click", () => {
-        // 쿼리스트링 업데이트
         navigate(
           `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
           {
@@ -170,10 +135,18 @@ export default function KakaoMap({
         console.log(`마커 클릭: ${place.id}`);
       });
 
-      return marker;
+      return { marker, overlay: customOverlay };
     });
 
-    setMarkers(newMarkers);
+    setMarkerOverlayPairs(newMarkerOverlayPairs);
+  };
+
+  const clearMarkers = () => {
+    markerOverlayPairs.forEach(({ marker, overlay }) => {
+      marker.setMap(null);
+      overlay.setMap(null);
+    });
+    setMarkerOverlayPairs([]);
   };
 
   const moveMarkerToMapCenter = () => {
@@ -226,10 +199,6 @@ export default function KakaoMap({
     );
   };
 
-  const clearMarkers = () => {
-    markers.forEach((marker) => marker.setMap(null));
-    setMarkers([]);
-  };
   useEffect(() => {
     const loadKakaoMap = () => {
       const existingScript = document.querySelector(
@@ -286,7 +255,7 @@ export default function KakaoMap({
   }, [places]);
 
   return (
-    <div ref={mapRef} css={mapStyle}>
+    <div ref={mapRef} css={mapStyle} className="kakaoMap">
       <div css={mapLocBtn}>
         <GpsButton
           onClick={moveMarkerToCurrentLocation}
