@@ -149,8 +149,16 @@ Storybook을 사용하는 경우 컴포넌트의 시각적 테스트를 위한 �
 - 사용자와 반려견 맞춤 일정 경로 추천
 - 일정 생성/조회/수정/삭제
 
-|회원 시스템|반려견 정보 관리 시스템|장소 검색 시스템|즐겨찾기 시스템|리뷰 시스템|일정 시스템|
-|------|------|------|------|------|------|
-|<img src="https://github.com/user-attachments/assets/2ba44fbf-ed6e-410c-8ec0-c45efc6fd51a" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/c4f729cf-35f8-444c-946d-f9f81d1bfa78" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/ee55cf26-a88d-49ed-a7ac-e42a3ce63baf" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/2ee4a9be-b21d-442b-afb6-19d768d7236c" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/af942b92-bad4-457e-922a-b8a18464696f" width="200" height="400"/> | |
+|회원 시스템|반려견 정보 관리 시스템|장소 검색 시스템|
+|------|------|------|
+|<img src="https://github.com/user-attachments/assets/2ba44fbf-ed6e-410c-8ec0-c45efc6fd51a" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/c4f729cf-35f8-444c-946d-f9f81d1bfa78" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/ee55cf26-a88d-49ed-a7ac-e42a3ce63baf" width="200" height="400"/> |
 |<img src="https://github.com/user-attachments/assets/0561f372-ae58-4ad5-8e37-0c7cafba2490" width="200" height="400"/>|<img src="https://github.com/user-attachments/assets/17563fb4-5d24-46f6-887f-7de04158b54f" width="200" height="400"/> </br> <img src="https://github.com/user-attachments/assets/2f39e0ab-283e-4379-a1b0-658bf4385566" width="200" height="400"/>|<img src="https://github.com/user-attachments/assets/7406a67b-30ef-4c04-b3fe-f74a644eb333" width="200" height="400"/>|<img src="https://github.com/user-attachments/assets/42a3185b-0688-4c87-ac24-92c5123c8cc1" width="200" height="400"/>|<img src="https://github.com/user-attachments/assets/d69e52c9-7e75-4cc1-bbd7-15dfd3552070" width="200" height="400"/> </br> <img src="https://github.com/user-attachments/assets/23cf1dbe-e957-445e-af41-97f70c98684d" width="200" height="400"/> </br> <img src="https://github.com/user-attachments/assets/3c8f76b0-a855-43cf-b453-38cf1b52a418" width="200" height="400"/>|
-|로그인, 회원가입 화면|반려동물 등록, 조회, 삭제, 수정 화면|현 위치 기반 장소 조회 화면|즐겨찾기 추가,조회 화면|영수증 리뷰 작성 화면|일정 경로 추천 화면|
+|로그인, 회원가입 화면|반려동물 등록, 조회, 삭제, 수정 화면|현 위치 기반 장소 조회 화면|
+
+|즐겨찾기 시스템|리뷰 시스템|일정 시스템|
+|------|------|------|
+|<img src="https://github.com/user-attachments/assets/2ee4a9be-b21d-442b-afb6-19d768d7236c" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/af942b92-bad4-457e-922a-b8a18464696f" width="200" height="400"/> |<img src="https://github.com/user-attachments/assets/99b63760-6137-48d2-9278-9a16faaa6793" width="200" height="400"/> |
+|<img src="https://github.com/user-attachments/assets/42a3185b-0688-4c87-ac24-92c5123c8cc1" width="200" height="400"/>|<img src="https://github.com/user-attachments/assets/d69e52c9-7e75-4cc1-bbd7-15dfd3552070" width="200" height="400"/> </br> <img src="https://github.com/user-attachments/assets/23cf1dbe-e957-445e-af41-97f70c98684d" width="200" height="400"/> </br> <img src="https://github.com/user-attachments/assets/3c8f76b0-a855-43cf-b453-38cf1b52a418" width="200" height="400"/>| |
+|즐겨찾기 추가,조회 화면|영수증 리뷰 작성 화면|일정 경로 추천 화면|
+
+
