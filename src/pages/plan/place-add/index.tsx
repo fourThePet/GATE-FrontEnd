@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { bottomButtonStyle, contentWrapper, headerContainerStyle, searchBarWrapperStyle, searchIconStyle, searchInputStyle, tabAreaWrapper, tabItem, tabWrapper, wrapper } from "./index.styles";
+import { bottomButtonStyle, contentWrapper, headerContainerStyle, searchBarWrapperStyle, searchIconStyle, searchInputStyle, selectionWrapper, tabAreaWrapper, tabItem, tabWrapper, wrapper } from "./index.styles";
 import { MainPinkButton, Text } from "../../../components";
 import CategoryList from "../../place/components/category/category-search";
-import { useGetPlacesCategories } from "../../../queries";
+import { useGetFavoritesList, useGetPlacesCategories } from "../../../queries";
 import { categoryIcon } from "../../../utils/translations";
-import { useNavigate } from "react-router-dom";
-import { PlaceListCard } from "../components";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PlaceListCard, SelectionImage } from "../components";
+import { FavoritesListType } from "../../../interfaces";
 
 export default function PlaceAdd(){
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    //즐겨찾기 데이터
+    const {data : myBookmarkList} = useGetFavoritesList(); 
     //카테고리 
     const { data } = useGetPlacesCategories();
     const [categories, setCategories] = useState([]);
@@ -22,6 +26,11 @@ export default function PlaceAdd(){
     const handleTabClick = (tab: "selection" | "favorites") =>{
         setActiveTab(tab)
     }
+
+    const { state } = useLocation(); // PlaceAdd에서 전달한 state를 받기
+    const initialSelectItems = state?.selectItems || []; // selectItems를 받아옴
+
+    const [selectItems, setSelectItems] = useState<{placeId : number, placeName:string}[]>(initialSelectItems);
 
     useEffect(() => {
         if (data && data.isSuccess) {
@@ -38,9 +47,10 @@ export default function PlaceAdd(){
         }
     }, [data]);
 
+    //선택 완료 버튼 이벤트
     const handleSelectionComplete = () =>{
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
-        navigate(-1) 
+        navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
     return(
         <div css={contentWrapper}>
@@ -72,21 +82,32 @@ export default function PlaceAdd(){
                             onCategoryClick={handleCategoryClick}
                             />
                             </div>
-                            <PlaceListCard/>
-                            
+                            <PlaceListCard 
+                            placeName={'더왈츠'} 
+                            roadAddress={'서울특별시'}
+                            setSelectItems={setSelectItems} 
+                            selectItems={selectItems}/>
                         </>
-                    )
-                    }
+                    )}
                     {activeTab === "favorites" && (
                         <>
-                            <PlaceListCard/>
+                        {myBookmarkList?.map((list : FavoritesListType, index : number)=>(
+                            <PlaceListCard 
+                            placeName={list.placeName} 
+                            roadAddress={list.roadAddress} 
+                            placeId={list.placeId} 
+                            setSelectItems={setSelectItems}
+                            selectItems={selectItems}
+                            key={index} />
+                        ))}
                         </>
-                    )
-
-                    }
+                    )}
                 </div>
-                <div>
-                    선택된 항목들
+                <div css={selectionWrapper}>
+                    {selectItems?.map((item, index)=>(
+                        <SelectionImage  key={index} imageUrl={'/images/review_ex.png'} name={item.placeName}/>
+                    ))}
+                   
                 </div>
                 <div css={bottomButtonStyle}>
                     <MainPinkButton title="선택완료" onClick={handleSelectionComplete}/>

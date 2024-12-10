@@ -6,7 +6,7 @@ export const contentWrapper = css`
     flex-direction: column;
     width: 100%;
     height: 100vh; /* 화면 전체 높이 */
-    /* overflow: hidden; //내부 콘텐츠만 스크롤 가능 */
+    overflow: hidden; //내부 콘텐츠만 스크롤 가능
     position: relative;
     padding : 79px 0 0;
 `
@@ -98,6 +98,20 @@ export const searchIconStyle = css`
     cursor: pointer;
     margin-right: 15px;
 `;
+
+export const selectionWrapper = css`
+    display: flex;
+    overflow-x: auto;
+    flex-direction: row;
+    width: 100%;
+    height: 200px;
+    background-color: ${colors.color.White2};
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 30px;
+    gap: 16px;
+    white-space: nowrap;
+`
 
 
 

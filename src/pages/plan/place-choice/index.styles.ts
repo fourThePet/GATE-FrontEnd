@@ -67,13 +67,14 @@ export const textWrapper = css`
     align-items: center;
 `
 
-export const noData = css`
+export const listWrapper = (isLength: boolean)=>css`
     width: 100%;
     margin: auto;
     height: 400px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: ${isLength ? "flex-start" : "center"};
+    justify-content: ${isLength ? "flex-start" : "center"};
 
 `
 
