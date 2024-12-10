@@ -5,7 +5,6 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 import { typo } from "../../../styles/typo";
 import { Petchoice, DefaultProfile } from "../../../assets/svg";
-
 export default function PetChoice() {
   const { data: dogsProfiles, isLoading, isError } = useGetDogsProfiles();
   const [selectedPets, setSelectedPets] = useState<number[]>([]);

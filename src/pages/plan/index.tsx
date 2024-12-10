@@ -10,9 +10,12 @@ import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
+import { useGetMembersInfo } from "../../queries";
+
 export default function Plan() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
+  const { data: memberInfo } = useGetMembersInfo();
 
   // 다가오는 여행 데이터
   const {
@@ -147,7 +150,8 @@ export default function Plan() {
           >
             <div>
               <span css={typo.Heading3}>
-                OO 님, 반갑습니다 <br /> GATE와 함께하는 일정을 세워볼까요? 🐾
+                {memberInfo?.nickname || "게스트"}님, 반갑습니다 <br /> GATE와
+                함께하는 일정을 세워볼까요? 🐾
               </span>
             </div>
             <button
