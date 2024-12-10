@@ -2,97 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { mapStyle } from "../search-bar/index.styles";
 import LocMarker from "../../../../assets/svg/LocMarker";
 import ReactDOMServer from "react-dom/server";
-import {
-  GpsButton,
-  Research,
-  Scissors,
-  Hospital,
-  Bone,
-  Food,
-  Coffee,
-  Lodging,
-  Pill,
-  Palette,
-  Car,
-} from "../../../../assets/svg";
+import { GpsButton, Research } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
 import { useNavigate } from "react-router-dom";
 import colors from "../../../../styles/colors";
+import { getIconBasedOnCategory } from "./categoryIcon";
+
 // import { useGetPlaces2 } from "../../../../queries";
 
-declare global {
-  interface Window {
-    kakao: {
-      maps: {
-        load: (callback: () => void) => void;
-        Map: new (container: HTMLElement, options: any) => kakao.maps.Map;
-        LatLng: new (lat: number, lng: number) => kakao.maps.LatLng;
-        Marker: new (options: {
-          position: kakao.maps.LatLng;
-          map?: kakao.maps.Map;
-          image?: kakao.maps.MarkerImage;
-        }) => kakao.maps.Marker;
-        MarkerImage: new (
-          url: string,
-          size: kakao.maps.Size,
-          options?: {
-            offset?: kakao.maps.Point;
-          }
-        ) => kakao.maps.MarkerImage;
-        Size: new (width: number, height: number) => kakao.maps.Size;
-        Point: new (x: number, y: number) => kakao.maps.Point;
-        CustomOverlay: new (options: {
-          position: kakao.maps.LatLng;
-          content: HTMLElement | string;
-          map?: kakao.maps.Map;
-          xAnchor?: number;
-          yAnchor?: number;
-          zIndex?: number;
-          clickable?: boolean;
-        }) => kakao.maps.CustomOverlay;
-        event: {
-          addListener: (
-            target: any,
-            type: string,
-            callback: () => void
-          ) => void;
-          removeListener: (
-            target: any,
-            type: string,
-            callback: () => void
-          ) => void;
-        };
-      };
-    };
-  }
-
-  namespace kakao.maps {
-    interface Map {
-      setCenter: (latlng: kakao.maps.LatLng) => void;
-      getCenter: () => kakao.maps.LatLng;
-    }
-    interface LatLng {
-      getLat: () => number;
-      getLng: () => number;
-    }
-    interface Marker {
-      setMap: (map: kakao.maps.Map | null) => void;
-      setPosition: (latlng: kakao.maps.LatLng) => void;
-    }
-    interface MarkerImage {}
-    interface Size {}
-    interface Point {}
-    interface CustomOverlay {
-      setMap: (map: kakao.maps.Map | null) => void;
-      setPosition: (latlng: kakao.maps.LatLng) => void;
-      setContent: (content: HTMLElement | string) => void;
-    }
-  }
-}
-
-export {};
 interface KaKaoMapProps {
   places: Place[];
 
@@ -127,7 +46,7 @@ export default function KakaoMap({
 
     const mapOption = {
       center: new window.kakao.maps.LatLng(latitude, longitude),
-      level: 3,
+      level: 3, // 기본 레벨
     };
     const map = new window.kakao.maps.Map(mapContainer, mapOption);
     mapInstance.current = map;
@@ -145,35 +64,11 @@ export default function KakaoMap({
       image: icon,
     });
 
-    console.log("현재 위치:", { latitude, longitude });
-  };
+    // **줌 컨트롤러 추가**
+    const zoomControl = new window.kakao.maps.ZoomControl();
+    map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
-  const getIconBasedOnCategory = (category: string) => {
-    if (category === "미용") {
-      return <Scissors width={20} height={20} />;
-    } else if (category === "병원") {
-      return <Hospital width={20} height={20} />;
-    } else if (category === "약국") {
-      return <Pill width={20} height={20} />;
-    } else if (category === "반려동물용품") {
-      return <Bone width={20} height={20} />;
-    } else if (category === "식당") {
-      return <Food width={20} height={20} />;
-    } else if (category === "카페") {
-      return <Coffee width={20} height={20} />;
-    } else if (category === "호텔") {
-      return <Lodging width={20} height={20} />;
-    } else if (category === "펜션") {
-      return <Lodging width={20} height={20} />;
-    } else if (category === "박물관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "미술관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "문예회관") {
-      return <Palette width={20} height={20} />;
-    } else if (category === "여행지") {
-      return <Car width={20} height={20} />;
-    } else return <LocMarker width={20} height={20} />;
+    console.log("현재 위치:", { latitude, longitude });
   };
 
   const [markerOverlayPairs, setMarkerOverlayPairs] = useState<
