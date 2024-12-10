@@ -20,6 +20,15 @@ import { PlacesParam } from "../../interfaces/places";
 import { useSpring, animated } from "react-spring";
 import FilterPlace from "./filter-place";
 import { Button } from "../../components/button/button";
+import { AnimatedProps } from "react-spring";
+import { CSSObject, SerializedStyles } from "@emotion/react";
+
+type AnimatedDivProps = AnimatedProps<{
+  className?: string;
+  css?: SerializedStyles | CSSObject;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}>;
 
 export default function Place() {
   const location = useLocation();
@@ -84,7 +93,6 @@ export default function Place() {
     setSelectedCategory(category || "전체");
   }, [category]);
 
-
   /* 홈화면에서 전달받은 카테고리 */
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -125,7 +133,7 @@ export default function Place() {
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category);
-    navigate(`/place?category=${encodeURIComponent(category)}`)
+    navigate(`/place?category=${encodeURIComponent(category)}`);
   };
 
   const handleButtonClick = () => {
@@ -225,6 +233,8 @@ export default function Place() {
     }
   };
 
+  const AnimatedDiv: React.FC<AnimatedDivProps> = animated.div;
+
   return (
     <div css={containerStyle}>
       <SearchFilterHeader
@@ -246,7 +256,7 @@ export default function Place() {
           setSelectedCategory={setSelectedCategory}
         />
       </div>
-      <div css={buttonContainer({isModalOpen, isFilterModalOpen})}>
+      <div css={buttonContainer({ isModalOpen, isFilterModalOpen })}>
         <MainPinkButton
           onClick={handleButtonClick}
           isDisabled={false}
@@ -259,90 +269,43 @@ export default function Place() {
       {/* 라운드 적용 && 슬라이드 tap 바텀 to 탑 */}
       {isFilterModalOpen && (
         <div css={modalOverlay}>
-          <animated.div
+          <AnimatedDiv
+            className="checkFilterBottomTab"
             css={modalContent}
             style={filterAnimation}
-            className="checkFilterBottomTab"
           >
             <div css={modalContent} ref={modalRef}>
               <div
                 css={css`
-                  // margin-bottom: 30%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
                 `}
               >
-                <div
-                  css={css`
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    // margin-bottom: 15px;
-                  `}
+                <button
+                  css={Button.pinkBorderButton({
+                    width: "50px",
+                    height: "20px",
+                  })}
+                  onClick={handleTopTab}
                 >
-                  <button
-                    css={Button.pinkBorderButton({
-                      width: "50px",
-                      height: "20px",
-                    })}
-                    onClick={handleTopTab}
-                  >
-                    TOP
-                  </button>
-                </div>
-                <FilterPlace setIsFilterModalOpen={setIsFilterModalOpen}/>
-                {/* <FilterSection
-                  setFilters={setFilters}
-                  latitude={latitude}
-                  longitude={longitude}
-                /> */}
+                  TOP
+                </button>
               </div>
+              <FilterPlace setIsFilterModalOpen={setIsFilterModalOpen} />
             </div>
-          </animated.div>
+          </AnimatedDiv>
         </div>
       )}
       {isModalOpen && (
         <div css={modalOverlay}>
-          <animated.div
+          <AnimatedDiv
             css={modalContent}
             style={animation}
             className="checkPlaceBottomTab"
-            // ref={modalRef}
           >
-            {/* TODO : 버버거림 원인 : 컴포넌트 마진,패딩 체크 */}
-            {/* 디자인 바꾸시면서 마진 없애시면 될거같아요 ~! */}
-
-            {/* <div
-              css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                // margin-bottom: 15px;
-              `}
-            >
-              <button
-                css={Button.pinkBorderButton({
-                  width: "50px",
-                  height: "2s0px",
-                })}
-                onClick={handleTopTab}
-              >
-                TOP
-              </button>
-            </div>
-            <div css={noticeStyle}>
-              <NoticeIcon width={18} height={18} />
-              <label
-                css={css`
-                  ${typo.Label1};
-                  color: ${colors.color.Gray1};
-                  padding: 5px 0;
-                  font-weight: 400;
-                `}
-              >
-                원하는 장소를 선택해보세요
-              </label>
-            </div> */}
             <ResultPlace places={places} />
-          </animated.div>
+          </AnimatedDiv>
         </div>
       )}
     </div>
