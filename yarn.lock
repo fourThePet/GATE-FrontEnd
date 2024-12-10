@@ -1149,14 +1149,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-spring/types@npm:~9.7.5":
+"@react-spring/types@npm:^9.7.5, @react-spring/types@npm:~9.7.5":
   version: 9.7.5
   resolution: "@react-spring/types@npm:9.7.5"
   checksum: 10/5b0edc00f31dcd3a8c5027130c9992ba286dd275112800c63f706da2b871837ca96b52f6a1f0796f38190a947d7ae7bf4916ec9b440b04a0bc0e5c57f6fd70aa
   languageName: node
   linkType: hard
 
-"@react-spring/web@npm:~9.7.4":
+"@react-spring/web@npm:^9.7.5, @react-spring/web@npm:~9.7.4":
   version: 9.7.5
   resolution: "@react-spring/web@npm:9.7.5"
   dependencies:
@@ -3812,6 +3812,8 @@ __metadata:
     "@emotion/react": "npm:^11.13.3"
     "@emotion/styled": "npm:^11.13.0"
     "@eslint/js": "npm:^9.13.0"
+    "@react-spring/types": "npm:^9.7.5"
+    "@react-spring/web": "npm:^9.7.5"
     "@storybook/addon-essentials": "npm:^8.4.4"
     "@storybook/addon-interactions": "npm:^8.4.4"
     "@storybook/addon-onboarding": "npm:^8.4.4"
