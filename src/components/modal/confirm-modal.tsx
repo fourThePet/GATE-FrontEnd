@@ -1,10 +1,10 @@
 import React from "react";
-import ReactModal from "react-modal";
 import { Block } from "../../components/block/block";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
 import { HeartFill } from "../../assets/svg";
 import { useNavigate } from "react-router-dom";
+import ReactModal from "react-modal";
 
 type Props = {
   isOpen: boolean; // 모달 열림/닫힘 상태
