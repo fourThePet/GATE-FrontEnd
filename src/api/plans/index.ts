@@ -25,11 +25,25 @@ export const postCreatePlan = async (body: {
   return response.data.result;
 };
 
-export const getPlanByPlanId = async (planId: number) => {
+//일정 세부 정보 조회
+export const getPlansByPlanId = async (planId: number) => {
   try {
-    const response = await api.get(`/plan/${planId}`);
+    const response = await api.get(`/plans/${planId}`);
     return response.data.result;
   } catch (error) {
     console.log(error);
   }
 };
+
+
+//일정 수정
+export const putPlansByPlanId = async (placeIds: number[], planId: number) =>{
+    const response = await api.put(`/plans/${planId}`, placeIds);
+    return response.data;
+}
+
+//일정 삭제
+export const deletePlansByPlanId = async (planId:number) =>{
+  const response = await api.delete(`/plans/${planId}`);
+  return response.data;
+}

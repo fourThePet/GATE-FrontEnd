@@ -15,13 +15,13 @@ import {
 } from "./index.styles";
 
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useGetPlanByPlanId } from "../../../queries/plans";
+import { useGetPlansByPlanId } from "../../../queries/plans";
 import { useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 
 export default function PlanDetail() {
   const { planId } = useParams(); // URL에서 planId를 가져옴
-  const { data, isLoading} = useGetPlanByPlanId(Number(planId));
+  const { data, isLoading} = useGetPlansByPlanId(Number(planId));
   
   // console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드

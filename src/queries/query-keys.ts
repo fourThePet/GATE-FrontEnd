@@ -31,8 +31,10 @@ export const QUERY_KEYS = {
     placeId: number,
     type: "POSITIVE" | "NEGATIVE" | "OVERALL"
   ) => ["GET_REVIEW_SUMMARY", placeId, type],
-  GET_PLAN_PLANID: (planId: number) => ["GET_PLAN_PLANID", planId],
+  GET_PLANS_PLANID: (planId: number) => ["GET_PLANS_PLANID", planId],
   GET_PLANS: (dateFilter: "AFTER" | "BEFORE", sortOrder: "ASC" | "DESC") =>
     ["GET_PLANS", dateFilter, sortOrder] as const,
   POST_CREATE_PLAN: ["POST_CREATE_PLAN"],
+  PUT_PLANS_PLANID : (planId : number) => ['PUT_PLANS_PLANID', planId],
+  DELETE_PLANS_PLANID : (planId : number) => ['DELETE_PLANS_PLANID', planId],
 } as const;

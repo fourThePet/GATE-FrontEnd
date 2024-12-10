@@ -4,7 +4,7 @@ import {
   useQuery,
   useInfiniteQuery,
 } from "@tanstack/react-query";
-import { getPlans, postCreatePlan, getPlanByPlanId } from "../../api/plans";
+import { getPlans, postCreatePlan, deletePlansByPlanId, putPlansByPlanId, getPlansByPlanId } from "../../api/plans";
 import { QUERY_KEYS } from "../query-keys";
 import { PlansApiResponse } from "../../interfaces/plans";
 import { useAuthStore } from "../../stores/useAuthStore";
@@ -46,7 +46,7 @@ export const usePostCreatePlan = () => {
     }) => {
       try {
         return await postCreatePlan(body);
-      } catch (error) {
+      } catch{
         throw new Error("일정을 생성하는 데 실패했습니다.");
       }
     },
@@ -59,15 +59,52 @@ export const usePostCreatePlan = () => {
   });
 };
 
-export const useGetPlanByPlanId = (planId: number) => {
+export const useGetPlansByPlanId = (planId: number) => {
   return useQuery({
-    queryKey: QUERY_KEYS.GET_PLAN_PLANID(planId),
+    queryKey: QUERY_KEYS.GET_PLANS_PLANID(planId),
     queryFn: async () => {
       try {
-        return await getPlanByPlanId(planId);
+        return await getPlansByPlanId(planId);
       } catch {
         throw new Error("일정 정보를 가져오는 데 실패했습니다.");
       }
+    },
+  });
+};
+
+export const useDeletePlansByPlanId = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (planId: number) => {
+      try {
+        return await deletePlansByPlanId(planId);
+      } catch {
+        throw new Error("일정을 삭제하는 데 실패했습니다.");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.GET_PLANS,
+      }); //쿼리를 무효화하여 최신 데이터를 가져옴
+    },
+  });
+};
+
+export const usePutPlansByPlanId = (planId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: QUERY_KEYS.PUT_DOGS_PROFILE_DOGID(planId),
+    mutationFn: async ({placeIds} : {placeIds : number[]}) => {
+      try {
+        return await putPlansByPlanId(placeIds, planId);
+      } catch {
+        throw new Error("일정 업데이트에 실패하였습니다.");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.GET_PLANS_PLANID,
+      });
     },
   });
 };
