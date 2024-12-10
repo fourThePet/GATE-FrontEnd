@@ -27,7 +27,7 @@ import {
   PlaceAdd,
   PetChoice,
 } from "./pages";
-// 라우터 정의
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -99,8 +99,8 @@ export const router = createBrowserRouter([
         element: <PlanCreate />,
       },
       {
-        path:"plan/create/place-choice",
-        element : <PlaceChoice />
+        path: "plan/create/place-choice",
+        element: <PlaceChoice />,
       },
       {
         path: "review/edit/:reviewId",

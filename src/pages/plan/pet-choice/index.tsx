@@ -25,11 +25,10 @@ export default function PetChoice() {
     navigate("/mypage/pet-register"); // Replace with the correct route for pet registration
   };
 
-  const handleNextClick = () =>{
-      console.log("Selected Pets:", selectedPets);
-      navigate("/plan/create/place-choice", {state : selectedPets})
-
-  }
+  const handleNextClick = () => {
+    console.log("Selected Pets:", selectedPets);
+    navigate("/plan/create/place-choice", { state: selectedPets });
+  };
 
   return (
     <>
