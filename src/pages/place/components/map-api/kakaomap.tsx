@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import colors from "../../../../styles/colors";
 import { getIconBasedOnCategory } from "./categoryIcon";
 
-// import { useGetPlaces2 } from "../../../../queries";
-
 interface KaKaoMapProps {
   places: Place[];
 
@@ -31,14 +29,10 @@ export default function KakaoMap({
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
-  const { setLatitude, setLongitude } = useLocationStore(); // Zustand 사용
-  // const location = useLocation();
-  // const queryParams = new URLSearchParams(location.search);
-  // const categoryFromQuery = queryParams.get("category") || "전체";
+  const { setLatitude, setLongitude } = useLocationStore();
 
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
-  // const {data: places} = useGetPlaces2({latitude, longitude})
 
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
@@ -68,7 +62,7 @@ export default function KakaoMap({
     const zoomControl = new window.kakao.maps.ZoomControl();
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
-    console.log("현재 위치:", { latitude, longitude });
+    console.log("지도 초기화 완료:", { latitude, longitude });
   };
 
   const [markerOverlayPairs, setMarkerOverlayPairs] = useState<
@@ -78,13 +72,11 @@ export default function KakaoMap({
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
-    // 기존 마커와 오버레이 제거
     clearMarkers();
 
     const newMarkerOverlayPairs = places.map((place) => {
       const icon = getIconBasedOnCategory(place.category);
 
-      // 마커 생성
       const marker = new window.kakao.maps.Marker({
         position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         map: mapInstance.current,
@@ -97,7 +89,6 @@ export default function KakaoMap({
         ),
       });
 
-      // 커스텀 오버레이 생성
       const overlayContent = document.createElement("div");
       overlayContent.style.backgroundColor = "transparent";
       overlayContent.style.border = "none";
@@ -106,14 +97,12 @@ export default function KakaoMap({
       overlayContent.style.color = `${colors.color.Black}`;
       overlayContent.style.textAlign = "center";
       overlayContent.style.whiteSpace = "nowrap";
-      overlayContent.style.textShadow = `
+      overlayContent.style.textShadow = ` 
                                           -1px -1px 0 white,
                                           1px -1px 0 white,
                                           -1px  1px 0 white,
-                                          1px  1px 0 white
-                                       `;
+                                          1px  1px 0 white`;
       overlayContent.innerText = place.name;
-
       const customOverlay = new window.kakao.maps.CustomOverlay({
         position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         content: overlayContent,
@@ -122,7 +111,6 @@ export default function KakaoMap({
         yAnchor: 2,
       });
 
-      // 마커 클릭 이벤트 추가
       window.kakao.maps.event.addListener(marker, "click", () => {
         navigate(
           `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
@@ -131,7 +119,6 @@ export default function KakaoMap({
             state: { placeId: place.id },
           }
         );
-
         console.log(`마커 클릭: ${place.id}`);
       });
 
@@ -201,11 +188,6 @@ export default function KakaoMap({
 
   useEffect(() => {
     const loadKakaoMap = () => {
-      const existingScript = document.querySelector(
-        `script[src^="https://dapi.kakao.com"]`
-      );
-      if (existingScript) return; // 중복 로드 방지
-
       const script = document.createElement("script");
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
         import.meta.env.VITE_KAKAO_MAP
@@ -215,7 +197,6 @@ export default function KakaoMap({
         window.kakao.maps.load(() => {
           navigator.geolocation.getCurrentPosition(
             ({ coords: { latitude, longitude } }) => {
-              // 이미 위치 정보가 존재한다면 현 위치가 아닌, 해당 위치 정보 기반으로 위경도 설정
               initializeMap(
                 currentLatitude || latitude,
                 currentLongitude || longitude
@@ -227,6 +208,7 @@ export default function KakaoMap({
           );
         });
       };
+      script.onerror = () => console.error("카카오 지도 스크립트 로드 실패");
       document.head.appendChild(script);
     };
 
@@ -236,17 +218,12 @@ export default function KakaoMap({
       if (mapInstance.current) {
         mapInstance.current = null;
       }
-      const existingScript = document.querySelector(
-        `script[src^="https://dapi.kakao.com"]`
-      );
-      if (existingScript) document.head.removeChild(existingScript);
     };
   }, []);
 
   useEffect(() => {
     if (places && places.length > 0) {
       console.log(`총 ${places.length}개의 장소 데이터를 조회하였습니다.`);
-      clearMarkers();
       addPlaceMarkers(places);
     } else {
       console.log("선택된 카테고리의 장소 데이터가 없습니다.");
