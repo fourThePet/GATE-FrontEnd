@@ -140,6 +140,8 @@ export const contentContainerStyle = css`
   width: max-content;
   //background-color: #f5f5f5;
   margin-bottom: 10px;
+  gap: 15px;
+  margin: 10px;
 `;
 
 export const imageContainerStyle = css`
@@ -151,26 +153,43 @@ export const imageContainerStyle = css`
   justify-content: flex-start;
   box-sizing: border-box;
   overflow: hidden;
-  /* background-color: #322e2e; */
+  border-radius: 16px; /* 둥근 모서리 */
   transition: transform 0.3s ease; /* 부드러운 전환 효과 */
-  margin-top: 10px;
 
   &:hover {
     transform: scale(1.1); /* hover 시 확대 */
     z-index: 1; /* hover 시 다른 요소보다 위로 올리기 */
   }
 
-  svg {
-    position: absolute; /* 이미지의 위치를 고정 */
+  img {
+    position: absolute;
     top: 10;
     left: 10;
-    width: auto; /* 이미지의 가로 크기 유지 */
-    height: 100%; /* 이미지의 높이 유지 */
+    width: auto;
+    height: 100%;
     object-fit: cover; /* 이미지가 컨테이너를 채우도록 설정 */
     transition: transform 0.3s ease; /* 부드러운 전환 효과 */
+    margin-bottom: 10px;
   }
 
-  &:hover svg {
+  &:hover img {
     transform: scale(1); /* hover 시 이미지 확대 */
   }
+
+  /* 오버레이 스타일 */
+`;
+
+export const overlayStyle = css`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%);
+  color: white;
+  padding: 16px;
 `;

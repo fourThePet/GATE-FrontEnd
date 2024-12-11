@@ -111,3 +111,22 @@ export const getPlacesCities = async () => {
     throw new Error(error.message || "알 수 없는 오류가 발생했습니다.");
   }
 };
+
+export const getPopularPlaces = async (limit: number) => {
+  try {
+    const response = await api.get("/places/popular", {
+      params: { limit }, // 인기 장소를 제한하는 파라미터
+    });
+    const data = response.data;
+
+    if (data.isSuccess) {
+      return data.result; // 인기 장소 리스트 반환
+    } else {
+      throw new Error(
+        data.message || "인기 장소 데이터를 불러오는 데 실패했습니다."
+      );
+    }
+  } catch (error) {
+    throw new Error(error.message || "알 수 없는 오류 발생");
+  }
+};

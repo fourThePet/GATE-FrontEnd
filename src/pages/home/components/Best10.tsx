@@ -1,37 +1,19 @@
-/** @jsxImportSource @emotion/react */
 import ScrollContainer from "react-indiana-drag-scroll";
-import {
-  Top1,
-  Top2,
-  Top3,
-  Top4,
-  Top5,
-  Top6,
-  Top7,
-  Top8,
-  Top9,
-  Top10,
-} from "../../../assets/svg";
+import { useGetPopularPlaces } from "../../../queries";
 import { typo } from "../../../styles/typo";
 import {
   wrapperStyle,
   scrollContainerStyle,
   contentContainerStyle,
   imageContainerStyle,
+  overlayStyle,
 } from "../index.styles";
+
 export default function Best10() {
-  const items = [
-    <Top1 />,
-    <Top2 />,
-    <Top3 />,
-    <Top4 />,
-    <Top5 />,
-    <Top6 />,
-    <Top7 />,
-    <Top8 />,
-    <Top9 />,
-    <Top10 />,
-  ];
+  const { data: popularPlaces, isLoading, error } = useGetPopularPlaces(10); // 인기 장소 10개 가져오기
+
+  if (isLoading) return <p>로딩 중...</p>;
+  if (error) return <p>오류가 발생했습니다: {error.message}</p>;
 
   return (
     <div css={wrapperStyle}>
@@ -41,9 +23,24 @@ export default function Best10() {
       </h3>
       <ScrollContainer css={scrollContainerStyle} horizontal vertical={false}>
         <div css={contentContainerStyle}>
-          {items.map((item, index) => (
+          {popularPlaces.map((place, index) => (
             <div key={index} css={imageContainerStyle}>
-              {item}
+              <img
+                src={place.photoUrl}
+                alt={place.placeName}
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "600px",
+                  borderRadius: "16px",
+                  objectFit: "cover",
+                }}
+              />
+              <div css={overlayStyle}>
+                <span css={typo.Body2}>{index + 1}</span>
+                <span css={typo.Body2}>{place.placeName}</span>
+                <span css={typo.Body2}>{place.cityName}</span>
+              </div>
             </div>
           ))}
         </div>
