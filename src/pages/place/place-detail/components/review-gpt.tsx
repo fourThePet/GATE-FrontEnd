@@ -14,7 +14,7 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
   if (isLoading) return <p>리뷰를 불러오는 중입니다...</p>;
-  if (error) return <p>리뷰를 못 가져왔습니다.</p>;
+  if (error) return <p>리뷰 요약이 없습니다.</p>;
 
   return (
     <div
@@ -130,7 +130,7 @@ export default function ReviewGpt({ placeId }: ReviewGptProps) {
             </p>
           ) : summaryError ? (
             <p css={typo.Body2} style={{ color: "#666666" }}>
-              리뷰를 못 가져왔습니다.
+              리뷰 요약을 실패했습니다.
             </p>
           ) : (
             <p css={typo.Body2} style={{ color: "#666666" }}>

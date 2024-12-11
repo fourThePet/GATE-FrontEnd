@@ -6,30 +6,34 @@ import { Button } from "../../components/button/button";
 import Realreceipt from "../../assets/svg/Realreceipt";
 import { useNavigate } from "react-router-dom";
 import NoBorderGrayButton from "../button/no-border-gray";
+import { requestOCR } from "../../api/ocr";
+import { OCRField } from "../../interfaces/ocr";
+import { Receiptchecked, Receiptfail, Receiptloading } from "../../assets/svg";
+import { BarLoader } from "react-spinners";
+import { useGetPlacesInfo } from "../../queries";
+
 type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   placeId: number; // placeId 추가
 };
-import { requestOCR } from "../../api/ocr"; // OCR 요청 함수 임포트
-import { OCRField } from "../../interfaces/ocr";
-import { Receiptchecked, Receiptfail, Receiptloading } from "../../assets/svg";
-import { BarLoader } from "react-spinners";
 
 export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
-  placeId, // placeId props 추가
+  placeId,
 }: ReceiptSubmitProps) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // 선택된 이미지 상태 관리
-
-  const closeModal = () => setIsOpen(false);
-  const navigate = useNavigate(); // navigate 인스턴스 생성
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [ocrState, setOcrState] = useState({
     isPending: false,
     error: null,
-    success: null, // 초기 상태
+    success: null,
   });
+
+  const { data: placeInfo, error: placeError } = useGetPlacesInfo(placeId); // 컴포넌트 최상단에서 호출
+  const navigate = useNavigate();
+
+  const closeModal = () => setIsOpen(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -54,6 +58,17 @@ export default function ReceiptSubmit({
       return;
     }
 
+    if (placeError || !placeInfo) {
+      console.error("장소 정보를 가져오는 데 실패했습니다:", placeError);
+      setOcrState({
+        isPending: false,
+        error: "장소 정보를 가져오는 데 실패했습니다.",
+        success: false,
+      });
+      return;
+    }
+
+    const roadAddress = placeInfo.roadAddress || ""; // 장소의 roadAddress 가져오기
     setOcrState({ isPending: true, error: null, success: null });
 
     try {
@@ -63,17 +78,14 @@ export default function ReceiptSubmit({
       const fields: OCRField[] = ocrResponse?.images?.[0]?.fields || [];
       console.log("fields 데이터:", fields);
 
-      // isReceipt 변수 정의: OCR 필드에서 영수증 여부 확인
-      const isReceipt = fields.some((field) => {
-        const inferText = field.inferText || ""; // 필드 내 텍스트
-        return (
-          inferText.includes("영수증") ||
-          inferText.includes("금액") ||
-          inferText.includes("합계") ||
-          inferText.includes("판매일자") ||
-          inferText.includes("카드금액")
-        );
-      });
+      const allText = fields.map((field) => field.inferText).join(" ");
+      const isReceipt =
+        allText.includes(roadAddress) &&
+        (allText.includes("영수증") ||
+          allText.includes("금액") ||
+          allText.includes("합계") ||
+          allText.includes("판매일자") ||
+          allText.includes("카드금액"));
 
       if (isReceipt) {
         setOcrState({ isPending: false, error: null, success: true });
@@ -87,16 +99,9 @@ export default function ReceiptSubmit({
     } catch (error) {
       console.error("OCR 분석 실패:", error);
       setOcrState({ isPending: false, error: "OCR 요청 실패", success: false });
-      window.alert("OCR 분석 중 문제가 발생했습니다.");
+      window.alert("해당 장소의 영수증이 맞는지 확인해주세요!");
     }
   };
-
-  // const openFileDialog = () => {
-  //   const fileInput = document.getElementById("file-input") as HTMLInputElement;
-  //   if (fileInput) {
-  //     fileInput.click(); // 강제로 input 클릭
-  //   }
-  // };
 
   return (
     <ReactModal
@@ -212,17 +217,27 @@ export default function ReceiptSubmit({
           style={{ display: "flex", marginTop: "30%" }}
         >
           <Receiptfail width="20%" height="20%" fill="#F1729B" />
-          <span css={typo.Heading2} style={{ marginTop: "70px" }}>
+          <span css={typo.Heading2} style={{ marginTop: "50px" }}>
             인증에 실패했어요.
           </span>
+
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
-            전화번호, 사업자 번호, 주소가
+            1. 해당 장소의 영수증이 맞는지
           </span>
           <span
             css={typo.Body2}
             style={{ color: "#9A9EA6", marginTop: "-10px" }}
           >
-            잘 나온 사진을 넣어주세요!
+            확인해주세요.
+          </span>
+          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
+            2. 전화번호, 사업자 번호, 주소가
+          </span>
+          <span
+            css={typo.Body2}
+            style={{ color: "#9A9EA6", marginTop: "-10px" }}
+          >
+            잘 나온 사진을 넣어주세요.
           </span>
           <button
             css={Button.mainPinkButton({
@@ -231,7 +246,7 @@ export default function ReceiptSubmit({
               height: "40px",
             })}
             onClick={() => window.location.reload()}
-            style={{ marginTop: "100px" }}
+            style={{ marginTop: "60px" }}
           >
             확인
           </button>
