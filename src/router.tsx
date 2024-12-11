@@ -26,8 +26,8 @@ import {
   PlanCreate,
   PlaceAdd,
   PetChoice,
+  PlanWaiting,
 } from "./pages";
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -117,6 +117,10 @@ export const router = createBrowserRouter([
       {
         path: "plan/create/place-add",
         element: <PlaceAdd />,
+      },
+      {
+        path: "plan/waiting",
+        element: <PlanWaiting />,
       },
     ],
   },

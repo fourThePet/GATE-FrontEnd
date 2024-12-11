@@ -11,7 +11,7 @@ export { default as MyReview } from "./mypage/my-review";
 export { default as NotFound } from "./not-found";
 export { default as MyBookMark } from "./mypage/bookmark";
 export { default as PlanDetail } from "./plan/detail";
-export { default as ReviewEdit} from './review/review-edit';
+export { default as ReviewEdit } from "./review/review-edit";
 export { default as PlanRecommend } from "./plan/recommend";
 export { default as PlaceChoice } from "./plan/place-choice";
 export { default as FilterPlace } from "./place/filter-place";
@@ -22,4 +22,4 @@ export { default as Review } from "./review";
 export { default as PlanCreate } from "./plan/plan-create";
 export { default as PlaceAdd } from "./plan/place-add";
 export { default as PetChoice } from "./plan/pet-choice";
-
+export { default as PlanWaiting } from "./plan/plan-waiting";

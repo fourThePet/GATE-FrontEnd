@@ -164,6 +164,10 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             width: "100%",
             height: "auto",
           })}
+          style={{
+            maxHeight: "500px",
+            objectFit: "cover",
+          }}
         />
       </div>
 

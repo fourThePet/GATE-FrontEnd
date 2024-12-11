@@ -73,7 +73,7 @@ export default function PetChoice() {
                     key={dog.id}
                     onClick={() => handleSelectPet(dog.id)}
                     css={css`
-                      position: relative; /* To position the checkmark overlay */
+                      position: relative;
                       display: flex;
                       flex-direction: column;
                       align-items: center;
@@ -112,12 +112,12 @@ export default function PetChoice() {
                       <div
                         css={css`
                           position: absolute;
-                          top: 41.5%;
+                          top: 40%;
                           left: 50%;
                           transform: translate(-50%, -50%);
                           background-color: rgba(255, 255, 255, 0.8);
-                          width: 120px;
-                          height: 120px;
+                          width: 130px;
+                          height: 130px;
                           border-radius: 50%;
                           display: flex;
                           justify-content: center;
