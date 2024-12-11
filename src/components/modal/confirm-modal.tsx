@@ -46,7 +46,7 @@ export default function ConfirmModal({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          zIndex: 1000, // 오버레이가 항상 최상위에 위치하도록 설정
+          zIndex: 1000,
         },
         content: {
           position: "absolute", // 절대 위치
