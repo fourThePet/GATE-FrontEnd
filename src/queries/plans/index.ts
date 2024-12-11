@@ -84,7 +84,7 @@ export const useDeletePlansByPlanId = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.GET_PLANS,
+        queryKey: QUERY_KEYS.GET_PLANS("AFTER", "ASC"),
       }); //쿼리를 무효화하여 최신 데이터를 가져옴
     },
   });
