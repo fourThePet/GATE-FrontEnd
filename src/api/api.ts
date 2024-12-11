@@ -45,23 +45,24 @@ formAPI.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response, // 응답이 성공하면 그대로 반환
   async (error) => {
-    if (error.status === 401) {
+    if (error.response?.status === 401) {
       // 액세스 토큰 만료: 리프레시 토큰으로 재발급 요청
       
       const refreshToken = localStorage.getItem("refreshToken");
+      localStorage.removeItem("accessToken")
       const login = useAuthStore.getState().login; // Zustand의 login 메서드
       const logout = useAuthStore.getState().logout; // Zustand의 logout 메서드
       try {
-        const { data } = await axios.post("/api/v1/members/reissue", null, {
+        const {data} = await axios.post(`${import.meta.env.VITE_BASE_URL}/members/reissue`, null, {
           headers: {
             Authorization: `Bearer ${refreshToken}`, // 헤더에 토큰 포함
           },
         });
         
-        login(data.accessToken)
-        localStorage.setItem("accessToken", data.accessToken);
+        login(data?.result.accessToken)
+        localStorage.setItem("accessToken", data?.result.accessToken);
         // 원래 요청 다시 시도
-        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+        error.config.headers.Authorization = `Bearer ${data?.result.accessToken}`;
         return api.request(error.config);
       } catch (reissueError) {
         console.error("토큰 재발급 실패:", reissueError);
