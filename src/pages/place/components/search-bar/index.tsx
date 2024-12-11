@@ -8,14 +8,15 @@ import {
 } from "./index.styles";
 
 type Props = {
-  title?: string;
   handleFilterButtonClick?: () => void;
   handleSearchSubmit: (value: string) => void;
+  initialQuery: string; // 초기 검색어 추가
 };
 
 export default function SearchFilterHeader({
   handleFilterButtonClick,
   handleSearchSubmit,
+  initialQuery,
 }: Props) {
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -31,6 +32,7 @@ export default function SearchFilterHeader({
         <input
           css={searchInputStyle}
           placeholder="어디로 떠나시나요?"
+          defaultValue={initialQuery} // URL의 query 값 유지
           onKeyPress={handleKeyPress}
         />
       </div>

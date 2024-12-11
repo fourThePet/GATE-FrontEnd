@@ -33,10 +33,11 @@ type AnimatedDivProps = AnimatedProps<{
 import { animated } from "@react-spring/web";
 export default function Place() {
   const location = useLocation();
-  const { data, isLoading:isCategoryLoading } = useGetPlacesCategories();
+  const { data, isLoading: isCategoryLoading } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const initialCategory = queryParams.get("category") || "전체";
+  const initialQuery = queryParams.get("query") || ""; // 검색어 기본값: 빈 문자열
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -83,12 +84,21 @@ export default function Place() {
     return {
       latitude,
       longitude,
+      query: queryParams.get("query") || undefined, // 검색어 추가
       category: isAll ? undefined : selectedCategory,
       size: size,
       entryConditions: entryConditions,
       types: types,
     };
-  }, [selectedCategory, latitude, longitude, size, entryConditions, types]);
+  }, [
+    selectedCategory,
+    latitude,
+    longitude,
+    size,
+    entryConditions,
+    types,
+    queryParams,
+  ]);
 
   useEffect(() => {
     setSelectedCategory(category || "전체");
@@ -103,7 +113,7 @@ export default function Place() {
 
   /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
   const { places } = useGetPlaces(placesQuery);
-  
+
   useEffect(() => {
     if (data && data.isSuccess) {
       const processedCategories = [
@@ -118,7 +128,6 @@ export default function Place() {
       console.error(data.message || "카테고리 로드 실패");
     }
   }, [data]);
-  
 
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");
@@ -129,13 +138,22 @@ export default function Place() {
     }
   };
 
-  const handleSearchSubmit = (value) => {
+  const handleSearchSubmit = (value: string) => {
     console.log("검색어:", value);
+
+    const queryParams = new URLSearchParams(location.search);
+
+    // 기존 query 값을 대체
+    queryParams.set("query", value);
+
+    // URL에 검색어 추가 후 navigate 호출
+    navigate(`/place?${queryParams.toString()}`);
   };
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-    navigate(`/place?category=${encodeURIComponent(category)}`);
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.set("category", category);
+    navigate(`/place?${queryParams.toString()}`);
   };
 
   const handleButtonClick = () => {
@@ -236,12 +254,15 @@ export default function Place() {
   };
 
   const AnimatedDiv: React.FC<AnimatedDivProps> = animated.div;
-  if(isCategoryLoading){return(<LoadingBar/>)}
+  if (isCategoryLoading) {
+    return <LoadingBar />;
+  }
   return (
     <div css={containerStyle}>
       <SearchFilterHeader
         handleFilterButtonClick={handleFilterButtonClick}
-        handleSearchSubmit={handleSearchSubmit}
+        handleSearchSubmit={handleSearchSubmit} // 함수 전달
+        initialQuery={initialQuery}
       />
       <div>
         <CategoryList
