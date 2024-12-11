@@ -39,6 +39,7 @@ export default function LineMapComponent({
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOptions);
+      const bounds = new window.kakao.maps.LatLngBounds();
 
       const linePath: kakao.maps.LatLng[] = [];
 
@@ -59,25 +60,23 @@ export default function LineMapComponent({
           longitude
         );
 
-        // 마커 추가
         new window.kakao.maps.Marker({
           position: markerPosition,
           map,
           image: icon,
         });
-
-        // 선의 경로에 좌표 추가
+        bounds.extend(markerPosition);
         linePath.push(markerPosition);
       });
 
-      // Polyline 생성
       const polyline = new window.kakao.maps.Polyline({
-        path: linePath, // 좌표 배열
+        path: linePath, // 좌표
         strokeWeight: 4, // 선 두께
         strokeColor: `${colors.color.Black}`, // 선 색깔
         strokeStyle: "shortdash", // 선 스타일
       });
 
+      map.setBounds(bounds);
       polyline.setMap(map);
     };
 
