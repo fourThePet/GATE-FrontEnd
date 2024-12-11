@@ -10,6 +10,7 @@ import {
 import { QUERY_KEYS } from "../query-keys";
 import { deleteReviews, getReviewsMy } from "../../api";
 import { PlaceReviewResponse, ReviewKeyword } from "../../interfaces";
+import { getReviewSummary } from "../../api/reviews";
 
 export const useGetReviewsMy = () => {
   const { isLoggedIn } = useAuthStore();
@@ -130,18 +131,19 @@ export const usePutReviewByReviewId = (reviewId: number) => {
   });
 };
 
-import { getReviewSummary } from "../../api/reviews";
-
-export const useGetReviewSummary = (placeId: number, type: string) => {
+export const useGetReviewSummary = (
+  placeId: number,
+  type: "POSITIVE" | "NEGATIVE" | "OVERALL"
+) => {
   return useQuery({
     queryKey: QUERY_KEYS.GET_REVIEW_SUMMARY(placeId, type),
     queryFn: async () => {
       try {
         return await getReviewSummary(placeId, type);
-      } catch {
+      } catch (error) {
         throw new Error("리뷰 요약 조회에 실패했습니다.");
       }
     },
-    enabled: !!placeId, // placeId와 type이 존재할 때만 요청
+    enabled: !!placeId && !!type, // placeId와 type이 존재할 때만 요청
   });
 };

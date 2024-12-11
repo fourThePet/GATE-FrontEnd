@@ -178,6 +178,7 @@ export default function PlaceDetail() {
             bottom: "30px", // 하단에서 30px 위
             left: "50%", // 화면의 가운데 정렬
             transform: "translateX(-50%)", // 가운데 정렬 보정
+            zIndex: 1000, // 오버레이가 항상 최상위에 위치하도록 설정
           }}
         >
           <div
