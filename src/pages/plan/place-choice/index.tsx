@@ -22,7 +22,7 @@ export default function PlaceChoice() {
   const { state } = useLocation();
   const selectItems = state?.selectItems || [];
 
-  const places = sampleSelectItems.map((item, index) => ({
+  const places = sampleSelectItems.map((item) => ({
     placeName: item.placeName,
     roadAddress: item.roadAddress,
     latitude: item.latitude,
