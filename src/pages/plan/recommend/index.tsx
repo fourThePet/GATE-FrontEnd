@@ -74,7 +74,7 @@ export default function PlanRecommend() {
               title="내 일정으로 담기"
               width="30%"
               height="36px"
-            />
+            >내 일정으로 담기</MainPinkButton>
           </div>
         </div>
       </div>

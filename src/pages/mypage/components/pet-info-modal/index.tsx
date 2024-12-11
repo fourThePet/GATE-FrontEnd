@@ -322,12 +322,12 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
                 <div css={buttonStyle}>
                     {isEditMode ? (
                         <>
-                            <MainPinkButton width="100%" height="40px" title="저장" onClick={handleSaveButtonClick}/>
+                            <MainPinkButton width="100%" height="40px" onClick={handleSaveButtonClick}>저장</MainPinkButton>
                         </>
                     ) : (
                         <>
                             <GrayBorderButton width="40%" height="40px" title="삭제" onClick={handleDeleteButtonClick}/>
-                            <MainPinkButton width="60%" height="40px" title="수정" onClick={handleModifyButtonClick}/>
+                            <MainPinkButton width="60%" height="40px" onClick={handleModifyButtonClick}>수정</MainPinkButton>
                         </>
                     )}
                 </div>

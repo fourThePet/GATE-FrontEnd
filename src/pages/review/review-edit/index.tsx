@@ -271,7 +271,7 @@ export default function ReviewEdit(){
                 </div>
                 <div css={bottomButtonStyle}>
                     <GrayBorderButton width="40%" title="취소" onClick={()=>navigate(-1)}/>
-                    <MainPinkButton width="60%" title="수정하기" onClick={handleModifyButtonClick} />
+                    <MainPinkButton width="60%" onClick={handleModifyButtonClick} >수정하기</MainPinkButton>
                 </div>
             </div>
         </div>

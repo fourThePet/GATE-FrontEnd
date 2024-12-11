@@ -11,14 +11,13 @@ import {
   FooterStyle,
   SelectButtonStyle,
 } from "../index.styles";
-import { Button } from "../../../components/button/button";
 import { typo } from "../../../styles/typo";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { datepickerCustomStyles } from "../index.styles";
 import { useNavigate } from "react-router-dom";
 import { useGetPlacesCities } from "../../../queries";
-import { LoadingBar } from "../../../components";
+import { LoadingBar, MainPinkButton } from "../../../components";
 
 
 export default function PlanCreate() {
@@ -43,8 +42,8 @@ export default function PlanCreate() {
   return (
     <>
       <div css={FixedHeaderStyle}>
-        <span css={typo.Heading2}>여행</span>
-        <h1 css={typo.Heading1} style={{ marginTop: "10px" }}>
+        <span css={typo.Heading3}>여행</span>
+        <h1 css={typo.Heading2} style={{ marginTop: "10px" }}>
           언제 떠나시나요?
         </h1>
         <div css={[InputWrapperStyle, datepickerCustomStyles]}>
@@ -83,15 +82,7 @@ export default function PlanCreate() {
         </div>
 
         <footer css={FooterStyle}>
-          <button
-            css={Button.mainPinkButton({
-              isDisabled: false,
-              width: "80%",
-            })}
-            onClick={handlePetChoiceButtonClick}
-          >
-            선택완료
-          </button>
+          <MainPinkButton onClick={handlePetChoiceButtonClick}>선택완료</MainPinkButton>
         </footer>
       </div>
     </>

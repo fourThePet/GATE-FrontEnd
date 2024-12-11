@@ -56,7 +56,7 @@ export const InputFieldStyle = css`
   outline: none;
   padding: 8px;
   flex: 1;
-  font-size: 18px;
+  font-size: 16px;
   background-color: transparent;
 `;
 
@@ -106,7 +106,7 @@ export const FooterStyle = css`
   transform: translateX(-50%);
   width: 100%;
   max-width: 600px;
-  padding: 16px 0;
+  padding: 10px 18px;
   text-align: center;
   background-color: white;
   display: flex;

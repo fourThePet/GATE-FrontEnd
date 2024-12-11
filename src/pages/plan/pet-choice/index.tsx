@@ -1,12 +1,13 @@
 import { useGetDogsProfiles } from "../../../queries/dogs";
-import { FooterStyle, PageWrapperStyle } from "../../plan/index.styles";
+import { PageWrapperStyle } from "../../plan/index.styles";
 import { Button } from "../../../components/button/button";
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { typo } from "../../../styles/typo";
 import { Petchoice, DefaultProfile } from "../../../assets/svg";
 import { useNavigate } from "react-router-dom";
-import { LoadingBar } from "../../../components";
+import { LoadingBar, MainPinkButton } from "../../../components";
+import { buttonStyle, FooterStyle } from "./index.styles";
 
 export default function PetChoice() {
   const navigate = useNavigate();
@@ -181,23 +182,7 @@ export default function PetChoice() {
 
       {/* Footer */}
       <footer css={FooterStyle}>
-        <button
-          css={[
-            Button.mainPinkButton({
-              isDisabled: selectedPets.length === 0,
-              width: "90%",
-            }),
-            css`
-              transition: background-color 0.3s ease;
-            `,
-          ]}
-          onClick={() => {
-            handleNextClick();
-          }}
-          disabled={selectedPets.length === 0}
-        >
-          다음
-        </button>
+        <MainPinkButton isDisabled={selectedPets.length === 0} onClick={handleNextClick} css={buttonStyle}>다음</MainPinkButton>
       </footer>
     </>
   );

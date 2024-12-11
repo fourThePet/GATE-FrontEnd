@@ -125,7 +125,7 @@ export default function PlaceAdd(){
                    
                 </div>
                 <div css={bottomButtonStyle}>
-                    <MainPinkButton title="선택완료" onClick={handleSelectionComplete}/>
+                    <MainPinkButton onClick={handleSelectionComplete}>선택완료</MainPinkButton>
                 </div>
             </div>
         </div>

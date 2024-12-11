@@ -286,7 +286,7 @@ export default function OnboardingPet(){
                 </div>
             </div>
             <div css={bottomButtonStyle}>
-                <MainPinkButton  title="등록" onClick={handleRegisterButtonClick} isDisabled={!isValid}/>
+                <MainPinkButton onClick={handleRegisterButtonClick} isDisabled={!isValid}>등록</MainPinkButton>
                 {location.pathname !== "/mypage/pet-register" &&
                     <SkipButton title="건너뛰기" onClick={handleSkipButtonClick}/>
                 }

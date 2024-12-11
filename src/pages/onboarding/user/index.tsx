@@ -152,7 +152,7 @@ export default function OnboardingUser(){
                         <div>
                             <div css={nicknameWrapper}>
                                 <Input width="400px" placeholder="닉네임을 입력해주세요" onChange={handleInputNicknameChange} maxLength={20}/>
-                                <MainPinkButton onClick={handleNicknameCheckButtonClick} isDisabled={!isNicknameCheck}  width="100px" height="48px" title="중복체크"/>
+                                <MainPinkButton onClick={handleNicknameCheckButtonClick} isDisabled={!isNicknameCheck}  width="100px" height="48px">중복체크</MainPinkButton>
                             </div>
                             {isNicknameValid === false &&
                                 <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>닉네임은 2~20자 이내로 입력해주세요</Text></div>
@@ -202,7 +202,7 @@ export default function OnboardingUser(){
                 </div>
             </div>
             <div css={bottomButtonStyle}>
-                <MainPinkButton onClick={handleNextButtonClick} isDisabled={!isValid} title="다음"/>
+                <MainPinkButton onClick={handleNextButtonClick} isDisabled={!isValid}>다음</MainPinkButton>
             </div>
         </div>
     )

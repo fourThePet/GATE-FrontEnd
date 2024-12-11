@@ -80,9 +80,8 @@ export default function PlaceChoice() {
         </div>
         <div css={bottomButtonStyle}>
           <MainPinkButton
-            title="다음"
             onClick={() => navigate("/plan/recommend")}
-          />
+          >다음</MainPinkButton>
         </div>
       </div>
     </div>
