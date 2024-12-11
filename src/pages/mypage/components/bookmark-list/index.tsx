@@ -42,7 +42,7 @@ export default function BookMarkList({ placeId, placeName, roadAddress, latitude
     return ( 
         <div css={wrapper}>
             <div css={imageWrapper} onClick={handleTitleClick}>
-                <img css={imageItem} src={photoUrl}></img>
+                <img css={imageItem} src={photoUrl || '/images/stash_pin-place.png'}></img>
             </div>
             <div css={titleWrapper} onClick={handleTitleClick}>
                 <Text type="Body2">{placeName}</Text>

@@ -15,16 +15,12 @@ export const imageItem = css`
     width: 80px;
     height: 80px;
     object-fit: cover;
-`
-export const deleteIcon = css`
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    cursor: pointer;   
+    border-radius: 4px;
 `
 
 export const titleWrapper = css`
     width: 80px;
     display: flex;
+    justify-content: center;
     white-space: normal;
 `
