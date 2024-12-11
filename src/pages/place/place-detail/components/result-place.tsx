@@ -10,7 +10,7 @@ import {
 } from "./result-place.styles";
 import { getPlacesInfo } from "../../../../api"; // API 가져오기
 
-interface Place {
+export interface Place {
   id: number;
   name: string;
   roadAddress: string;

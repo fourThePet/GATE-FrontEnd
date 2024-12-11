@@ -20,7 +20,8 @@ export const QUERY_KEYS = {
   GET_REVIEWS_MY: ["GET_REVIEWS_MY"],
   POST_CREATE_REVIEW: ["POST_CREATE_REVIEW"],
   GET_PLACE_REVIEWS: (placeId: number) => ["placeReviews", placeId] as const,
-  GET_PLACES_CITIES: ["GET_PLACES_CITIES"], // 지역 리스트 조회 키
+  GET_PLACES_CITIES: ["GET_PLACES_CITIES"],
+  GET_POPULAR_PLACES: (limit: number) => ["GET_POPULAR_PLACES", limit] as const,
   GET_REVIEW_KEYWORDS: (placeId: number) => ["GET_REVIEW_KEYWORDS", placeId],
   GET_REVIEWS_REVIEWID: (reviewId: number) => [
     "GET_REVIEWS_REVIEWID",
