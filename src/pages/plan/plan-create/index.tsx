@@ -18,6 +18,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { datepickerCustomStyles } from "../index.styles";
 import { useNavigate } from "react-router-dom";
 import { useGetPlacesCities } from "../../../queries";
+import { LoadingBar } from "../../../components";
+
 
 export default function PlanCreate() {
   const [selectedCity, setSelectedCity] = useState<number | null>(null); // Change to number | null
@@ -35,7 +37,7 @@ export default function PlanCreate() {
 
   const { data: cities, isLoading, isError } = useGetPlacesCities();
 
-  if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
 
   return (

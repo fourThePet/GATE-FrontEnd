@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
-import { Text } from "../../../components";
+import { LoadingBar, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import {
   actionWrapper,
@@ -21,7 +21,8 @@ import { DragDropContext } from "react-beautiful-dnd";
 
 export default function PlanDetail() {
   const { planId } = useParams(); // URL에서 planId를 가져옴
-  const { data } = useGetPlanByPlanId(Number(planId));
+  const { data, isLoading} = useGetPlanByPlanId(Number(planId));
+  
   // console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드
   const [plan, setPlan] = useState(null);
@@ -79,6 +80,8 @@ export default function PlanDetail() {
     }));
   };
 
+  
+  if(isLoading) return (<LoadingBar/>)
   // console.log(plan.planPlaces)
   return (
     <div css={contentWrapper}>

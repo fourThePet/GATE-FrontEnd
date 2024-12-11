@@ -5,6 +5,7 @@ import { Block } from "../../../../components/block/block";
 import { Gpt } from "../../../../assets/svg";
 import { useGetPlaceReviews } from "../../../../queries/reviews";
 import { useGetReviewSummary } from "../../../../queries/reviews";
+import { LoadingBar } from "../../../../components";
 
 type ReviewGptProps = {
   placeId: number; // placeId를 props로 받음
@@ -13,7 +14,7 @@ type ReviewGptProps = {
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
-  if (isLoading) return <p>리뷰를 불러오는 중입니다...</p>;
+  if (isLoading) return <LoadingBar/>;
   if (error) return <p>리뷰 요약이 없습니다.</p>;
 
   return (
@@ -125,9 +126,10 @@ export default function ReviewGpt({ placeId }: ReviewGptProps) {
           style={{ marginTop: "-30px" }}
         >
           {isSummaryLoading ? (
-            <p css={typo.Body2} style={{ color: "#666666" }}>
-              리뷰 요약을 불러오는 중입니다...
-            </p>
+            // <p css={typo.Body2} style={{ color: "#666666" }}>
+            //   리뷰 요약을 불러오는 중입니다...
+            // </p>
+            <LoadingBar/>
           ) : summaryError ? (
             <p css={typo.Body2} style={{ color: "#666666" }}>
               리뷰 요약을 실패했습니다.

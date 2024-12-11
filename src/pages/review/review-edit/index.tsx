@@ -1,5 +1,5 @@
 import { ChangeEvent,  useEffect,  useRef,  useState } from "react";
-import { CertificateLabel, GrayBorderButton, MainPinkButton, Text } from "../../../components";
+import { CertificateLabel, GrayBorderButton, LoadingBar, MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import { addIcon, borderWrapper, bottomButtonStyle, charsCount, contentWrapper, deleteIcon, fileInput, fileSize, fileWrapper, formTitleWrapper, iconWrapper, imageWrapper, labelWrapper, mainWrapper, reviewTitle, sizeWrapper, starStyles, textArea, titleWrapper, wrapper } from "./index.styles";
 import ReactStars from "react-rating-stars-component"
@@ -17,7 +17,7 @@ export default function ReviewEdit(){
     const navigate = useNavigate()
     const location = useLocation(); // navigate로 전달된 state를 가져옴
     const id = location.state; 
-    const { data : reviewData } = useGetReviewsReviewId(id)
+    const { data : reviewData, isLoading : isReviewLoading } = useGetReviewsReviewId(id)
     
     const [rating, setRating] = useState<number>(0);
     const [reviewText, setReviewText] = useState<string>("");
@@ -51,7 +51,7 @@ export default function ReviewEdit(){
 
     // placeId 기반으로 키워드 데이터 가져오기
     const placeId = reviewData?.placeId;
-    const { data: keywordsData} = useGetReviewKeywords(placeId); 
+    const { data: keywordsData, isLoading:isKeywordsLoading} = useGetReviewKeywords(placeId); 
 
     const [enrichedKeywords, setEnrichedKeywords] = useState([]);
 
@@ -157,6 +157,7 @@ export default function ReviewEdit(){
         return new File([blob], fileName, { type: blob.type });
     };
     
+    if(isKeywordsLoading || isReviewLoading){ return (<LoadingBar/>)}
     return(
         <div css={contentWrapper}>
             <div css={wrapper}>

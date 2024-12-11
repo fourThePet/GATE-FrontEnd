@@ -22,6 +22,7 @@ import {
   usePostCreateReview,
 } from "../../queries/reviews";
 import { AxiosError } from "axios";
+import { LoadingBar } from "../../components";
 
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
@@ -327,7 +328,7 @@ export default function WriteReview() {
             }}
           >
             {/* 키워드 로딩 중인 경우 */}
-            {isLoading && <div>로딩 중...</div>}
+            {isLoading &&  (<LoadingBar/>)}
 
             {/* 키워드 렌더링 */}
             {!isLoading &&

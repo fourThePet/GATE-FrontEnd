@@ -16,11 +16,12 @@ import { Writereview } from "../../../assets/svg";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { BasicInfoContainer } from "./index.styles";
 import { useLocation } from "react-router-dom";
+import { LoadingBar } from "../../../components";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
-  if (isLoading) return <p>리뷰를 불러오는 중입니다...</p>;
+  if (isLoading) return (<LoadingBar/>)
   if (error) return <p>리뷰를 가져오는 데 실패했습니다.</p>;
 
   return (
@@ -77,7 +78,7 @@ export default function PlaceDetail() {
     };
   }, [howToComeRef.current]); // `
 
-  if (isLoading) return <div>리뷰를 불러오는 중입니다...</div>;
+  if (isLoading) return (<LoadingBar/>);
   if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
 
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출

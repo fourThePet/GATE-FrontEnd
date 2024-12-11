@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { bottomButtonStyle, contentWrapper, headerContainerStyle, searchBarWrapperStyle, searchIconStyle, searchInputStyle, selectionWrapper, tabAreaWrapper, tabItem, tabWrapper, wrapper } from "./index.styles";
-import { MainPinkButton, Text } from "../../../components";
+import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import CategoryList from "../../place/components/category/category-search";
 import { useGetFavoritesList, useGetPlacesCategories } from "../../../queries";
 import { categoryIcon } from "../../../utils/translations";
@@ -12,9 +12,9 @@ export default function PlaceAdd(){
     const navigate = useNavigate();
 
     //즐겨찾기 데이터
-    const {data : myBookmarkList} = useGetFavoritesList(); 
+    const {data : myBookmarkList, isLoading: isFavoriteLoading} = useGetFavoritesList(); 
     //카테고리 
-    const { data } = useGetPlacesCategories();
+    const { data, isLoading :isCategoryLoading } = useGetPlacesCategories();
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(data);
     const handleCategoryClick = (category: string) => {
@@ -52,6 +52,8 @@ export default function PlaceAdd(){
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
+
+    if(isCategoryLoading || isFavoriteLoading) {return (<LoadingBar/>)}
     return(
         <div css={contentWrapper}>
             <div css={wrapper}>

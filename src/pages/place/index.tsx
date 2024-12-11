@@ -8,7 +8,7 @@ import {
 import KakaoMap from "../place/components/map-api/kakaomap";
 import CategoryList from "../place/components/category/category-search";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MainPinkButton } from "../../components";
+import { LoadingBar, MainPinkButton } from "../../components";
 import { useGetPlacesCategories } from "../../queries";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { categoryIcon } from "../../utils/translations";
@@ -33,7 +33,7 @@ type AnimatedDivProps = AnimatedProps<{
 import { animated } from "@react-spring/web";
 export default function Place() {
   const location = useLocation();
-  const { data } = useGetPlacesCategories();
+  const { data, isLoading:isCategoryLoading } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
   const queryParams = new URLSearchParams(location.search);
   const initialCategory = queryParams.get("category") || "전체";
@@ -103,7 +103,7 @@ export default function Place() {
 
   /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
   const { places } = useGetPlaces(placesQuery);
-
+  
   useEffect(() => {
     if (data && data.isSuccess) {
       const processedCategories = [
@@ -118,6 +118,7 @@ export default function Place() {
       console.error(data.message || "카테고리 로드 실패");
     }
   }, [data]);
+  
 
   const handleFilterButtonClick = () => {
     console.log("필터 적용 페이지 호출");
@@ -235,7 +236,7 @@ export default function Place() {
   };
 
   const AnimatedDiv: React.FC<AnimatedDivProps> = animated.div;
-
+  if(isCategoryLoading){return(<LoadingBar/>)}
   return (
     <div css={containerStyle}>
       <SearchFilterHeader

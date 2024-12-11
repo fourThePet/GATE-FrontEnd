@@ -81,7 +81,6 @@ export const useGetPlaces = (params: PlacesParam) => {
         setIsLoading(false);
       }
     };
-
     loadPlaces();
   }, [latitude, longitude, size, entryConditions, types, category]);
 
@@ -108,7 +107,7 @@ export const getPlacesCities = async () => {
     } else {
       throw new Error(data.message || "지역 리스트 조회에 실패했습니다.");
     }
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(error.message || "알 수 없는 오류가 발생했습니다.");
   }
 };
