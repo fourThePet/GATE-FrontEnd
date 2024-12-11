@@ -24,6 +24,9 @@ declare global {
   interface Window {
     kakao: {
       maps: {
+        Polyline: new (
+          options: kakao.maps.PolylineOptions
+        ) => kakao.maps.Polyline;
         load: (callback: () => void) => void;
         Map: new (container: HTMLElement, options: any) => kakao.maps.Map;
         LatLng: new (lat: number, lng: number) => kakao.maps.LatLng;
@@ -100,6 +103,23 @@ declare global {
       setContent: (content: HTMLElement | string) => void;
     }
     interface ZoomControl {}
+
+    interface PolylineOptions {
+      path: LatLng[]; // 경로 배열
+      strokeWeight?: number; // 선 두께
+      strokeColor?: string; // 선 색상
+      strokeOpacity?: number; // 선 투명도 (0~1)
+      strokeStyle?: string;
+    }
+
+    interface Polyline {
+      setMap: (map: kakao.maps.Map | null) => void; // 지도에 표시
+      setPath: (path: kakao.maps.LatLng[]) => void; // 경로 설정
+    }
+    interface LatLng {
+      getLat: () => number;
+      getLng: () => number;
+    }
   }
 }
 
