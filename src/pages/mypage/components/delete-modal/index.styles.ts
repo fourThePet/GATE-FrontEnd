@@ -15,6 +15,13 @@ export const buttonStyle = css`
     gap: 12px;
     margin-top: auto;
 `
+
+export const subTitle = css`
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+`
 const modalStyles : Styles= {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경 오버레이 설정
@@ -27,7 +34,7 @@ const modalStyles : Styles= {
         position: "relative",
         width: "100%",
         maxWidth : "300px",
-        maxHeight : "200px",
+        maxHeight : "220px",
         height: "100%",
         margin: "0 auto",
         borderRadius: "16px",
