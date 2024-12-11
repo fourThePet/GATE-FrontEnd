@@ -12,7 +12,6 @@ import {
   recommendText,
   wrapper,
 } from "./index.styles";
-import LineMapComponent from "../components/maps/lineMap";
 
 export default function PlanRecommend() {
   const place = {
@@ -35,13 +34,7 @@ export default function PlanRecommend() {
             GATE가 알려준 맞춤일정으로 데이트를 즐겨보세요
           </Text>
         </div>
-        <div css={mapWrapper}>
-          <LineMapComponent
-            places={samplePlaces}
-            centerLat={37.5665}
-            centerLng={126.978}
-          />
-        </div>
+        <div css={mapWrapper}>지도</div>
         <div css={listWrapper}>
           <PlanListCard sequence={1} place={place} />
           <PlanListCard sequence={1} place={place} />
@@ -70,8 +63,3 @@ export default function PlanRecommend() {
     </div>
   );
 }
-const samplePlaces = [
-  { placeName: "장소 1", latitude: 37.5665, longitude: 126.978 },
-  { placeName: "장소 2", latitude: 37.5704, longitude: 126.9768 },
-  { placeName: "장소 3", latitude: 37.572, longitude: 126.9795 },
-];
