@@ -13,7 +13,7 @@ export default function MyBookMark(){
     const navigate = useNavigate();
     const {data : bookMarkList, isLoading} = useGetFavoritesList()
     const [count, setCount] = useState<number>(0)
-    
+    console.log(bookMarkList)
     useEffect(() => {
         if(!isLoggedIn){
             navigate('/login')
@@ -40,6 +40,11 @@ export default function MyBookMark(){
                             placeId={bookmark.placeId}
                             placeName={bookmark.placeName}
                             roadAddress={bookmark.roadAddress}
+                            latitude={bookmark.latitude}
+                            longitude={bookmark.longitude}
+                            photoUrl={bookmark.photoUrl}
+                            reviewNum={bookmark.reviewNum}
+                            starAvg={bookmark.starAvg}
                         />
                     )}
                 </div>

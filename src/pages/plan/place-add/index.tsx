@@ -7,7 +7,13 @@ import { categoryIcon } from "../../../utils/translations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PlaceListCard, SelectionImage } from "../components";
 import { FavoritesListType } from "../../../interfaces";
-
+type SelectItem = {
+    placeId: number;
+    placeName: string;
+    photoUrl: string;
+    latitude : number;
+    longitude: number;
+};
 export default function PlaceAdd(){
     const navigate = useNavigate();
 
@@ -30,7 +36,7 @@ export default function PlaceAdd(){
     const { state } = useLocation(); // PlaceAdd에서 전달한 state를 받기
     const initialSelectItems = state?.selectItems || []; // selectItems를 받아옴
 
-    const [selectItems, setSelectItems] = useState<{placeId : number, placeName:string}[]>(initialSelectItems);
+    const [selectItems, setSelectItems] = useState<SelectItem[]>(initialSelectItems);
 
     useEffect(() => {
         if (data && data.isSuccess) {
@@ -50,6 +56,7 @@ export default function PlaceAdd(){
     //선택 완료 버튼 이벤트
     const handleSelectionComplete = () =>{
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
+        console.log(selectItems)
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
 
@@ -99,6 +106,11 @@ export default function PlaceAdd(){
                             placeName={list.placeName} 
                             roadAddress={list.roadAddress} 
                             placeId={list.placeId} 
+                            latitude={list.latitude}
+                            longitude={list.longitude}
+                            photoUrl={list.photoUrl}
+                            reviewNum={list.reviewNum}
+                            starAvg={list.starAvg}
                             setSelectItems={setSelectItems}
                             selectItems={selectItems}
                             key={index} />
@@ -108,7 +120,7 @@ export default function PlaceAdd(){
                 </div>
                 <div css={selectionWrapper}>
                     {selectItems?.map((item, index)=>(
-                        <SelectionImage  key={index} imageUrl={'/images/review_ex.png'} name={item.placeName}/>
+                        <SelectionImage  key={index} imageUrl={item.photoUrl} name={item.placeName}/>
                     ))}
                    
                 </div>

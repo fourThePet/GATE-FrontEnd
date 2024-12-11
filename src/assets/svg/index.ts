@@ -83,6 +83,7 @@ export { default as Receiptchecked } from "./Receiptchecked";
 export { default as Receiptfail } from "./Receiptfail";
 export { default as Receiptloading } from "./Receiptloading";
 export { default as Research } from "./Research";
+export { default as ReviewCount } from "./ReviewCount";
 export { default as ReviewModifyIcon } from "./ReviewModifyIcon";
 export { default as Reviewimg1 } from "./Reviewimg1";
 export { default as Reviewimg2 } from "./Reviewimg2";

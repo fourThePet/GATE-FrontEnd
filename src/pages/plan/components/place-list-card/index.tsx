@@ -1,18 +1,15 @@
 import { useState } from "react";
-import { CheckIcon, GrayPlusIcon, HeartFill, Star } from "../../../../assets/svg";
+import { CheckIcon, GrayPlusIcon, ReviewCount, Star } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import { favoriteCount, imageItem, imageWrapper, titleWrapper, wrapper } from "./index.styles";
 import { FavoritesListType } from "../../../../interfaces";
 
 interface Props extends FavoritesListType{
-    placeName? : string;
-    placeId? : number;
-    roadAddress?: string;
     setSelectItems?: React.Dispatch<React.SetStateAction<{ placeId: number, placeName: string }[]>>;
     selectItems?: { placeId: number, placeName: string }[]; // selectItems를 props로 받음
 }
 
-export default function PlaceListCard({placeName, roadAddress, placeId, setSelectItems, selectItems} : Props){
+export default function PlaceListCard({placeName, roadAddress, placeId, photoUrl, reviewNum, starAvg, latitude, longitude, setSelectItems, selectItems} : Props){
     
     const [isSelect, setIsSelect] = useState(false);
 
@@ -23,7 +20,7 @@ export default function PlaceListCard({placeName, roadAddress, placeId, setSelec
             // 선택되지 않았다면 placeId와 placeName을 함께 추가
             setSelectItems((prevSelectItems) => [
                 ...prevSelectItems,
-                { placeId, placeName }
+                { placeId, placeName, latitude, longitude, photoUrl }
             ]);
             setIsSelect(true);
         }
@@ -42,14 +39,14 @@ export default function PlaceListCard({placeName, roadAddress, placeId, setSelec
     return(
         <div css={wrapper}>
             <div css={imageWrapper}>
-                <img css={imageItem} src="/images/review_ex.png"></img>
+                <img css={imageItem} src={photoUrl || '/images/stash_pin-place.png'}></img>
             </div>
             <div css={titleWrapper}>
                 <Text type="Body2">{placeName}</Text>
                 <Text type="Label21">{roadAddress}</Text>
                 <div css={favoriteCount}>
-                    <HeartFill width={16}/> <Text type="Label3">10</Text>
-                    <Star width={20}/><Text type="Label3">10</Text>
+                    <ReviewCount width={16}/> <Text type="Label3">{reviewNum || 0}</Text>
+                    <Star width={20}/><Text type="Label3">{starAvg || 0}</Text>
                 </div>
             </div>
             <div>

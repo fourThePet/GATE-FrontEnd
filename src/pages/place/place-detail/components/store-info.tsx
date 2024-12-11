@@ -30,6 +30,7 @@ import BackTitleHeader from "../../../../components/header/back-title";
 import { useNavigate } from "react-router-dom";
 import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
+import { LoadingBar } from "../../../../components";
 
 export default function StoreInfo({ placeId }: ReviewProps) {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // 로딩 중 상태
+    return (<LoadingBar/>); // 로딩 중 상태
   }
 
   if (isError || !storeData) {
