@@ -36,8 +36,10 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
 };
 
 export default function ReviewGpt({ placeId }: ReviewGptProps) {
-  const [activeTab, setActiveTab] = useState<"high" | "low">("high");
-  const handleTabClick = (tab: "high" | "low") => {
+  const [activeTab, setActiveTab] = useState<"POSITIVE" | "NEGATIVE">(
+    "POSITIVE"
+  );
+  const handleTabClick = (tab: "POSITIVE" | "NEGATIVE") => {
     setActiveTab(tab);
   };
 
@@ -46,10 +48,7 @@ export default function ReviewGpt({ placeId }: ReviewGptProps) {
     data: reviewSummary,
     isLoading: isSummaryLoading,
     error: summaryError,
-  } = useGetReviewSummary(
-    placeId,
-    activeTab === "high" ? "POSITIVE" : "NEGATIVE"
-  );
+  } = useGetReviewSummary(placeId, activeTab);
 
   return (
     <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
@@ -95,21 +94,21 @@ export default function ReviewGpt({ placeId }: ReviewGptProps) {
           style={{ backgroundColor: "#F8F8F8" }}
         >
           <div
-            onClick={() => handleTabClick("high")}
+            onClick={() => handleTabClick("POSITIVE")}
             style={{
               cursor: "pointer",
-              fontWeight: activeTab === "high" ? "bold" : "normal",
-              color: activeTab === "high" ? "#111111" : "#A4A4A4",
+              fontWeight: activeTab === "POSITIVE" ? "bold" : "normal",
+              color: activeTab === "POSITIVE" ? "#111111" : "#A4A4A4",
             }}
           >
             높은 평점 요약
           </div>
           <div
-            onClick={() => handleTabClick("low")}
+            onClick={() => handleTabClick("NEGATIVE")}
             style={{
               cursor: "pointer",
-              fontWeight: activeTab === "low" ? "bold" : "normal",
-              color: activeTab === "low" ? "#111111" : "#A4A4A4",
+              fontWeight: activeTab === "NEGATIVE" ? "bold" : "normal",
+              color: activeTab === "NEGATIVE" ? "#111111" : "#A4A4A4",
             }}
           >
             낮은 평점 요약

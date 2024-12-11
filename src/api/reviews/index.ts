@@ -54,10 +54,13 @@ export const putReviewByReviewId = async (body: FormData, reviewId: number) => {
 };
 
 // 리뷰 요약 조회 API
-export const getReviewSummary = async (placeId: number, type: string) => {
+export const getReviewSummary = async (
+  placeId: number,
+  type: "POSITIVE" | "NEGATIVE" | "OVERALL"
+) => {
   try {
-    const response = await api.get(`/reviews/summary`, {
-      params: { placeId, type },
+    const response = await api.get(`/reviews/summary/place/${placeId}`, {
+      params: { type },
     });
     return response.data.result;
   } catch (error) {
