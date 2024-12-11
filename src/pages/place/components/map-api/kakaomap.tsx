@@ -30,7 +30,6 @@ export default function KakaoMap({
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
   const { setLatitude, setLongitude } = useLocationStore();
-
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
 
@@ -188,6 +187,7 @@ export default function KakaoMap({
 
   useEffect(() => {
     const loadKakaoMap = () => {
+      
       const script = document.createElement("script");
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
         import.meta.env.VITE_KAKAO_MAP
@@ -211,6 +211,7 @@ export default function KakaoMap({
       script.onerror = () => console.error("카카오 지도 스크립트 로드 실패");
       document.head.appendChild(script);
     };
+    
 
     loadKakaoMap();
 

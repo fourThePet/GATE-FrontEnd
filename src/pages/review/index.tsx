@@ -9,6 +9,7 @@ import { Button } from "../../components/button/button";
 import { BasicInfoContainer } from "../place/place-detail/index.styles";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../assets/svg";
 import formatReviewDate from "./format-review-date";
+import { LoadingBar } from "../../components";
 export default function Review() {
   const location = useLocation();
   const placeId = location.state?.placeId; // 전달받은 placeId
@@ -18,7 +19,7 @@ export default function Review() {
     Record<number, boolean>
   >({});
 
-  if (isLoading) return <div>리뷰를 불러오는 중입니다...</div>;
+  if (isLoading) return  (<LoadingBar/>);
   if (error || !data) return <div>리뷰를 가져오는 데 실패했습니다.</div>;
 
   const { starRateAvg = "0", reviewCount = 0, reviewResponseList = [] } = data;

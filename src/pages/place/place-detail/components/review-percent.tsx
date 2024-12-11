@@ -8,17 +8,18 @@ import {
 import { typo } from "../../../../styles/typo";
 import { useGetPlaceReviews } from "../../../../queries/reviews"; // useGetPlaceReviews import
 import { ReviewProps } from "../../../../interfaces/reviews";
+import { LoadingBar } from "../../../../components";
 
 export default function ReviewPercent({ placeId }: ReviewProps) {
   // 장소 리뷰 데이터 가져오기
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
-  if (isLoading) return <div>리뷰 데이터를 불러오는 중입니다...</div>;
+  if (isLoading) return (<LoadingBar/>);
   if (error) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
 
   // keywordResponseList에서 label과 value로 변환
   const reviewData =
-    data?.keywordResponseList.map((keyword: any) => ({
+    data?.keywordResponseList.map((keyword) => ({
       label: keyword.content, // content를 label로
       value: keyword.keywordCount, // keywordCount를 value로
     })) || [];

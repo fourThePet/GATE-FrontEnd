@@ -7,6 +7,7 @@ import { useGetPlaceReviews } from "../../../../queries/reviews";
 import { NotFoundIcon } from "../../../../assets/svg";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../../../assets/svg";
 import formatReviewDate from "../../../review/format-review-date";
+import { LoadingBar } from "../../../../components";
 type ReviewsProps = {
   placeId: number; // placeId를 props로 받음
 };
@@ -16,7 +17,7 @@ export default function Reviews({ placeId }: ReviewsProps) {
     Record<number, boolean>
   >({});
 
-  if (isLoading) return <p>리뷰를 불러오는 중입니다...</p>;
+  if (isLoading) return (<LoadingBar/>);
   if (error) return <p>리뷰를 가져오는 데 실패했습니다.</p>;
 
   // 첫 번째 리뷰만 가져오기

@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
 import { useGetMembersInfo } from "../../queries";
+import { LoadingBar } from "../../components";
 
 export default function Plan() {
   const navigate = useNavigate();
@@ -79,7 +80,7 @@ export default function Plan() {
 
   const { data: cities, isLoading, isError } = useGetPlacesCities();
 
-  if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
 
   const handleCreateButtonClick = () => {

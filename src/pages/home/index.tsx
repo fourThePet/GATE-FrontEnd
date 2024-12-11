@@ -4,7 +4,7 @@ import SearchbarCategory from "./components/searchbar-category";
 import TodayBenefit from "./components/today-benefit";
 import Best10 from "./components/Best10";
 import { useEffect, useState } from "react";
-import { PetRegistrationModal } from "../../components";
+import { LoadingBar, PetRegistrationModal } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { useGetDogsProfiles } from "../../queries";
 
@@ -26,6 +26,7 @@ export default function Home() {
     }
   },[isLoggedIn, dogs, isLoading])
 
+  if(isLoading) { return (<LoadingBar/>)}
   return (
     <>
       <div

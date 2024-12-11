@@ -6,6 +6,7 @@ import { useGetPlaces } from "../../../../api/places";
 import { useEffect, useRef } from "react";
 import ReactDOMServer from "react-dom/server";
 import { LocMarker } from "../../../../assets/svg";
+import { LoadingBar } from "../../../../components";
 
 export default function HowToCome() {
   const mapRef = useRef<HTMLDivElement | null>(null);
@@ -81,7 +82,7 @@ export default function HowToCome() {
           <div ref={mapRef} style={{ width: "100%", height: "100%" }} />
         </div>
         {isLoading ? (
-          <p css={typo.Label3}>주소를 불러오는 중입니다...</p>
+          <LoadingBar/>
         ) : error ? (
           <p css={typo.Label3}>{error}</p>
         ) : (

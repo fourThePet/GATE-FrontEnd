@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MainPinkButton, Text } from "../../../components";
+import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import { useGetFavoritesList } from "../../../queries";
 import colors from "../../../styles/colors";
 import { BookMarkList } from "../components";
@@ -11,7 +11,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 export default function MyBookMark(){
     const {isLoggedIn} = useAuthStore();
     const navigate = useNavigate();
-    const {data : bookMarkList} = useGetFavoritesList()
+    const {data : bookMarkList, isLoading} = useGetFavoritesList()
     const [count, setCount] = useState<number>(0)
     
     useEffect(() => {
@@ -22,6 +22,8 @@ export default function MyBookMark(){
             setCount(bookMarkList.length);
         }
     }, [bookMarkList, isLoggedIn, navigate]);
+
+    if(isLoading){ return(<LoadingBar/>)}
 
     return(
         <div css={contentWrapper}>

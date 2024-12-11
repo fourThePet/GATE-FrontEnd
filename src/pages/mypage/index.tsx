@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text } from "../../components";
+import { LoadingBar, Text } from "../../components";
 import colors from "../../styles/colors";
 import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
@@ -13,8 +13,8 @@ export default function Mypage() {
   const navigate = useNavigate();
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
   const { isLoggedIn, logout } = useAuthStore();
-  const { data : memberInfo} = useGetMembersInfo();
-  const { data : dogsInfo } = useGetDogsProfiles();
+  const { data : memberInfo, isLoading:isMemberLoading} = useGetMembersInfo();
+  const { data : dogsInfo, isLoading: isDogsLoading } = useGetDogsProfiles();
   const [ dogId, setDogId ] = useState<number>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
@@ -28,6 +28,7 @@ export default function Mypage() {
     navigate('/login', {replace:true} )
   }
   
+  if(isDogsLoading || isMemberLoading){return(<LoadingBar/>)}
 
   return (
     <div css={contentWrapper}>

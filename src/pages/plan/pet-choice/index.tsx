@@ -6,13 +6,14 @@ import { useState } from "react";
 import { typo } from "../../../styles/typo";
 import { Petchoice, DefaultProfile } from "../../../assets/svg";
 import { useNavigate } from "react-router-dom";
+import { LoadingBar } from "../../../components";
 
 export default function PetChoice() {
   const navigate = useNavigate();
   const { data: dogsProfiles, isLoading, isError } = useGetDogsProfiles();
   const [selectedPets, setSelectedPets] = useState<number[]>([]);
 
-  if (isLoading) return <p>로딩 중...</p>;
+  if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>반려견 정보를 가져오는 데 실패했습니다.</p>;
 
   const handleSelectPet = (id: number) => {

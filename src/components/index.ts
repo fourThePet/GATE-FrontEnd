@@ -9,3 +9,5 @@ export { default as PetRegistrationModal} from './modal/pet-registration-modal'
 export { default as FilterLabel} from './label/filter-label'
 export { default as CertificateLabel} from './label/certificate-label'
 export { default as ConditionLabel} from './label/condition-label'
+export { default as LoadingBar} from './loading-bar'
+
