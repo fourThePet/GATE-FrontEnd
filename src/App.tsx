@@ -10,6 +10,7 @@ function App() {
   const isReceiptCheckPage = location.pathname.startsWith("/review");
   const isWriteReviewPage = location.pathname.startsWith("/review/write");
   const isPlanCreatePage = location.pathname.startsWith("/plan/create");
+  const isPlanWaitingPage = location.pathname.startsWith("/plan/waiting");
 
   const isOnboardingPage =
     location.pathname.startsWith("/onboarding") ||
@@ -17,9 +18,11 @@ function App() {
 
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
-    if(location.pathname.startsWith("/plan/recommend")){ //추천일정 경로에서 닫기 버튼 누르면 일정으로 돌아가기
-      navigate('/plan')
-    }else{ //그 외 다른 경로
+    if (location.pathname.startsWith("/plan/recommend")) {
+      //추천일정 경로에서 닫기 버튼 누르면 일정으로 돌아가기
+      navigate("/plan");
+    } else {
+      //그 외 다른 경로
       navigate(-1); // 이전 페이지로 이동
     }
   };
@@ -39,6 +42,7 @@ function App() {
         isWriteReviewPage={isWriteReviewPage}
         isOnboardingPage={isOnboardingPage}
         isPlanCreatePage={isPlanCreatePage}
+        isPlanWaitingPage={isPlanWaitingPage}
       />
     </>
   );
