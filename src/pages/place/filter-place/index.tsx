@@ -124,8 +124,18 @@ export default function FilterPlace({ setIsFilterModalOpen }: Props) {
           }),
         ]}
       >
-        <GrayBorderButton title="초기화" width="50%" height="48px" onClick={handleReset}/>
-        <MainPinkButton width="50%" height="48px" onClick={handleApply} >적용하기</MainPinkButton>
+        <GrayBorderButton
+          title="초기화"
+          width="50%"
+          height="48px"
+          onClick={handleReset}
+        />
+        <MainPinkButton
+          title="적용하기"
+          width="50%"
+          height="48px"
+          onClick={handleApply}
+        />
       </div>
     </div>
   );
