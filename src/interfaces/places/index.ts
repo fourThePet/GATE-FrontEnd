@@ -76,6 +76,7 @@ declare global {
           BOTTOMLEFT: number;
           BOTTOMRIGHT: number;
         };
+        LatLngBounds: new () => kakao.maps.LatLngBounds;
       };
     };
   }
@@ -84,11 +85,17 @@ declare global {
     interface Map {
       setCenter: (latlng: kakao.maps.LatLng) => void;
       getCenter: () => kakao.maps.LatLng;
+      setBounds: (bounds: kakao.maps.LatLngBounds) => void;
       addControl: (control: kakao.maps.ZoomControl, position: number) => void;
     }
     interface LatLng {
       getLat: () => number;
       getLng: () => number;
+    }
+    interface LatLngBounds {
+      extend: (latlng: kakao.maps.LatLng) => void;
+      getSouthWest: () => kakao.maps.LatLng;
+      getNorthEast: () => kakao.maps.LatLng;
     }
     interface Marker {
       setMap: (map: kakao.maps.Map | null) => void;
@@ -102,23 +109,37 @@ declare global {
       setPosition: (latlng: kakao.maps.LatLng) => void;
       setContent: (content: HTMLElement | string) => void;
     }
+
+    interface CustomOverlayOptions {
+      position: kakao.maps.LatLng;
+      content: HTMLElement | string;
+      map?: kakao.maps.Map;
+      xAnchor?: number;
+      yAnchor?: number;
+      zIndex?: number;
+      clickable?: boolean;
+    }
     interface ZoomControl {}
 
     interface PolylineOptions {
-      path: LatLng[]; // 경로 배열
-      strokeWeight?: number; // 선 두께
-      strokeColor?: string; // 선 색상
-      strokeOpacity?: number; // 선 투명도 (0~1)
+      path: LatLng[];
+      strokeWeight?: number;
+      strokeColor?: string;
+      strokeOpacity?: number;
       strokeStyle?: string;
     }
 
     interface Polyline {
-      setMap: (map: kakao.maps.Map | null) => void; // 지도에 표시
-      setPath: (path: kakao.maps.LatLng[]) => void; // 경로 설정
+      setMap: (map: kakao.maps.Map | null) => void;
+      setPath: (path: kakao.maps.LatLng[]) => void;
     }
-    interface LatLng {
-      getLat: () => number;
-      getLng: () => number;
+
+    interface MapOptions {
+      center: kakao.maps.LatLng;
+      level?: number;
+      mapTypeId?: string;
+      draggable?: boolean;
+      scrollwheel?: boolean;
     }
   }
 }

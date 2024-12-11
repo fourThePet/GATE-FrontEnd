@@ -131,16 +131,4 @@ const sampleSelectItems = [
     latitude: 37.5735,
     longitude: 126.9812,
   },
-  {
-    placeName: "장소 9",
-    roadAddress: "서울특별시 종로구 경운동",
-    latitude: 37.574,
-    longitude: 126.9785,
-  },
-  {
-    placeName: "장소 10",
-    roadAddress: "서울특별시 종로구 삼청동",
-    latitude: 37.5765,
-    longitude: 130.981,
-  },
 ];

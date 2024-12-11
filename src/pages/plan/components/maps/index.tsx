@@ -34,10 +34,11 @@ export default function MapComponent({
 
       const mapOptions = {
         center: new window.kakao.maps.LatLng(centerLat, centerLng),
-        level: 4, // 확대/축소 레벨
+        level: 4,
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOptions);
+      const bounds = new window.kakao.maps.LatLngBounds();
 
       places.forEach(({ latitude, longitude }, index) => {
         const SVGComponent = getSVGComponentByIndex(index);
@@ -51,12 +52,20 @@ export default function MapComponent({
           { offset: new window.kakao.maps.Point(20, 20) }
         );
 
+        const markerPosition = new window.kakao.maps.LatLng(
+          latitude,
+          longitude
+        );
+
         new window.kakao.maps.Marker({
           position: new window.kakao.maps.LatLng(latitude, longitude),
           map,
           image: icon,
         });
+        bounds.extend(markerPosition);
       });
+
+      map.setBounds(bounds);
     };
 
     const loadMapScript = () => {
