@@ -22,3 +22,10 @@ export interface SelectPlaceType{
   roadAddress?:string;
 
 }
+
+export interface PlanRequestBody {
+  date : string;
+  cityId : number;
+  dogIds : number[];
+  placeIds : number[];
+}

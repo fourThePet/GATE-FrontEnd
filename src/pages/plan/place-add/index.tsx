@@ -59,7 +59,6 @@ export default function PlaceAdd(){
     //선택 완료 버튼 이벤트
     const handleSelectionComplete = () =>{
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
-        console.log(selectItems)
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
 

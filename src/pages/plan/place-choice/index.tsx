@@ -19,6 +19,7 @@ import MapComponent from "../components/maps";
 import usePlanStore from "../../../stores/usePlanStore";
 import { useEffect, useState } from "react";
 import { SelectPlaceType } from "../../../interfaces/plans";
+import { usePostPlansRoute } from "../../../queries";
 
 export default function PlaceChoice() {
   const { date, cityId, dogIds, placeIds, cityName, setPlaceIds } = usePlanStore();
@@ -27,7 +28,10 @@ export default function PlaceChoice() {
   const initialSelectItems = state?.selectItems || [];
   const [selectItems, setSelectItems] = useState<SelectPlaceType[]>(initialSelectItems);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const {mutate: createRecommendPlan} = usePostPlansRoute()
   
+  /** To do : 주석 제거 */
   // const places = sampleSelectItems.map((item) => ({
   //   placeName: item.placeName,
   //   roadAddress: item.roadAddress,
@@ -35,9 +39,20 @@ export default function PlaceChoice() {
   //   longitude: item.longitude,
   // }));
 
-  const handleNextButtonClick = () => {
-    console.log(date, cityId, dogIds, placeIds)
-    // navigate("/plan/waiting")
+  const handleNextButtonClick = () => { 
+    //일정 추천 경로 post api 
+    const request = {
+      date,
+      cityId,
+      dogIds,
+      placeIds
+    }
+    createRecommendPlan(request,{
+      onSuccess: () => {
+        navigate("/plan/waiting")
+      },
+    })
+    
   }
 
   const handleDeleteIconClick = (id : number) => {
@@ -111,13 +126,14 @@ export default function PlaceChoice() {
           <MainPinkButton
             onClick={handleNextButtonClick}
             isDisabled={isDisabled}
-          >다음</MainPinkButton>
+          >추천일정 보기</MainPinkButton>
         </div>
       </div>
     </div>
   );
 }
 
+/** To do : 주석 제거 */
 // const sampleSelectItems = [
 //   {
 //     placeName: "장소 1",
