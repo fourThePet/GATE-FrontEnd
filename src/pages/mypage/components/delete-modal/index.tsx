@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import modalStyles, { buttonStyle, wrapper } from "./index.styles";
+import modalStyles, { buttonStyle, subTitle, wrapper } from "./index.styles";
 import { Warning } from "../../../../assets/svg";
 import { GrayBorderButton, MainPinkButton, Text } from "../../../../components";
 import colors from "../../../../styles/colors";
@@ -35,7 +35,15 @@ export default function DeleteModal({isDeleteModalOpen, setIsDeleteModalOpen, do
             <div css={wrapper}>
                 <Warning width={48}/>
                 <Text type="Heading3">프로필 삭제</Text>
-                <Text type="Label3" color={colors.color.Gray1}>프로필을 삭제하시겠습니까?</Text>
+                <div css={subTitle}>
+                    <Text type="Label3" color={colors.color.Gray1} >
+                        반려견과 함께한 일정이 등록되어 있다면,
+                    </Text>
+                    <Text type="Label3" color={colors.color.Gray1} >
+                        일정에서 반려견 정보가 사라질 수 있어요.
+                    </Text>
+
+                </div>
                 <div css={buttonStyle}>
                   <GrayBorderButton width="50%" height="40px" title="취소" onClick={closeModal}/>
                   <MainPinkButton width="50%" height="40px" title="확인" onClick={handleConfirmButtonClick}/>

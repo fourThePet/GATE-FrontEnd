@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
-import { LoadingBar, Text } from "../../../components";
+import { DeleteConfirmModal, LoadingBar, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import {
   actionWrapper,
@@ -15,18 +15,21 @@ import {
 } from "./index.styles";
 
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useGetPlanByPlanId } from "../../../queries/plans";
-import { useParams } from "react-router-dom";
+import { useDeletePlansByPlanId, useGetPlansByPlanId } from "../../../queries/plans";
+import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 
 export default function PlanDetail() {
+  const navigate = useNavigate();
   const { planId } = useParams(); // URL에서 planId를 가져옴
-  const { data, isLoading} = useGetPlanByPlanId(Number(planId));
+  const { data, isLoading} = useGetPlansByPlanId(Number(planId));
   
-  // console.log(data);
+  console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드
   const [plan, setPlan] = useState(null);
-  // const [plan, setPlan] = useState(result);
+  const [isModalOpen , setIsModalOpen] = useState<boolean>(false);
+
+  const {mutate : deletePlanList} = useDeletePlansByPlanId()
 
   useEffect(() => setPlan(data), [data]);
 
@@ -42,6 +45,7 @@ export default function PlanDetail() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     // 부호 처리
+    if(diffDays === 0) return "-Day";
     return diffDays < 0 ? `+${Math.abs(diffDays)}` : `-${Math.abs(diffDays)}`;
   }, [plan?.date]); // plan.date가 변경될 때만 계산
 
@@ -80,6 +84,18 @@ export default function PlanDetail() {
     }));
   };
 
+  const handlePlanDeleteButtonClick = () =>{ //일정 삭제 아이콘
+      setIsModalOpen(true);
+  }
+
+  const handleConfirmButtonClick = () =>{ // 모달창 확인 버튼
+      if(planId){
+        deletePlanList(Number(planId));
+        setIsModalOpen(false);
+        navigate('/plan')
+      }
+      
+  }
   
   if(isLoading) return (<LoadingBar/>)
   // console.log(plan.planPlaces)
@@ -88,7 +104,7 @@ export default function PlanDetail() {
       <div css={wrapper}>
         <div css={info}>
           <div css={deleteIcon}>
-            <DeleteIcon width={20} />
+            <DeleteIcon width={20} onClick={handlePlanDeleteButtonClick} />
             {/* <Text type="Label4" color={colors.color.White2}>삭제</Text> 아이콘이 아래와 겹쳐서 고민 */}
           </div>
           <Text type="Heading3" color={colors.color.White1}>
@@ -157,6 +173,14 @@ export default function PlanDetail() {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <DeleteConfirmModal 
+        isModalOpen={isModalOpen} 
+        title="일정삭제" 
+        subTitle="일정을 삭제하시겠어요?" 
+        closeModal={()=>setIsModalOpen(false)}
+        handleConfirmButtonClick={handleConfirmButtonClick}
+        />)}
     </div>
   );
 }

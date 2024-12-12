@@ -6,7 +6,7 @@ export const wrapper = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 `
 export const buttonStyle = css`
     display: flex;
@@ -16,7 +16,7 @@ export const buttonStyle = css`
     margin-top: auto;
 `
 
-export const subTitle = css`
+export const subTitleStyle = css`
     align-items: center;
     justify-content: center;
     display: flex;

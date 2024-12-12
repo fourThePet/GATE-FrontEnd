@@ -10,4 +10,5 @@ export { default as FilterLabel} from './label/filter-label'
 export { default as CertificateLabel} from './label/certificate-label'
 export { default as ConditionLabel} from './label/condition-label'
 export { default as LoadingBar} from './loading-bar'
+export { default as DeleteConfirmModal} from './modal/delete-confirm-modal'
 
