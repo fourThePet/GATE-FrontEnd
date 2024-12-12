@@ -118,35 +118,35 @@ export default function PlaceChoice() {
   );
 }
 
-const sampleSelectItems = [
-  {
-    placeName: "장소 1",
-    roadAddress: "경상남도 창원시 성산구 상남동",
-    latitude: 35.2271,
-    longitude: 128.6812,
-  },
-  {
-    placeName: "장소 2",
-    roadAddress: "경상북도 포항시 북구 장성동",
-    latitude: 36.0615,
-    longitude: 129.3817,
-  },
-  {
-    placeName: "장소 3",
-    roadAddress: "경상남도 거제시 고현동",
-    latitude: 34.8818,
-    longitude: 128.6216,
-  },
-  {
-    placeName: "장소 4",
-    roadAddress: "경상북도 안동시 운흥동",
-    latitude: 36.5684,
-    longitude: 128.7295,
-  },
-  {
-    placeName: "장소 5",
-    roadAddress: "경상북도 울진군 후포면",
-    latitude: 36.9989,
-    longitude: 129.4043,
-  },
-];
+// const sampleSelectItems = [
+//   {
+//     placeName: "장소 1",
+//     roadAddress: "경상남도 창원시 성산구 상남동",
+//     latitude: 35.2271,
+//     longitude: 128.6812,
+//   },
+//   {
+//     placeName: "장소 2",
+//     roadAddress: "경상북도 포항시 북구 장성동",
+//     latitude: 36.0615,
+//     longitude: 129.3817,
+//   },
+//   {
+//     placeName: "장소 3",
+//     roadAddress: "경상남도 거제시 고현동",
+//     latitude: 34.8818,
+//     longitude: 128.6216,
+//   },
+//   {
+//     placeName: "장소 4",
+//     roadAddress: "경상북도 안동시 운흥동",
+//     latitude: 36.5684,
+//     longitude: 128.7295,
+//   },
+//   {
+//     placeName: "장소 5",
+//     roadAddress: "경상북도 울진군 후포면",
+//     latitude: 36.9989,
+//     longitude: 129.4043,
+//   },
+// ];
