@@ -52,25 +52,31 @@ export default function PlanDetail() {
   }, [plan?.date]); // plan.date가 변경될 때만 계산
 
   const handleEditButtonClick = () => {
-    
     //편집 버튼 눌렀을 때 이벤트
     setIsEditMode((prev) => !prev);
   };
-  const handleCompleteButtonClick = () => { //완료 버튼 눌렀을 때!
-    
+  const handleCompleteButtonClick = () => { //삭제 완료 버튼 눌렀을 때!
     setIsConfirmModalOpen(true)
     
   };
 
-  const handleModifyConfirmButtonClick = () =>{
+  const handleModifyConfirmButtonClick = () =>{ //수정 완료 버튼
     modifyPlanList({placeIds}, {
       onSuccess : () =>{
         setIsConfirmModalOpen(false);
         setIsEditMode((prev) => !prev);
       }
     })
-    
   }
+
+  const handleDeletePlace = (placeId: number) => { // 장소 삭제
+    const updatedPlanPlaces = plan.planPlaces.filter((place) => place.place.id !== placeId);
+    setPlan((prevPlan) => ({
+      ...prevPlan,
+      planPlaces: updatedPlanPlaces,
+    }));
+    setPlaceIds(updatedPlanPlaces.map((place) => place.place.id)); // 업데이트된 placeIds 상태
+  };
 
   const handleOnDragEnd = (res) => { //드래그 했을 때 이벤트(수정)
     const { destination, source } = res;
@@ -173,6 +179,7 @@ export default function PlanDetail() {
                           sequence={place.sequence}
                           place={place.place}
                           index={index}
+                          onDelete={() => handleDeletePlace(place.place.id)}
                         />
                       ))}
                       {provided.placeholder}
