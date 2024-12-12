@@ -25,8 +25,8 @@ export default function KakaoMap({
   places,
   currentLatitude,
   currentLongitude,
-  setSelectedCategory,
-}: KaKaoMapProps) {
+}: // setSelectedCategory,
+KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
