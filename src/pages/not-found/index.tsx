@@ -17,9 +17,9 @@ export default function NotFound() {
       </div>
       <MainPinkButton
         width="200px"
-        title="홈으로 이동"
+        
         onClick={() => navigate("/")}
-      />
+      >홈으로 이동</MainPinkButton>
     </div>
   );
 }

@@ -7,16 +7,10 @@ import { categoryIcon } from "../../../utils/translations";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PlaceListCard, SelectionImage } from "../components";
 import { FavoritesListType } from "../../../interfaces";
-type SelectItem = {
-    placeId: number;
-    placeName: string;
-    photoUrl: string;
-    latitude : number;
-    longitude: number;
-};
+import { SelectPlaceType } from "../../../interfaces/plans";
+
 export default function PlaceAdd(){
     const navigate = useNavigate();
-
     //즐겨찾기 데이터
     const {data : myBookmarkList, isLoading: isFavoriteLoading} = useGetFavoritesList(); 
     //카테고리 
@@ -26,6 +20,7 @@ export default function PlaceAdd(){
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category);
     };
+    const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
     //탭 전환
     const [activeTab, setActiveTab] = useState<"selection" | "favorites">("selection");
@@ -36,7 +31,7 @@ export default function PlaceAdd(){
     const { state } = useLocation(); // PlaceAdd에서 전달한 state를 받기
     const initialSelectItems = state?.selectItems || []; // selectItems를 받아옴
 
-    const [selectItems, setSelectItems] = useState<SelectItem[]>(initialSelectItems);
+    const [selectItems, setSelectItems] = useState<SelectPlaceType[]>(initialSelectItems);
 
     useEffect(() => {
         if (data && data.isSuccess) {
@@ -53,10 +48,17 @@ export default function PlaceAdd(){
         }
     }, [data]);
 
+    useEffect(()=>{
+        if(selectItems.length>0){
+            setIsDisabled(false)
+        }else{
+            setIsDisabled(true)
+        }
+    },[selectItems])
+
     //선택 완료 버튼 이벤트
     const handleSelectionComplete = () =>{
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
-        console.log(selectItems)
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
 
@@ -125,7 +127,7 @@ export default function PlaceAdd(){
                    
                 </div>
                 <div css={bottomButtonStyle}>
-                    <MainPinkButton title="선택완료" onClick={handleSelectionComplete}/>
+                    <MainPinkButton onClick={handleSelectionComplete} isDisabled={isDisabled}>선택완료</MainPinkButton>
                 </div>
             </div>
         </div>

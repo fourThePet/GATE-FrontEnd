@@ -2,11 +2,11 @@ import { GrayDeleteIcon, ReviewCount, Star } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import { favoriteCount, imageItem, imageWrapper, titleWrapper, wrapper } from "./index.styles";
 
-export default function SelectionPlaceList({placeName, roadAddress}){
+export default function SelectionPlaceList({placeName, roadAddress, photoUrl, onClick}){
     return(
         <div css={wrapper}>
             <div css={imageWrapper}>
-                <img css={imageItem} src="/images/review_ex.png"></img>
+                <img css={imageItem} src={photoUrl || '/images/stash_pin-place.png'}></img>
             </div>
             <div css={titleWrapper}>
                 <Text type="Body2">{placeName}</Text>
@@ -16,7 +16,7 @@ export default function SelectionPlaceList({placeName, roadAddress}){
                     <Star width={20}/><Text type="Label3">10</Text>
                 </div>
             </div>
-            <GrayDeleteIcon width={24}/>
+            <GrayDeleteIcon width={24} onClick={onClick}/>
         </div>
     )
 }

@@ -2,8 +2,19 @@ import { BarLoader } from "react-spinners";
 import { Block } from "../../../components/block/block";
 import { typo } from "../../../styles/typo";
 import { Receiptloading } from "../../../assets/svg";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function PlanWaiting() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/plan/recommend"); 
+    }, 3000); // 3초 후 이동
+
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
+  }, [navigate]);
   return (
     <div
       css={Block.flexBlock({

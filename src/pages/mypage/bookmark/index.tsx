@@ -49,7 +49,7 @@ export default function MyBookMark(){
                     )}
                 </div>
                 <div css={bottomButtonStyle}>
-                    <MainPinkButton width="100%" title="즐겨찾기 추가" onClick={()=> navigate('/place')}/>
+                    <MainPinkButton width="100%" onClick={()=> navigate('/place')}>즐겨찾기 추가</MainPinkButton>
                 </div>
             </div>
         </div>

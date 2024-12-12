@@ -34,7 +34,8 @@ export const QUERY_KEYS = {
   GET_PLANS_PLANID: (planId: number) => ["GET_PLANS_PLANID", planId],
   GET_PLANS: (dateFilter: "AFTER" | "BEFORE", sortOrder: "ASC" | "DESC") =>
     ["GET_PLANS", dateFilter, sortOrder] as const,
-  POST_CREATE_PLAN: ["POST_CREATE_PLAN"],
+  POST_PLANS: ["POST_PLANS"],
   PUT_PLANS_PLANID : (planId : number) => ['PUT_PLANS_PLANID', planId],
   DELETE_PLANS_PLANID : (planId : number) => ['DELETE_PLANS_PLANID', planId],
+  POST_PLANS_ROUTE : ['POST_PLANS_ROUTE'],
 } as const;

@@ -1,24 +1,25 @@
+import { HTMLAttributes, ReactNode } from "react";
 import Text from "../../text";
-import { buttonStyles } from "./index.styles";
+import { buttonStyle, buttonStyles } from "./index.styles";
 
-interface Props {
-  onClick?: () => void;
+interface Props extends HTMLAttributes<HTMLButtonElement>{
   width?: string;
   height?: string;
-  title: string;
+  title?: string;
   isDisabled?: boolean;
+  children : ReactNode
 }
 
 export default function MainPinkButton({
-  onClick,
   width,
   height,
   isDisabled,
-  title,
+  children, 
+  ...props
 }: Props) {
   return (
-    <button onClick={onClick} css={buttonStyles({ width, height, isDisabled })}>
-      <Text type="Label2">{title}</Text>
+    <button css={buttonStyles({ width, height, isDisabled })} disabled={isDisabled} {...props}>
+      <Text type="Label2" css={buttonStyle}>{children}</Text>
     </button>
   );
 }

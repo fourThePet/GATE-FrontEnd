@@ -5,9 +5,9 @@ export const contentWrapper = css`
   flex-direction: column;
   width: 100%;
   height: 100vh; /* 화면 전체 높이 */
-  /* overflow: hidden; //내부 콘텐츠만 스크롤 가능 */
+  overflow: hidden; //내부 콘텐츠만 스크롤 가능
   position: relative;
-  padding: 79px 0 0;
+  padding: 79px 0;
 `;
 export const wrapper = css`
   flex: 1; //나머지 공간을 차지
@@ -15,7 +15,7 @@ export const wrapper = css`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: calc(100vh - 79px); /* 전체 화면 높이에서 패딩 제외 */
+  height: 100%;
   overflow-y: auto;
 `;
 
@@ -77,10 +77,11 @@ export const listWrapper = (isLength: boolean) => css`
 `;
 
 export const bottomButtonStyle = css`
-  position: sticky; /* 스크롤 시에도 화면 하단에 고정 */
+  position: absolute; /* 스크롤 시에도 화면 하단에 고정 */
   bottom: 0;
   z-index: 10;
   width: 100%;
+  max-width: 600px;
   padding: 10px 18px;
   background-color: white; /* 배경색 추가 */
   display: flex;

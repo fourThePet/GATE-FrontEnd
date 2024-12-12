@@ -1,4 +1,4 @@
-import { PlansApiResponse } from "./../../interfaces/plans/index";
+import { PlanRequestBody, PlansApiResponse } from "./../../interfaces/plans/index";
 import { api } from "../api";
 
 // 일정 리스트 조회 API
@@ -14,13 +14,9 @@ export const getPlans = async (
   return response.data.result;
 };
 
-// 일정 생성 API
-export const postCreatePlan = async (body: {
-  date: string;
-  cityId: number;
-  dogIds: number[];
-  placeIds: number[];
-}) => {
+
+//일정 생성(내 일정으로 담기 버튼 클릭 시 호출)
+export const postPlans = async (body: PlanRequestBody) => {
   const response = await api.post("/plans", body);
   return response.data.result;
 };
@@ -47,3 +43,11 @@ export const deletePlansByPlanId = async (planId:number) =>{
   const response = await api.delete(`/plans/${planId}`);
   return response.data;
 }
+
+//일정 추천 경로
+export const postPlansRoute = async (body: PlanRequestBody)=>{
+  const response = await api.post('/plans/route', body);
+  return response.data.result;
+}
+
+

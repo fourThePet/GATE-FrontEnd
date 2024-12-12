@@ -283,10 +283,9 @@ export default function Place() {
         <MainPinkButton
           onClick={handleButtonClick}
           isDisabled={false}
-          title={buttonText}
           width="10vh"
           height="4vh"
-        />
+        >{buttonText}</MainPinkButton>
       </div>
       {/* TODO : 에이든 - 목록,필터 보기 작업분 */}
       {/* 라운드 적용 && 슬라이드 tap 바텀 to 탑 */}
