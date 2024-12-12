@@ -97,12 +97,13 @@ export const tooltipStyle = css`
   position: absolute;
   top: 20px;
   left: 100%;
-  background-color: #ffa7c7;
-  color: white;
+  background-color: #ffffff;
+  color: #f1729b;
   padding: 5px 10px;
   border-radius: 20px;
   font-size: 12px;
   white-space: nowrap;
+  border: 2px solid #f1729b;
   transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 10;
 
