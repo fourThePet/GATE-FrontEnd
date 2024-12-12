@@ -1,10 +1,21 @@
 import { css } from "@emotion/react";
 
-export const Imgblock = css`
+export const wrapper = css`
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+`
+export const imageBlock = css`
   position: relative;
   width: 100%; /* 가로를 화면 전체로 설정 */
   height: auto;
   display: flex;
+  flex-direction: column;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   aspect-ratio: 16 / 14; /* 16:9 비율 */
@@ -20,8 +31,102 @@ export const Imgblock = css`
     z-index: 2;
     color: black;
   }
-`;
+`
 
+export const imageWrapper = css`
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+`
+
+export const mainImage =css`
+  width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+`
+
+export const mainWrapper = css`
+  position: absolute;
+  bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 220px;
+  width: 100%;
+`
+
+export const mainTitle = css`
+  width: 100%;
+  padding: 30px;
+
+`
+
+export const recommendCity = css`
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+
+`
+
+export const recommendLabel = css`
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-bottom: 10px;
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+`
+
+export const planWrapper = css`
+  padding:10px 30px 80px;
+`
+
+export const planListWrapper = css`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0; 
+  padding: 0 30px;
+  width: 100%;
+`
+
+export const tabStyle = (tab : string, activeTab : string) =>css`
+  cursor: pointer;
+  font-weight: ${activeTab === tab ? "bold" : "normal"};
+  color: ${activeTab === tab? "#F1729B" : "#A4A4A4"};
+  border-bottom: ${activeTab === tab
+    ? "5px solid #F1729B"
+    : "none"};
+  padding-bottom: 10px;
+  width: 160px;
+  text-align: center;
+`
+
+export const buttonWrapper = css`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const noDataText = css`
+  text-align: center;
+  padding: 20px;
+`
 export const PageWrapperStyle = css`
   height: 100%;
   overflow-y: scroll;

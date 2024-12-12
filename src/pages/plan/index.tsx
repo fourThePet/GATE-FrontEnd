@@ -1,17 +1,15 @@
 import { useState, useCallback, useRef } from "react";
 import { Schedulemain } from "../../assets/svg";
-import { PageWrapper } from "../../styles/ui";
-import { Imgblock, loadingWrapper } from "./index.styles";
-import { css } from "@emotion/react";
-import { typo } from "../../styles/typo";
+import { buttonWrapper, imageBlock, imageWrapper, loadingWrapper, mainImage, mainTitle, mainWrapper, noDataText, planListWrapper, planWrapper, recommendCity, recommendLabel, tabStyle, wrapper } from "./index.styles";
 import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 import { useGetMembersInfo } from "../../queries";
-import { LoadingBar } from "../../components";
+import { LoadingBar, MainPinkButton, Text } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
+import colors from "../../styles/colors";
 
 export default function Plan() {
   const defaultImageUrl = '/images/default_city.png'
@@ -98,17 +96,7 @@ export default function Plan() {
 
   return (
     <>
-      <div
-        css={css`
-          ${PageWrapper};
-          height: 100%;
-          overflow-y: scroll;
-          overflow-x: hidden;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          position: relative;
-        `}
-      >
+      <div css={wrapper}>
         <style>
           {`
           div::-webkit-scrollbar {
@@ -116,158 +104,58 @@ export default function Plan() {
           }
         `}
         </style>
-        <div
-          css={css`
-            ${Imgblock};
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
-          `}
-        >
-          <div
-            css={css`
-              width: 100%;
-              height: auto;
-              position: relative;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              overflow: hidden;
-            `}
-          >
-            <Schedulemain
-              css={css`
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-                object-fit: cover;
-              `}
-            />
+        <div css={imageBlock}>
+          <div css={imageWrapper}>
+            <Schedulemain css={mainImage} />
           </div>
-          <div
-            css={css`
-              position: absolute;
-              bottom: 10%;
-              left: 35%;
-              transform: translateX(-50%);
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              gap: 250px;
-            `}
-          >
-            <div>
-              <span css={typo.Heading3}>
-                {memberInfo?.nickname || "게스트"}님, 반갑습니다 <br /> GATE와
-                함께하는 일정을 세워볼까요? 🐾
-              </span>
+          <div css={mainWrapper}>
+            <div css={mainTitle}>
+                <Text type="Heading3">{memberInfo?.nickname || "게스트"}님, 반갑습니다 <br /> GATE와
+                함께하는 일정을 세워볼까요? 🐾</Text>
             </div>
-            <button
-              css={Button.mainPinkButton({
-                isDisabled: false,
-                width: "100%",
-                height: "50px",
-              })}
-              style={{ marginLeft: "50%" }}
-              onClick={handleCreateButtonClick}
-            >
-              📅 일정 생성하기
-            </button>
+            <div css={buttonWrapper}>
+              <MainPinkButton onClick={handleCreateButtonClick} width="40%">📅 일정 생성하기</MainPinkButton>
+            </div>
           </div>
         </div>
 
         {/* 여행지 추천 */}
-        <div
-          css={css`
-            padding: 20px;
-          `}
-        >
-          <h3 css={typo.Heading3}>🐶 여행지 추천</h3>
-          <div
-            css={css`
-              display: flex;
-              gap: 10px;
-              margin-top: 10px;
-              overflow-x: auto;
-              white-space: nowrap;
-              padding-bottom: 10px;
-              &::-webkit-scrollbar {
-                height: 6px;
-              }
-              &::-webkit-scrollbar-thumb {
-                background-color: #ccc;
-                border-radius: 3px;
-              }
-              &::-webkit-scrollbar-track {
-                background-color: #f1f1f1;
-              }
-            `}
-          >
+        <div css={recommendCity}>
+          <div>
+            <Text type="Heading3">🐶 여행지 추천</Text>
+          </div>
+          <div css={recommendLabel}>
             {cities?.map((city: { id: number; cityName: string }) => (
               <button
                 key={city.id}
                 css={Button.grayBorderButton({
                   width: "100px",
-                  height: "50px",
+                  height: "40px",
                 })}
                 style={{ padding: "8px 40px" }}
               >
                 {city.cityName}
               </button>
+              
             ))}
           </div>
         </div>
 
         {/* 다가오는 여행 */}
         <div
-          css={css`
-            padding: 20px;
-            margin-bottom: 100px;
-            margin-top: -20px;
-          `}
+          css={planWrapper}
         >
           {/* 탭 */}
-          <div
-            css={css`
-              display: flex;
-              justify-content: space-around;
-              align-items: center;
-              margin: 20px 0;
-              padding: 10px;
-              width: 100%;
-            `}
-          >
+          <div css={planListWrapper}>
             <div
               onClick={() => handleTabClick("coming")}
-              css={css`
-                cursor: pointer;
-                font-weight: ${activeTab === "coming" ? "bold" : "normal"};
-                color: ${activeTab === "coming" ? "#F1729B" : "#A4A4A4"};
-                border-bottom: ${activeTab === "coming"
-                  ? "5px solid #F1729B"
-                  : "none"};
-                padding-bottom: 10px;
-                width: 160px;
-                text-align: center;
-              `}
+              css={tabStyle("coming", activeTab)}
             >
               ✈️ 다가오는 여행
             </div>
             <div
               onClick={() => handleTabClick("past")}
-              css={css`
-                cursor: pointer;
-                font-weight: ${activeTab === "past" ? "bold" : "normal"};
-                color: ${activeTab === "past" ? "#F1729B" : "#A4A4A4"};
-                border-bottom: ${activeTab === "past"
-                  ? "5px solid #F1729B"
-                  : "none"};
-                padding-bottom: 10px;
-                width: 160px;
-                text-align: center;
-              `}
+              css={tabStyle("past", activeTab)}
             >
               🏝️ 지난 여행
             </div>
@@ -288,23 +176,19 @@ export default function Plan() {
                   />
                 ))
               ) : (
-                <div
-                  css={css`
-                    text-align: center;
-                    color: #9a9ea6;
-                    font-size: 16px;
-                    margin-top: 20px;
-                  `}
-                >
-                  다가오는 여행 일정이 없습니다.
+                <div css={noDataText}>
+                  <Text type="Body2" color={colors.color.Gray1}>
+                    다가오는 여행 일정이 없습니다.
+                  </Text>
                 </div>
+                
               ))}
             {activeTab === "past" &&
               (pastTravels.length > 0 ? (
                 pastTravels.map((travel) => (
                   <TravelForm
                     key={travel.id}
-                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    imageUrl={travel.cityPhotoUrl ||defaultImageUrl} // 기본 이미지 URL 추가
                     travelName={travel.cityName}
                     date={travel.date}
                     dogCount={travel.dogSize}
@@ -312,16 +196,11 @@ export default function Plan() {
                   />
                 ))
               ) : (
-                <div
-                  css={css`
-                    text-align: center;
-                    color: #9a9ea6;
-                    font-size: 16px;
-                    margin-top: 20px;
-                  `}
-                >
+                <div css={noDataText}>
+                  <Text type="Body2" color={colors.color.Gray1}>
                   지난 여행 일정이 없습니다.
-                </div>
+                  </Text>
+              </div>
               ))}
           </div>
           {activeTab === "coming" && hasComingNextPage && (
