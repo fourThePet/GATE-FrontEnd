@@ -15,23 +15,35 @@ import {
 } from "./index.styles";
 
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useDeletePlansByPlanId, useGetPlansByPlanId } from "../../../queries/plans";
+import {
+  useDeletePlansByPlanId,
+  useGetPlansByPlanId,
+} from "../../../queries/plans";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
+import MapComponent from "../components/maps";
+import LineMapComponent from "../components/maps/lineMap";
 
 export default function PlanDetail() {
   const navigate = useNavigate();
   const { planId } = useParams(); // URL에서 planId를 가져옴
-  const { data, isLoading} = useGetPlansByPlanId(Number(planId));
-  
+  const { data, isLoading } = useGetPlansByPlanId(Number(planId));
+
   console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드
   const [plan, setPlan] = useState(null);
-  const [isModalOpen , setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const {mutate : deletePlanList} = useDeletePlansByPlanId()
+  const { mutate: deletePlanList } = useDeletePlansByPlanId();
 
   useEffect(() => setPlan(data), [data]);
+
+  const mapPlaces =
+    plan?.planPlaces?.map((place) => ({
+      name: place.place.name,
+      latitude: place.place.latitude,
+      longitude: place.place.longitude,
+    })) || [];
 
   // useMemo를 사용하여 계산된 남은 일수를 저장
   const remainingDays = useMemo(() => {
@@ -45,7 +57,7 @@ export default function PlanDetail() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     // 부호 처리
-    if(diffDays === 0) return "-Day";
+    if (diffDays === 0) return "-Day";
     return diffDays < 0 ? `+${Math.abs(diffDays)}` : `-${Math.abs(diffDays)}`;
   }, [plan?.date]); // plan.date가 변경될 때만 계산
 
@@ -84,20 +96,21 @@ export default function PlanDetail() {
     }));
   };
 
-  const handlePlanDeleteButtonClick = () =>{ //일정 삭제 아이콘
-      setIsModalOpen(true);
-  }
+  const handlePlanDeleteButtonClick = () => {
+    //일정 삭제 아이콘
+    setIsModalOpen(true);
+  };
 
-  const handleConfirmButtonClick = () =>{ // 모달창 확인 버튼
-      if(planId){
-        deletePlanList(Number(planId));
-        setIsModalOpen(false);
-        navigate('/plan',{ replace: true })
-      }
-      
-  }
-  
-  if(isLoading) return (<LoadingBar/>)
+  const handleConfirmButtonClick = () => {
+    // 모달창 확인 버튼
+    if (planId) {
+      deletePlanList(Number(planId));
+      setIsModalOpen(false);
+      navigate("/plan", { replace: true });
+    }
+  };
+
+  if (isLoading) return <LoadingBar />;
   // console.log(plan.planPlaces)
   return (
     <div css={contentWrapper}>
@@ -120,7 +133,13 @@ export default function PlanDetail() {
             <WhiteCalender width={16} />
           </div>
         </div>
-        <div css={mapWrapper}>지도</div>
+        <div css={mapWrapper}>
+          <LineMapComponent
+            places={mapPlaces}
+            centerLat={mapPlaces[0]?.latitude || 37.5665}
+            centerLng={mapPlaces[0]?.longitude || 126.978}
+          />
+        </div>
         <div css={listWrapper}>
           <div css={actionWrapper}>
             {isEditMode ? (
@@ -174,13 +193,14 @@ export default function PlanDetail() {
         </div>
       </div>
       {isModalOpen && (
-        <DeleteConfirmModal 
-        isModalOpen={isModalOpen} 
-        title="일정삭제" 
-        subTitle="일정을 삭제하시겠어요?" 
-        closeModal={()=>setIsModalOpen(false)}
-        handleConfirmButtonClick={handleConfirmButtonClick}
-        />)}
+        <DeleteConfirmModal
+          isModalOpen={isModalOpen}
+          title="일정삭제"
+          subTitle="일정을 삭제하시겠어요?"
+          closeModal={() => setIsModalOpen(false)}
+          handleConfirmButtonClick={handleConfirmButtonClick}
+        />
+      )}
     </div>
   );
 }
