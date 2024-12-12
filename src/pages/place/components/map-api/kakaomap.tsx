@@ -191,6 +191,7 @@ export default function KakaoMap({
               }
             );
           });
+
           // 닫기 버튼 처리
           (document.querySelector(".close") as HTMLElement)?.addEventListener(
             "click",
