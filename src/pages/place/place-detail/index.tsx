@@ -21,7 +21,7 @@ import { LoadingBar } from "../../../components";
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
 
-  if (isLoading) return (<LoadingBar/>)
+  if (isLoading) return <LoadingBar />;
   if (error) return <p>리뷰를 가져오는 데 실패했습니다.</p>;
 
   return (
@@ -50,6 +50,9 @@ export default function PlaceDetail() {
   const { isLoggedIn } = useAuthStore();
   const location = useLocation(); // `state`로 전달된 데이터 접근
   const placeId = location.state?.placeId; // state에서 placeId 가져오기
+  const queryParams = new URLSearchParams(location.search);
+  const latitude = parseFloat(queryParams.get("latitude") || "0");
+  const longitude = parseFloat(queryParams.get("longitude") || "0");
 
   // const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
@@ -78,7 +81,7 @@ export default function PlaceDetail() {
     };
   }, [howToComeRef.current]); // `
 
-  if (isLoading) return (<LoadingBar/>);
+  if (isLoading) return <LoadingBar />;
   if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
 
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
@@ -160,7 +163,7 @@ export default function PlaceDetail() {
       )}
       <Divider2 />
       <div ref={howToComeRef}>
-        <HowToCome />
+        <HowToCome latitude={latitude} longitude={longitude} />
       </div>
       <div style={{ marginBottom: "60px" }} />
       {/* 지도보기 버튼 */}
@@ -172,7 +175,7 @@ export default function PlaceDetail() {
             height: "50px",
           })}
           onClick={() => {
-            // 버튼 클릭 시 동작
+            navigate(`/place?latitude=${latitude}&longitude=${longitude}`);
           }}
           style={{
             position: "fixed", // 화면에 고정
