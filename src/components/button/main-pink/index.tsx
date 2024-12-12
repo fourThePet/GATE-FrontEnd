@@ -1,6 +1,6 @@
 import { HTMLAttributes, ReactNode } from "react";
 import Text from "../../text";
-import { buttonStyles } from "./index.styles";
+import { buttonStyle, buttonStyles } from "./index.styles";
 
 interface Props extends HTMLAttributes<HTMLButtonElement>{
   width?: string;
@@ -19,7 +19,7 @@ export default function MainPinkButton({
 }: Props) {
   return (
     <button css={buttonStyles({ width, height, isDisabled })} disabled={isDisabled} {...props}>
-      <Text type="Label2">{children}</Text>
+      <Text type="Label2" css={buttonStyle}>{children}</Text>
     </button>
   );
 }

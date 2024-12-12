@@ -76,6 +76,7 @@ export { default as Pill } from "./Pill";
 export { default as Pinkpencil } from "./Pinkpencil";
 export { default as PlanChange } from "./PlanChange";
 export { default as PlusIcon } from "./PlusIcon";
+export { default as PostPlanIcon } from "./PostPlanIcon";
 export { default as ProfileDog } from "./ProfileDog";
 export { default as Realreceipt } from "./Realreceipt";
 export { default as Receipt } from "./Receipt";

@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { SparklingHeart } from "../../../assets/svg";
+import { PostPlanIcon, SparklingHeart } from "../../../assets/svg";
 import { MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import { PlanListCard } from "../components";
@@ -14,6 +14,7 @@ import {
   recommendText,
   wrapper,
 } from "./index.styles";
+
 
 export default function PlanRecommend() {
   const place = {
@@ -35,7 +36,7 @@ export default function PlanRecommend() {
     <div css={contentWrapper}>
       <div css={wrapper}>
         <div css={infoWrapper}>
-          <Text type="Heading2">가평</Text>
+          <Text type="Heading2">{'가평'}</Text>
           <Text type="Heading2">
             <Text type="Heading2" color={colors.color.MainColor}>
               추천일정
@@ -74,7 +75,9 @@ export default function PlanRecommend() {
               title="내 일정으로 담기"
               width="30%"
               height="36px"
-            >내 일정으로 담기</MainPinkButton>
+            >
+              <PostPlanIcon width={20}/>
+              내 일정으로 담기</MainPinkButton>
           </div>
         </div>
       </div>
