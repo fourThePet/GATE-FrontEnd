@@ -4,9 +4,9 @@ import {
   useQuery,
   useInfiniteQuery,
 } from "@tanstack/react-query";
-import { getPlans, deletePlansByPlanId, putPlansByPlanId, getPlansByPlanId, postPlans, postPlansRoute } from "../../api/plans";
+import { getPlans, deletePlansByPlanId, putPlansByPlanId, getPlansByPlanId, postPlans, postPlansRoute } from "../../api";
 import { QUERY_KEYS } from "../query-keys";
-import { PlanRequestBody, PlansApiResponse } from "../../interfaces/plans";
+import { PlanRequestBody, PlansApiResponse } from "../../interfaces";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 // 일정 리스트 조회 훅
@@ -78,20 +78,19 @@ export const useDeletePlansByPlanId = () => {
   });
 };
 
-export const usePutPlansByPlanId = (planId: number) => {
+export const usePutPlansByPlanId = (planId : number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: QUERY_KEYS.PUT_DOGS_PROFILE_DOGID(planId),
-    mutationFn: async ({placeIds} : {placeIds : number[]}) => {
+    mutationFn: async ({placeIds}:{placeIds:number[]}) => {
       try {
-        return await putPlansByPlanId(placeIds, planId);
+        return await putPlansByPlanId({placeIds}, planId );
       } catch {
         throw new Error("일정 업데이트에 실패하였습니다.");
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: QUERY_KEYS.GET_PLANS_PLANID,
+        queryKey: QUERY_KEYS.GET_PLANS_PLANID(planId),
       });
     },
   });

@@ -15,7 +15,7 @@ import {
 } from "./index.styles";
 
 import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
-import { useDeletePlansByPlanId, useGetPlansByPlanId } from "../../../queries/plans";
+import { useDeletePlansByPlanId, useGetPlansByPlanId, usePutPlansByPlanId } from "../../../queries/plans";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 
@@ -23,14 +23,16 @@ export default function PlanDetail() {
   const navigate = useNavigate();
   const { planId } = useParams(); // URL에서 planId를 가져옴
   const { data, isLoading} = useGetPlansByPlanId(Number(planId));
+  const { mutate : modifyPlanList} = usePutPlansByPlanId(Number(planId))
   
-  console.log(data);
   const [isEditMode, setIsEditMode] = useState<boolean>(false); //편집 모드
   const [plan, setPlan] = useState(null);
-  const [isModalOpen , setIsModalOpen] = useState<boolean>(false);
+  const [isModalOpen , setIsModalOpen] = useState<boolean>(false); //삭제 모달 
+  const [isConfirmModalOpen , setIsConfirmModalOpen] = useState<boolean>(false); //수정 확인 모달
+  const [placeIds, setPlaceIds] = useState<number[]>([])
 
   const {mutate : deletePlanList} = useDeletePlansByPlanId()
-
+  const isPastTravel = new Date(plan?.date) < new Date(); //지난여행인지 판별
   useEffect(() => setPlan(data), [data]);
 
   // useMemo를 사용하여 계산된 남은 일수를 저장
@@ -50,22 +52,32 @@ export default function PlanDetail() {
   }, [plan?.date]); // plan.date가 변경될 때만 계산
 
   const handleEditButtonClick = () => {
+    
     //편집 버튼 눌렀을 때 이벤트
     setIsEditMode((prev) => !prev);
   };
-  const handleCompleteButtonClick = () => {
-    // 완료 버튼 눌렀을 때
-    /** To do : 변경사항 저장 로직 */
-
-    setIsEditMode((prev) => !prev);
+  const handleCompleteButtonClick = () => { //완료 버튼 눌렀을 때!
+    
+    setIsConfirmModalOpen(true)
+    
   };
 
-  const handleOnDragEnd = (res) => {
+  const handleModifyConfirmButtonClick = () =>{
+    modifyPlanList({placeIds}, {
+      onSuccess : () =>{
+        setIsConfirmModalOpen(false);
+        setIsEditMode((prev) => !prev);
+      }
+    })
+    
+  }
+
+  const handleOnDragEnd = (res) => { //드래그 했을 때 이벤트(수정)
     const { destination, source } = res;
 
     // 목적지가 없으면 아무 작업도 하지 않음
     if (!destination) return;
-
+    
     // 순서 변경 로직
     const reorderedPlaces = [...plan.planPlaces];
     const [removed] = reorderedPlaces.splice(source.index, 1);
@@ -82,8 +94,10 @@ export default function PlanDetail() {
       ...prevPlan,
       planPlaces: updatedPlaces,
     }));
+    setPlaceIds(updatedPlaces.map((place) => place.place.id));
   };
 
+  
   const handlePlanDeleteButtonClick = () =>{ //일정 삭제 아이콘
       setIsModalOpen(true);
   }
@@ -96,9 +110,11 @@ export default function PlanDetail() {
       }
       
   }
+
+  
   
   if(isLoading) return (<LoadingBar/>)
-  // console.log(plan.planPlaces)
+  
   return (
     <div css={contentWrapper}>
       <div css={wrapper}>
@@ -123,7 +139,8 @@ export default function PlanDetail() {
         <div css={mapWrapper}>지도</div>
         <div css={listWrapper}>
           <div css={actionWrapper}>
-            {isEditMode ? (
+            { !isPastTravel && (
+              isEditMode ? (
               <Text
                 type="Label1"
                 color={colors.color.MainColor}
@@ -139,7 +156,7 @@ export default function PlanDetail() {
               >
                 편집
               </Text>
-            )}
+            ))}
           </div>
           <div css={planWrapper}>
             {isEditMode ? (
@@ -173,7 +190,7 @@ export default function PlanDetail() {
           </div>
         </div>
       </div>
-      {isModalOpen && (
+      {isModalOpen && ( //삭제 확인 모달
         <DeleteConfirmModal 
         isModalOpen={isModalOpen} 
         title="일정삭제" 
@@ -181,6 +198,15 @@ export default function PlanDetail() {
         closeModal={()=>setIsModalOpen(false)}
         handleConfirmButtonClick={handleConfirmButtonClick}
         />)}
+      {isConfirmModalOpen && (
+        <DeleteConfirmModal 
+        isModalOpen={isConfirmModalOpen} 
+        title="편집 완료" 
+        subTitle="일정 편집을 완료하시겠어요?" 
+        closeModal={()=>setIsConfirmModalOpen(false)}
+        handleConfirmButtonClick={handleModifyConfirmButtonClick}
+        />
+      )}
     </div>
   );
 }
