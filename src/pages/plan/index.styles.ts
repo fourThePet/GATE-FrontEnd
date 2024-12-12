@@ -139,3 +139,9 @@ export const datepickerCustomStyles = css`
     color: #ccc;
   }
 `;
+
+export const loadingWrapper = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

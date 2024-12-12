@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from "react";
 import { Schedulemain } from "../../assets/svg";
 import { PageWrapper } from "../../styles/ui";
-import { Imgblock } from "./index.styles";
+import { Imgblock, loadingWrapper } from "./index.styles";
 import { css } from "@emotion/react";
 import { typo } from "../../styles/typo";
 import { Button } from "../../components/button/button";
@@ -325,10 +325,11 @@ export default function Plan() {
               ))}
           </div>
           {activeTab === "coming" && hasComingNextPage && (
-            <div ref={handleComingObserver}>Loading more...</div>
+            
+            <div ref={handleComingObserver} css={loadingWrapper}><LoadingBar/></div>
           )}
           {activeTab === "past" && hasPastNextPage && (
-            <div ref={handlePastObserver}>Loading more...</div>
+            <div ref={handlePastObserver} css={loadingWrapper}><LoadingBar/></div>
           )}
         </div>
       </div>
