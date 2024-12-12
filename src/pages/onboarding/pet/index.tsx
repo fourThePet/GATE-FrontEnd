@@ -246,7 +246,7 @@ export default function OnboardingPet(){
                     </div>
                     <div css={infoWrapper} >
                         <div>
-                            <Text type="Body3" color={colors.color.MainColor} >생년월일</Text>
+                            <Text type="Body3" color={colors.color.MainColor} >생일</Text>
                         </div>
                         <div css={ageWrapper}>
                             <Input width="60px" placeholder="YYYY" value={year} onChange={handleYearChange} />

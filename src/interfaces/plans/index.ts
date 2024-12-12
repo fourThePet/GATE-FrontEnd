@@ -37,7 +37,7 @@ export interface City {
   photoUrl: string;
 }
 
-export interface Place {
+export interface PlaceType {
   id: number;
   category: string;
   latitude?: number;
@@ -48,7 +48,7 @@ export interface Place {
 export interface PlanPlace {
   id: number ;
   sequence: number;
-  place: Place;
+  place: PlaceType;
 }
 
 export interface RecommendPlanResponse {

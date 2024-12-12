@@ -56,7 +56,7 @@ export const useGetPlacesCities = () => {
     queryFn: async () => {
       try {
         return await getPlacesCities(); // API 호출
-      } catch (error: any) {
+      } catch (error) {
         console.error("지역 리스트 조회 중 오류 발생:", error.message);
         throw error; // 에러를 throw하여 React Query가 캐치하도록 함
       }
