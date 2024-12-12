@@ -1,21 +1,19 @@
 import { BasicInfoContainer } from "../index.styles";
 import { typo } from "../../../../styles/typo";
 import { Block } from "../../../../components/block/block";
-import { useLocation } from "react-router-dom";
 import { useGetPlaces } from "../../../../api/places";
 import { useEffect, useRef } from "react";
 import ReactDOMServer from "react-dom/server";
 import { LocMarker } from "../../../../assets/svg";
 import { LoadingBar } from "../../../../components";
 
-export default function HowToCome() {
+interface HowToComeProps {
+  latitude: number;
+  longitude: number;
+}
+
+export default function HowToCome({ latitude, longitude }: HowToComeProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const location = useLocation();
-
-  const queryParams = new URLSearchParams(location.search);
-  const latitude = parseFloat(queryParams.get("latitude") || "0");
-  const longitude = parseFloat(queryParams.get("longitude") || "0");
-
   const { places, isLoading, error } = useGetPlaces({ latitude, longitude });
 
   const roadAddress =
@@ -82,7 +80,7 @@ export default function HowToCome() {
           <div ref={mapRef} style={{ width: "100%", height: "100%" }} />
         </div>
         {isLoading ? (
-          <LoadingBar/>
+          <LoadingBar />
         ) : error ? (
           <p css={typo.Label3}>{error}</p>
         ) : (
