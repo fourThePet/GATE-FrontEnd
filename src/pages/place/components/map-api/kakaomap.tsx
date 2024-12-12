@@ -6,7 +6,7 @@ import { GpsButton, Research } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import colors from "../../../../styles/colors";
 import { getIconBasedOnCategory } from "./categoryIcon";
 
@@ -30,6 +30,7 @@ export default function KakaoMap({
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
   const { setLatitude, setLongitude } = useLocationStore();
+  const [searchParams] = useSearchParams();
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
 
@@ -60,8 +61,6 @@ export default function KakaoMap({
     // **줌 컨트롤러 추가**
     const zoomControl = new window.kakao.maps.ZoomControl();
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
-
-    console.log("지도 초기화 완료:", { latitude, longitude });
   };
 
   const [markerOverlayPairs, setMarkerOverlayPairs] = useState<
@@ -144,6 +143,10 @@ export default function KakaoMap({
     const center = mapInstance.current.getCenter();
     currentMarker.current.setPosition(center);
 
+    if (mapInstance.current) {
+      mapInstance.current.panTo(center);
+    }
+
     const latitude = center.getLat();
     const longitude = center.getLng();
 
@@ -168,8 +171,11 @@ export default function KakaoMap({
 
         if (currentMarker.current)
           currentMarker.current.setPosition(newPosition);
-        if (mapInstance.current) mapInstance.current.setCenter(newPosition);
 
+        if (mapInstance.current) {
+          // 지도 중심을 부드럽게 이동
+          mapInstance.current.panTo(newPosition);
+        }
         console.log("현재 위치로 마커 이동", { latitude, longitude });
 
         // 상태 업데이트
@@ -183,6 +189,36 @@ export default function KakaoMap({
       },
       (error) => console.error("현재 위치 가져오기 실패:", error)
     );
+  };
+
+  const LatLngEqual = (
+    lat1: number,
+    lng1: number,
+    lat2: number,
+    lng2: number
+  ) => {
+    const precision = 6;
+    return (
+      lat1.toFixed(precision) === lat2.toFixed(precision) &&
+      lng1.toFixed(precision) === lng2.toFixed(precision)
+    );
+  };
+
+  const hideMarker = () => {
+    if (!currentMarker.current) return;
+
+    const queryLat = parseFloat(searchParams.get("latitude") || "0");
+    const queryLng = parseFloat(searchParams.get("longitude") || "0");
+
+    const markerLat = currentMarker.current.getPosition().getLat();
+    const markerLng = currentMarker.current.getPosition().getLng();
+
+    if (LatLngEqual(queryLat, queryLng, markerLat, markerLng)) {
+      currentMarker.current.setMap(null);
+      console.log("locMarker 숨김 처리 완료");
+    } else {
+      currentMarker.current.setMap(mapInstance.current);
+    }
   };
 
   useEffect(() => {
@@ -202,6 +238,7 @@ export default function KakaoMap({
               );
               setLatitude(currentLatitude || latitude);
               setLongitude(currentLongitude || longitude);
+              hideMarker(); // Check if marker should be hidden
             },
             (error) => console.error("위치 정보 가져오기 실패:", error)
           );
@@ -219,6 +256,10 @@ export default function KakaoMap({
       }
     };
   }, []);
+
+  useEffect(() => {
+    hideMarker();
+  }, [mapInstance.current, searchParams]);
 
   useEffect(() => {
     if (places && places.length > 0) {

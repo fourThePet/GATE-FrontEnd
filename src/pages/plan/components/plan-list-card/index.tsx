@@ -1,12 +1,13 @@
 import { Text } from "../../../../components";
-import { Place } from "../../../../interfaces/plans";
+import { PlaceType } from "../../../../interfaces";
+
 import colors from "../../../../styles/colors";
 import SequenceLabel from "../sequence-label";
 import { detailInfoWrapper, listCardWrapper, titleWrapper, wrapper } from "./index.styles";
 
 interface Props {
     sequence : number;
-    place : Place
+    place : PlaceType
 }
 export default function PlanListCard({sequence, place} : Props){
     return(

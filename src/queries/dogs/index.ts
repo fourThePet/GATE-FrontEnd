@@ -34,6 +34,7 @@ export const useGetDogsProfiles = () => {
       }
     },
     enabled: isLoggedIn,
+    staleTime: 1000 * 60 * 5, // 데이터 캐싱 시간 (5분)
   });
 };
 
