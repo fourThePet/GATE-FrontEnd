@@ -46,8 +46,6 @@ export default function PlanRecommend() {
       dogIds,
       placeIds : placeIds,
     }
-
-    console.log(request)
     createMyPlan(request, {
       onSuccess: () => {
         navigate("/plan", { replace: true })
