@@ -12,3 +12,13 @@ export interface PlansApiResponse {
   totalElements: number;
   totalPages: number;
 }
+
+export interface SelectPlaceType{
+  placeId: number;
+  placeName: string;
+  photoUrl: string;
+  latitude : number;
+  longitude: number;
+  roadAddress?:string;
+
+}

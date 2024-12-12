@@ -18,36 +18,43 @@ import {
 import MapComponent from "../components/maps";
 import usePlanStore from "../../../stores/usePlanStore";
 import { useEffect, useState } from "react";
+import { SelectPlaceType } from "../../../interfaces/plans";
 
 export default function PlaceChoice() {
   const { date, cityId, dogIds, placeIds, cityName, setPlaceIds } = usePlanStore();
   const navigate = useNavigate();
   const { state } = useLocation();
   const initialSelectItems = state?.selectItems || [];
-  const [selectItems, setSelectItems] = useState(initialSelectItems);
-
-  const places = sampleSelectItems.map((item) => ({
-    placeName: item.placeName,
-    roadAddress: item.roadAddress,
-    latitude: item.latitude,
-    longitude: item.longitude,
-  }));
+  const [selectItems, setSelectItems] = useState<SelectPlaceType[]>(initialSelectItems);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  
+  // const places = sampleSelectItems.map((item) => ({
+  //   placeName: item.placeName,
+  //   roadAddress: item.roadAddress,
+  //   latitude: item.latitude,
+  //   longitude: item.longitude,
+  // }));
 
   const handleNextButtonClick = () => {
     console.log(date, cityId, dogIds, placeIds)
-    navigate("/plan/waiting")
+    // navigate("/plan/waiting")
   }
 
   const handleDeleteIconClick = (id : number) => {
     setSelectItems((prevItems) =>
       prevItems.filter((item) => item.placeId !== id)
     );
+    setPlaceIds(id)
   }
 
-  useEffect(() => {
-    const placeIds = selectItems.map((item) => item.placeId); // Extract place IDs
-    setPlaceIds(placeIds); // Update Zustand state
-  }, [selectItems,setPlaceIds]);
+
+  useEffect(()=>{
+      if(selectItems.length>0){
+          setIsDisabled(false)
+      }else{
+          setIsDisabled(true)
+      }
+  },[selectItems])
 
   return (
     <div css={contentWrapper}>
@@ -63,7 +70,7 @@ export default function PlaceChoice() {
         </div>
         <div css={mapWrapper}>
           <MapComponent
-            places={places}
+            places={selectItems}
             centerLat={selectItems[0]?.latitude || 37.5665}
             centerLng={selectItems[0]?.longitude || 126.978}
           />
@@ -103,6 +110,7 @@ export default function PlaceChoice() {
         <div css={bottomButtonStyle}>
           <MainPinkButton
             onClick={handleNextButtonClick}
+            isDisabled={isDisabled}
           >다음</MainPinkButton>
         </div>
       </div>

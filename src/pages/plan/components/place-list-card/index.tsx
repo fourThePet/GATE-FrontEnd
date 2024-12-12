@@ -3,26 +3,28 @@ import { CheckIcon, GrayPlusIcon, ReviewCount, Star } from "../../../../assets/s
 import { Text } from "../../../../components";
 import { favoriteCount, imageItem, imageWrapper, titleWrapper, wrapper } from "./index.styles";
 import { FavoritesListType } from "../../../../interfaces";
+import usePlanStore from "../../../../stores/usePlanStore";
+import { SelectPlaceType } from "../../../../interfaces/plans";
 
 interface Props extends FavoritesListType{
-    setSelectItems?: React.Dispatch<React.SetStateAction<{ placeId: number, placeName: string }[]>>;
-    selectItems?: { placeId: number, placeName: string }[]; // selectItems를 props로 받음
+    setSelectItems?: React.Dispatch<React.SetStateAction<SelectPlaceType[]>>;
+    selectItems?: SelectPlaceType[]; // selectItems를 props로 받음
 }
 
 export default function PlaceListCard({placeName, roadAddress, placeId, photoUrl, reviewNum, starAvg, latitude, longitude, setSelectItems, selectItems} : Props){
-    
+    const {setPlaceIds} = usePlanStore();
     const [isSelect, setIsSelect] = useState(false);
 
     const handlePlusButtonClick = () => { // 장소 선택
         const isAlreadySelected = selectItems.some(item => item.placeId === placeId);
 
-        if (!isAlreadySelected) {
-            // 선택되지 않았다면 placeId와 placeName을 함께 추가
+        if (!isAlreadySelected) { //선택되지 않았던 거라면 추가
             setSelectItems((prevSelectItems) => [
                 ...prevSelectItems,
-                { placeId, placeName, latitude, longitude, photoUrl }
-            ]);
-            setIsSelect(true);
+                { placeId, placeName, latitude, longitude, photoUrl, roadAddress }
+            ]); //선택된 리스트 정보들의 배열 업데이트
+            setPlaceIds(placeId) //placeIds 배열을 같이 업데이트
+            // setIsSelect(true);
         }
         setIsSelect(true);
     };

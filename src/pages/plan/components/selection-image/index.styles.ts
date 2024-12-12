@@ -22,5 +22,7 @@ export const titleWrapper = css`
     width: 80px;
     display: flex;
     justify-content: center;
-    white-space: normal;
+    white-space: nowrap;
+    overflow: hidden; // 너비를 넘어가면 안보이게
+    text-overflow: ellipsis; // 글자가 넘어가면 말줄임(...) 표시
 `
