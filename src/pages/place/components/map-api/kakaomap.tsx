@@ -144,6 +144,10 @@ export default function KakaoMap({
     const center = mapInstance.current.getCenter();
     currentMarker.current.setPosition(center);
 
+    if (mapInstance.current) {
+      mapInstance.current.panTo(center);
+    }
+
     const latitude = center.getLat();
     const longitude = center.getLng();
 
@@ -168,8 +172,11 @@ export default function KakaoMap({
 
         if (currentMarker.current)
           currentMarker.current.setPosition(newPosition);
-        if (mapInstance.current) mapInstance.current.setCenter(newPosition);
 
+        if (mapInstance.current) {
+          // 지도 중심을 부드럽게 이동
+          mapInstance.current.panTo(newPosition);
+        }
         console.log("현재 위치로 마커 이동", { latitude, longitude });
 
         // 상태 업데이트
@@ -187,7 +194,6 @@ export default function KakaoMap({
 
   useEffect(() => {
     const loadKakaoMap = () => {
-      
       const script = document.createElement("script");
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
         import.meta.env.VITE_KAKAO_MAP
@@ -211,7 +217,6 @@ export default function KakaoMap({
       script.onerror = () => console.error("카카오 지도 스크립트 로드 실패");
       document.head.appendChild(script);
     };
-    
 
     loadKakaoMap();
 
