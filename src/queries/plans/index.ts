@@ -108,8 +108,5 @@ export const usePostPlansRoute = () => {
         throw new Error("일정을 추천하는데 실패했습니다.");
       }
     },
-    onSuccess: () => {
-      
-    }
   });
 };

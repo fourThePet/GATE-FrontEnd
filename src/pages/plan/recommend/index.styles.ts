@@ -24,8 +24,9 @@ export const infoWrapper = css`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 150px;
+    height: 200px;
     width: 100%;
+    gap: 4px;
 `
 
 export const mapWrapper = css`
@@ -78,3 +79,14 @@ export const bottomButtonStyle = css`
     padding: 12px;
 `;
 
+export const imageWrapper = css`
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+`
+
+export const imageStyle = css`
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+`

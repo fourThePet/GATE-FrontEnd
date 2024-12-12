@@ -35,7 +35,7 @@ export default function DeleteConfirmModal({isModalOpen, title, subTitle, handle
                 </div>
                 <div css={buttonStyle}>
                   <GrayBorderButton width="50%" height="40px" title="취소" onClick={closeModal}/>
-                  <MainPinkButton width="50%" height="40px" title="확인" onClick={handleConfirmButtonClick}/>
+                  <MainPinkButton width="50%" height="40px" onClick={handleConfirmButtonClick}>확인</MainPinkButton>
                 </div>
             </div>
             

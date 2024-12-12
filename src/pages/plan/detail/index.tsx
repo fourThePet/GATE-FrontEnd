@@ -92,7 +92,7 @@ export default function PlanDetail() {
       if(planId){
         deletePlanList(Number(planId));
         setIsModalOpen(false);
-        navigate('/plan')
+        navigate('/plan',{ replace: true })
       }
       
   }

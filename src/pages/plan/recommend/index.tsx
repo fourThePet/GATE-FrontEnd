@@ -1,4 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, 
+  useNavigate 
+} from "react-router-dom";
 import { PostPlanIcon, SparklingHeart } from "../../../assets/svg";
 import { MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
@@ -7,6 +9,8 @@ import LineMapComponent from "../components/maps/lineMap";
 import {
   bottomButtonStyle,
   contentWrapper,
+  imageStyle,
+  imageWrapper,
   infoWrapper,
   listWrapper,
   mapWrapper,
@@ -14,13 +18,15 @@ import {
   recommendText,
   wrapper,
 } from "./index.styles";
+import { usePostPlans } from "../../../queries";
+import usePlanStore from "../../../stores/usePlanStore";
 
 
 export default function PlanRecommend() {
-  const place = {
-    name: "멍멍",
-    category: "카페",
-  };
+  const {mutate : createMyPlan} = usePostPlans();
+  const navigate = useNavigate();
+  const{response, dogIds} = usePlanStore();
+  console.log(response)
 
   const { state } = useLocation();
   const selectItems = state?.selectItems || [];
@@ -32,11 +38,32 @@ export default function PlanRecommend() {
     longitude: item.longitude,
   }));
 
+  const handleMyPlanButtonClick = () =>{
+    const placeIds = response.planPlaces.map((planPlace) => planPlace.place.id);
+    const request = {
+      date : response.date,
+      cityId : response.city.id,
+      dogIds,
+      placeIds : placeIds,
+    }
+
+    console.log(request)
+    createMyPlan(request, {
+      onSuccess: () => {
+        navigate("/plan", { replace: true })
+      },
+    })
+  }
+
+
   return (
     <div css={contentWrapper}>
       <div css={wrapper}>
         <div css={infoWrapper}>
-          <Text type="Heading2">{'가평'}</Text>
+          <div css={imageWrapper}>
+            <img src={response.city.photoUrl || '/images/default_city.png'} css={imageStyle}/>
+          </div>
+          <Text type="Heading2">{response.city.cityName}</Text>
           <Text type="Heading2">
             <Text type="Heading2" color={colors.color.MainColor}>
               추천일정
@@ -55,11 +82,10 @@ export default function PlanRecommend() {
           />
         </div>
         <div css={listWrapper}>
-          <PlanListCard sequence={1} place={place} />
-          <PlanListCard sequence={1} place={place} />
-          <PlanListCard sequence={1} place={place} />
-          <PlanListCard sequence={1} place={place} />
-          <PlanListCard sequence={1} place={place} />
+          {response?.planPlaces.map((place,index)=>(
+            <PlanListCard key={index} sequence={place.sequence} place={place.place} />
+
+          ))}
           <div css={PlanRegisterWrapper}>
             <SparklingHeart width={48} />
             <div css={recommendText}>
@@ -75,6 +101,7 @@ export default function PlanRecommend() {
               title="내 일정으로 담기"
               width="30%"
               height="36px"
+              onClick={handleMyPlanButtonClick}
             >
               <PostPlanIcon width={20}/>
               내 일정으로 담기</MainPinkButton>

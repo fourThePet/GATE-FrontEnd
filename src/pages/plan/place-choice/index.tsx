@@ -22,14 +22,15 @@ import { SelectPlaceType } from "../../../interfaces/plans";
 import { usePostPlansRoute } from "../../../queries";
 
 export default function PlaceChoice() {
-  const { date, cityId, dogIds, placeIds, cityName, setPlaceIds } = usePlanStore();
+  const { date, cityId, dogIds, placeIds, cityName, setPlaceIds, setResponse, resetPlaceIds } = usePlanStore();
   const navigate = useNavigate();
   const { state } = useLocation();
   const initialSelectItems = state?.selectItems || [];
   const [selectItems, setSelectItems] = useState<SelectPlaceType[]>(initialSelectItems);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
-  const {mutate: createRecommendPlan} = usePostPlansRoute()
+  const {mutate: createRecommendPlan} = usePostPlansRoute();
+
   
   /** To do : 주석 제거 */
   // const places = sampleSelectItems.map((item) => ({
@@ -39,7 +40,11 @@ export default function PlaceChoice() {
   //   longitude: item.longitude,
   // }));
 
-  const handleNextButtonClick = () => { 
+  const handleResetButtonClick = () => {
+    resetPlaceIds()
+    setSelectItems([])
+  }
+  const handleRecommendButtonClick = () => { 
     //일정 추천 경로 post api 
     const request = {
       date,
@@ -48,7 +53,8 @@ export default function PlaceChoice() {
       placeIds
     }
     createRecommendPlan(request,{
-      onSuccess: () => {
+      onSuccess: (response) => {
+        setResponse(response)
         navigate("/plan/waiting")
       },
     })
@@ -94,7 +100,7 @@ export default function PlaceChoice() {
           <div css={actionWrapper}>
             <div css={textWrapper}>
               <Text type="Heading3">장소</Text>
-              <Text type="Label21" color={colors.color.Gray1}>
+              <Text type="Label21" color={colors.color.Gray1} onClick={handleResetButtonClick}>
                 초기화
               </Text>
             </div>
@@ -124,9 +130,9 @@ export default function PlaceChoice() {
         </div>
         <div css={bottomButtonStyle}>
           <MainPinkButton
-            onClick={handleNextButtonClick}
+            onClick={handleRecommendButtonClick}
             isDisabled={isDisabled}
-          >추천일정 보기</MainPinkButton>
+          >추천일정 생성</MainPinkButton>
         </div>
       </div>
     </div>

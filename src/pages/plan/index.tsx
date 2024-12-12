@@ -9,12 +9,12 @@ import { TravelForm } from "./components/travel-form";
 import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
-const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
 import { useGetMembersInfo } from "../../queries";
 import { LoadingBar } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 export default function Plan() {
+  const defaultImageUrl = '/images/default_city.png'
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
   const { data: memberInfo } = useGetMembersInfo();
@@ -280,7 +280,7 @@ export default function Plan() {
                 comingTravels.map((travel) => (
                   <TravelForm
                     key={travel.id}
-                    imageUrl={defaultImageUrl} // 기본 이미지 URL 추가
+                    imageUrl={travel.cityPhotoUrl || defaultImageUrl}
                     travelName={travel.cityName}
                     date={travel.date}
                     dogCount={travel.dogSize}
