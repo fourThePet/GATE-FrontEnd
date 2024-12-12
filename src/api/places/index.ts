@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { api } from "../api";
 import { Place, PlacesParam } from "../../interfaces/places";
 
@@ -13,34 +13,41 @@ export const getPlacesCategories = async () => {
 };
 
 // 장소 데이터 요청
-export const getPlaces = async (
-  latitude: number,
-  longitude: number,
-  size?: string,
-  entryConditions?: string[],
-  types?: string[],
-  category?: string
-) => {
+export const getPlaces = async (params: {
+  query?: string;
+  latitude: number;
+  longitude: number;
+  size?: string;
+  entryConditions?: string[];
+  types?: string[];
+  category?: string;
+}): Promise<Place[]> => {
   try {
     const response = await api.get("/places", {
       params: {
-        latitude, // API에 맞는 파라미터 이름 사용
-        longitude,
-        size,
-        entryConditions: entryConditions?.join(","),
-        types: types?.join(","),
-        category,
+        query: params.query,
+        latitude: params.latitude,
+        longitude: params.longitude,
+        size: params.size,
+        entryConditions: params.entryConditions?.join(","),
+        types: params.types?.join(","),
+        category: params.category,
       },
     });
+
     const data = response.data;
 
     if (data.isSuccess) {
       return data.result;
     } else {
-      throw new Error(data.message || "장소 데이터 로드 실패");
+      throw new Error(
+        data.message || "장소 데이터를 불러오는 데 실패했습니다."
+      );
     }
-  } catch (error) {
-    throw new Error(error.message || "알 수 없는 오류 발생");
+  } catch (error: any) {
+    throw new Error(
+      error.response?.data?.message || error.message || "알 수 없는 오류 발생"
+    );
   }
 };
 
@@ -50,39 +57,51 @@ export const getPlaces_2 = async (params: PlacesParam) => {
 };
 
 // 상태관리 훅 (장소 데이터)
-export const useGetPlaces = (params: PlacesParam) => {
-  const { latitude, longitude, size, entryConditions, types, category } =
-    params;
+export const useGetPlaces = (params: {
+  query?: string;
+  latitude: number;
+  longitude: number;
+  size?: string;
+  entryConditions?: string[];
+  types?: string[];
+  category?: string;
+}) => {
+  // 메모이제이션된 params 생성
+  const memoizedParams = useMemo(
+    () => params,
+    [
+      params.query,
+      params.latitude,
+      params.longitude,
+      params.size,
+      params.entryConditions,
+      params.types,
+      params.category,
+    ]
+  );
 
-  // States
   const [places, setPlaces] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (latitude == null || longitude == null) return;
+    // 위도와 경도가 존재하지 않을 경우 API 호출을 방지
+    if (!memoizedParams.latitude || !memoizedParams.longitude) return;
 
     const loadPlaces = async () => {
       setIsLoading(true);
       try {
-        const placesData = await getPlaces(
-          latitude,
-          longitude,
-          size,
-          entryConditions,
-          types,
-          category
-        );
-        // 응답값이 존재하지 않으면 'result'가 내려오지 않는 현상 존재
-        setPlaces(placesData || []);
-      } catch (err) {
+        const placesData = await getPlaces(memoizedParams);
+        setPlaces(placesData);
+      } catch (err: any) {
         setError(err.message || "장소 데이터를 불러오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
       }
     };
+
     loadPlaces();
-  }, [latitude, longitude, size, entryConditions, types, category]);
+  }, [memoizedParams]); // 메모이제이션된 params에 의존
 
   return { places, isLoading, error };
 };

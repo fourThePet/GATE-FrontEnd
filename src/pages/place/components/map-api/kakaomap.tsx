@@ -187,7 +187,6 @@ export default function KakaoMap({
 
   useEffect(() => {
     const loadKakaoMap = () => {
-      
       const script = document.createElement("script");
       script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
         import.meta.env.VITE_KAKAO_MAP
@@ -211,7 +210,6 @@ export default function KakaoMap({
       script.onerror = () => console.error("카카오 지도 스크립트 로드 실패");
       document.head.appendChild(script);
     };
-    
 
     loadKakaoMap();
 
@@ -226,6 +224,15 @@ export default function KakaoMap({
     if (places && places.length > 0) {
       console.log(`총 ${places.length}개의 장소 데이터를 조회하였습니다.`);
       addPlaceMarkers(places);
+
+      // 가장 상위 장소의 latitude와 longitude로 지도 중심 이동
+      const { latitude, longitude } = places[0];
+      if (mapInstance.current) {
+        const newCenter = new window.kakao.maps.LatLng(latitude, longitude);
+        mapInstance.current.setCenter(newCenter);
+
+        console.log("지도 중심 이동:", { latitude, longitude });
+      }
     } else {
       console.log("선택된 카테고리의 장소 데이터가 없습니다.");
       clearMarkers();
