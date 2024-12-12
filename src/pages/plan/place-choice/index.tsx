@@ -16,11 +16,15 @@ import {
   wrapper,
 } from "./index.styles";
 import MapComponent from "../components/maps";
+import usePlanStore from "../../../stores/usePlanStore";
+import { useEffect, useState } from "react";
 
 export default function PlaceChoice() {
+  const { date, cityId, dogIds, placeIds, cityName, setPlaceIds } = usePlanStore();
   const navigate = useNavigate();
   const { state } = useLocation();
-  const selectItems = state?.selectItems || [];
+  const initialSelectItems = state?.selectItems || [];
+  const [selectItems, setSelectItems] = useState(initialSelectItems);
 
   const places = sampleSelectItems.map((item) => ({
     placeName: item.placeName,
@@ -29,14 +33,30 @@ export default function PlaceChoice() {
     longitude: item.longitude,
   }));
 
+  const handleNextButtonClick = () => {
+    console.log(date, cityId, dogIds, placeIds)
+    navigate("/plan/waiting")
+  }
+
+  const handleDeleteIconClick = (id : number) => {
+    setSelectItems((prevItems) =>
+      prevItems.filter((item) => item.placeId !== id)
+    );
+  }
+
+  useEffect(() => {
+    const placeIds = selectItems.map((item) => item.placeId); // Extract place IDs
+    setPlaceIds(placeIds); // Update Zustand state
+  }, [selectItems,setPlaceIds]);
+
   return (
     <div css={contentWrapper}>
       <div css={wrapper}>
         <div css={titleWrapper}>
-          <Text type="Heading3">가평</Text>
+          <Text type="Heading3">{cityName}</Text>
           <div css={dateWrapper}>
             <Text type="Body2" color={colors.color.Gray1}>
-              2024-11-29
+              {date}
             </Text>
             <GrayCalender width={16} />
           </div>
@@ -69,6 +89,8 @@ export default function PlaceChoice() {
                   key={index}
                   placeName={item.placeName}
                   roadAddress={item.roadAddress}
+                  photoUrl={item.photoUrl}
+                  onClick={()=>handleDeleteIconClick(item.placeId)}
                 />
               ))
             ) : (
@@ -80,7 +102,7 @@ export default function PlaceChoice() {
         </div>
         <div css={bottomButtonStyle}>
           <MainPinkButton
-            onClick={() => navigate("/plan/recommend")}
+            onClick={handleNextButtonClick}
           >다음</MainPinkButton>
         </div>
       </div>

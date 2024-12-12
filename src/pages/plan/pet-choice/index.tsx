@@ -1,26 +1,23 @@
 import { useGetDogsProfiles } from "../../../queries/dogs";
 import { PageWrapperStyle } from "../../plan/index.styles";
-import { Button } from "../../../components/button/button";
-import { css } from "@emotion/react";
-import { useState } from "react";
-import { typo } from "../../../styles/typo";
-import { Petchoice, DefaultProfile } from "../../../assets/svg";
+import { Petchoice } from "../../../assets/svg";
 import { useNavigate } from "react-router-dom";
-import { LoadingBar, MainPinkButton } from "../../../components";
-import { buttonStyle, FooterStyle } from "./index.styles";
+import { LoadingBar, MainPinkButton, Text } from "../../../components";
+import { buttonStyle, dogImageStyle, footerStyle, headerWrapper, petRegisterButton, petSelectStyle, petWrapper, selectedDogStyle, titleWrapper, wrapper } from "./index.styles";
+import colors from "../../../styles/colors";
+import usePlanStore from "../../../stores/usePlanStore";
 
 export default function PetChoice() {
   const navigate = useNavigate();
   const { data: dogsProfiles, isLoading, isError } = useGetDogsProfiles();
-  const [selectedPets, setSelectedPets] = useState<number[]>([]);
+  const { dogIds, setDogIds } = usePlanStore();
+  // const [selectedPets, setSelectedPets] = useState<number[]>([]);
 
   if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>반려견 정보를 가져오는 데 실패했습니다.</p>;
 
   const handleSelectPet = (id: number) => {
-    setSelectedPets((prev) =>
-      prev.includes(id) ? prev.filter((petId) => petId !== id) : [...prev, id]
-    );
+    setDogIds(id)
   };
 
   const handleRegisterPet = () => {
@@ -28,103 +25,41 @@ export default function PetChoice() {
   };
 
   const handleNextClick = () => {
-    console.log("Selected Pets:", selectedPets);
-    navigate("/plan/create/place-choice", { state: selectedPets });
+    console.log("Selected Pets:", dogIds);
+    navigate("/plan/create/place-choice");
   };
 
   return (
     <>
       {/* Page Wrapper */}
       <div css={PageWrapperStyle}>
-        <div
-          css={css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 100px;
-          `}
-        >
-          <div
-            css={css`
-              text-align: center;
-              margin-bottom: 20px;
-            `}
-          >
+        <div css={wrapper}>
+          <div css={headerWrapper}>
             <Petchoice width={120} height={120} />
             <br />
-            <span css={typo.Heading1}>누구와 떠나나요?</span>
-            <p css={typo.Body1} style={{ color: "#9A9EA6" }}>
-              내 강아지와 함께 떠나요!
-            </p>
+            <div css={titleWrapper}>
+              <Text type="Heading1">누구와 떠나나요?</Text>
+              <Text type="Body1" color={colors.color.Gray0}>내 강아지와 함께 떠나요!</Text>
+            </div>
           </div>
 
-          {dogsProfiles && dogsProfiles.length > 0 ? (
-            <div
-              css={css`
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-                justify-content: center;
-                margin-bottom: 80px;
-              `}
-            >
-              {dogsProfiles.map(
+          {dogsProfiles && dogsProfiles?.length > 0 ? (
+            <div css={petWrapper}>
+              {dogsProfiles?.map(
                 (dog: { id: number; name: string; imageUrl?: string }) => (
                   <div
                     key={dog.id}
                     onClick={() => handleSelectPet(dog.id)}
-                    css={css`
-                      position: relative;
-                      display: flex;
-                      flex-direction: column;
-                      align-items: center;
-                      cursor: pointer;
-
-                      border-radius: 50%;
-                      padding: 5px;
-                      transition: border 0.2s ease;
-                    `}
+                    css={petSelectStyle}
                   >
-                    {dog.imageUrl ? (
-                      <img
-                        src={dog.imageUrl}
-                        alt={dog.name}
-                        css={css`
-                          width: 120px;
-                          height: 120px;
-                          object-fit: cover;
-                          border-radius: 50%;
-                          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        `}
-                      />
-                    ) : (
-                      <DefaultProfile
-                        width={"120px"}
-                        height={"120px"}
-                        css={css`
-                          border-radius: 50%;
-                          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        `}
-                      />
-                    )}
-
+                    <img
+                      src={dog.imageUrl || '/images/default_profile.png'}
+                      alt={dog.name}
+                      css={dogImageStyle}
+                    />
                     {/* Checkmark Overlay */}
-                    {selectedPets.includes(dog.id) && (
-                      <div
-                        css={css`
-                          position: absolute;
-                          top: 40%;
-                          left: 50%;
-                          transform: translate(-50%, -50%);
-                          background-color: rgba(255, 255, 255, 0.8);
-                          width: 130px;
-                          height: 130px;
-                          border-radius: 50%;
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                        `}
-                      >
+                    {dogIds.includes(dog.id) && (
+                      <div css={selectedDogStyle} >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -136,53 +71,28 @@ export default function PetChoice() {
                         </svg>
                       </div>
                     )}
-
-                    <span
-                      css={css`
-                        margin-top: 10px;
-                        font-size: 14px;
-                        font-weight: bold;
-                        color: ${selectedPets.includes(dog.id)
-                          ? "#f1729b"
-                          : "black"};
-                      `}
+                    <Text 
+                      type="Label1" 
+                      color={dogIds.includes(dog.id)? colors.color.MainColor : colors.color.Black}
                     >
-                      {dog.name}
-                    </span>
+                        {dog.name}
+                    </Text>
                   </div>
                 )
               )}
             </div>
           ) : (
-            <div
-              css={css`
-                text-align: center;
-                margin-top: 50px;
-              `}
-            >
-              <p
-                css={typo.Body1}
-                style={{ color: "#9A9EA6", marginBottom: "20px" }}
-              >
-                등록된 반려견이 없습니다.
-              </p>
-              <button
-                css={Button.mainPinkButton({
-                  isDisabled: false,
-                  width: "200px",
-                })}
-                onClick={handleRegisterPet}
-              >
-                반려견 등록
-              </button>
+            <div css={petRegisterButton}>
+              <Text type="Body2" color={colors.color.Gray0}>등록된 반려견이 없습니다.</Text>
+              <MainPinkButton onClick={handleRegisterPet}>반려견 등록</MainPinkButton>
             </div>
           )}
         </div>
       </div>
 
       {/* Footer */}
-      <footer css={FooterStyle}>
-        <MainPinkButton isDisabled={selectedPets.length === 0} onClick={handleNextClick} css={buttonStyle}>다음</MainPinkButton>
+      <footer css={footerStyle}>
+        <MainPinkButton isDisabled={dogIds.length === 0} onClick={handleNextClick} css={buttonStyle}>다음</MainPinkButton>
       </footer>
     </>
   );

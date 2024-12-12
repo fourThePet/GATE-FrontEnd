@@ -6,7 +6,7 @@ export const typo = {
   Heading1: css`
     font-family: "Pretendard";
     font-weight: 600;
-    font-size: ${calcRem(36)};
+    font-size: ${calcRem(30)};
     line-height: 120%;
   `,
   Heading2: css`

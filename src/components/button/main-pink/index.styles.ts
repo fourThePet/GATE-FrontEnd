@@ -19,7 +19,7 @@ export const buttonStyles = ({
   border-radius: 100px;
   color: ${isDisabled ? colors.color.Gray1 : colors.color.White1};
   background-color: ${isDisabled ? colors.color.Gray6 : colors.color.MainColor};
-  cursor: pointer;
+  cursor: ${isDisabled ? "not-allowed":"pointer"};
 
   &:hover {
     background-color: ${isDisabled

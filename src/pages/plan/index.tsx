@@ -12,12 +12,13 @@ import { useGetPlans } from "../../queries/plans";
 const defaultImageUrl = "/path/to/default-image.jpg"; // 기본 이미지 경로
 import { useGetMembersInfo } from "../../queries";
 import { LoadingBar } from "../../components";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 export default function Plan() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
   const { data: memberInfo } = useGetMembersInfo();
-
+  const {isLoggedIn} = useAuthStore()
   // 다가오는 여행 데이터
   const {
     data: comingTravelsData,
@@ -82,9 +83,13 @@ export default function Plan() {
 
   if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
-
+  
   const handleCreateButtonClick = () => {
-    navigate(`/plan/create`);
+    if(isLoggedIn){
+      navigate(`/plan/create`);
+    }else{
+      alert('로그인이 필요해요.')
+    }
   };
 
   const handleTravelClick = (planId: number) => {
