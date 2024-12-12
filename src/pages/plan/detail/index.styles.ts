@@ -53,7 +53,7 @@ export const mapWrapper = css`
 `
 
 export const listWrapper = css`
-    padding: 0px 30px 20px;
+    padding: 20px 30px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

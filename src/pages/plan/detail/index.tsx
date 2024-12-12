@@ -18,7 +18,6 @@ import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
 import { useDeletePlansByPlanId, useGetPlansByPlanId, usePutPlansByPlanId } from "../../../queries/plans";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
-import MapComponent from "../components/maps";
 import LineMapComponent from "../components/maps/lineMap";
 
 export default function PlanDetail() {
