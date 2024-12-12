@@ -1,6 +1,4 @@
-import { useLocation, 
-  useNavigate 
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PostPlanIcon, SparklingHeart } from "../../../assets/svg";
 import { MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
@@ -21,45 +19,43 @@ import {
 import { usePostPlans } from "../../../queries";
 import usePlanStore from "../../../stores/usePlanStore";
 
-
 export default function PlanRecommend() {
-  const {mutate : createMyPlan} = usePostPlans();
+  const { mutate: createMyPlan } = usePostPlans();
   const navigate = useNavigate();
-  const{response, dogIds} = usePlanStore();
-  console.log(response)
+  const { response, dogIds } = usePlanStore();
+  console.log(response);
 
-  const { state } = useLocation();
-  const selectItems = state?.selectItems || [];
+  const places =
+    response?.planPlaces?.map((planPlace) => ({
+      placeName: planPlace.place.name,
+      latitude: planPlace.place.latitude,
+      longitude: planPlace.place.longitude,
+    })) || [];
 
-  const places = sampleSelectItems.map((item) => ({
-    placeName: item.placeName,
-    roadAddress: item.roadAddress,
-    latitude: item.latitude,
-    longitude: item.longitude,
-  }));
-
-  const handleMyPlanButtonClick = () =>{
+  const handleMyPlanButtonClick = () => {
     const placeIds = response.planPlaces.map((planPlace) => planPlace.place.id);
     const request = {
-      date : response.date,
-      cityId : response.city.id,
+      date: response.date,
+      cityId: response.city.id,
       dogIds,
-      placeIds : placeIds,
-    }
+      placeIds: placeIds,
+    };
     createMyPlan(request, {
       onSuccess: () => {
-        navigate("/plan", { replace: true })
+        navigate("/plan", { replace: true });
       },
-    })
-  }
-
+    });
+  };
 
   return (
     <div css={contentWrapper}>
       <div css={wrapper}>
         <div css={infoWrapper}>
           <div css={imageWrapper}>
-            <img src={response.city.photoUrl || '/images/default_city.png'} css={imageStyle}/>
+            <img
+              src={response.city.photoUrl || "/images/default_city.png"}
+              css={imageStyle}
+            />
           </div>
           <Text type="Heading2">{response.city.cityName}</Text>
           <Text type="Heading2">
@@ -74,15 +70,18 @@ export default function PlanRecommend() {
         </div>
         <div css={mapWrapper}>
           <LineMapComponent
-            places={places}
-            centerLat={selectItems[0]?.latitude || 37.5665}
-            centerLng={selectItems[0]?.longitude || 126.978}
+            places={places} // 플랜에서 생성한 places 전달
+            centerLat={places[0]?.latitude || 37.5665}
+            centerLng={places[0]?.longitude || 126.978}
           />
         </div>
         <div css={listWrapper}>
-          {response?.planPlaces.map((place,index)=>(
-            <PlanListCard key={index} sequence={place.sequence} place={place.place} />
-
+          {response?.planPlaces.map((place, index) => (
+            <PlanListCard
+              key={index}
+              sequence={place.sequence}
+              place={place.place}
+            />
           ))}
           <div css={PlanRegisterWrapper}>
             <SparklingHeart width={48} />
@@ -101,8 +100,8 @@ export default function PlanRecommend() {
               height="36px"
               onClick={handleMyPlanButtonClick}
             >
-              <PostPlanIcon width={20}/>
-              내 일정으로 담기</MainPinkButton>
+              <PostPlanIcon width={20} />내 일정으로 담기
+            </MainPinkButton>
           </div>
         </div>
       </div>
