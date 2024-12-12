@@ -18,6 +18,8 @@ import { PlanEditCard, PlanListCard, StrictModeDroppable } from "../components";
 import { useDeletePlansByPlanId, useGetPlansByPlanId, usePutPlansByPlanId } from "../../../queries/plans";
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
+import MapComponent from "../components/maps";
+import LineMapComponent from "../components/maps/lineMap";
 
 export default function PlanDetail() {
   const navigate = useNavigate();
@@ -35,6 +37,13 @@ export default function PlanDetail() {
   const isPastTravel = new Date(plan?.date) < new Date(); //지난여행인지 판별
   useEffect(() => setPlan(data), [data]);
 
+  const mapPlaces =
+    plan?.planPlaces?.map((place) => ({
+      name: place.place.name,
+      latitude: place.place.latitude,
+      longitude: place.place.longitude,
+    })) || [];
+
   // useMemo를 사용하여 계산된 남은 일수를 저장
   const remainingDays = useMemo(() => {
     const today = new Date();
@@ -47,7 +56,7 @@ export default function PlanDetail() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     // 부호 처리
-    if(diffDays === 0) return "-Day";
+    if (diffDays === 0) return "-Day";
     return diffDays < 0 ? `+${Math.abs(diffDays)}` : `-${Math.abs(diffDays)}`;
   }, [plan?.date]); // plan.date가 변경될 때만 계산
 
@@ -102,7 +111,6 @@ export default function PlanDetail() {
     }));
     setPlaceIds(updatedPlaces.map((place) => place.place.id));
   };
-
   
   const handlePlanDeleteButtonClick = () =>{ //일정 삭제 아이콘
       setIsModalOpen(true);
@@ -120,7 +128,6 @@ export default function PlanDetail() {
   
   
   if(isLoading) return (<LoadingBar/>)
-  
   return (
     <div css={contentWrapper}>
       <div css={wrapper}>
@@ -142,7 +149,13 @@ export default function PlanDetail() {
             <WhiteCalender width={16} />
           </div>
         </div>
-        <div css={mapWrapper}>지도</div>
+        <div css={mapWrapper}>
+          <LineMapComponent
+            places={mapPlaces}
+            centerLat={mapPlaces[0]?.latitude || 37.5665}
+            centerLng={mapPlaces[0]?.longitude || 126.978}
+          />
+        </div>
         <div css={listWrapper}>
           <div css={actionWrapper}>
             { !isPastTravel && (

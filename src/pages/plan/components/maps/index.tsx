@@ -19,9 +19,52 @@ export default function MapComponent({
   centerLng,
 }: MapComponentProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
+  const mapInstance = useRef<any>(null);
+  const markers = useRef<any[]>([]);
 
   const getSVGComponentByIndex = (index: number) => {
     return LocMarkerIcons[index + 1] || LocMarkerIcons[1];
+  };
+
+  const createMarker = (map: any, position: Place, index: number) => {
+    const SVGComponent = getSVGComponentByIndex(index);
+    const locMarkerSVG = ReactDOMServer.renderToString(<SVGComponent />);
+
+    const icon = new window.kakao.maps.MarkerImage(
+      `data:image/svg+xml;charset=utf-8,${encodeURIComponent(locMarkerSVG)}`,
+      new window.kakao.maps.Size(35, 35),
+      { offset: new window.kakao.maps.Point(20, 20) }
+    );
+
+    const marker = new window.kakao.maps.Marker({
+      position: new window.kakao.maps.LatLng(
+        position.latitude,
+        position.longitude
+      ),
+      image: icon,
+      map,
+    });
+
+    return marker;
+  };
+
+  const updateMarkers = (map: any, places: Place[]) => {
+    markers.current.forEach((marker) => marker.setMap(null));
+    markers.current = [];
+
+    const bounds = new window.kakao.maps.LatLngBounds();
+
+    places.forEach((place, index) => {
+      const marker = createMarker(map, place, index);
+      markers.current.push(marker);
+      bounds.extend(
+        new window.kakao.maps.LatLng(place.latitude, place.longitude)
+      );
+    });
+
+    if (places.length > 0) {
+      map.setBounds(bounds);
+    }
   };
 
   useEffect(() => {
@@ -38,34 +81,9 @@ export default function MapComponent({
       };
 
       const map = new window.kakao.maps.Map(mapContainer, mapOptions);
-      const bounds = new window.kakao.maps.LatLngBounds();
+      mapInstance.current = map;
 
-      places.forEach(({ latitude, longitude }, index) => {
-        const SVGComponent = getSVGComponentByIndex(index);
-        const locMarkerSVG = ReactDOMServer.renderToString(<SVGComponent />);
-
-        const icon = new window.kakao.maps.MarkerImage(
-          `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-            locMarkerSVG
-          )}`,
-          new window.kakao.maps.Size(35, 35),
-          { offset: new window.kakao.maps.Point(20, 20) }
-        );
-
-        const markerPosition = new window.kakao.maps.LatLng(
-          latitude,
-          longitude
-        );
-
-        new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(latitude, longitude),
-          map,
-          image: icon,
-        });
-        bounds.extend(markerPosition);
-      });
-
-      map.setBounds(bounds);
+      updateMarkers(map, places);
     };
 
     const loadMapScript = () => {
@@ -89,7 +107,13 @@ export default function MapComponent({
     } else {
       initializeMap();
     }
-  }, [places, centerLat, centerLng]);
+  }, [centerLat, centerLng]);
+
+  useEffect(() => {
+    if (mapInstance.current) {
+      updateMarkers(mapInstance.current, places);
+    }
+  }, [places]);
 
   return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
 }
