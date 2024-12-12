@@ -9,6 +9,7 @@ import { Place } from "../../../../interfaces/places";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import colors from "../../../../styles/colors";
 import { getIconBasedOnCategory } from "./categoryIcon";
+import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -283,12 +284,24 @@ export default function KakaoMap({
   return (
     <div ref={mapRef} css={mapStyle} className="kakaoMap">
       <div css={mapLocBtn}>
-        <GpsButton
-          onClick={moveMarkerToCurrentLocation}
-          width={60}
-          height={60}
-        />
-        <Research onClick={moveMarkerToMapCenter} width={60} height={60} />
+        <div css={buttonWrapperStyle} className="button-wrapper">
+          <GpsButton
+            width={60}
+            height={60}
+            className="gps-button"
+            onClick={moveMarkerToCurrentLocation}
+          />
+          <span css={tooltipStyle} className="tooltip">
+            현재 위치로 이동
+          </span>
+        </div>
+
+        <div css={buttonWrapperStyle} className="button-wrapper">
+          <Research width={60} height={60} onClick={moveMarkerToMapCenter} />
+          <span css={tooltipStyle} className="tooltip">
+            반경 1KM 내 장소 재탐색
+          </span>
+        </div>
       </div>
     </div>
   );

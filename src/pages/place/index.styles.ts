@@ -25,13 +25,21 @@ export const resultItemStyle = css`
   }
 `;
 
-export const buttonContainer =({isModalOpen, isFilterModalOpen} : {isFilterModalOpen, isModalOpen:boolean}) => css`
+export const buttonContainer = ({
+  isModalOpen,
+  isFilterModalOpen,
+}: {
+  isFilterModalOpen;
+  isModalOpen: boolean;
+}) => css`
   z-index: 100;
   position: fixed;
-  bottom: ${isModalOpen ? '50%' : '12%'};
+  bottom: ${isModalOpen ? "50%" : "12%"};
   left: 50%;
   transform: translateX(-50%);
-  display: ${isFilterModalOpen ? 'none' : 'block'};  // isFilterModalOpen이 true일 때 버튼 숨기기
+  display: ${isFilterModalOpen
+    ? "none"
+    : "block"}; // isFilterModalOpen이 true일 때 버튼 숨기기
 `;
 
 export const mapLocBtn = css`
@@ -76,4 +84,30 @@ export const noticeStyle = css`
   align-items: center;
   gap: 10px;
   padding-left: 8%;
+`;
+
+export const buttonWrapperStyle = css`
+  position: relative;
+  display: inline-block;
+`;
+
+export const tooltipStyle = css`
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 20px;
+  left: 100%;
+  background-color: #ffa7c7;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+
+  .button-wrapper:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
 `;
