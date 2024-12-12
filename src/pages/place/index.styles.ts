@@ -95,7 +95,7 @@ export const tooltipStyle = css`
   visibility: hidden;
   opacity: 0;
   position: absolute;
-  top: 20px;
+  top: 15px;
   left: 100%;
   background-color: #ffffff;
   color: #f1729b;
