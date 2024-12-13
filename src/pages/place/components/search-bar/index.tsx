@@ -25,10 +25,22 @@ export default function SearchFilterHeader({
     }
   };
 
+  const clickSearchIcon = () => {
+    const inputElement = document.querySelector(
+      "input[placeholder='어디로 떠나시나요?']"
+    ) as HTMLInputElement;
+    if (inputElement) {
+      const value = inputElement.value;
+      handleSearchSubmit(value);
+    }
+  };
+
   return (
     <div css={headerContainerStyle}>
       <div css={searchBarWrapperStyle}>
-        <div css={searchIconStyle}>🔍</div>
+        <div css={searchIconStyle} onClick={clickSearchIcon}>
+          🔍
+        </div>
         <input
           css={searchInputStyle}
           placeholder="어디로 떠나시나요?"

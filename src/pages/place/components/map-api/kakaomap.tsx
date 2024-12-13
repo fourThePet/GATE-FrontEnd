@@ -7,8 +7,9 @@ import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import colors from "../../../../styles/colors";
 import { getIconBasedOnCategory } from "./categoryIcon";
+import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
+import { getPlacesInfo } from "../../../../api";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -33,6 +34,17 @@ export default function KakaoMap({
   const [searchParams] = useSearchParams();
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
+
+  // 현재 열려 있는 오버레이를 추적
+  const [currentOverlay, setCurrentOverlay] =
+    useState<kakao.maps.CustomOverlay | null>(null);
+
+  const closeCurrentOverlay = () => {
+    if (currentOverlay) {
+      currentOverlay.setMap(null);
+      setCurrentOverlay(null);
+    }
+  };
 
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
@@ -87,40 +99,111 @@ export default function KakaoMap({
         ),
       });
 
-      const overlayContent = document.createElement("div");
-      overlayContent.style.backgroundColor = "transparent";
-      overlayContent.style.border = "none";
-      overlayContent.style.fontSize = "12px";
-      overlayContent.style.fontWeight = "bold";
-      overlayContent.style.color = `${colors.color.Black}`;
-      overlayContent.style.textAlign = "center";
-      overlayContent.style.whiteSpace = "nowrap";
-      overlayContent.style.textShadow = ` 
-                                          -1px -1px 0 white,
-                                          1px -1px 0 white,
-                                          -1px  1px 0 white,
-                                          1px  1px 0 white`;
-      overlayContent.innerText = place.name;
-      const customOverlay = new window.kakao.maps.CustomOverlay({
-        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
-        content: overlayContent,
-        map: mapInstance.current,
-        xAnchor: 0.5,
-        yAnchor: 2,
-      });
+      // 마커 클릭 이벤트
+      window.kakao.maps.event.addListener(marker, "click", async () => {
+        try {
+          const placeInfo = await getPlacesInfo(place.id);
 
-      window.kakao.maps.event.addListener(marker, "click", () => {
-        navigate(
-          `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
-          {
-            replace: false,
-            state: { placeId: place.id },
+          if (!placeInfo) {
+            console.error(
+              "장소 데이터가 존재하지 않습니다. place.id:",
+              place.id
+            );
+            return;
           }
-        );
-        console.log(`마커 클릭: ${place.id}`);
+          // 이전에 열린 오버레이 닫기
+          closeCurrentOverlay();
+
+          // 오버레이 컨텐츠
+          const overlayContent = `
+          <div class="custom-overlay wrap" style="
+              position: relative;
+              width: 250px;
+              background: #ffffff;
+              border-radius: 10px;
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+              overflow: hidden;
+              font-family: Arial, sans-serif;
+            ">
+            <div style="padding: 10px;">
+              <div style="
+                  font-size: 16px; 
+                  font-weight: bold; 
+                  color: #333; 
+                  display: flex; 
+                  justify-content: space-between; 
+                  align-items: center;">
+                ${placeInfo.name}
+                <div 
+                  style="cursor: pointer; font-size: 14px; color: #999;" 
+                  title="닫기"
+                  onclick="window.closeOverlay()" 
+                >
+                  ✖
+                </div>
+              </div>
+              <div style="display: flex; margin-top: 10px;">
+                <div style="width: 73px; height: 70px; margin-right: 10px;">
+                  <img 
+                    src="${
+                      placeInfo.photoUrl || "https://via.placeholder.com/73x70"
+                    }" 
+                    alt="${placeInfo.name}" 
+                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"
+                  />
+                </div>
+                <div style="flex: 1; font-size: 12px; color: #666;">
+                  <div>${placeInfo.roadAddress || "주소 없음"}</div>
+                  <div>${placeInfo.postalCode || "우편번호 없음"}</div>
+                  <a 
+                    href="${placeInfo.websiteUrl || "#"}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style="color: #007bff; text-decoration: none;"
+                  >
+                    홈페이지
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+          const overlay = new window.kakao.maps.CustomOverlay({
+            content: overlayContent,
+            map: mapInstance.current,
+            position: marker.getPosition() as kakao.maps.LatLng, // 마커 위치
+            xAnchor: 0.3, // X축 중앙 정렬
+            yAnchor: 1.2, // Y축 마커 바로 위 (1보다 큰 값으로 조정)
+          });
+
+          overlay.setMap(mapInstance.current);
+          setCurrentOverlay(overlay);
+
+          // 정확한 오버레이 요소 선택 및 이벤트 연결
+          const overlayElement = document.querySelector(".custom-overlay");
+          overlayElement?.addEventListener("click", () => {
+            navigate(
+              `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
+              {
+                replace: false,
+                state: { placeId: place.id },
+              }
+            );
+          });
+          // 닫기 버튼 처리
+          (document.querySelector(".close") as HTMLElement)?.addEventListener(
+            "click",
+            () => {
+              overlay.setMap(null);
+            }
+          );
+        } catch (error) {
+          console.error("오버레이 데이터 로드 실패:", error);
+        }
       });
 
-      return { marker, overlay: customOverlay };
+      return { marker, overlay: null }; // Overlay는 클릭 시 동적으로 생성
     });
 
     setMarkerOverlayPairs(newMarkerOverlayPairs);
@@ -128,10 +211,14 @@ export default function KakaoMap({
 
   const clearMarkers = () => {
     markerOverlayPairs.forEach(({ marker, overlay }) => {
-      marker.setMap(null);
-      overlay.setMap(null);
+      if (marker) {
+        marker.setMap(null); // marker가 존재할 때만 setMap 호출
+      }
+      if (overlay) {
+        overlay.setMap(null); // overlay가 존재할 때만 setMap 호출
+      }
     });
-    setMarkerOverlayPairs([]);
+    setMarkerOverlayPairs([]); // 상태 초기화
   };
 
   const moveMarkerToMapCenter = () => {
@@ -283,12 +370,24 @@ export default function KakaoMap({
   return (
     <div ref={mapRef} css={mapStyle} className="kakaoMap">
       <div css={mapLocBtn}>
-        <GpsButton
-          onClick={moveMarkerToCurrentLocation}
-          width={60}
-          height={60}
-        />
-        <Research onClick={moveMarkerToMapCenter} width={60} height={60} />
+        <div css={buttonWrapperStyle} className="button-wrapper">
+          <GpsButton
+            width={60}
+            height={60}
+            className="gps-button"
+            onClick={moveMarkerToCurrentLocation}
+          />
+          <span css={tooltipStyle} className="tooltip">
+            현재 위치로 이동
+          </span>
+        </div>
+
+        <div css={buttonWrapperStyle} className="button-wrapper">
+          <Research width={60} height={60} onClick={moveMarkerToMapCenter} />
+          <span css={tooltipStyle} className="tooltip">
+            반경 1KM 내 장소 재탐색
+          </span>
+        </div>
       </div>
     </div>
   );

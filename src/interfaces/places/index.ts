@@ -100,6 +100,7 @@ declare global {
     interface Marker {
       setMap: (map: kakao.maps.Map | null) => void;
       setPosition: (latlng: kakao.maps.LatLng) => void;
+      getPosition: () => kakao.maps.LatLng; // getPosition 메서드 추가
     }
     interface MarkerImage {}
     interface Size {}
