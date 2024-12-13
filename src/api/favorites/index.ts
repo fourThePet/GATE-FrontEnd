@@ -1,9 +1,11 @@
+import { FavoritesParams } from "../../interfaces";
 import { api } from "../api";
 
+
 // 즐겨찾기 리스트 조회 API
-export const getFavoritesList = async () => {
+export const getFavoritesList = async (params : FavoritesParams) => {
   try {
-    const response = await api.get("/favorites");
+    const response = await api.get("/favorites", {params});
     return response.data.result || [];
   } catch (error) {
     console.error("Error fetching favorites list:", error);

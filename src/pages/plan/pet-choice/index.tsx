@@ -6,18 +6,38 @@ import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import { buttonStyle, dogImageStyle, footerStyle, headerWrapper, petRegisterButton, petSelectStyle, petWrapper, selectedDogStyle, titleWrapper, wrapper } from "./index.styles";
 import colors from "../../../styles/colors";
 import usePlanStore from "../../../stores/usePlanStore";
+import { PET_SIZE } from "../../../interfaces";
+import { useState } from "react";
 
 export default function PetChoice() {
   const navigate = useNavigate();
   const { data: dogsProfiles, isLoading, isError } = useGetDogsProfiles();
-  const { dogIds, setDogIds } = usePlanStore();
-  // const [selectedPets, setSelectedPets] = useState<number[]>([]);
+  const { dogIds, setDogIds, setDogSize } = usePlanStore();
+  const [selectedPets, setSelectedPets] = useState<{ id: number; size: PET_SIZE }[]>([]);
 
   if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>반려견 정보를 가져오는 데 실패했습니다.</p>;
+  // console.log(dogsProfiles)
+  const handleSelectPet = (id: number, size : PET_SIZE) => {
+    setSelectedPets((prev) => {
+      // 이미 선택된 반려견이면 제거
+      const alreadySelected = prev.some((pet) => pet.id === id);
+      if (alreadySelected) {
+        return prev.filter((pet) => pet.id !== id); // 이미 선택된 반려견은 제거
+      } else {
+        return [...prev, { id, size }];
+      }
+    });
 
-  const handleSelectPet = (id: number) => {
     setDogIds(id)
+  };
+
+  // 선택된 반려견들 중 가장 큰 사이즈를 추출
+  const getMaxSize = (pets: { size: PET_SIZE }[]) => {
+    const sizePriority = { SMALL: 1, MEDIUM: 2, LARGE: 3 }; // 사이즈 우선순위
+    return pets.reduce((max, pet) => {
+      return sizePriority[pet.size] > sizePriority[max.size] ? pet : max;
+    }, { size: "SMALL" }); // 기본값은 소형(SMALL)
   };
 
   const handleRegisterPet = () => {
@@ -25,6 +45,8 @@ export default function PetChoice() {
   };
 
   const handleNextClick = () => {
+    const largestPet = getMaxSize(selectedPets);
+    setDogSize(largestPet.size)
     console.log("Selected Pets:", dogIds);
     navigate("/plan/create/place-choice");
   };
@@ -46,10 +68,10 @@ export default function PetChoice() {
           {dogsProfiles && dogsProfiles?.length > 0 ? (
             <div css={petWrapper}>
               {dogsProfiles?.map(
-                (dog: { id: number; name: string; imageUrl?: string }) => (
+                (dog: { id: number; name: string; imageUrl?: string; size?: PET_SIZE }) => (
                   <div
                     key={dog.id}
-                    onClick={() => handleSelectPet(dog.id)}
+                    onClick={() => handleSelectPet(dog.id, dog.size)}
                     css={petSelectStyle}
                   >
                     <img

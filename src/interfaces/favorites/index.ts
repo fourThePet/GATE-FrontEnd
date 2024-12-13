@@ -1,3 +1,5 @@
+import { PET_SIZE } from "../dogs";
+
 export interface FavoritesListType{
     placeId? : number;
     placeName? : string;
@@ -7,4 +9,10 @@ export interface FavoritesListType{
     photoUrl?: string;
     reviewNum? : string;
     starAvg?: number;
+}
+
+export interface FavoritesParams {
+    cityId : number;
+    size : PET_SIZE
+    
 }

@@ -8,11 +8,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PlaceListCard, SelectionImage } from "../components";
 import { FavoritesListType } from "../../../interfaces";
 import { SelectPlaceType } from "../../../interfaces/plans";
+import usePlanStore from "../../../stores/usePlanStore";
 
 export default function PlaceAdd(){
+    const {cityId, dogSize:size} = usePlanStore()
     const navigate = useNavigate();
     //즐겨찾기 데이터
-    const {data : myBookmarkList, isLoading: isFavoriteLoading} = useGetFavoritesList(); 
+    const {data : myBookmarkList, isLoading: isFavoriteLoading} = useGetFavoritesList({cityId, size}); 
     //카테고리 
     const { data, isLoading :isCategoryLoading } = useGetPlacesCategories();
     const [categories, setCategories] = useState([]);
