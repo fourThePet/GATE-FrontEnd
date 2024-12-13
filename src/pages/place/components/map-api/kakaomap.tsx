@@ -35,6 +35,17 @@ export default function KakaoMap({
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
 
+  // 현재 열려 있는 오버레이를 추적
+  const [currentOverlay, setCurrentOverlay] =
+    useState<kakao.maps.CustomOverlay | null>(null);
+
+  const closeCurrentOverlay = () => {
+    if (currentOverlay) {
+      currentOverlay.setMap(null);
+      setCurrentOverlay(null);
+    }
+  };
+
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
     if (!mapContainer) return;
@@ -100,62 +111,63 @@ export default function KakaoMap({
             );
             return;
           }
+          // 이전에 열린 오버레이 닫기
+          closeCurrentOverlay();
 
           // 오버레이 컨텐츠
           const overlayContent = `
-      <div style="
-          position: relative;
-          width: 250px;
-          background: #ffffff; /* 배경색을 흰색으로 설정 */
-          border-radius: 10px;
-          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-          font-family: Arial, sans-serif;
-        ">
-        <div style="padding: 10px;">
-          <div style="
-              font-size: 16px; 
-              font-weight: bold; 
-              color: #333; 
-              display: flex; 
-              justify-content: space-between; 
-              align-items: center;"
-          >
-            ${placeInfo.name}
-            <div 
-              style="cursor: pointer; font-size: 14px; color: #999;" 
-              title="닫기"
-          onclick="window.closeOverlay()" 
-            >
-              ✖
+          <div class="custom-overlay wrap" style="
+              position: relative;
+              width: 250px;
+              background: #ffffff;
+              border-radius: 10px;
+              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+              overflow: hidden;
+              font-family: Arial, sans-serif;
+            ">
+            <div style="padding: 10px;">
+              <div style="
+                  font-size: 16px; 
+                  font-weight: bold; 
+                  color: #333; 
+                  display: flex; 
+                  justify-content: space-between; 
+                  align-items: center;">
+                ${placeInfo.name}
+                <div 
+                  style="cursor: pointer; font-size: 14px; color: #999;" 
+                  title="닫기"
+                  onclick="window.closeOverlay()" 
+                >
+                  ✖
+                </div>
+              </div>
+              <div style="display: flex; margin-top: 10px;">
+                <div style="width: 73px; height: 70px; margin-right: 10px;">
+                  <img 
+                    src="${
+                      placeInfo.photoUrl || "https://via.placeholder.com/73x70"
+                    }" 
+                    alt="${placeInfo.name}" 
+                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"
+                  />
+                </div>
+                <div style="flex: 1; font-size: 12px; color: #666;">
+                  <div>${placeInfo.roadAddress || "주소 없음"}</div>
+                  <div>${placeInfo.postalCode || "우편번호 없음"}</div>
+                  <a 
+                    href="${placeInfo.websiteUrl || "#"}" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style="color: #007bff; text-decoration: none;"
+                  >
+                    홈페이지
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-          <div style="display: flex; margin-top: 10px;">
-            <div style="width: 73px; height: 70px; margin-right: 10px;">
-              <img 
-                src="${
-                  placeInfo.photoUrl || "https://via.placeholder.com/73x70"
-                }" 
-                alt="${placeInfo.name}" 
-                style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"
-              />
-            </div>
-            <div style="flex: 1; font-size: 12px; color: #666;">
-              <div>${placeInfo.roadAddress || "주소 없음"}</div>
-              <div>${placeInfo.postalCode || "우편번호 없음"}</div>
-              <a 
-                href="${placeInfo.websiteUrl || "#"}" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                style="color: #007bff; text-decoration: none;"
-              >
-                홈페이지
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+        `;
 
           const overlay = new window.kakao.maps.CustomOverlay({
             content: overlayContent,
@@ -166,9 +178,11 @@ export default function KakaoMap({
           });
 
           overlay.setMap(mapInstance.current);
+          setCurrentOverlay(overlay);
 
-          // 오버레이 클릭 이벤트
-          document.querySelector(".wrap")?.addEventListener("click", () => {
+          // 정확한 오버레이 요소 선택 및 이벤트 연결
+          const overlayElement = document.querySelector(".custom-overlay");
+          overlayElement?.addEventListener("click", () => {
             navigate(
               `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
               {
@@ -177,7 +191,6 @@ export default function KakaoMap({
               }
             );
           });
-
           // 닫기 버튼 처리
           (document.querySelector(".close") as HTMLElement)?.addEventListener(
             "click",
