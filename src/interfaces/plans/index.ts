@@ -21,6 +21,8 @@ export interface SelectPlaceType{
   latitude : number;
   longitude: number;
   roadAddress?:string;
+  reviewNum?: number;
+  starAvg?:number;
 
 }
 

@@ -7,7 +7,7 @@ export interface FavoritesListType{
     latitude?: number;
     longitude?: number;
     photoUrl?: string;
-    reviewNum? : string;
+    reviewNum? : number;
     starAvg?: number;
 }
 

@@ -40,7 +40,7 @@ export default function PlaceChoice() {
     useState<SelectPlaceType[]>(initialSelectItems);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const { mutate: createRecommendPlan } = usePostPlansRoute();
-
+  
   const handleResetButtonClick = () => {
     resetPlaceIds();
     setSelectItems([]);
@@ -129,6 +129,8 @@ export default function PlaceChoice() {
                   placeName={item.placeName}
                   roadAddress={item.roadAddress}
                   photoUrl={item.photoUrl}
+                  reviewNum={item.reviewNum}
+                  starAvg={item.starAvg}
                   onClick={() => handleDeleteIconClick(item.placeId)}
                 />
               ))
