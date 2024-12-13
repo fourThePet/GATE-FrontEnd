@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckIcon, GrayPlusIcon, ReviewCount, Star } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import { favoriteCount, imageItem, imageWrapper, titleWrapper, wrapper } from "./index.styles";
@@ -15,10 +15,15 @@ export default function PlaceListCard({placeName, roadAddress, placeId, photoUrl
     const {setPlaceIds} = usePlanStore();
     const [isSelect, setIsSelect] = useState(false);
 
-    const handlePlusButtonClick = () => { // 장소 선택
-        const isAlreadySelected = selectItems.some(item => item.placeId === placeId);
+    useEffect(() => {
+        const isAlreadySelected = selectItems.some((item) => item.placeId === placeId);
+        setIsSelect(isAlreadySelected);
+    }, [selectItems, placeId]);
 
-        if (!isAlreadySelected) { //선택되지 않았던 거라면 추가
+    const handlePlusButtonClick = () => { // 장소 선택
+        
+
+        if (!isSelect) { //선택되지 않았던 거라면 추가
             const newItem : SelectPlaceType = { placeId, placeName, latitude, longitude, photoUrl, roadAddress, reviewNum, starAvg }
             setSelectItems((prevSelectItems) => [
                 ...prevSelectItems, newItem
