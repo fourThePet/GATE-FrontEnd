@@ -1,4 +1,4 @@
-import { HeaderBackArrow } from "../../../assets/svg";
+import { WhiteBack } from "../../../assets/svg";
 import { wrapper } from "./index.styles";
 type Props = {
   title?: string; // 선택적 속성으로 설정
@@ -10,7 +10,7 @@ export default function PinkBackHeader({
   return (
     <div css={wrapper}>
       {handleBackButtonClick && (
-        <HeaderBackArrow
+        <WhiteBack
           width={24}
           onClick={handleBackButtonClick}
           cursor="pointer"

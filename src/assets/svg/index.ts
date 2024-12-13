@@ -111,6 +111,7 @@ export { default as Top9 } from "./Top9";
 export { default as Vaccinnecessary } from "./Vaccinnecessary";
 export { default as Warning } from "./Warning";
 export { default as WhiteCalender } from "./WhiteCalender";
+export { default as WhiteBack } from "./WhiteBack";
 export { default as WhiteDownload } from "./WhiteDownload";
 export { default as WhiteNextIcon } from "./WhiteNextIcon";
 export { default as WhitePlus } from "./WhitePlus";
