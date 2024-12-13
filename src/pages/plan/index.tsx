@@ -10,6 +10,7 @@ import { useGetMembersInfo } from "../../queries";
 import { AlertModal, LoadingBar, MainPinkButton, Text } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import colors from "../../styles/colors";
+import usePlanStore from "../../stores/usePlanStore";
 
 export default function Plan() {
   const defaultImageUrl = '/images/default_city.png'
@@ -18,6 +19,8 @@ export default function Plan() {
   const { data: memberInfo } = useGetMembersInfo();
   const {isLoggedIn} = useAuthStore();
   const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 모달 상태 관리
+  const resetState = usePlanStore((state) => state.resetState);
+
   // 다가오는 여행 데이터
   const {
     data: comingTravelsData,
@@ -85,6 +88,7 @@ export default function Plan() {
   
   const handleCreateButtonClick = () => {
     if(isLoggedIn){
+      resetState()
       navigate(`/plan/create`);
     }else{
       setIsAlertModalOpen(true);

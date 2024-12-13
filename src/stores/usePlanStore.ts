@@ -18,6 +18,7 @@ interface PlanStore{
     setResponse : (response : RecommendPlanResponse) => void;
     resetPlaceIds: () => void;
     setDogSize : (dogSize : PET_SIZE) => void;
+    resetState : ()=>void
 }
 
 const usePlanStore = create<PlanStore>((set)=>({
@@ -49,6 +50,17 @@ const usePlanStore = create<PlanStore>((set)=>({
     // placeIds 배열을 빈 배열로 리셋하는 메서드
     resetPlaceIds: () => set({ placeIds: [] }),
     setDogSize : (dogSize : PET_SIZE) => set({dogSize : dogSize}),
+    // 전체 상태 초기화 메서드
+    resetState: () =>
+      set({
+        date: "",
+        cityId: 0,
+        cityName: "",
+        dogIds: [],
+        placeIds: [],
+        response: null,
+        dogSize: null,
+      }),
 }));
 
 export default usePlanStore;
