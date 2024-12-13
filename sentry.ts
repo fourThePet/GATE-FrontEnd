@@ -12,6 +12,7 @@ export const initSentry = () => {
   Sentry.init({
     dsn: "https://7da43d636a7621ad4879b5c7cd6e48fd@o4508461570260992.ingest.us.sentry.io/4508461573013504",
     ignoreErrors: [/AxiosError/i],
+
     release: version,
     environment: "production",
     integrations: [
