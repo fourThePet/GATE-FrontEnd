@@ -18,6 +18,7 @@ import {
 } from "./index.styles";
 import { usePostPlans } from "../../../queries";
 import usePlanStore from "../../../stores/usePlanStore";
+import { notify } from "../../../utils/constants";
 
 export default function PlanRecommend() {
   const { mutate: createMyPlan } = usePostPlans();
@@ -42,7 +43,14 @@ export default function PlanRecommend() {
     };
     createMyPlan(request, {
       onSuccess: () => {
-        navigate("/plan", { replace: true });
+        notify({
+          type: "success",
+          text : "내 일정으로 담기가 완료되었어요!",
+          onClose: () =>{
+            navigate("/plan", { replace: true });
+
+          }
+        })
       },
     });
   };

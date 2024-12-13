@@ -8,6 +8,7 @@ import colors from "../../../styles/colors";
 import usePlanStore from "../../../stores/usePlanStore";
 import { PET_SIZE } from "../../../interfaces";
 import { useState } from "react";
+import { notify } from "../../../utils/constants";
 
 export default function PetChoice() {
   const navigate = useNavigate();
@@ -44,7 +45,15 @@ export default function PetChoice() {
     navigate("/mypage/pet-register"); // Replace with the correct route for pet registration
   };
 
-  const handleNextClick = () => {
+  const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(dogIds.length === 0){
+      e.preventDefault()
+      notify({
+        type: "warning",
+        text: "반려견을 선택해주세요"
+      })
+      return;
+    }
     const largestPet = getMaxSize(selectedPets);
     setDogSize(largestPet.size)
     console.log("Selected Pets:", dogIds);

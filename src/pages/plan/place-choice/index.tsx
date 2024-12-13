@@ -20,6 +20,7 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { useEffect, useState } from "react";
 import { SelectPlaceType } from "../../../interfaces/plans";
 import { usePostPlansRoute } from "../../../queries";
+import { notify } from "../../../utils/constants";
 
 export default function PlaceChoice() {
   const {
@@ -44,7 +45,15 @@ export default function PlaceChoice() {
     resetPlaceIds();
     setSelectItems([]);
   };
-  const handleRecommendButtonClick = () => {
+  const handleRecommendButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(isDisabled){
+      e.preventDefault()
+      notify({
+        type: "warning",
+        text: "장소를 하나 이상 선택해주세요"
+      })
+      return
+    }
     //일정 추천 경로 post api
     const request = {
       date,

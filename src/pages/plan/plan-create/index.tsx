@@ -16,6 +16,8 @@ import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import { cityItemStyle, cityListWrapperStyle, fixedHeaderStyle, pageWrapperStyle, titleWrapper } from "./index.styles";
 import { formatDate } from "../../../utils/dateFomatter";
 import usePlanStore from "../../../stores/usePlanStore";
+import { notify } from "../../../utils/constants";
+
 
 
 
@@ -49,7 +51,15 @@ export default function PlanCreate() {
     }
   }
 
-  const handlePetChoiceButtonClick = () => {
+  const handlePetChoiceButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(isDisabled){
+      e.preventDefault()
+      notify({
+        type: "warning",
+        text: "날짜와 장소를 선택해주세요"
+      })
+      return;
+    }
     console.log(cityId, date)
     navigate(`/plan/create/pet-choice`);
   };

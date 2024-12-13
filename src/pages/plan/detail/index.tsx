@@ -19,6 +19,7 @@ import { useDeletePlansByPlanId, useGetPlansByPlanId, usePutPlansByPlanId } from
 import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import LineMapComponent from "../components/maps/lineMap";
+import { notify } from "../../../utils/constants";
 
 export default function PlanDetail() {
   const navigate = useNavigate();
@@ -72,6 +73,10 @@ export default function PlanDetail() {
     modifyPlanList({placeIds}, {
       onSuccess : () =>{
         setIsConfirmModalOpen(false);
+        notify({
+          type : "success",
+          text : "수정이 완료되었어요",
+        })
         setIsEditMode((prev) => !prev);
       }
     })

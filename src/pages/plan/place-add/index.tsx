@@ -9,6 +9,7 @@ import { PlaceListCard, SelectionImage } from "../components";
 import { FavoritesListType } from "../../../interfaces";
 import { SelectPlaceType } from "../../../interfaces/plans";
 import usePlanStore from "../../../stores/usePlanStore";
+import { notify } from "../../../utils/constants";
 
 export default function PlaceAdd(){
     const {cityId, dogSize:size} = usePlanStore()
@@ -59,7 +60,15 @@ export default function PlaceAdd(){
     },[selectItems])
 
     //선택 완료 버튼 이벤트
-    const handleSelectionComplete = () =>{
+    const handleSelectionComplete = (e: React.MouseEvent<HTMLButtonElement>) =>{
+        if(isDisabled){
+            e.preventDefault()
+            notify({
+              type: "warning",
+              text: "장소를 하나 이상 선택해주세요"
+            })
+            return
+        }
         //선택된 항목들이랑 같이 이전페이지로 넘어가야함
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
