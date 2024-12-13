@@ -87,6 +87,7 @@ export default function Plan() {
       navigate(`/plan/create`);
     }else{
       alert('로그인이 필요해요.')
+      navigate('/login')
     }
   };
 

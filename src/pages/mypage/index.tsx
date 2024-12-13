@@ -25,7 +25,7 @@ export default function Mypage() {
   
   const handleLogoutClick = () => {
     logout()
-    navigate('/login', {replace:true} )
+    navigate('/', {replace:true} )
   }
   
   if(isDogsLoading || isMemberLoading){return(<LoadingBar/>)}
