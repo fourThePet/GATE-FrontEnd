@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryProvider>
       <Layout>
-        <GlobalStyle />å
+        <GlobalStyle />
         <RouterProvider router={router} />
       </Layout>
     </QueryProvider>
