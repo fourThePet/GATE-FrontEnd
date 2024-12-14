@@ -4196,6 +4196,7 @@ __metadata:
     react-datepicker: "npm:^7.5.0"
     react-dom: "npm:^18.3.1"
     react-draggable: "npm:^4.4.6"
+    react-hotjar: "npm:^6.3.1"
     react-indiana-drag-scroll: "npm:^2.2.0"
     react-modal: "npm:^3.16.1"
     react-progress-bar: "npm:^0.1.0"
@@ -5660,6 +5661,13 @@ __metadata:
     react: ">= 16.3.0"
     react-dom: ">= 16.3.0"
   checksum: 10/51b9ac7f913797fc1cebc30ae383f346883033c45eb91e9b0b92e9ebd224bb1545b4ae2391825b649b798cc711a38351a5f41be24d949c64c6703ebc24eba661
+  languageName: node
+  linkType: hard
+
+"react-hotjar@npm:^6.3.1":
+  version: 6.3.1
+  resolution: "react-hotjar@npm:6.3.1"
+  checksum: 10/0d375ff15e23086f873d02b6c089816ac4de195c22a5ea8d414455b93754c4a6aec62aca4c6f0f5e2225966185f937c04bc89dc7f23af09e3ab447d44a3f5bba
   languageName: node
   linkType: hard
 
