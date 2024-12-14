@@ -19,12 +19,14 @@ import {
 import { usePostPlans } from "../../../queries";
 import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../../queries/query-keys";
 
 export default function PlanRecommend() {
   const { mutate: createMyPlan } = usePostPlans();
   const navigate = useNavigate();
   const { response, dogIds } = usePlanStore();
-  console.log(response);
+  const queryClient = useQueryClient();
 
   const places =
     response?.planPlaces?.map((planPlace) => ({
@@ -34,6 +36,7 @@ export default function PlanRecommend() {
     })) || [];
 
   const handleMyPlanButtonClick = () => {
+    
     const placeIds = response.planPlaces.map((planPlace) => planPlace.place.id);
     const request = {
       date: response.date,
@@ -42,15 +45,19 @@ export default function PlanRecommend() {
       placeIds: placeIds,
     };
     createMyPlan(request, {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        const id = response.id
+        queryClient.invalidateQueries({
+          queryKey: QUERY_KEYS.GET_PLANS_PLANID(id),
+        }); //쿼리를 무효화하여 최신 데이터를 가져옴
         notify({
           type: "success",
           text : "내 일정으로 담기가 완료되었어요!",
           onClose: () =>{
-            navigate("/plan", { replace: true });
-
+            navigate(`/plan/detail/${id}`, { replace: true });
           }
         })
+        
       },
     });
   };

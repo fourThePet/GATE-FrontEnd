@@ -18,10 +18,13 @@ function App() {
 
   // 뒤로가기 버튼 핸들러
   const handleBackButtonClick = () => {
-    if (location.pathname.startsWith("/plan/recommend")) {
+    if (location.pathname.startsWith("/plan/recommend") 
+      || location.pathname.startsWith("/plan/detail")
+    ) {
       //추천일정 경로에서 닫기 버튼 누르면 일정으로 돌아가기
       navigate("/plan");
-    } else {
+    }
+    else {
       //그 외 다른 경로
       navigate(-1); // 이전 페이지로 이동
     }
