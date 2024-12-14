@@ -64,14 +64,6 @@ export default function SearchbarCategory() {
           </div>
         ))}
       </div>
-      {/* <button
-        onClick={() => {
-          throw new Error("This is your first error!");
-        }}
-      >
-        Break the world
-      </button>
-      ; */}
     </>
   );
 }
