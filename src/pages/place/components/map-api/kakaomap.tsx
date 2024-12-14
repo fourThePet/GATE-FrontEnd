@@ -36,16 +36,15 @@ export default function KakaoMap({
   const navigate = useNavigate();
 
   // 현재 열려 있는 오버레이를 추적
-  const [currentOverlay, setCurrentOverlay] =
-    useState<kakao.maps.CustomOverlay | null>(null);
+  const currentOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
 
   const closeCurrentOverlay = () => {
-    if (currentOverlay) {
-      currentOverlay.setMap(null);
-      setCurrentOverlay(null);
+    if (currentOverlayRef.current) {
+      currentOverlayRef.current.setMap(null);
+      currentOverlayRef.current = null;
+    } else {
     }
   };
-
   const initializeMap = (latitude: number, longitude: number) => {
     const mapContainer = mapRef.current;
     if (!mapContainer) return;
@@ -82,6 +81,7 @@ export default function KakaoMap({
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
+    // 기존 마커 및 오버레이 제거
     clearMarkers();
 
     const newMarkerOverlayPairs = places.map((place) => {
@@ -101,30 +101,31 @@ export default function KakaoMap({
 
       // 마커 클릭 이벤트
       window.kakao.maps.event.addListener(marker, "click", async () => {
+        console.log("마커 클릭");
         try {
           const placeInfo = await getPlacesInfo(place.id);
 
           if (!placeInfo) {
-            console.error(
-              "장소 데이터가 존재하지 않습니다. place.id:",
-              place.id
-            );
+            console.error("장소 데이터가 존재하지 않습니다.", place.id);
             return;
           }
-          // 이전에 열린 오버레이 닫기
+
+          // 기존 오버레이 닫기
           closeCurrentOverlay();
 
-          // 오버레이 컨텐츠
-          const overlayContent = `
-          <div class="custom-overlay wrap" style="
-              position: relative;
-              width: 250px;
-              background: #ffffff;
-              border-radius: 10px;
-              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-              overflow: hidden;
-              font-family: Arial, sans-serif;
-            ">
+          // 오버레이 컨텐츠 생성
+          const overlayContent = document.createElement("div");
+          overlayContent.className = "custom-overlay wrap";
+          overlayContent.style.cssText = `
+            position: relative;
+            width:100%;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+          `;
+          overlayContent.innerHTML = `
             <div style="padding: 10px;">
               <div style="
                   font-size: 16px; 
@@ -135,21 +136,21 @@ export default function KakaoMap({
                   align-items: center;">
                 ${placeInfo.name}
                 <div 
+                  class="close" 
                   style="cursor: pointer; font-size: 14px; color: #999;" 
                   title="닫기"
-                  onclick="window.closeOverlay()" 
                 >
                   ✖
                 </div>
               </div>
-              <div style="display: flex; margin-top: 10px;">
+              <div style="display: flex; margin-top: 10px; cursor: pointer;">
                 <div style="width: 73px; height: 70px; margin-right: 10px;">
                   <img 
                     src="${
                       placeInfo.photoUrl || "https://via.placeholder.com/73x70"
                     }" 
                     alt="${placeInfo.name}" 
-                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 5px;"
+                    style="width: 73px; height: 100%; object-fit: cover; border-radius: 5px;"
                   />
                 </div>
                 <div style="flex: 1; font-size: 12px; color: #666;">
@@ -166,8 +167,7 @@ export default function KakaoMap({
                 </div>
               </div>
             </div>
-          </div>
-        `;
+          `;
 
           const overlay = new window.kakao.maps.CustomOverlay({
             content: overlayContent,
@@ -177,12 +177,22 @@ export default function KakaoMap({
             yAnchor: 1.2, // Y축 마커 바로 위 (1보다 큰 값으로 조정)
           });
 
-          overlay.setMap(mapInstance.current);
-          setCurrentOverlay(overlay);
+          // 커스텀 오버레이 닫기 함수
+          const closeOverlay = () => {
+            overlay.setMap(null);
+            currentOverlayRef.current = null; // 상태 초기화
+          };
 
-          // 정확한 오버레이 요소 선택 및 이벤트 연결
-          const overlayElement = document.querySelector(".custom-overlay");
-          overlayElement?.addEventListener("click", () => {
+          // 닫기 버튼 이벤트 리스너 추가
+          overlayContent
+            .querySelector(".close")
+            ?.addEventListener("click", (e) => {
+              e.stopPropagation(); // 부모 이벤트 전파 방지
+              closeOverlay();
+            });
+
+          // 오버레이 전체 클릭 시 상세 페이지 이동
+          overlayContent.addEventListener("click", () => {
             navigate(
               `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
               {
@@ -191,19 +201,13 @@ export default function KakaoMap({
               }
             );
           });
-          // 닫기 버튼 처리
-          (document.querySelector(".close") as HTMLElement)?.addEventListener(
-            "click",
-            () => {
-              overlay.setMap(null);
-            }
-          );
-        } catch (error) {
-          console.error("오버레이 데이터 로드 실패:", error);
-        }
+
+          overlay.setMap(mapInstance.current);
+          currentOverlayRef.current = overlay; // **currentOverlayRef 업데이트**
+        } catch (error) {}
       });
 
-      return { marker, overlay: null }; // Overlay는 클릭 시 동적으로 생성
+      return { marker, overlay: null };
     });
 
     setMarkerOverlayPairs(newMarkerOverlayPairs);
@@ -223,7 +227,6 @@ export default function KakaoMap({
 
   const moveMarkerToMapCenter = () => {
     if (!mapInstance.current || !currentMarker.current) {
-      console.error("지도 또는 마커를 찾을 수 없습니다.");
       return;
     }
 
