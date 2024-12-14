@@ -246,12 +246,23 @@ export default function KakaoMap({
     setLatitude(latitude);
     setLongitude(longitude);
 
-    // 카테고리 선택 초기화 (전체로 설정)
-    setSelectedCategory("전체");
+    // // 카테고리 선택 초기화 (전체로 설정)
+    // setSelectedCategory("전체");
 
-    // 필터 초기화
+    // 검색어(input) 값 초기화
+    const searchInput = document.querySelector(
+      "input[placeholder='어디로 떠나시나요?']"
+    ) as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = ""; // 입력 필드 값 초기화
+    }
+
+    // URL에서 query 파라미터 제거
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.delete("query"); // query 값 삭제
+
     // replace: true -  히스토리에 새로운 기록을 남기지 않음.
-    navigate("/place", { replace: true });
+    navigate(`/place?${queryParams.toString()}`, { replace: true });
   };
 
   const moveMarkerToCurrentLocation = () => {
@@ -272,10 +283,23 @@ export default function KakaoMap({
         setLatitude(latitude);
         setLongitude(longitude);
 
-        // 카테고리 선택 초기화 (전체로 설정)
-        setSelectedCategory("전체");
+        // // 카테고리 선택 초기화 (전체로 설정)
+        // setSelectedCategory("전체");
         // 필터 초기화 (replace: true -  히스토리에 새로운 기록을 남기지 않음.)
-        navigate("/place", { replace: true });
+
+        // 검색어(input) 값 초기화
+        const searchInput = document.querySelector(
+          "input[placeholder='어디로 떠나시나요?']"
+        ) as HTMLInputElement;
+        if (searchInput) {
+          searchInput.value = ""; // 입력 필드 값 초기화
+        }
+
+        // URL에서 query 파라미터 제거
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.delete("query"); // query 값 삭제
+
+        navigate(`/place?${queryParams.toString()}`, { replace: true });
       },
       (error) => console.error("현재 위치 가져오기 실패:", error)
     );
