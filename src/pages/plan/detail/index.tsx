@@ -20,6 +20,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import LineMapComponent from "../components/maps/lineMap";
 import { notify } from "../../../utils/constants";
+import { isBefore, startOfDay } from "date-fns";
 
 export default function PlanDetail() {
   const navigate = useNavigate();
@@ -34,7 +35,11 @@ export default function PlanDetail() {
   const [placeIds, setPlaceIds] = useState<number[]>([])
 
   const {mutate : deletePlanList} = useDeletePlansByPlanId()
-  const isPastTravel = new Date(plan?.date) < new Date(); //지난여행인지 판별
+  
+  const planDate = startOfDay(new Date(plan?.date)); // plan.date의 시작 시각
+  const today = startOfDay(new Date()); // 오늘 날짜의 시작 시각
+
+  const isPastTravel = isBefore(planDate, today);
   useEffect(() => setPlan(data), [data]);
 
   const mapPlaces =
@@ -75,9 +80,16 @@ export default function PlanDetail() {
         setIsConfirmModalOpen(false);
         notify({
           type : "success",
-          text : "수정이 완료되었어요",
+          text : "일정이 수정되었어요",
         })
         setIsEditMode((prev) => !prev);
+      },
+      onError : () => {
+        notify({
+          type : "error",
+          text : "일정 수정 중 문제가 발생하였습니다. 다시 시도해 주세요",
+        })
+        setIsConfirmModalOpen(false);
       }
     })
   }
@@ -122,9 +134,23 @@ export default function PlanDetail() {
 
   const handleConfirmButtonClick = () =>{ // 모달창 확인 버튼
       if(planId){
-        deletePlanList(Number(planId));
-        setIsModalOpen(false);
-        navigate('/plan',{ replace: true })
+        deletePlanList(Number(planId),{
+          onSuccess : () => {
+            setIsModalOpen(false);
+            navigate('/plan',{ replace: true })
+            notify({
+              type : "success",
+              text : "일정이 삭제되었어요"
+            })
+          },
+          onError : () =>{
+            notify({
+              type : "error",
+              text : "일정 삭제 중 문제가 발생하였어요. 다시 시도해 주세요"
+            })
+            setIsModalOpen(false);
+          }
+        });
       }
       
   }
