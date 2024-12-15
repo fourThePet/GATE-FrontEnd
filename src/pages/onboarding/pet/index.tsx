@@ -1,11 +1,13 @@
 import { useState, ChangeEvent, useEffect, useRef } from "react";
 import {  MainPinkButton, Text } from '../../../components'
 import colors from "../../../styles/colors";
-import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeWrapper, validMessage, wrapper } from "./index.styles";
+import { ageWrapper, bottomButtonStyle, buttonGroupStyle, cameraIcon, contentWrapper, fileInput, formWrapper, help, iconWrapper, infoWrapper, nameWrapper, profileContainer, profileIcon, radioButtonStyle, sizeTitle, sizeWrapper, tooltipStyle, validMessage, wrapper } from "./index.styles";
 import { Input, SkipButton } from '../components'
 import { useLocation, useNavigate } from "react-router-dom";
-import { CameraIcon, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
+import { CameraIcon, Help, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, Sdogwhite } from "../../../assets/svg";
 import { usePostDogsProfile } from "../../../queries/dogs";
+import { useAuthStore } from "../../../stores/useAuthStore";
+import { notify } from "../../../utils/constants";
 
 
 export default function OnboardingPet(){
@@ -22,6 +24,7 @@ export default function OnboardingPet(){
     const [day, setDay] = useState("");
     const [birthDay, setBirthDay] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const {isLoggedIn} = useAuthStore();
     
     const { mutate: registerPetProfile } = usePostDogsProfile();
     // 이미지 변경 핸들러
@@ -85,7 +88,10 @@ export default function OnboardingPet(){
     const handleRegisterButtonClick = () =>{
         const formData = new FormData();
         if(!isValid){
-            alert("모든 정보를 정확히 입력해주세요")
+            notify({
+                type:"warning",
+                text : "모든 정보를 입력해주세요"
+            })
             return
         }
         
@@ -106,21 +112,40 @@ export default function OnboardingPet(){
             if (fileInput) formData.append('imageFile', fileInput);
         }
         
-          
-        registerPetProfile(formData, {
-            onSuccess : () => {
-                console.log("반려동물 등록 성공!")
-                if(location.pathname === "/mypage/pet-register"){
-                    navigate('/mypage')
-                }else if(location.pathname === "/onboarding/pet") {
-                    navigate('/onboarding/completion')
+        if(isLoggedIn){
+            registerPetProfile(formData, {
+                onSuccess : () => {
+                    notify({
+                        type : "success",
+                        text : "반려견 프로필 등록을 성공했어요",
+                        onClose : () => {
+                            if(location.pathname === "/mypage/pet-register"){
+                                navigate('/mypage')
+                            }else if(location.pathname === "/onboarding/pet") {
+                                navigate('/onboarding/completion')
+                            }
+
+                        }
+                    })
+                },
+                onError : () => {
+                    notify({
+                        type : "error",
+                        text : "반려견 프로필 등록을 실패했어요",
+                    })
+                    setIsValid(false)
+                },
+            })
+
+        }else {
+            notify({
+                type : "error",
+                text : "로그인이 필요해요.",
+                onClose : () => {
+                    navigate("/login")
                 }
-            },
-            onError : () => {
-                alert("반려동물 등록에 실패했습니다.")
-                setIsValid(false)
-            },
-        })
+            })
+        }
             
         
     }
@@ -192,23 +217,34 @@ export default function OnboardingPet(){
                         
                     </div>
                     <div css={infoWrapper}>
-                        <div>
+                        <div css={sizeTitle} >
                             <Text type="Body3" color={colors.color.MainColor} >견종크기</Text>
+                            <div css={help} className="button-wrapper">
+                                <Help width={16} />
+                                <span css={tooltipStyle} className="tooltip">
+                                {`소형 : 10kg 이하 
+                                    중형 : 10kg 초과 25kg 이하
+                                    대형 : 25kg 초과
+                                    `}
+                                </span>
+                            </div>
                         </div>
                         <div css={sizeWrapper}>
                             <div css={iconWrapper} onClick={() => handleDogSizeClick('SMALL')}>
                                 {selectedDogSize === 'SMALL' ? (
                                     <>
                                         <Sdogpink width={80}/>
-                                        <Text type="Label3" color={colors.color.Black} >소형</Text>
+                                        <Text type="Label2" color={colors.color.Black} >소형</Text>
+                                        
                                     </>
                                 ) : (
                                     <>
                                         <Sdogwhite width={80}/>
-                                        <Text type="Label3" color={colors.color.Gray2} >소형</Text>
+                                        <Text type="Label2" color={colors.color.Gray2} >소형</Text>
                                     </>
                                     
                                 )}
+                                
                                 
                             </div>
                             <div css={iconWrapper} onClick={() => handleDogSizeClick('MEDIUM')}>
@@ -216,12 +252,12 @@ export default function OnboardingPet(){
                                         
                                         <>
                                             <Mdogpink width={80}/>
-                                            <Text type="Label3" color={colors.color.Black} >중형</Text>
+                                            <Text type="Label2" color={colors.color.Black} >중형</Text>
                                         </>
                                     ) : (
                                         <>
                                             <Mdogwhite width={80}/>
-                                            <Text type="Label3" color={colors.color.Gray2} >중형</Text>
+                                            <Text type="Label2" color={colors.color.Gray2} >중형</Text>
                                         </>
                                 )}
                                 
@@ -230,15 +266,16 @@ export default function OnboardingPet(){
                                 {selectedDogSize === 'LARGE' ? (
                                         <>
                                             <Ldogpink width={80}/>
-                                            <Text type="Label3" color={colors.color.Black} >대형</Text>
+                                            <Text type="Label2" color={colors.color.Black} >대형</Text>
                                         </>
                                     ) : (
                                         <>
                                             <Ldogwhite width={80}/>
-                                            <Text type="Label3" color={colors.color.Gray2} >대형</Text>
+                                            <Text type="Label2" color={colors.color.Gray2} >대형</Text>
                                         </>
                                         
                                 )}
+                                
                             </div>
 
                         </div>

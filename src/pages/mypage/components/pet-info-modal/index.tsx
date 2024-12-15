@@ -8,6 +8,8 @@ import { translateGender } from "../../../../utils/translations";
 import { useState, ChangeEvent, useEffect, useRef } from "react";
 import DeleteModal from "../delete-modal";
 import { Input } from "../../../onboarding/components";
+import axios from "axios";
+import { notify } from "../../../../utils/constants";
 
 interface Props{
     isOpen : boolean;
@@ -128,13 +130,21 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
         
         modifyPetProfile(formData, {
             onSuccess : () => {
-                console.log("반려동물 수정 성공!")
                 setIsEditMode(false)
                 closeModal()
+                notify({
+                    type : "success",
+                    text : "반려견 프로필 수정을 성공했어요",
+                })
+                
             },
             onError : () => {
-                alert("반려동물 수정 실패.")
                 setIsEditMode(false)
+                notify({
+                    type : "error",
+                    text : "반려견 프로필 수정을 실패했어요",
+                    
+                })
             },
         })
 
@@ -142,9 +152,9 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
 
     // 이미지 URL을 파일로 변환하는 함수
     const convertImageUrlToFile = async (url, fileName) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new File([blob], fileName, { type: blob.type });
+        
+        const response = await axios.get(url, { responseType: "blob" });
+        return new File([response.data], fileName, { type: response.data.type });
     };
 
     // 유효성 검사

@@ -4,6 +4,7 @@ import { Warning } from "../../../../assets/svg";
 import { GrayBorderButton, MainPinkButton, Text } from "../../../../components";
 import colors from "../../../../styles/colors";
 import { useDeleteDogsProfileDogId } from "../../../../queries";
+import { notify } from "../../../../utils/constants";
 
 interface Props {
     isDeleteModalOpen : boolean;
@@ -23,6 +24,10 @@ export default function DeleteModal({isDeleteModalOpen, setIsDeleteModalOpen, do
         if(dogId){
             deleteDogProfile(dogId)
             onClose()
+            notify({
+                type : "success",
+                text : "반려견 프로필이 삭제되었어요"
+            })
         }
     }
     return(

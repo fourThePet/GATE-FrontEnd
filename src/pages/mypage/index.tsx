@@ -69,7 +69,7 @@ export default function Mypage() {
             <div css={infoWrapper}>
               <div css={titleWrapper}>
                 <Text type="Heading4">내 강아지 정보</Text>
-                {isLoggedIn && (<PlusIcon width={10} onClick={()=> navigate('/mypage/pet-register')}/>)}   
+                {isLoggedIn && dogsInfo.length > 0 && (<PlusIcon width={10} onClick={()=> navigate('/mypage/pet-register')}/>)}   
               </div>
                 <hr color={colors.color.Gray5} css={line}/>
                 <div css={myPetWrapper}>

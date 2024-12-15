@@ -56,6 +56,43 @@ export const sizeWrapper = css`
     gap: 30px;
 `
 
+export const sizeTitle = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  
+  
+`
+export const help = css`
+  display: flex;  
+  position: relative;
+  align-items: center;
+`
+
+export const tooltipStyle = css`
+  width: 180px;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background-color: ${colors.color.White1};
+  color: ${colors.color.MainColor};
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: pre-line;
+  border: 1px solid  ${colors.color.MainColor};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+
+  .button-wrapper:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
 export const iconWrapper = css`
     display: flex;
     flex-direction: column;
