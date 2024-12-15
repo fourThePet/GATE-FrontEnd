@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { forwardRef, Ref, useEffect, useMemo, useState } from "react";
 import { DeleteIcon, WhiteCalender } from "../../../assets/svg";
 import { DeleteConfirmModal, LoadingBar, Text } from "../../../components";
 import colors from "../../../styles/colors";
 import {
   actionWrapper,
   contentWrapper,
+  datepickerCustomStyles,
   dateWrapper,
   deleteIcon,
   info,
+  InputFieldStyle,
   listWrapper,
   mapWrapper,
   planWrapper,
@@ -20,6 +22,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DragDropContext } from "react-beautiful-dnd";
 import LineMapComponent from "../components/maps/lineMap";
 import { notify } from "../../../utils/constants";
+import { isBefore, startOfDay } from "date-fns";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; // DatePicker 스타일
+import { formatDate } from "../../../utils/dateFomatter";
 
 export default function PlanDetail() {
   const navigate = useNavigate();
@@ -34,8 +40,41 @@ export default function PlanDetail() {
   const [placeIds, setPlaceIds] = useState<number[]>([])
 
   const {mutate : deletePlanList} = useDeletePlansByPlanId()
-  const isPastTravel = new Date(plan?.date) < new Date(); //지난여행인지 판별
+  
+  const planDate = startOfDay(new Date(plan?.date)); // plan.date의 시작 시각
+  const today = startOfDay(new Date()); // 오늘 날짜의 시작 시각
+
+  const isPastTravel = isBefore(planDate, today);
+  
+  const [isCalendarOpen , setIsCalendarOpen] = useState(false)
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    plan?.date ? new Date(plan.date) : null
+  ); //Date 형식 
+  const [date, setDate] = useState<string>(plan?.date || ""); //string 형식
+
   useEffect(() => setPlan(data), [data]);
+  useEffect(()=>{
+    if(plan?.date){
+      setSelectedDate(new Date(plan.date)); //string -> Date
+      setDate(plan.date); 
+    }
+  },[plan?.date])
+
+  const handleChangeDate = (date: Date|null) => {
+    setSelectedDate(date); // Date 객체를 상태에 저장
+    setDate(date ? formatDate(date) : "")
+    setIsCalendarOpen(false)
+  }
+
+  const CustomInput = forwardRef((props, ref:Ref<HTMLInputElement>) => ( //DatePicker 문자열 방지
+    <input
+      {...props}
+      ref={ref}
+      readOnly // 문자열 입력 방지
+      style={{ cursor: "pointer" }} // 클릭 가능한 스타일 추가
+    />
+  ));
 
   const mapPlaces =
     plan?.planPlaces?.map((place) => ({
@@ -70,14 +109,25 @@ export default function PlanDetail() {
   };
 
   const handleModifyConfirmButtonClick = () =>{ //수정 완료 버튼
-    modifyPlanList({placeIds}, {
+    
+    modifyPlanList({
+      placeIds,
+      date
+    }, {
       onSuccess : () =>{
         setIsConfirmModalOpen(false);
         notify({
           type : "success",
-          text : "수정이 완료되었어요",
+          text : "일정이 수정되었어요",
         })
         setIsEditMode((prev) => !prev);
+      },
+      onError : () => {
+        notify({
+          type : "error",
+          text : "일정 수정 중 문제가 발생하였습니다. 다시 시도해 주세요",
+        })
+        setIsConfirmModalOpen(false);
       }
     })
   }
@@ -122,9 +172,23 @@ export default function PlanDetail() {
 
   const handleConfirmButtonClick = () =>{ // 모달창 확인 버튼
       if(planId){
-        deletePlanList(Number(planId));
-        setIsModalOpen(false);
-        navigate('/plan',{ replace: true })
+        deletePlanList(Number(planId),{
+          onSuccess : () => {
+            setIsModalOpen(false);
+            navigate('/plan',{ replace: true })
+            notify({
+              type : "success",
+              text : "일정이 삭제되었어요"
+            })
+          },
+          onError : () =>{
+            notify({
+              type : "error",
+              text : "일정 삭제 중 문제가 발생하였어요. 다시 시도해 주세요"
+            })
+            setIsModalOpen(false);
+          }
+        });
       }
       
   }
@@ -146,11 +210,23 @@ export default function PlanDetail() {
           <Text type="Heading2" color={colors.color.White1}>
             두근두근, 데이트 D{remainingDays}
           </Text>
-          <div css={dateWrapper}>
+          <div css={[dateWrapper, datepickerCustomStyles]}>
             <Text type="Body2" color={colors.color.White1}>
-              {plan?.date}
+              {date}
             </Text>
-            <WhiteCalender width={16} />
+            <WhiteCalender width={16} onClick={() => setIsCalendarOpen((prev) => !prev)} />
+            {isCalendarOpen && !isPastTravel && (
+              <DatePicker
+              selected={selectedDate}
+              onChange={handleChangeDate}
+              dateFormat="yyyy-MM-dd"
+              css={InputFieldStyle}
+              minDate={new Date()} //오늘날짜 이전은 선택 못함
+              customInput={<CustomInput />} // 사용자 정의 입력 필드
+              inline
+              shouldCloseOnSelect={true}
+            />
+            )}
           </div>
         </div>
         <div css={mapWrapper}>

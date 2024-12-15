@@ -127,6 +127,9 @@ export const usePutReviewByReviewId = (reviewId: number) => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.GET_REVIEWS_MY,
       });
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.GET_REVIEWS_REVIEWID(reviewId),
+      });
     },
   });
 };
@@ -140,7 +143,7 @@ export const useGetReviewSummary = (
     queryFn: async () => {
       try {
         return await getReviewSummary(placeId, type);
-      } catch (error) {
+      } catch {
         throw new Error("리뷰 요약 조회에 실패했습니다.");
       }
     },

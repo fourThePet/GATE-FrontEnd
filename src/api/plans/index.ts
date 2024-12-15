@@ -33,8 +33,8 @@ export const getPlansByPlanId = async (planId: number) => {
 
 
 //일정 수정
-export const putPlansByPlanId = async ({placeIds}:{placeIds: number[]}, planId: number) =>{
-    const response = await api.put(`/plans/${planId}`, {placeIds});
+export const putPlansByPlanId = async ({placeIds, date} : {placeIds:number[], date:string}, planId: number) =>{
+    const response = await api.put(`/plans/${planId}`, {placeIds, date});
     return response.data;
 }
 

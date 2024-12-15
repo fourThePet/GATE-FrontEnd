@@ -81,9 +81,9 @@ export const useDeletePlansByPlanId = () => {
 export const usePutPlansByPlanId = (planId : number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({placeIds}:{placeIds:number[]}) => {
+    mutationFn: async ({placeIds, date}:{placeIds:number[], date:string}) => {
       try {
-        return await putPlansByPlanId({placeIds}, planId );
+        return await putPlansByPlanId({placeIds, date}, planId );
       } catch {
         throw new Error("일정 업데이트에 실패하였습니다.");
       }

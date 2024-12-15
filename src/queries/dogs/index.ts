@@ -10,6 +10,7 @@ import { QUERY_KEYS } from "../query-keys";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 export const usePostDogsProfile = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: QUERY_KEYS.POST_DOGS_PROFILE,
     mutationFn: async (body: FormData) => {
@@ -18,6 +19,11 @@ export const usePostDogsProfile = () => {
       } catch {
         throw new Error("반려동물 등록에 실패하였습니다.");
       }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEYS.GET_DOGS_PROFILES,
+      }); //쿼리를 무효화하여 최신 데이터를 가져옴
     },
   });
 };

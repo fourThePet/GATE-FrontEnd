@@ -7,6 +7,7 @@ import { AddIcon, FileDelete, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Pinkpenc
 import ConditionLabel from "../../../components/label/condition-label";
 import { useLocation, useNavigate} from "react-router-dom";
 import { useGetReviewKeywords, useGetReviewsReviewId, usePutReviewByReviewId } from "../../../queries";
+import { notify } from "../../../utils/constants";
 interface FileWithPreview {
     file?: File;
     url: string;
@@ -138,12 +139,18 @@ export default function ReviewEdit(){
 
         modifyReview(formData, {
             onSuccess : () => {
-                console.log("리뷰 수정 성공!")
                 navigate(-1)
+                notify({
+                    type : "success",
+                    text : "리뷰가 수정되었어요"
+                })
                 
             },
             onError : () => {
-                alert("리뷰 수정 실패.")
+                notify({
+                    type : "error",
+                    text : "리뷰 수정 중 문제가 발생했습니다. 다시 시도해주세요"
+                })
                 
             },
         })

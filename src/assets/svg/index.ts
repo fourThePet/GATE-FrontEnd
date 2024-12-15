@@ -39,6 +39,7 @@ export { default as HeaderLogo } from "./HeaderLogo";
 export { default as HeaderBackArrow } from "./HeaderBackArrow";
 export { default as HeartFill } from "./HeartFill";
 export { default as Heart } from "./Heart";
+export { default as Help } from "./Help";
 export { default as Homegray } from "./Homegray";
 export { default as Homepink } from "./Homepink";
 export { default as Hospital } from "./Hospital";

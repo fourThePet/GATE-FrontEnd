@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { UserInfoForm } from "../../../interfaces";
 import { usePostMembersCheckNickname, usePostMembersSignup } from "../../../queries/members";
 import { HeaderLogo } from "../../../assets/svg";
+import { notify } from "../../../utils/constants";
 
 export default function OnboardingUser(){
     const navigate = useNavigate();
@@ -81,7 +82,10 @@ export default function OnboardingUser(){
                         setIsNicknameCheck(true);
                     },
                     onError: () => {
-                        alert("이미 중복된 아이디 입니다.")
+                        notify({
+                            type : "warning",
+                            text : "이미 중복된 아이디 입니다",
+                        })
                         setIsNicknameCheck(false); // 오류 시 중복된 것으로 처리
                     },
                 }
@@ -97,19 +101,31 @@ export default function OnboardingUser(){
                 birthday,
                 gender,
             };
-            console.log(formData)
+            
             postSignup(formData, {
                 onSuccess: () => {
-                    console.log("회원가입 성공!");
-                    navigate('/onboarding/pet');
+                    notify({
+                        type:"success",
+                        text : "사용자 정보가 입력되었어요",
+                        onClose : () => {
+                            navigate('/onboarding/pet');
+
+                        }
+                    })
                 },
-                onError: (error) => {
-                    console.error("회원가입 실패:", error);
-                    alert("회원가입 중 문제가 발생했습니다. 다시 시도해주세요.");
+                onError: () => {
+                    notify({
+                        type:"error",
+                        text : "회원가입 중 문제가 발생했습니다. 다시 시도해주세요.",
+                    })
+                    
                 },
             });
         } else {
-            alert("모든 정보를 정확히 입력해주세요.");
+            notify({
+                type:"warning",
+                text : "모든 정보를 입력해주세요"
+            })
         }
     };
 

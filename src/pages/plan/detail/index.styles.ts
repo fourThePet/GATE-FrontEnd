@@ -77,4 +77,57 @@ export const planWrapper = css`
     height: calc(100vh - 300px - 150px - 79px); /* 남은 높이 계산 */
     gap: 12px;
 `
+export const InputFieldStyle = css`
+  border: none;
+  outline: none;
+  padding: 8px;
+  flex: 1;
+  font-size: 16px;
+  background-color: transparent;
+  
+`;
 
+export const datepickerCustomStyles = css`
+    .react-datepicker-popper {
+        z-index: 9999 !important; /* 다른 요소 위로 팝업 */
+        
+    }
+    .date-picker-wrapper {
+        position: relative;
+        z-index: 9999; /* 다른 요소보다 높게 설정 */
+    }
+    .react-datepicker {
+        position: absolute;
+        z-index: 9999 !important; /* 달력 컴포넌트의 루트 요소 */
+        top: 21%;
+        left: 20%;
+    }
+    .react-datepicker__day--selected {
+        background-color: #D04578 !important;
+        color: white !important;
+        border-radius: 50%;
+    }
+
+    /* 선택된 날짜가 오늘인 경우에도 위 스타일 유지 */
+    .react-datepicker__day--today.react-datepicker__day--selected {
+        background-color: #D04578 !important;
+        color: white !important;
+    }
+
+    /* 오늘 날짜 기본 스타일 */
+    .react-datepicker__day--today {
+        background-color: #f8a8c2;
+        color: white !important;
+        border-radius: 50%;
+    }
+
+    .react-datepicker__day:hover {
+        background-color: #D04578 !important;
+        color: white !important;
+        border-radius: 50%;
+    }
+
+    .react-datepicker__day--outside-month {
+        color: #ccc;
+    }
+`;
