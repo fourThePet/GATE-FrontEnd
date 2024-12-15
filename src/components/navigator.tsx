@@ -45,7 +45,7 @@ export default function Navigator({
   const navItems = [
     {
       icon:
-        location.pathname === "/home" ? (
+        location.pathname === "/home" || location.pathname === "/" ? (
           <Homepink width={31} />
         ) : (
           <Homegray width={31} />
@@ -103,7 +103,9 @@ export default function Navigator({
           <div css={LayoutContainer.NavContainer}>
             <div css={Block.flexBlock}>
               {navItems.map((item, index) => {
-                const isActive = location.pathname.startsWith(item.path);
+                const isActive =
+                  location.pathname.startsWith(item.path) ||
+                  (item.path === "/home" && location.pathname === "/");
 
                 return (
                   <div
