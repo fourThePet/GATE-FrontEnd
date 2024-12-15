@@ -18,7 +18,7 @@ export default function MainPinkButton({
   ...props
 }: Props) {
   return (
-    <button css={buttonStyles({ width, height, isDisabled })} disabled={isDisabled} {...props}>
+    <button css={buttonStyles({ width, height, isDisabled })} {...props}>
       <Text type="Label2" css={buttonStyle}>{children}</Text>
     </button>
   );

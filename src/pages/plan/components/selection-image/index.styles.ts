@@ -17,7 +17,13 @@ export const imageItem = css`
     object-fit: cover;
     border-radius: 4px;
 `
-
+export const deleteIcon = css`
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    
+`
 export const titleWrapper = css`
     width: 80px;
     display: flex;

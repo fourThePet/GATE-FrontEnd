@@ -20,6 +20,7 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { useEffect, useState } from "react";
 import { SelectPlaceType } from "../../../interfaces/plans";
 import { usePostPlansRoute } from "../../../queries";
+import { notify } from "../../../utils/constants";
 
 export default function PlaceChoice() {
   const {
@@ -39,12 +40,20 @@ export default function PlaceChoice() {
     useState<SelectPlaceType[]>(initialSelectItems);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const { mutate: createRecommendPlan } = usePostPlansRoute();
-
+  
   const handleResetButtonClick = () => {
     resetPlaceIds();
     setSelectItems([]);
   };
-  const handleRecommendButtonClick = () => {
+  const handleRecommendButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(isDisabled){
+      e.preventDefault()
+      notify({
+        type: "warning",
+        text: "장소를 하나 이상 선택해주세요"
+      })
+      return
+    }
     //일정 추천 경로 post api
     const request = {
       date,
@@ -120,6 +129,8 @@ export default function PlaceChoice() {
                   placeName={item.placeName}
                   roadAddress={item.roadAddress}
                   photoUrl={item.photoUrl}
+                  reviewNum={item.reviewNum}
+                  starAvg={item.starAvg}
                   onClick={() => handleDeleteIconClick(item.placeId)}
                 />
               ))

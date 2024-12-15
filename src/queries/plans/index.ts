@@ -34,7 +34,7 @@ export const useGetPlans = (
 
 // 일정 생성 훅
 export const usePostPlans = () => {
-
+  
   return useMutation({
     mutationKey: QUERY_KEYS.POST_PLANS,
     mutationFn: async (body: PlanRequestBody) => {

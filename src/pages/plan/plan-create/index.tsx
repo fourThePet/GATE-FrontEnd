@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { forwardRef, Ref, useState } from "react";
 import {
   InputWrapperStyle,
   InputFieldStyle,
@@ -16,6 +16,8 @@ import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import { cityItemStyle, cityListWrapperStyle, fixedHeaderStyle, pageWrapperStyle, titleWrapper } from "./index.styles";
 import { formatDate } from "../../../utils/dateFomatter";
 import usePlanStore from "../../../stores/usePlanStore";
+import { notify } from "../../../utils/constants";
+
 
 
 
@@ -25,6 +27,15 @@ export default function PlanCreate() {
 
   const isDisabled = !(cityId && date);
   const navigate = useNavigate();
+
+  const CustomInput = forwardRef((props, ref:Ref<HTMLInputElement>) => ( //DatePicker 문자열 방지
+    <input
+      {...props}
+      ref={ref}
+      readOnly // 문자열 입력 방지
+      style={{ cursor: "pointer" }} // 클릭 가능한 스타일 추가
+    />
+  ));
 
   const handleCityClick = (id: number, name:string) => {
     setCityName(name)
@@ -40,7 +51,15 @@ export default function PlanCreate() {
     }
   }
 
-  const handlePetChoiceButtonClick = () => {
+  const handlePetChoiceButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(isDisabled){
+      e.preventDefault()
+      notify({
+        type: "warning",
+        text: "날짜와 장소를 선택해주세요"
+      })
+      return;
+    }
     console.log(cityId, date)
     navigate(`/plan/create/pet-choice`);
   };
@@ -50,6 +69,8 @@ export default function PlanCreate() {
 
   if (isLoading) return  (<LoadingBar/>);
   if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
+
+  
   
   return (
     <>
@@ -67,6 +88,7 @@ export default function PlanCreate() {
             dateFormat="yyyy-MM-dd"
             css={InputFieldStyle}
             minDate={new Date()} //오늘날짜 이전은 선택 못함
+            customInput={<CustomInput />} // 사용자 정의 입력 필드
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LoadingBar, Text } from "../../components";
+import { AlertModal, LoadingBar, Text } from "../../components";
 import colors from "../../styles/colors";
 import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
@@ -9,6 +9,7 @@ import { useGetDogsProfiles, useGetMembersInfo } from "../../queries";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 
+
 export default function Mypage() {
   const navigate = useNavigate();
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
@@ -16,17 +17,28 @@ export default function Mypage() {
   const { data : memberInfo, isLoading:isMemberLoading} = useGetMembersInfo();
   const { data : dogsInfo, isLoading: isDogsLoading } = useGetDogsProfiles();
   const [ dogId, setDogId ] = useState<number>(null)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
 
   const handlePetInfoClcik = (id : number) => {
     setDogId(id)
     setIsModalOpen(true)
   }
   
+
   const handleLogoutClick = () => {
-    logout()
-    navigate('/login', {replace:true} )
-  }
+    setIsLogoutModalOpen(true); // 로그아웃 버튼 클릭 시 모달 열기
+  };
+
+  const handleConfirmButtonClick = () => {
+    logout(); // 로그아웃 실행
+    navigate("/", { replace: true }); // 홈으로 이동
+    setIsLogoutModalOpen(false); // 모달 닫기
+  };
+
+  const closeModal = () => {
+    setIsLogoutModalOpen(false); // 모달 닫기
+  };
   
   if(isDogsLoading || isMemberLoading){return(<LoadingBar/>)}
 
@@ -106,6 +118,7 @@ export default function Mypage() {
               <div css={myActiveWrapper}>
                 {isLoggedIn ? (
                     <Text type="Label1" color={colors.color.Gray2} onClick={handleLogoutClick}>로그아웃</Text>
+                    
                   ) : (
                     <Text type="Label1" color={colors.color.Gray2} onClick={()=>navigate('/login')}>로그인</Text>
                   )
@@ -114,6 +127,13 @@ export default function Mypage() {
               </div>
             </div>
           </div>
+          <AlertModal
+            isModalOpen={isLogoutModalOpen}
+            title="로그아웃"
+            subTitle="정말로 로그아웃하시겠습니까?"
+            handleConfirmButtonClick={handleConfirmButtonClick}
+            closeModal={closeModal}
+          />
           {isModalOpen &&
             <PetInfoModal isOpen={isModalOpen} setIsOpen={setIsModalOpen} dogId={dogId}/>
           }

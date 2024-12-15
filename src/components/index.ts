@@ -11,4 +11,5 @@ export { default as CertificateLabel} from './label/certificate-label'
 export { default as ConditionLabel} from './label/condition-label'
 export { default as LoadingBar} from './loading-bar'
 export { default as DeleteConfirmModal} from './modal/delete-confirm-modal'
+export { default as AlertModal} from './modal/alert-modal'
 

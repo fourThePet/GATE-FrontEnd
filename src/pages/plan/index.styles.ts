@@ -222,22 +222,29 @@ export const FooterStyle = css`
 `;
 
 export const datepickerCustomStyles = css`
-  .react-datepicker__day--selected,
-  .react-datepicker__day--keyboard-selected {
-    background-color: #f7b0c4 !important;
+  .react-datepicker__day--selected {
+    background-color: #D04578 !important;
     color: white !important;
     border-radius: 50%;
   }
 
+  /* 선택된 날짜가 오늘인 경우에도 위 스타일 유지 */
+  .react-datepicker__day--today.react-datepicker__day--selected {
+    background-color: #D04578 !important;
+    color: white !important;
+  }
+
+  /* 오늘 날짜 기본 스타일 */
   .react-datepicker__day--today {
-    background-color: #f1729b !important;
+    background-color: #f8a8c2;
     color: white !important;
     border-radius: 50%;
   }
 
   .react-datepicker__day:hover {
-    background-color: #f7b0c4 !important;
+    background-color: #D04578 !important;
     color: white !important;
+    border-radius: 50%;
   }
 
   .react-datepicker__day--outside-month {

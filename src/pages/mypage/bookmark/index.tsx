@@ -11,7 +11,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 export default function MyBookMark(){
     const {isLoggedIn} = useAuthStore();
     const navigate = useNavigate();
-    const {data : bookMarkList, isLoading} = useGetFavoritesList()
+    const {data : bookMarkList, isLoading} = useGetFavoritesList(null)
     const [count, setCount] = useState<number>(0)
     console.log(bookMarkList)
     useEffect(() => {

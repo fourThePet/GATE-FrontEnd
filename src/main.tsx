@@ -6,16 +6,18 @@ import GlobalStyle from "./styles/global-style";
 import { Layout } from "./components";
 import QueryProvider from "./provider/query-provider";
 import { initSentry } from "../sentry";
+import ToastMessage from "./components/toast-message";
 
 initSentry();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryProvider>
-      <Layout>
-        <GlobalStyle />
-        <RouterProvider router={router} />
-      </Layout>
+      <GlobalStyle />
+        <Layout>
+          <RouterProvider router={router} />
+          <ToastMessage/>
+        </Layout>
     </QueryProvider>
   </React.StrictMode>
 );

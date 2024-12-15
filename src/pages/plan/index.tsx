@@ -7,16 +7,20 @@ import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 import { useGetMembersInfo } from "../../queries";
-import { LoadingBar, MainPinkButton, Text } from "../../components";
+import { AlertModal, LoadingBar, MainPinkButton, Text } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import colors from "../../styles/colors";
+import usePlanStore from "../../stores/usePlanStore";
 
 export default function Plan() {
   const defaultImageUrl = '/images/default_city.png'
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");
   const { data: memberInfo } = useGetMembersInfo();
-  const {isLoggedIn} = useAuthStore()
+  const {isLoggedIn} = useAuthStore();
+  const [isAlertModalOpen, setIsAlertModalOpen] = useState(false); // 모달 상태 관리
+  const resetState = usePlanStore((state) => state.resetState);
+
   // 다가오는 여행 데이터
   const {
     data: comingTravelsData,
@@ -84,9 +88,10 @@ export default function Plan() {
   
   const handleCreateButtonClick = () => {
     if(isLoggedIn){
+      resetState()
       navigate(`/plan/create`);
     }else{
-      alert('로그인이 필요해요.')
+      setIsAlertModalOpen(true);
     }
   };
 
@@ -212,6 +217,16 @@ export default function Plan() {
           )}
         </div>
       </div>
+      <AlertModal
+        isModalOpen={isAlertModalOpen}
+        title="로그인 필요"
+        subTitle="로그인 페이지로 이동할까요?"
+        handleConfirmButtonClick={() => {
+          navigate("/login");
+          setIsAlertModalOpen(false);
+        }}
+        closeModal={() => setIsAlertModalOpen(false)}
+      />
     </>
   );
 }
