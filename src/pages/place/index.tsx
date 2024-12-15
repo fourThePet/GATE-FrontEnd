@@ -280,12 +280,16 @@ export default function Place() {
         />
       </div>
       <div css={buttonContainer({ isModalOpen, isFilterModalOpen })}>
-        <MainPinkButton
-          onClick={handleButtonClick}
-          isDisabled={false}
-          width="10vh"
-          height="4vh"
-        >{buttonText}</MainPinkButton>
+        {places && places.length > 0 && (
+          <MainPinkButton
+            onClick={handleButtonClick}
+            isDisabled={false}
+            width="10vh"
+            height="4vh"
+          >
+            {buttonText}
+          </MainPinkButton>
+        )}
       </div>
       {/* TODO : 에이든 - 목록,필터 보기 작업분 */}
       {/* 라운드 적용 && 슬라이드 tap 바텀 to 탑 */}
