@@ -11,15 +11,11 @@ import { PlacesParam } from "../../interfaces/places";
 // 장소 정보 가져오기 훅
 export const useGetPlacesInfo = (placeId: number) => {
   return useQuery({
-    queryKey: QUERY_KEYS.GET_PLACES_INFO(placeId), // query key에 placeId 추가
+    queryKey: ["GET_PLACES_INFO", placeId],
     queryFn: async () => {
-      try {
-        return await getPlacesInfo(placeId);
-      } catch (error) {
-        console.error("장소 정보를 가져오는 중 오류 발생:", error);
-        throw new Error("장소 정보를 가져오는 데 실패했습니다.");
-      }
+      return await getPlacesInfo(placeId);
     },
+    enabled: !!placeId, // placeId가 있을 때만 호출
   });
 };
 
