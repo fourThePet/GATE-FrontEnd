@@ -123,7 +123,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
   };
 
   if (isLoading) {
-    return (<LoadingBar/>); // 로딩 중 상태
+    return <LoadingBar />; // 로딩 중 상태
   }
 
   if (isError || !storeData) {
@@ -166,7 +166,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             height: "auto",
           })}
           style={{
-            maxHeight: "500px",
+            maxHeight: "300px",
             objectFit: "cover",
           }}
         />

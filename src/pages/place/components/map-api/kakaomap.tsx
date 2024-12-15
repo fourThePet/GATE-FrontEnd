@@ -140,7 +140,7 @@ KaKaoMapProps) {
                   style="cursor: pointer; font-size: 14px; color: #999;" 
                   title="닫기"
                 >
-                  ✖
+                  X
                 </div>
               </div>
               <div style="display: flex; margin-top: 10px; cursor: pointer;">
