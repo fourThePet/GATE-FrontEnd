@@ -342,11 +342,36 @@ export default function StoreInfo({
           )}
 
           {storeData.sizeAvailable && (
-            <div style={{ minWidth: "50px", textAlign: "center" }}>
-              {interpretSizeAvailable(storeData.sizeAvailable)}
-              <p style={{ fontSize: "12px", marginTop: "5px" }}>
-                {interpretSizeKorea(storeData.sizeAvailable)}
-              </p>
+            <div style={{ display: "flex", gap: "30px", textAlign: "center" }}>
+              {storeData.allowedSize === "모두 가능" ? (
+                <>
+                  <div style={{ minWidth: "50px" }}>
+                    {interpretSizeAvailable("SMALL")}
+                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                      {interpretSizeKorea("SMALL")}
+                    </p>
+                  </div>
+                  <div style={{ minWidth: "50px" }}>
+                    {interpretSizeAvailable("MEDIUM")}
+                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                      {interpretSizeKorea("MEDIUM")}
+                    </p>
+                  </div>
+                  <div style={{ minWidth: "50px" }}>
+                    {interpretSizeAvailable("LARGE")}
+                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                      {interpretSizeKorea("LARGE")}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div style={{ minWidth: "50px", textAlign: "center" }}>
+                  {interpretSizeAvailable(storeData.sizeAvailable)}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea(storeData.sizeAvailable)}
+                  </p>
+                </div>
+              )}
             </div>
           )}
           {storeData.isLeashRequired === "Y" && (
