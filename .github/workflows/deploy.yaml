@@ -34,6 +34,7 @@ jobs:
           echo "VITE_KAKAO_MAP=${{secrets.VITE_KAKAO_MAP}}" >> .env
           echo "VITE_NAVER_OCR_INVOKE_URL=${{secrets.VITE_OCR}}" >> .env
           echo "VITE_NAVER_X_OCR_SECRET=${{secrets.VITE_OCR_SECRET}}" >> .env
+          echo "SENTRY_AUTH_TOKEN=${{secrets.SENTRY_AUTH_TOKEN}}" >> .env
 
       - name: Yarn Build
         run: |

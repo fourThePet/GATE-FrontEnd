@@ -28,7 +28,7 @@ export const subTitleStyle = css`
 `
 const modalStyles : Styles= {
     overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.7)", // 배경 오버레이 설정
+      backgroundColor: "rgba(0, 0, 0, 0.2)", // 배경 오버레이 설정
       display: "flex",
       justifyContent: "center",
       alignItems: "center",

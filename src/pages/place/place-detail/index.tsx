@@ -17,6 +17,8 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import { BasicInfoContainer } from "./index.styles";
 import { useLocation } from "react-router-dom";
 import { LoadingBar } from "../../../components";
+import NotFound from "../../not-found";
+import { notify } from "../../../utils/constants";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
@@ -54,6 +56,12 @@ export default function PlaceDetail() {
   const latitude = parseFloat(queryParams.get("latitude") || "0");
   const longitude = parseFloat(queryParams.get("longitude") || "0");
 
+  const handleMapViewClick = () => {
+    if (howToComeRef.current) {
+      howToComeRef.current.scrollIntoView({ behavior: "smooth" }); // 스크롤 이동
+    }
+  };
+
   // const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
@@ -82,7 +90,9 @@ export default function PlaceDetail() {
   }, [howToComeRef.current]); // `
 
   if (isLoading) return <LoadingBar />;
-  if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
+  if (error || !data) return (
+    <NotFound/>
+  );
 
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
@@ -110,7 +120,7 @@ export default function PlaceDetail() {
           }
         `}
       </style>
-      <StoreInfo placeId={placeId} />
+      <StoreInfo placeId={placeId} onMapViewClick={handleMapViewClick} />
       <Divider2 />
       <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
         <div
@@ -127,7 +137,15 @@ export default function PlaceDetail() {
             css={{ width: "70px", height: "70px", cursor: "pointer" }}
             onClick={() => {
               if (!isLoggedIn) {
-                alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+                
+                notify({
+                  type : "warning",
+                  text : "로그인이 필요해요",
+                  // onClose : () => {
+                  //   localStorage.setItem("pathname",`${window.location.pathname}${window.location.search}`)
+                  //   navigate("/login", { state: { from: `${window.location.pathname}${window.location.search}` } }); // 로그인 페이지로 이동
+                  // }
+                })
                 navigate("/login");
               } else {
                 handleReviewButtonClick();

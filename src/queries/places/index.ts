@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../query-keys";
 import {
   getPlacesInfo,
@@ -6,20 +6,17 @@ import {
   getPlaces_2,
   getPlacesCities,
   getPopularPlaces,
+  getPlacesPlanSearch,
 } from "../../api";
-import { PlacesParam } from "../../interfaces/places";
+import { PlacesParam, PlanSearchParam } from "../../interfaces/places";
 // 장소 정보 가져오기 훅
 export const useGetPlacesInfo = (placeId: number) => {
   return useQuery({
-    queryKey: QUERY_KEYS.GET_PLACES_INFO(placeId), // query key에 placeId 추가
+    queryKey: ["GET_PLACES_INFO", placeId],
     queryFn: async () => {
-      try {
-        return await getPlacesInfo(placeId);
-      } catch (error) {
-        console.error("장소 정보를 가져오는 중 오류 발생:", error);
-        throw new Error("장소 정보를 가져오는 데 실패했습니다.");
-      }
+      return await getPlacesInfo(placeId);
     },
+    enabled: !!placeId, // placeId가 있을 때만 호출
   });
 };
 
@@ -77,5 +74,23 @@ export const useGetPopularPlaces = (limit: number) => {
       }
     },
     staleTime: 1000 * 60 * 5, // 데이터 캐싱 시간 (5분)
+  });
+};
+
+
+
+export const useGetPlacesPlanSearch = (params : PlanSearchParam) => {
+  
+
+  return useInfiniteQuery({
+    queryKey: QUERY_KEYS.GET_PLACES_PLAN_SEARCH(params),
+    queryFn: async ({ pageParam = 0 }) => {
+      // pageParam 기본값 0 설정
+      const page = pageParam as number; // 명시적으로 number로 캐스팅
+      return await getPlacesPlanSearch({...params, page});
+    },
+    getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+    initialPageParam: 0, // 초기 pageParam을 설정
+    enabled : !!params.cityId
   });
 };

@@ -128,7 +128,7 @@ export const imageWrapper =(isCentered: boolean) => css`
     width: 100%;
     flex-wrap: wrap;
     border-radius: 20px;
-    padding: 10px;
+    padding: 0 30px;
     border: 1px solid ${colors.color.Gray4};
 `
 
@@ -188,3 +188,40 @@ export const addIcon = css`
 export const fileInput = css`
   display: none; /* 파일 업로드 버튼 숨김 */
 `;
+
+export const tooltipStyle = css`
+  width: 180px;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background-color: ${colors.color.White1};
+  color: ${colors.color.MainColor};
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  white-space: pre-line;
+  border: 1px solid  ${colors.color.MainColor};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 10;
+
+  .button-wrapper:hover & {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
+export const sizeTitle = css`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  
+`
+
+export const help = css`
+  display: flex;  
+  position: relative;
+  align-items: center;
+`

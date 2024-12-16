@@ -89,10 +89,10 @@ api.interceptors.response.use(
       });
     }
     if (
-      error.response?.statu >= 400 &&
-      ![401, 403, 409].includes(error.response?.statu)
+      error.response?.status >= 400 &&
+      ![401, 403, 409].includes(error.response?.status)
     ) {
-      const isServerError = error.response?.statu >= 500;
+      const isServerError = error.response?.status >= 500;
       const errorType = isServerError ? "Server Error" : "Api Error";
       Sentry.withScope((scope) => {
         scope.setLevel("error");

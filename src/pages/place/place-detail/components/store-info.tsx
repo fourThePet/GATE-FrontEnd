@@ -31,8 +31,11 @@ import { useNavigate } from "react-router-dom";
 import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
 import { LoadingBar } from "../../../../components";
-
-export default function StoreInfo({ placeId }: ReviewProps) {
+import { Showmap, Calling, Homepage } from "../../../../assets/svg";
+export default function StoreInfo({
+  placeId,
+  onMapViewClick,
+}: ReviewProps & { onMapViewClick: () => void }) {
   const navigate = useNavigate();
 
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
@@ -40,7 +43,6 @@ export default function StoreInfo({ placeId }: ReviewProps) {
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
-  // 초기 로드 시 favorites 값에 따라 isLiked 상태 설정
 
   useEffect(() => {
     if (storeData?.favorites === "Y") {
@@ -63,10 +65,10 @@ export default function StoreInfo({ placeId }: ReviewProps) {
         onSuccess: () => {
           console.log("즐겨찾기 삭제");
           setIsLiked(false);
+          window.location.reload(); // 페이지 새로고침
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
             if (error.response?.status === 401) {
               alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
               window.location.href = "/login";
@@ -82,9 +84,13 @@ export default function StoreInfo({ placeId }: ReviewProps) {
       });
     } else {
       postFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 등록 성공");
+          setIsLiked(true);
+          window.location.reload(); // 페이지 새로고침
+        },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
             if (error.response?.status === 401) {
               alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
               window.location.href = "/login";
@@ -96,10 +102,6 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             console.error("알 수 없는 오류:", error);
             alert("예기치 못한 문제가 발생했습니다.");
           }
-        },
-        onSuccess: () => {
-          console.log("즐겨찾기 등록 성공");
-          setIsLiked(true);
         },
       });
     }
@@ -123,7 +125,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
   };
 
   if (isLoading) {
-    return (<LoadingBar/>); // 로딩 중 상태
+    return <LoadingBar />; // 로딩 중 상태
   }
 
   if (isError || !storeData) {
@@ -166,7 +168,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
             height: "auto",
           })}
           style={{
-            maxHeight: "500px",
+            maxHeight: "300px",
             objectFit: "cover",
           }}
         />
@@ -175,7 +177,7 @@ export default function StoreInfo({ placeId }: ReviewProps) {
       {/* 콘텐츠 */}
       <div css={ContentContainer}>
         <span css={typo.Body3} style={{ color: "#9A9EA6" }}>
-          {storeData.category} | {storeData.lotAddress}
+          {storeData.category}
         </span>
         <div
           css={Block.flexBlock({
@@ -187,165 +189,260 @@ export default function StoreInfo({ placeId }: ReviewProps) {
         >
           <h1
             css={typo.Heading1}
-            style={{ marginTop: "20px", marginBottom: "-5px" }}
+            style={{ marginTop: "0px", marginBottom: "-5px" }}
           >
             {storeData.name}
           </h1>
           <div
             onClick={toggleHeart}
-            style={{ marginTop: "20px", cursor: "pointer" }}
-          >
-            {isLiked ? (
-              <HeartFill css={{ width: "24px", height: "24px" }} />
-            ) : (
-              <Heart
-                css={{ width: "24px", height: "24px", color: "#9A9EA6" }}
-              />
-            )}
-          </div>
-        </div>
-        <p css={typo.Body2} style={{ marginBottom: "10px", color: "#9A9EA6" }}>
-          {storeData.lotAddress}
-        </p>
-        <PlaceReviewList placeId={placeId} />{" "}
-      </div>
-      {/* 정보 아이콘 */}
-      <div
-        css={{
-          display: "flex",
-          overflowX: "auto",
-          overflowY: "hidden",
-          whiteSpace: "nowrap",
-          padding: "10px 0",
-          gap: "30px",
-          marginLeft: "20px",
-          marginRight: "10px",
-        }}
-      >
-        {storeData.additionalPetFee >= 1 && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Extracharge width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>
-              동반 추가:{storeData.additionalPetFe}원{" "}
-            </p>
-          </div>
-        )}
-
-        {storeData.sizeAvailable && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            {interpretSizeAvailable(storeData.sizeAvailable)}
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>
-              {interpretSizeKorea(storeData.sizeAvailable)}
-            </p>
-          </div>
-        )}
-        {storeData.isLeashRequired === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Ropenecessary width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>목줄 필수</p>
-          </div>
-        )}
-        {storeData.isMuzzleRequired === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Mouthnecessary width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>입마개 필수</p>
-          </div>
-        )}
-        {storeData.isCageRequired === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Cagenecessary width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>케이지 필수</p>
-          </div>
-        )}
-        {storeData.isVaccinationComplete === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Vaccinnecessary width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>접종 완료</p>
-          </div>
-        )}
-        {storeData.indoorAvailable === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Indoorav width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>실내 가능</p>
-          </div>
-        )}
-        {storeData.outdoorAvailable === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Outdoorav width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>야외 가능</p>
-          </div>
-        )}
-        {storeData.parkingAvailable === "Y" && (
-          <div style={{ minWidth: "50px", textAlign: "center" }}>
-            <Parkingavailabe width={"50px"} height={"50px"} />
-            <p style={{ fontSize: "12px", marginTop: "5px" }}>주차 가능</p>
-          </div>
-        )}
-      </div>
-      <Divider2 />
-      <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
-        <h2 css={typo.Heading3}>기본 정보</h2>
-        <ul style={{ marginLeft: "20px" }}>
-          <li
-            css={typo.Body2}
             style={{
-              color: "#888888",
-              wordBreak: "break-all",
-              whiteSpace: "normal",
-              lineHeight: "1",
+              width: "50px",
+              height: "70px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#ffffff",
+              borderRadius: "20px",
+              boxShadow:
+                "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06)",
+              marginTop: "10px",
             }}
           >
-            - 홈페이지:{" "}
-            {storeData.websiteUrl !== "정보없음" ? (
-              <a
-                href={storeData.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-block",
-                  maxWidth: "250px",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
-                  color: "#F8A8C2",
-                  textDecoration: "underline",
-                }}
-              >
-                {(() => {
-                  const url = storeData.websiteUrl;
-                  const trimmedUrl = url.includes(".com")
-                    ? url.split(".com")[0] + ".com"
-                    : url;
-                  return trimmedUrl;
-                })()}
-              </a>
-            ) : (
-              <span>정보 없음</span>
-            )}
-          </li>
-          <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 전화번호:{" "}
-            <a
-              href={`tel:${storeData.phoneNumber}`}
+            <div style={{ cursor: "pointer" }}>
+              {isLiked ? (
+                <HeartFill
+                  css={{ width: "24px", height: "24px", color: "#000000" }}
+                />
+              ) : (
+                <Heart
+                  css={{ width: "24px", height: "24px", color: "#000000" }}
+                />
+              )}
+            </div>
+            <span
               style={{
-                color: "#F8A8C2",
-                textDecoration: "underline",
+                fontSize: "16px",
+                color: "#888888",
+                fontWeight: "600",
               }}
             >
-              {storeData.phoneNumber}
-            </a>
-          </li>
-          <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 입장료: {storeData.admissionFee}
-          </li>
-          <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 휴무일: {storeData.holiday}
-          </li>
-          <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 운영 시간: {storeData.operatingHours}
-          </li>
+              {storeData.favoritesNum}
+            </span>
+          </div>
+        </div>
+        {/* 주소 */}
+        <div
+          css={Block.flexBlock({
+            direction: "row",
+            alignItems: "center",
+            gap: "5px",
+          })}
+          style={{ marginBottom: "12px" }}
+        >
+          <img src="/images/location.png" />
 
+          <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
+            {storeData.roadAddress}
+          </span>
+        </div>
+        {/* 리뷰 */}
+        <PlaceReviewList placeId={placeId} />{" "}
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center", // 가운데 정렬
+          gap: "20%", // 요소 간 간격
+          alignItems: "center", // 세로 정렬
+          marginTop: "20px",
+        }}
+      >
+        {/* 전화하기 */}
+        <div
+          style={{ minWidth: "50px", textAlign: "center", cursor: "pointer" }}
+          onClick={() => {
+            if (storeData.phoneNumber) {
+              window.location.href = `tel:${storeData.phoneNumber}`;
+            }
+          }}
+        >
+          <Calling
+            width={"40px"}
+            height={"40px"}
+            style={{ color: "#F8A8C2" }}
+          />
+          <p style={{ fontSize: "15px", marginTop: "5px", color: "#333333" }}>
+            전화하기
+          </p>
+        </div>
+
+        {/* 지도보기 */}
+        <div
+          style={{ minWidth: "50px", textAlign: "center", cursor: "pointer" }}
+          onClick={onMapViewClick}
+        >
+          <Showmap
+            width={"40px"}
+            height={"40px"}
+            style={{ color: "#F8A8C2" }}
+          />
+          <p style={{ fontSize: "15px", marginTop: "5px", color: "#333333" }}>
+            지도보기
+          </p>
+        </div>
+
+        {/* 홈페이지 */}
+        <div
+          style={{ minWidth: "50px", textAlign: "center", cursor: "pointer" }}
+          onClick={() => {
+            if (storeData.websiteUrl !== "정보없음") {
+              window.location.href = storeData.websiteUrl;
+            } else {
+              alert("홈페이지 정보가 없습니다!");
+            }
+          }}
+        >
+          <Homepage
+            width={"40px"}
+            height={"40px"}
+            style={{ color: "#F8A8C2" }}
+          />
+          <p style={{ fontSize: "15px", marginTop: "5px", color: "#333333" }}>
+            홈페이지
+          </p>
+        </div>
+      </div>
+
+      <Divider2 />
+
+      <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
+        <h2 css={typo.Heading3}>이용 안내</h2>
+        {/* 정보 아이콘 */}
+        <div
+          css={{
+            display: "flex",
+            overflowX: "auto",
+            overflowY: "hidden",
+            whiteSpace: "nowrap",
+            padding: "10px 0",
+            gap: "30px",
+            marginLeft: "20px",
+            marginRight: "10px",
+          }}
+        >
+          {storeData.additionalPetFee >= 1 && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Extracharge width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                동반 추가:{storeData.additionalPetFe}원{" "}
+              </p>
+            </div>
+          )}
+
+          {storeData.allowSizes && storeData.allowSizes.length > 0 && (
+            <div style={{ display: "flex", gap: "30px", textAlign: "center" }}>
+              {storeData.allowSizes.includes("SMALL") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("SMALL")}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea("SMALL")}
+                  </p>
+                </div>
+              )}
+              {storeData.allowSizes.includes("MEDIUM") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("MEDIUM")}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea("MEDIUM")}
+                  </p>
+                </div>
+              )}
+              {storeData.allowSizes.includes("LARGE") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("LARGE")}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea("LARGE")}
+
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+          {storeData.isLeashRequired === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Ropenecessary width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>목줄 필수</p>
+            </div>
+          )}
+          {storeData.isMuzzleRequired === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Mouthnecessary width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>입마개 필수</p>
+            </div>
+          )}
+          {storeData.isCageRequired === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Cagenecessary width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>케이지 필수</p>
+            </div>
+          )}
+          {storeData.isVaccinationComplete === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Vaccinnecessary width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>접종 완료</p>
+            </div>
+          )}
+          {storeData.indoorAvailable === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Indoorav width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>실내 가능</p>
+            </div>
+          )}
+          {storeData.outdoorAvailable === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Outdoorav width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>야외 가능</p>
+            </div>
+          )}
+          {storeData.parkingAvailable === "Y" && (
+            <div style={{ minWidth: "50px", textAlign: "center" }}>
+              <Parkingavailabe width={"50px"} height={"50px"} />
+              <p style={{ fontSize: "12px", marginTop: "5px" }}>주차 가능</p>
+            </div>
+          )}
+        </div>
+        <ul style={{ marginLeft: "20px" }}>
           <li css={typo.Body2} style={{ color: "#888888" }}>
-            - 데이터 마지막 수정일: {storeData.lastUpdated}
+
+            입장 조건
+            <span style={{ color: "#F1729B" }}>
+              {" "}
+              {storeData.allowedSize}{" "}
+            </span>{" "}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            입장료
+            <span style={{ color: "#F1729B" }}>
+              {" "}
+              {storeData.admissionFee}{" "}
+            </span>{" "}
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            휴무일 <span style={{ color: "#F1729B" }}>{storeData.holiday}</span>
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            운영 시간
+            <span style={{ color: "#F1729B" }}>
+              {" "}
+              {storeData.operatingHours}{" "}
+            </span>
+          </li>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+
+            데이터 마지막 수정일
+            <span style={{ color: "#F1729B" }}> {storeData.lastUpdated} </span>
           </li>
         </ul>
       </div>
