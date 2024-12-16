@@ -10,6 +10,7 @@ import { BasicInfoContainer } from "../place/place-detail/index.styles";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../assets/svg";
 import formatReviewDate from "./format-review-date";
 import { LoadingBar } from "../../components";
+import { containerStyle, tooltipStyle } from "./index.styles";
 export default function Review() {
   const location = useLocation();
   const placeId = location.state?.placeId; // 전달받은 placeId
@@ -19,7 +20,7 @@ export default function Review() {
     Record<number, boolean>
   >({});
 
-  if (isLoading) return  (<LoadingBar/>);
+  if (isLoading) return <LoadingBar />;
   if (error || !data) return <div>리뷰를 가져오는 데 실패했습니다.</div>;
 
   const { starRateAvg = "0", reviewCount = 0, reviewResponseList = [] } = data;
@@ -153,7 +154,7 @@ export default function Review() {
           </div>
         </div>
       </div>
-      <Divider style={{ marginLeft: "30px", width: "90%" }} />
+      <Divider style={{ width: "100%", height: "7px" }} />
 
       {/* 리뷰 리스트 */}
       {reviewResponseList.map((review) => (
@@ -260,28 +261,30 @@ export default function Review() {
             >
               {/* 크기 아이콘 표시 */}
               {review.size === "SMALL" && (
-                <Sdogpink
-                  css={{
-                    width: "45px",
-                    height: "45px",
-                  }}
-                />
+                <div css={containerStyle}>
+                  <Sdogpink css={{ width: "45px", height: "45px" }} />
+                  <span css={tooltipStyle} className="tooltipStyle">
+                    소형
+                  </span>
+                </div>
               )}
+
               {review.size === "MEDIUM" && (
-                <Mdogpink
-                  css={{
-                    width: "45px",
-                    height: "45px",
-                  }}
-                />
+                <div css={containerStyle}>
+                  <Mdogpink css={{ width: "45px", height: "45px" }} />
+                  <span css={tooltipStyle} className="tooltipStyle">
+                    중형
+                  </span>
+                </div>
               )}
+
               {review.size === "LARGE" && (
-                <Ldogpink
-                  css={{
-                    width: "45px",
-                    height: "45px",
-                  }}
-                />
+                <div css={containerStyle}>
+                  <Ldogpink css={{ width: "45px", height: "45px" }} />
+                  <span css={tooltipStyle} className="tooltipStyle">
+                    대형
+                  </span>
+                </div>
               )}
               {review.keywordList.map((keyword: string, index: number) => (
                 <button
@@ -388,7 +391,9 @@ export default function Review() {
               {formatReviewDate(review.createAt)}
             </div>
           </div>
-          <Divider style={{ marginLeft: "30px", width: "90%" }} />
+          <Divider
+            style={{ marginLeft: "30px", width: "90%", height: "2px" }}
+          />
         </div>
       ))}
     </div>

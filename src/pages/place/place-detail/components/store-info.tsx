@@ -209,7 +209,7 @@ export default function StoreInfo({
               marginTop: "10px",
             }}
           >
-            <div style={{ marginBottom: "8px", cursor: "pointer" }}>
+            <div style={{ cursor: "pointer" }}>
               {isLiked ? (
                 <HeartFill
                   css={{ width: "24px", height: "24px", color: "#000000" }}
@@ -227,7 +227,7 @@ export default function StoreInfo({
                 fontWeight: "600",
               }}
             >
-              12
+              {storeData.favoritesNum}
             </span>
           </div>
         </div>
