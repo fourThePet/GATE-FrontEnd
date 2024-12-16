@@ -341,34 +341,29 @@ export default function StoreInfo({
             </div>
           )}
 
-          {storeData.sizeAvailable && (
+          {storeData.allowSizes && storeData.allowSizes.length > 0 && (
             <div style={{ display: "flex", gap: "30px", textAlign: "center" }}>
-              {storeData.allowedSize === "모두 가능" ? (
-                <>
-                  <div style={{ minWidth: "50px" }}>
-                    {interpretSizeAvailable("SMALL")}
-                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
-                      {interpretSizeKorea("SMALL")}
-                    </p>
-                  </div>
-                  <div style={{ minWidth: "50px" }}>
-                    {interpretSizeAvailable("MEDIUM")}
-                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
-                      {interpretSizeKorea("MEDIUM")}
-                    </p>
-                  </div>
-                  <div style={{ minWidth: "50px" }}>
-                    {interpretSizeAvailable("LARGE")}
-                    <p style={{ fontSize: "12px", marginTop: "5px" }}>
-                      {interpretSizeKorea("LARGE")}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <div style={{ minWidth: "50px", textAlign: "center" }}>
-                  {interpretSizeAvailable(storeData.sizeAvailable)}
+              {storeData.allowSizes.includes("SMALL") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("SMALL")}
                   <p style={{ fontSize: "12px", marginTop: "5px" }}>
-                    {interpretSizeKorea(storeData.sizeAvailable)}
+                    {interpretSizeKorea("SMALL")}
+                  </p>
+                </div>
+              )}
+              {storeData.allowSizes.includes("MEDIUM") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("MEDIUM")}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea("MEDIUM")}
+                  </p>
+                </div>
+              )}
+              {storeData.allowSizes.includes("LARGE") && (
+                <div style={{ minWidth: "50px" }}>
+                  {interpretSizeAvailable("LARGE")}
+                  <p style={{ fontSize: "12px", marginTop: "5px" }}>
+                    {interpretSizeKorea("LARGE")}
                   </p>
                 </div>
               )}
@@ -418,6 +413,13 @@ export default function StoreInfo({
           )}
         </div>
         <ul style={{ marginLeft: "20px" }}>
+          <li css={typo.Body2} style={{ color: "#888888" }}>
+            입장 조건
+            <span style={{ color: "#F1729B" }}>
+              {" "}
+              {storeData.allowedSize}{" "}
+            </span>{" "}
+          </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
             입장료
             <span style={{ color: "#F1729B" }}>
