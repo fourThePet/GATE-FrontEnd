@@ -3,7 +3,6 @@ import { PageWrapper } from "../../styles/ui";
 import SearchbarCategory from "./components/searchbar-category";
 import TodayBenefit from "./components/today-benefit";
 import Best10 from "./components/Best10";
-
 export default function Home() {
   return (
     <>
