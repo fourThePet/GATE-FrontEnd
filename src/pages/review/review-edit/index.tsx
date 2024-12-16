@@ -142,7 +142,7 @@ export default function ReviewEdit(){
             } else {
                 // URL만 있는 경우 URL을 파일로 변환 후 추가
                 
-                const file = await convertImageUrlToFile(fileWithPreview.url, "uploaded-file.png");
+                const file = await convertImageUrlToFile(fileWithPreview.url, `${fileWithPreview.url}`);
                 formData.append("files", file);
             }
         }

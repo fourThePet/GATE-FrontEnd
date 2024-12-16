@@ -122,8 +122,8 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
             formData.append('imageFile', fileInput);
         } else if (profileImageSrc) {
             // 현재 이미지를 파일로 변환
-            const file = await convertImageUrlToFile(profileImageSrc, "profile-image.png");
-            console.log(file)
+            const file = await convertImageUrlToFile(profileImageSrc, `${profileImageSrc}`);
+            
             formData.append('imageFile', file);
         }
        
