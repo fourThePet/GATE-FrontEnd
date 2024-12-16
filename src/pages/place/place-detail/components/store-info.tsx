@@ -32,6 +32,7 @@ import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
 import { LoadingBar } from "../../../../components";
 import { Showmap, Calling, Homepage } from "../../../../assets/svg";
+
 export default function StoreInfo({
   placeId,
   onMapViewClick,
@@ -40,6 +41,7 @@ export default function StoreInfo({
 
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
+  const [, setIsRefreshing] = useState(false); // 새로고침 상태 관리
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
@@ -53,6 +55,13 @@ export default function StoreInfo({
   const postFavoriteMutation = usePostFavorite();
   const patchFavoriteMutation = usePatchFavorite();
 
+  const refreshPage = () => {
+    setIsRefreshing(true); // 새로고침 상태 활성화
+    setTimeout(() => {
+      window.location.reload(); // 페이지 새로고침
+    }, 500); // 500ms 동안 로딩 표시
+  };
+
   const toggleHeart = () => {
     if (!isLoggedIn) {
       alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
@@ -65,7 +74,7 @@ export default function StoreInfo({
         onSuccess: () => {
           console.log("즐겨찾기 삭제");
           setIsLiked(false);
-          window.location.reload(); // 페이지 새로고침
+          refreshPage();
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
@@ -87,7 +96,7 @@ export default function StoreInfo({
         onSuccess: () => {
           console.log("즐겨찾기 등록 성공");
           setIsLiked(true);
-          window.location.reload(); // 페이지 새로고침
+          refreshPage();
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
@@ -125,7 +134,11 @@ export default function StoreInfo({
   };
 
   if (isLoading) {
-    return <LoadingBar />; // 로딩 중 상태
+    return (
+      <div css={{ alignItems: "center" }}>
+        <LoadingBar />
+      </div>
+    ); // 로딩 중 상태
   }
 
   if (isError || !storeData) {
@@ -364,7 +377,6 @@ export default function StoreInfo({
                   {interpretSizeAvailable("LARGE")}
                   <p style={{ fontSize: "12px", marginTop: "5px" }}>
                     {interpretSizeKorea("LARGE")}
-
                   </p>
                 </div>
               )}
@@ -415,7 +427,6 @@ export default function StoreInfo({
         </div>
         <ul style={{ marginLeft: "20px" }}>
           <li css={typo.Body2} style={{ color: "#888888" }}>
-
             입장 조건
             <span style={{ color: "#F1729B" }}>
               {" "}
@@ -440,7 +451,6 @@ export default function StoreInfo({
             </span>
           </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
-
             데이터 마지막 수정일
             <span style={{ color: "#F1729B" }}> {storeData.lastUpdated} </span>
           </li>

@@ -10,6 +10,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getIconBasedOnCategory } from "./categoryIcon";
 import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
+import OverlayContent from "./overlay-content";
+import { createRoot } from "react-dom/client";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -81,10 +83,9 @@ KaKaoMapProps) {
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
-    // 기존 마커 및 오버레이 제거
-    clearMarkers();
+    clearMarkers(); // 기존 마커 제거
 
-    const newMarkerOverlayPairs = places.map((place) => {
+    places.forEach((place) => {
       const icon = getIconBasedOnCategory(place.category);
 
       const marker = new window.kakao.maps.Marker({
@@ -99,118 +100,63 @@ KaKaoMapProps) {
         ),
       });
 
-      // 마커 클릭 이벤트
       window.kakao.maps.event.addListener(marker, "click", async () => {
-        console.log("마커 클릭");
         try {
           const placeInfo = await getPlacesInfo(place.id);
+          if (!placeInfo) return;
 
-          if (!placeInfo) {
-            console.error("장소 데이터가 존재하지 않습니다.", place.id);
-            return;
-          }
+          closeCurrentOverlay(); // 기존 오버레이 닫기
 
-          // 기존 오버레이 닫기
-          closeCurrentOverlay();
+          const overlayDiv = document.createElement("div");
 
-          // 오버레이 컨텐츠 생성
-          const overlayContent = document.createElement("div");
-          overlayContent.className = "custom-overlay wrap";
-          overlayContent.style.cssText = `
-            position: relative;
-            width:100%;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-          `;
-          overlayContent.innerHTML = `
-            <div style="padding: 10px;">
-              <div style="
-                  font-size: 16px; 
-                  font-weight: bold; 
-                  color: #333; 
-                  display: flex; 
-                  justify-content: space-between; 
-                  align-items: center;">
-                ${placeInfo.name}
-                <div 
-                  class="close" 
-                  style="cursor: pointer; font-size: 14px; color: #999;" 
-                  title="닫기"
-                >
-                  X
-                </div>
-              </div>
-              <div style="display: flex; margin-top: 10px; cursor: pointer;">
-                <div style="width: 73px; height: 70px; margin-right: 10px;">
-                  <img 
-                    src="${
-                      placeInfo.photoUrl || "https://via.placeholder.com/73x70"
-                    }" 
-                    alt="${placeInfo.name}" 
-                    style="width: 73px; height: 100%; object-fit: cover; border-radius: 5px;"
-                  />
-                </div>
-                <div style="flex: 1; font-size: 12px; color: #666;">
-                  <div>${placeInfo.roadAddress || "주소 없음"}</div>
-                  <div>${placeInfo.postalCode || "우편번호 없음"}</div>
-                  <a 
-                    href="${placeInfo.websiteUrl || "#"}" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    style="color: #007bff; text-decoration: none;"
-                  >
-                    홈페이지
-                  </a>
-                </div>
-              </div>
-            </div>
-          `;
+          // React 18의 createRoot 사용
+          const root = createRoot(overlayDiv);
+
+          root.render(
+            <OverlayContent
+              placeInfo={placeInfo}
+              placeId={placeInfo.id}
+              onClose={() => {
+                closeCurrentOverlay();
+                root.unmount(); // 컴포넌트 언마운트
+              }}
+              toggleHeart={() => console.log("Toggle Heart")}
+              isLiked={placeInfo.favorites === "Y"}
+              navigate={navigate}
+            />
+          );
 
           const overlay = new window.kakao.maps.CustomOverlay({
-            content: overlayContent,
+            content: overlayDiv,
             map: mapInstance.current,
-            position: marker.getPosition() as kakao.maps.LatLng, // 마커 위치
-            xAnchor: 0.3, // X축 중앙 정렬
-            yAnchor: 1.2, // Y축 마커 바로 위 (1보다 큰 값으로 조정)
+            position: marker.getPosition(),
           });
 
-          // 커스텀 오버레이 닫기 함수
-          const closeOverlay = () => {
-            overlay.setMap(null);
-            currentOverlayRef.current = null; // 상태 초기화
-          };
+          currentOverlayRef.current = overlay; // 현재 오버레이 업데이트
+          // **지도의 중심을 오버레이의 오른쪽 끝으로 이동**
+          if (mapInstance.current) {
+            const markerPosition = marker.getPosition();
 
-          // 닫기 버튼 이벤트 리스너 추가
-          overlayContent
-            .querySelector(".close")
-            ?.addEventListener("click", (e) => {
-              e.stopPropagation(); // 부모 이벤트 전파 방지
-              closeOverlay();
-            });
+            // 지도 중심을 오른쪽으로 이동 (지도 중심은 화면 좌표로 이동)
+            const projection = mapInstance.current.getProjection();
+            const markerPoint = projection.pointFromCoords(markerPosition); // 마커의 화면 좌표
+            const overlayOffsetX = 200; // 오버레이의 예상 가로 크기 (픽셀 단위)
 
-          // 오버레이 전체 클릭 시 상세 페이지 이동
-          overlayContent.addEventListener("click", () => {
-            navigate(
-              `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
-              {
-                replace: false,
-                state: { placeId: place.id },
-              }
+            const newPoint = new window.kakao.maps.Point(
+              markerPoint.x + overlayOffsetX, // X축으로 이동
+              markerPoint.y
             );
-          });
 
-          overlay.setMap(mapInstance.current);
-          currentOverlayRef.current = overlay; // **currentOverlayRef 업데이트**
-        } catch (error) {}
+            const newCenter = projection.coordsFromPoint(newPoint); // 새 중심 좌표
+            mapInstance.current.panTo(newCenter); // 지도 중심 이동
+          }
+        } catch (error) {
+          console.error("Failed to load place info:", error);
+        }
       });
 
-      return { marker, overlay: null };
+      marker.setMap(mapInstance.current); // 지도에 마커 추가
     });
-
-    setMarkerOverlayPairs(newMarkerOverlayPairs);
   };
 
   const clearMarkers = () => {
