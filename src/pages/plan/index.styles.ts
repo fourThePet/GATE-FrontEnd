@@ -100,7 +100,7 @@ export const planListWrapper = css`
   justify-content: space-around;
   align-items: center;
   margin: 20px 0; 
-  padding: 0 30px;
+  /* padding: 0 30px; */
   width: 100%;
 `
 
@@ -126,6 +126,10 @@ export const buttonWrapper = css`
 export const noDataText = css`
   text-align: center;
   padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 `
 export const PageWrapperStyle = css`
   height: 100%;

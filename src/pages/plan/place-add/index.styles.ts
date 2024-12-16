@@ -115,6 +115,11 @@ export const selectionWrapper = css`
     white-space: nowrap;
 `
 
+export const noDataText = css`
+  text-align: center;
+  padding: 20px;
+`
+
 
 
 
