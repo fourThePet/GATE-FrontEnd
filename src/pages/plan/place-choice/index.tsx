@@ -29,6 +29,8 @@ export default function PlaceChoice() {
     dogIds,
     placeIds,
     cityName,
+    latitude: cityLatitude,
+    longitude: cityLongitude,
     setPlaceIds,
     setResponse,
     resetPlaceIds,
@@ -40,19 +42,21 @@ export default function PlaceChoice() {
     useState<SelectPlaceType[]>(initialSelectItems);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const { mutate: createRecommendPlan } = usePostPlansRoute();
-  
+
   const handleResetButtonClick = () => {
     resetPlaceIds();
     setSelectItems([]);
   };
-  const handleRecommendButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if(isDisabled){
-      e.preventDefault()
+  const handleRecommendButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    if (isDisabled) {
+      e.preventDefault();
       notify({
         type: "warning",
-        text: "장소를 하나 이상 선택해주세요"
-      })
-      return
+        text: "장소를 하나 이상 선택해주세요",
+      });
+      return;
     }
     //일정 추천 경로 post api
     const request = {
@@ -99,8 +103,8 @@ export default function PlaceChoice() {
         <div css={mapWrapper}>
           <MapComponent
             places={selectItems}
-            centerLat={selectItems[0]?.latitude || 37.5665}
-            centerLng={selectItems[0]?.longitude || 126.978}
+            centerLat={selectItems[0]?.latitude || cityLatitude}
+            centerLng={selectItems[0]?.longitude || cityLongitude}
           />
         </div>
         <div css={placeWrapper}>

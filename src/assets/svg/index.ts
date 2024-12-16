@@ -29,6 +29,7 @@ export { default as Communitypink } from "./Communitypink";
 export { default as DefaultProfile } from "./DefaultProfile";
 export { default as DeleteIcon } from "./DeleteIcon";
 export { default as Extracharge } from "./Extracharge";
+export { default as FavoriteIcon } from "./FavoriteIcon";
 export { default as FileDelete } from "./FileDelete";
 export { default as Filter } from "./Filter";
 export { default as Food } from "./Food";
