@@ -1,29 +1,65 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { bottomButtonStyle, contentWrapper, headerContainerStyle, searchBarWrapperStyle, searchIconStyle, searchInputStyle, selectionWrapper, tabAreaWrapper, tabItem, tabWrapper, wrapper } from "./index.styles";
 import { LoadingBar, MainPinkButton, Text } from "../../../components";
 import CategoryList from "../../place/components/category/category-search";
-import { useGetFavoritesList, useGetPlacesCategories } from "../../../queries";
+import { useGetFavoritesList, useGetPlacesCategories, useGetPlacesPlanSearch } from "../../../queries";
 import { categoryIcon } from "../../../utils/translations";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { PlaceListCard, SelectionImage } from "../components";
 import { SelectPlaceType } from "../../../interfaces";
 import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
+import colors from "../../../styles/colors";
+import { loadingWrapper, noDataText } from "../index.styles";
 
 export default function PlaceAdd(){
     const {cityId, dogSize:size} = usePlanStore()
     const navigate = useNavigate();
+
     //즐겨찾기 데이터
     const {data : myBookmarkList, isLoading: isFavoriteLoading} = useGetFavoritesList({cityId, size}); 
     //카테고리 
     const { data, isLoading :isCategoryLoading } = useGetPlacesCategories();
     const [categories, setCategories] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(data);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const initialSearchTerm = searchParams.get("search") || "";
+    const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+    const [searchQuery, setSearchQuery] = useState("");
+
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category);
+        // URL에 카테고리 추가
+        const params = new URLSearchParams(searchParams);
+        params.set("category", category);
+        navigate(`?${params.toString()}`);
     };
+
+    useEffect(() => {
+        const urlCategory = searchParams.get("category");
+        if (urlCategory) {
+          setSelectedCategory(urlCategory);
+        }
+    }, [searchParams]);
+
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
-    const dummyPlaceChoiceData = []
+    // 장소 선택 데이터
+    
+    const {
+        data: placesListData,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading : isPlacesLoading,
+    } = useGetPlacesPlanSearch({cityId, category:selectedCategory || undefined, query: searchQuery || undefined});
+
+    
+    useEffect(() => {
+        if (!hasNextPage) {
+          console.log("마지막 페이지입니다.");
+        }
+    }, [hasNextPage]);
 
     //탭 전환
     const [activeTab, setActiveTab] = useState<"selection" | "favorites">("selection");
@@ -64,6 +100,28 @@ export default function PlaceAdd(){
         }
     },[selectItems])
 
+
+    //검색어 입력 이벤트
+    const handleSearchChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const newSearch = e.target.value
+        setSearchTerm(newSearch);
+        
+
+    }
+    // 키다운 이벤트로 쿼리 스트링 업데이트
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            setSearchQuery(searchTerm);
+            setSearchParams({ search: searchTerm }); // 쿼리 스트링 업데이트
+        }
+    };
+
+    const handleSearchButtonClick = () => {
+        setSearchQuery(searchTerm);
+        setSearchParams({ search: searchTerm }); // 쿼리 스트링 업데이트
+       
+    };
+
     //선택 완료 버튼 이벤트
     const handleSelectionComplete = (e: React.MouseEvent<HTMLButtonElement>) =>{
         if(isDisabled){
@@ -78,8 +136,26 @@ export default function PlaceAdd(){
         navigate('/plan/create/place-choice', { state: { selectItems }}) 
     }
 
+    const observer = useRef<IntersectionObserver | null>(null);
 
-    if(isCategoryLoading || isFavoriteLoading) {return (<LoadingBar/>)}
+    const lastElementRef = useCallback((node: HTMLDivElement) => {
+        if (isFetchingNextPage) return;
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNextPage) {
+                fetchNextPage(); // 다음 페이지 가져오기
+            }else{
+                return
+            }
+        });
+
+        if (node) observer.current.observe(node);
+    },[isFetchingNextPage, hasNextPage, fetchNextPage]);
+    const placesList = placesListData?.pages.flatMap((page)=> page.content) || [];
+
+
+    if(isCategoryLoading || isFavoriteLoading || isPlacesLoading) {return (<LoadingBar/>)}
     return(
         <div css={contentWrapper}>
             <div css={wrapper}>
@@ -99,8 +175,11 @@ export default function PlaceAdd(){
                                 <input
                                     css={searchInputStyle}
                                     placeholder="장소명을 입력하세요"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                    onKeyDown={handleKeyDown}
                                 />
-                                <div css={searchIconStyle}>🔍</div>
+                                <div css={searchIconStyle} onClick={handleSearchButtonClick}>🔍</div>
                                 </div>
                             </div>
                             <div>
@@ -110,7 +189,48 @@ export default function PlaceAdd(){
                             onCategoryClick={handleCategoryClick}
                             />
                             </div>
-                            {dummyPlaceChoiceData?.map((list : SelectPlaceType, index : number)=>(
+                            {placesList.length > 0 ? (
+                                placesList.map((places, index)=>{
+                                    const isLast = index === placesList.length - 1; // 마지막 요소인지 확인
+                                    return (
+                                      <div key={places.placeId} ref={isLast ? lastElementRef : null}>
+                                        <PlaceListCard
+                                          placeName={places.placeName}
+                                          roadAddress={places.roadAddress}
+                                          placeId={places.placeId}
+                                          latitude={places.latitude}
+                                          longitude={places.longitude}
+                                          photoUrl={places.photoUrl}
+                                          reviewNum={places.reviewNum}
+                                          starAvg={places.starAvg}
+                                          setSelectItems={setSelectItems}
+                                          selectItems={selectItems}
+                                        />
+                                      </div>
+                                    );
+                                  })
+                            ) :(
+                                <div css={noDataText}>
+                                    <Text type="Body2" color={colors.color.Gray1}>
+                                        장소 리스트가 없어요
+                                    </Text>
+                                </div>
+                            )}
+                        
+                            {isFetchingNextPage && (
+                                <div css={loadingWrapper}> 
+                                    <LoadingBar />
+
+                                </div>
+                                
+                            )}
+                        </>
+                    )}
+                    {activeTab === "favorites" && (
+                        <>
+                        {myBookmarkList?.length > 0 ?(
+
+                            myBookmarkList?.map((list : SelectPlaceType, index : number)=>(
                                 <PlaceListCard 
                                 placeName={list.placeName} 
                                 roadAddress={list.roadAddress} 
@@ -123,25 +243,16 @@ export default function PlaceAdd(){
                                 setSelectItems={setSelectItems}
                                 selectItems={selectItems}
                                 key={index} />
-                            ))}
-                        </>
-                    )}
-                    {activeTab === "favorites" && (
-                        <>
-                        {myBookmarkList?.map((list : SelectPlaceType, index : number)=>(
-                            <PlaceListCard 
-                            placeName={list.placeName} 
-                            roadAddress={list.roadAddress} 
-                            placeId={list.placeId} 
-                            latitude={list.latitude}
-                            longitude={list.longitude}
-                            photoUrl={list.photoUrl}
-                            reviewNum={list.reviewNum}
-                            starAvg={list.starAvg}
-                            setSelectItems={setSelectItems}
-                            selectItems={selectItems}
-                            key={index} />
-                        ))}
+                            ))
+                        ) : (
+                            <div css={noDataText}>
+                                <Text type="Body2" color={colors.color.Gray1}>
+                                    장소 리스트가 없어요
+                                </Text>
+                            </div>
+                        )
+                        
+                        }
                         </>
                     )}
                 </div>

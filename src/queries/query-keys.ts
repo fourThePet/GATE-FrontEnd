@@ -1,4 +1,4 @@
-import { PlacesParam } from "../interfaces/places";
+import { PlacesParam, PlanSearchParam } from "../interfaces/places";
 
 export const QUERY_KEYS = {
   POST_MEMBERS_CHECKNICKNAME: ["POST_MEMBERS_CHECKNICKNAME"],
@@ -38,4 +38,5 @@ export const QUERY_KEYS = {
   PUT_PLANS_PLANID : (planId : number) => ['PUT_PLANS_PLANID', planId],
   DELETE_PLANS_PLANID : (planId : number) => ['DELETE_PLANS_PLANID', planId],
   POST_PLANS_ROUTE : ['POST_PLANS_ROUTE'],
+  GET_PLACES_PLAN_SEARCH : (params : PlanSearchParam) => ['GET_PLACES_PLAN_SEARCH', params]
 } as const;

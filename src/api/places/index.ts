@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { api } from "../api";
-import { Place, PlacesParam } from "../../interfaces/places";
+import { Place, PlacesParam, PlanSearchParam } from "../../interfaces/places";
 
 // 카테고리 데이터 요청 및 가공
 export const getPlacesCategories = async () => {
@@ -44,7 +44,7 @@ export const getPlaces = async (params: {
         data.message || "장소 데이터를 불러오는 데 실패했습니다."
       );
     }
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(
       error.response?.data?.message || error.message || "알 수 없는 오류 발생"
     );
@@ -93,7 +93,7 @@ export const useGetPlaces = (params: {
       try {
         const placesData = await getPlaces(memoizedParams);
         setPlaces(placesData);
-      } catch (err: any) {
+      } catch (err) {
         setError(err.message || "장소 데이터를 불러오는 데 실패했습니다.");
       } finally {
         setIsLoading(false);
@@ -149,3 +149,8 @@ export const getPopularPlaces = async (limit: number) => {
     throw new Error(error.message || "알 수 없는 오류 발생");
   }
 };
+
+export const getPlacesPlanSearch = async (params: PlanSearchParam & { page: number }) => {
+  const response = await api.get("/places/plan-search", {params})
+  return response.data.result || { content: [], hasNext: false, page: 0 };;
+}

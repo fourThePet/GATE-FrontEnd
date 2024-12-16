@@ -19,6 +19,12 @@ export interface Place {
   favorites: "N" | "Y";
 }
 
+export interface PlanSearchParam {
+  query? : string;
+  cityId : number;
+  category? : string;
+}
+
 // 맵
 declare global {
   interface Window {

@@ -1,9 +1,9 @@
 import { useState, useCallback, useRef } from "react";
 import { Schedulemain } from "../../assets/svg";
-import { buttonWrapper, imageBlock, imageWrapper, loadingWrapper, mainImage, mainTitle, mainWrapper, noDataText, planListWrapper, planWrapper, recommendCity, recommendLabel, tabStyle, wrapper } from "./index.styles";
-import { Button } from "../../components/button/button";
+import { buttonWrapper, imageBlock, imageWrapper, loadingWrapper, mainImage, mainTitle, mainWrapper, noDataText, planListWrapper, planWrapper, /* recommendCity, recommendLabel, */ tabStyle, wrapper } from "./index.styles";
+// import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
-import { useGetPlacesCities } from "../../queries";
+// import { useGetPlacesCities } from "../../queries";
 import { useNavigate } from "react-router-dom";
 import { useGetPlans } from "../../queries/plans";
 import { useGetMembersInfo } from "../../queries";
@@ -35,6 +35,7 @@ export default function Plan() {
     fetchNextPage: fetchNextPastPage,
     hasNextPage: hasPastNextPage,
     isFetchingNextPage: isFetchingPastNextPage,
+    isLoading
   } = useGetPlans("BEFORE", "DESC");
 
   // IntersectionObserver를 위한 Ref
@@ -81,10 +82,10 @@ export default function Plan() {
   const pastTravels =
     pastTravelsData?.pages.flatMap((page) => page.content) || [];
 
-  const { data: cities, isLoading, isError } = useGetPlacesCities();
+  // const { data: cities, isLoading, isError } = useGetPlacesCities();
 
   if (isLoading) return  (<LoadingBar/>);
-  if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
+  // if (isError) return <p>지역 정보를 가져오는 데 실패했습니다.</p>;
   
   const handleCreateButtonClick = () => {
     if(isLoggedIn){
@@ -125,7 +126,7 @@ export default function Plan() {
         </div>
 
         {/* 여행지 추천 */}
-        <div css={recommendCity}>
+        {/* <div css={recommendCity}>
           <div>
             <Text type="Heading3">🐶 여행지 추천</Text>
           </div>
@@ -144,7 +145,7 @@ export default function Plan() {
               
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* 다가오는 여행 */}
         <div
