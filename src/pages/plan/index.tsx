@@ -11,8 +11,10 @@ import { AlertModal, LoadingBar, MainPinkButton, Text } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import colors from "../../styles/colors";
 import usePlanStore from "../../stores/usePlanStore";
+import usePageMeta from "../../utils/usePageMeta";
 
 export default function Plan() {
+  usePageMeta("GATE | 일정", 'GATE 일정'); //seo 검색 최적화
   const defaultImageUrl = '/images/default_city.png'
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"coming" | "past">("coming");

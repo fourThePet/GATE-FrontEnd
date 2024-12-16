@@ -23,10 +23,11 @@ import {
 import { formatDate } from "../../../utils/dateFomatter";
 import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlanCreate() {
-  const { date, cityId, setCityName, setDate, setCityId, setCoordinates } =
-    usePlanStore();
+  usePageMeta("GATE | 일정생성", 'GATE 일정생성'); //seo 검색 최적화
+  const { date, cityId, setCityName, setDate, setCityId, setCoordinates } = usePlanStore();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const isDisabled = !(cityId && date);

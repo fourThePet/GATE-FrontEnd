@@ -8,9 +8,11 @@ import { CameraIcon, Help, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, S
 import { usePostDogsProfile } from "../../../queries/dogs";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 
 export default function OnboardingPet(){
+    usePageMeta("GATE | 반려견 프로필 등록", 'GATE 반려견 프로필 등록'); //seo 검색 최적화
     const navigate = useNavigate();
     const location = useLocation();
     const [name, setName] = useState(""); 

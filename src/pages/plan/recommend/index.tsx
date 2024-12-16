@@ -21,8 +21,10 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../../queries/query-keys";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlanRecommend() {
+  usePageMeta("GATE | 추천일정", 'GATE 추천일정'); //seo 검색 최적화
   const { mutate: createMyPlan } = usePostPlans();
   const navigate = useNavigate();
   const { response, dogIds } = usePlanStore();

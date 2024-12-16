@@ -9,6 +9,7 @@ import { useLocation, useNavigate} from "react-router-dom";
 import { useGetReviewKeywords, useGetReviewsReviewId, usePutReviewByReviewId } from "../../../queries";
 import { notify } from "../../../utils/constants";
 import { convertImageUrlToFile } from "../../../utils/convertImageUrlToFile";
+import usePageMeta from "../../../utils/usePageMeta";
 interface FileWithPreview {
     file?: File;
     url: string;
@@ -16,6 +17,7 @@ interface FileWithPreview {
   }
 
 export default function ReviewEdit(){
+    usePageMeta("GATE | 리뷰수정", 'GATE 리뷰수정'); //seo 검색 최적화
     const navigate = useNavigate()
     const location = useLocation(); // navigate로 전달된 state를 가져옴
     const id = location.state; 

@@ -11,8 +11,10 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
 import colors from "../../../styles/colors";
 import { loadingWrapper, noDataText } from "../index.styles";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlaceAdd(){
+    usePageMeta("GATE | 일정생성-장소추가", 'GATE 일정생성'); //seo 검색 최적화
     const {cityId, dogSize:size} = usePlanStore()
     const navigate = useNavigate();
 

@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import { LoadingBar, PetRegistrationModal } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { useGetDogsProfiles } from "../../queries";
+import usePageMeta from "../../utils/usePageMeta";
 export default function Home() {
+  usePageMeta("GATE | 홈", 'GATE 홈화면'); //seo 검색 최적화
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoggedIn } = useAuthStore();
   const { data: dogs, isLoading } = useGetDogsProfiles(); // 데이터 로딩 중 undefined 유지

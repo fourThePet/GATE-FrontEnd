@@ -21,8 +21,10 @@ import { useEffect, useState } from "react";
 import { SelectPlaceType } from "../../../interfaces/plans";
 import { usePostPlansRoute } from "../../../queries";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlaceChoice() {
+  usePageMeta("GATE | 일정생성-장소선택", 'GATE 일정생성'); //seo 검색 최적화
   const {
     date,
     cityId,

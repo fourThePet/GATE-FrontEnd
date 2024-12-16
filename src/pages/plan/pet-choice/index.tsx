@@ -9,8 +9,10 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { PET_SIZE } from "../../../interfaces";
 import { useState } from "react";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PetChoice() {
+  usePageMeta("GATE | 일정생성-반려견 선택", 'GATE 일정생성'); //seo 검색 최적화
   const navigate = useNavigate();
   const { data: dogsProfiles, isLoading, isError } = useGetDogsProfiles();
   const { dogIds, setDogIds, setDogSize } = usePlanStore();

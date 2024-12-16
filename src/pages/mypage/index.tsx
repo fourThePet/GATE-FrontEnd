@@ -7,10 +7,12 @@ import { EmptyPetCard, PetInfoCard, PetInfoModal } from "./components";
 import { useNavigate } from "react-router-dom";
 import { useGetDogsProfiles, useGetMembersInfo } from "../../queries";
 import { useAuthStore } from "../../stores/useAuthStore";
+import usePageMeta from "../../utils/usePageMeta";
 
 
 
 export default function Mypage() {
+  usePageMeta("GATE | 마이페이지", 'GATE 마이페이지'); //seo 검색 최적화
   const navigate = useNavigate();
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
   const { isLoggedIn, logout } = useAuthStore();

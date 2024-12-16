@@ -21,6 +21,9 @@ import { useSpring } from "react-spring";
 import FilterPlace from "./filter-place";
 import { AnimatedProps } from "react-spring";
 import { CSSObject, SerializedStyles } from "@emotion/react";
+import { animated } from "@react-spring/web";
+import colors from "../../styles/colors";
+import usePageMeta from "../../utils/usePageMeta";
 
 type AnimatedDivProps = AnimatedProps<{
   className?: string;
@@ -29,9 +32,9 @@ type AnimatedDivProps = AnimatedProps<{
   children?: React.ReactNode;
 }>;
 
-import { animated } from "@react-spring/web";
-import colors from "../../styles/colors";
+
 export default function Place() {
+  usePageMeta("GATE | 장소", 'GATE 장소'); //seo 검색 최적화
   const location = useLocation();
   const { data, isLoading: isCategoryLoading } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);
