@@ -39,13 +39,12 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
     if (!isLoggedIn) {
       // alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
       notify({
-        type : "warning",
-        text : "로그인이 필요합니다. 로그인 후 다시 시도해주세요.",
-        onClose : () => {
+        type: "warning",
+        text: "로그인이 필요합니다. 로그인 후 다시 시도해주세요.",
+        onClose: () => {
           window.location.href = "/login";
-
-        }
-      })
+        },
+      });
       return;
     }
 
@@ -74,28 +73,27 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
         // alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
         // window.location.href = "/login";
         notify({
-          type : "warning",
-          text : "로그인이 필요합니다. 로그인 후 다시 시도해주세요.",
-          onClose : () => {
+          type: "warning",
+          text: "로그인이 필요합니다. 로그인 후 다시 시도해주세요.",
+          onClose: () => {
             window.location.href = "/login";
-  
-          }
-        })
+          },
+        });
       } else {
         // console.error("즐겨찾기 처리 실패:", error.response?.data);
         // alert("즐겨찾기 처리 중 문제가 발생했습니다.");
         notify({
-          type : "error",
-          text : "즐겨찾기 처리 중 문제가 발생했습니다.",
-        })
+          type: "error",
+          text: "즐겨찾기 처리 중 문제가 발생했습니다.",
+        });
       }
     } else {
       // console.error("알 수 없는 오류:", error);
       // alert("예기치 못한 문제가 발생했습니다.");
       notify({
-        type : "error",
-        text : "문제가 발생했습니다. 관리자에게 문의하세요",
-      })
+        type: "error",
+        text: "문제가 발생했습니다. 관리자에게 문의하세요",
+      });
     }
   };
 
@@ -155,7 +153,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
         {/* 이미지 */}
         <div style={{ width: "90px", height: "90px", marginRight: "10px" }}>
           <img
-            src={placeInfo?.photoUrl || '/images/no_image.jpg'}
+            src={placeInfo?.photoUrl || "/images/no_image.jpg"}
             alt={placeInfo.name}
             style={{
               width: "100%",
