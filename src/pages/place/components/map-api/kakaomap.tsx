@@ -12,7 +12,7 @@ import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
 import OverlayContent from "./overlay-content";
 import { createRoot } from "react-dom/client";
-import colors from "../../../../styles/colors";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -83,6 +83,8 @@ export default function KakaoMap({
   >([]);
 
   const addPlaceMarkers = (places: Place[]) => {
+    const queryClient = new QueryClient(); // QueryClient 생성
+
     if (!mapInstance.current) return;
     clearMarkers();
 
@@ -126,25 +128,23 @@ export default function KakaoMap({
           const placeInfo = await getPlacesInfo(place.id);
           if (!placeInfo) return;
 
-          closeCurrentOverlay(); // 기존 오버레이 닫기
+          closeCurrentOverlay();
 
           const overlayDiv = document.createElement("div");
 
-          // React 18의 createRoot 사용
           const root = createRoot(overlayDiv);
-
           root.render(
-            <OverlayContent
-              placeInfo={placeInfo}
-              placeId={placeInfo.id}
-              onClose={() => {
-                closeCurrentOverlay();
-                root.unmount(); // 컴포넌트 언마운트
-              }}
-              toggleHeart={() => console.log("Toggle Heart")}
-              isLiked={placeInfo.favorites === "Y"}
-              navigate={navigate}
-            />
+            <QueryClientProvider client={queryClient}>
+              <OverlayContent
+                placeInfo={placeInfo}
+                placeId={placeInfo.id}
+                onClose={() => {
+                  closeCurrentOverlay();
+                  root.unmount();
+                }}
+                navigate={navigate}
+              />
+            </QueryClientProvider>
           );
 
           const overlay = new window.kakao.maps.CustomOverlay({
