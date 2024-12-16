@@ -124,7 +124,6 @@ export default function KakaoMap({
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
           const placeInfo = await getPlacesInfo(place.id);
-
           if (!placeInfo) return;
 
           closeCurrentOverlay(); // 기존 오버레이 닫기
@@ -177,10 +176,8 @@ export default function KakaoMap({
         }
       });
 
-      return { marker, overlay: customOverlay };
+      marker.setMap(mapInstance.current); // 지도에 마커 추가
     });
-
-    setMarkerOverlayPairs(newMarkerOverlayPairs);
   };
 
   const clearMarkers = () => {
