@@ -10,6 +10,22 @@ export const contentWrapper = css`
     position: relative;
     padding-bottom  : 80px;
 `
+
+export const blurBackground = css`
+  position: relative;
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1); /* 반투명 검정 */
+    backdrop-filter: blur(4px); /* 흐림 효과 */
+    z-index: 15; /* 모달 아래 배경 흐리게 */
+  }
+`;
+
 export const wrapper = css`
     flex: 1; //나머지 공간을 차지
     display: flex;

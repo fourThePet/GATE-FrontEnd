@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AlertModal, LoadingBar, Text } from "../../components";
 import colors from "../../styles/colors";
-import { contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
+import { blurBackground, contentWrapper, iconStyle, infoWrapper, line, loginInfo, myActiveWrapper, myInfoWrapper, myPetWrapper, myWrapper, textWrapper, titleWrapper, wrapper } from "./index.styles";
 import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
 import { EmptyPetCard, PetInfoCard, PetInfoModal } from "./components";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,12 @@ export default function Mypage() {
   const [ dogId, setDogId ] = useState<number>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn); // 로그인 여부에 따라 모달 열기
+
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+    navigate("/login"); // 로그인 페이지로 이동
+  };
 
   const handlePetInfoClcik = (id : number) => {
     setDogId(id)
@@ -43,7 +49,16 @@ export default function Mypage() {
   if(isDogsLoading || isMemberLoading){return(<LoadingBar/>)}
 
   return (
-    <div css={contentWrapper}>
+    <div css={[contentWrapper, isLoginModalOpen && blurBackground]}>
+        {isLoginModalOpen && (
+          <AlertModal
+            isModalOpen={isLoginModalOpen}
+            title="로그인 필요"
+            subTitle="로그인 후 이용할 수 있는 서비스입니다."
+            handleConfirmButtonClick={handleCloseLoginModal}
+            closeModal={() => setIsLoginModalOpen(false)}
+          />
+        )}
         <div css={wrapper}>
           <div css={loginInfo}>
             {isLoggedIn ? (
