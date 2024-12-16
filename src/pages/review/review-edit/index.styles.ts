@@ -128,7 +128,7 @@ export const imageWrapper =(isCentered: boolean) => css`
     width: 100%;
     flex-wrap: wrap;
     border-radius: 20px;
-    padding: 10px;
+    padding: 0 30px;
     border: 1px solid ${colors.color.Gray4};
 `
 
