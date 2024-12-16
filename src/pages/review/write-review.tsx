@@ -24,6 +24,7 @@ import {
 import { AxiosError } from "axios";
 import { LoadingBar, Text } from "../../components";
 import { help, labelWrapper, sizeTitle, tooltipStyle } from "./review-edit/index.styles";
+import { notify } from "../../utils/constants";
 
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
@@ -46,6 +47,11 @@ export default function WriteReview() {
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {
       setReview(e.target.value); // 입력된 값이 최대 글자 수 이하인 경우 업데이트
+    }else{
+      notify({
+        type: "warning",
+        text :  "리뷰는 400자 이내로 작성해주세요.",
+      })
     }
   };
 
@@ -104,6 +110,10 @@ export default function WriteReview() {
         setIsModalOpen(true); // 성공 시 모달 열기
       },
       onError: (error: AxiosError) => {
+        notify({
+          type: "error",
+          text : "리뷰 작성 중 문제가 생겼어요"
+        })
         if (error.response) {
           console.error("리뷰 작성 실패:", error.response.status);
           console.error("에러 메시지:", error.response.data);
@@ -515,7 +525,7 @@ export default function WriteReview() {
               style={{
                 // textAlign: "end",
                 fontSize: "12px",
-                color: review.length > maxChars ? "red" : "#9A9EA6",
+                color: review.length == maxChars ? "red" : "#9A9EA6",
                 marginLeft: "80%",
               }}
             >

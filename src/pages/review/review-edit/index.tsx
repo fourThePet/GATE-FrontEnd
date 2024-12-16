@@ -8,6 +8,7 @@ import ConditionLabel from "../../../components/label/condition-label";
 import { useLocation, useNavigate} from "react-router-dom";
 import { useGetReviewKeywords, useGetReviewsReviewId, usePutReviewByReviewId } from "../../../queries";
 import { notify } from "../../../utils/constants";
+import { convertImageUrlToFile } from "../../../utils/convertImageUrlToFile";
 interface FileWithPreview {
     file?: File;
     url: string;
@@ -85,7 +86,16 @@ export default function ReviewEdit(){
     //리뷰 작성 변경 이벤트
     const handleReviewChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value
-        setReviewText(value)
+        // 400자 초과 여부 검사
+        if (value.length <= 400) {
+            setReviewText(value); // 유효한 경우만 상태 업데이트
+        } else {
+            // 유효하지 않을 경우 알림 메시지 처리
+            notify({
+                type: "warning",
+                text: "리뷰는 400자 이내로 작성해주세요.",
+            });
+        }
     }
 
     //파일 변경 이벤트
@@ -156,13 +166,7 @@ export default function ReviewEdit(){
         })
     }
 
-    //이미지 URL을 파일로 변환하는 함수
-    const convertImageUrlToFile = async (url, fileName) => {
-        
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new File([blob], fileName, { type: blob.type });
-    };
+    
     
     if(isKeywordsLoading || isReviewLoading){ return (<LoadingBar/>)}
     return(
@@ -285,7 +289,7 @@ export default function ReviewEdit(){
                         onChange={handleReviewChange}
                         placeholder="리뷰 작성 시 욕설, 비방, 명예훼손성 표현은 누군가에게 상처가 될 수 있습니다."/>
                     <div css={charsCount}>
-                        <Text type="Label4" color={reviewText.length > maxChars ? "red" : colors.color.Gray1}>{reviewText.length}/{maxChars}</Text>
+                        <Text type="Label4" color={reviewText.length === maxChars ? "red" : colors.color.Gray1}>{reviewText.length}/{maxChars}</Text>
                     </div>
                 </div>
                 <div css={bottomButtonStyle}>

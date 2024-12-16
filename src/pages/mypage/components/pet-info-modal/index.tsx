@@ -8,8 +8,8 @@ import { translateGender } from "../../../../utils/translations";
 import { useState, ChangeEvent, useEffect, useRef } from "react";
 import DeleteModal from "../delete-modal";
 import { Input } from "../../../onboarding/components";
-import axios from "axios";
 import { notify } from "../../../../utils/constants";
+import { convertImageUrlToFile } from "../../../../utils/convertImageUrlToFile";
 
 interface Props{
     isOpen : boolean;
@@ -150,12 +150,6 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
 
     }
 
-    // 이미지 URL을 파일로 변환하는 함수
-    const convertImageUrlToFile = async (url, fileName) => {
-        
-        const response = await axios.get(url, { responseType: "blob" });
-        return new File([response.data], fileName, { type: response.data.type });
-    };
 
     // 유효성 검사
     useEffect(() => {
