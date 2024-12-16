@@ -41,7 +41,7 @@ export default function StoreInfo({
 
   const [isLiked, setIsLiked] = useState(false); // 좋아요 상태 관리
   const { isLoggedIn } = useAuthStore(); // 로그인 여부 가져오기
-  const [isRefreshing, setIsRefreshing] = useState(false); // 새로고침 상태 관리
+  const [, setIsRefreshing] = useState(false); // 새로고침 상태 관리
 
   // React Query로 장소 정보 가져오기
   const { data: storeData, isLoading, isError } = useGetPlacesInfo(placeId);
