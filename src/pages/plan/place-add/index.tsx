@@ -31,17 +31,17 @@ export default function PlaceAdd(){
     const handleCategoryClick = (category: string) => {
         setSelectedCategory(category);
         // URL에 카테고리 추가
-        const params = new URLSearchParams(searchParams);
-        params.set("category", category);
-        navigate(`?${params.toString()}`);
+        // const params = new URLSearchParams(searchParams);
+        // params.set("category", category);
+        // navigate(`?${params.toString()}`);
     };
 
-    useEffect(() => {
-        const urlCategory = searchParams.get("category");
-        if (urlCategory) {
-          setSelectedCategory(urlCategory);
-        }
-    }, [searchParams]);
+    // useEffect(() => {
+    //     const urlCategory = searchParams.get("category");
+    //     if (urlCategory) {
+    //       setSelectedCategory(urlCategory);
+    //     }
+    // }, [searchParams]);
 
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     // 장소 선택 데이터
