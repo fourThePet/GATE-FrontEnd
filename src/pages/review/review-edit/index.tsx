@@ -1,9 +1,9 @@
 import { ChangeEvent,  useEffect,  useRef,  useState } from "react";
 import { CertificateLabel, GrayBorderButton, LoadingBar, MainPinkButton, Text } from "../../../components";
 import colors from "../../../styles/colors";
-import { addIcon, borderWrapper, bottomButtonStyle, charsCount, contentWrapper, deleteIcon, fileInput, fileSize, fileWrapper, formTitleWrapper, iconWrapper, imageWrapper, labelWrapper, mainWrapper, reviewTitle, sizeWrapper, starStyles, textArea, titleWrapper, wrapper } from "./index.styles";
+import { addIcon, borderWrapper, bottomButtonStyle, charsCount, contentWrapper, deleteIcon, fileInput, fileSize, fileWrapper, formTitleWrapper, help, iconWrapper, imageWrapper, labelWrapper, mainWrapper, reviewTitle, sizeTitle, sizeWrapper, starStyles, textArea, titleWrapper, tooltipStyle, wrapper } from "./index.styles";
 import ReactStars from "react-rating-stars-component"
-import { AddIcon, FileDelete, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Pinkpencil, Sdogpink, Sdogwhite } from "../../../assets/svg";
+import { AddIcon, FileDelete, Help, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Pinkpencil, Sdogpink, Sdogwhite } from "../../../assets/svg";
 import ConditionLabel from "../../../components/label/condition-label";
 import { useLocation, useNavigate} from "react-router-dom";
 import { useGetReviewKeywords, useGetReviewsReviewId, usePutReviewByReviewId } from "../../../queries";
@@ -189,7 +189,19 @@ export default function ReviewEdit(){
                     /> 
                 </div>
                 <div css={formTitleWrapper}>
-                    <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
+                    <div css={sizeTitle}>
+                        <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
+                        <div css={help} className="button-wrapper">
+                            <Help width={16} />
+                            <span css={tooltipStyle} className="tooltip">
+                            {`소형 : 10kg 이하 
+                                중형 : 10kg 초과 25kg 이하
+                                대형 : 25kg 초과
+                                `}
+                            </span>
+                        </div>
+
+                    </div>
                     <div css={sizeWrapper}>
                         {/* 소형 */}
                         <div css={iconWrapper} onClick={()=> handleSizeClick("SMALL")}>
@@ -215,7 +227,7 @@ export default function ReviewEdit(){
                     </div>
                 </div>
                 <div css={formTitleWrapper}>
-                    <Text type="Heading4">입장조건이 무엇인가요?</Text>
+                    <Text type="Heading4">어떤 점이 좋았나요?</Text>
                     <div css={labelWrapper}>
                         {enrichedKeywords?.map((keyword, index)=>{
                             return (

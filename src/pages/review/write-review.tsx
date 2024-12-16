@@ -1,6 +1,6 @@
 import { PageWrapper } from "../../styles/ui";
 import { Block } from "../../components/block/block";
-import { Logowithshadow } from "../../assets/svg";
+import { Help, Logowithshadow } from "../../assets/svg";
 import { typo } from "../../styles/typo";
 import ReactStars from "react-rating-stars-component";
 import { useState } from "react";
@@ -22,7 +22,8 @@ import {
   usePostCreateReview,
 } from "../../queries/reviews";
 import { AxiosError } from "axios";
-import { LoadingBar } from "../../components";
+import { LoadingBar, Text } from "../../components";
+import { help, labelWrapper, sizeTitle, tooltipStyle } from "./review-edit/index.styles";
 
 export default function WriteReview() {
   const [rating, setRating] = useState(0); // 별점 상태 관리
@@ -177,13 +178,10 @@ export default function WriteReview() {
             width: "100%",
             justifyContent: "center",
           })}
-          style={{ marginTop: "100px" }}
+          style={{ marginTop: "80px" }}
         >
           <Logowithshadow css={{ width: "20%", height: "10%" }} />
-          <span css={typo.Heading1} style={{ fontSize: "100%" }}>
-            다녀온 곳의 리뷰를
-            <br /> 써보세요 !
-          </span>
+          <Text type="Heading4">다녀온 곳의 리뷰를 <br/> 써보세요!</Text>
         </div>
         {/* 별점 */}
         <div
@@ -208,23 +206,35 @@ export default function WriteReview() {
               edit={true} // 사용자 입력 허용 여부
             />
           </div>
-          {/* <span css={typo.Body1}>{rating}점</span> */}
         </div>
         {/* 다녀온 아이는 어땠나요? */}
         <div
           css={Block.flexBlock({
             direction: "column",
             gap: "20px",
-            margin: "25px",
+            padding: "30px",
           })}
         >
-          <span css={typo.Heading4}>다녀온 아이는 어땠나요?</span>
+          <div css={sizeTitle}>
+              <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
+              <div css={help} className="button-wrapper">
+                  <Help width={16} />
+                  <span css={tooltipStyle} className="tooltip">
+                  {`소형 : 10kg 이하 
+                      중형 : 10kg 초과 25kg 이하
+                      대형 : 25kg 초과
+                      `}
+                  </span>
+              </div>
+
+          </div>
           <div
             css={Block.flexBlock({
+              
               direction: "row",
               justifyContent: "space-between",
               gap: "20px",
-              width: "60%",
+              width: "100%",
             })}
           >
             {/* 소형 아이 */}
@@ -239,9 +249,9 @@ export default function WriteReview() {
               onClick={() => handleDogSizeClick("small")}
             >
               {selectedDogSize === "small" ? (
-                <Sdogpink css={{ width: "90px", height: "90px" }} />
+                <Sdogpink width={80} />
               ) : (
-                <Sdogwhite css={{ width: "90px", height: "90px" }} />
+                <Sdogwhite width={80}/>
               )}
               <span
                 css={typo.Body2}
@@ -265,9 +275,9 @@ export default function WriteReview() {
               onClick={() => handleDogSizeClick("medium")}
             >
               {selectedDogSize === "medium" ? (
-                <Mdogpink css={{ width: "90px", height: "90px" }} />
+                <Mdogpink width={80}/>
               ) : (
-                <Mdogwhite css={{ width: "90px", height: "90px" }} />
+                <Mdogwhite width={80}/>
               )}
               <span
                 css={typo.Body2}
@@ -291,9 +301,9 @@ export default function WriteReview() {
               onClick={() => handleDogSizeClick("large")}
             >
               {selectedDogSize === "large" ? (
-                <Ldogpink css={{ width: "90px", height: "90px" }} />
+                <Ldogpink width={80} />
               ) : (
-                <Ldogwhite css={{ width: "90px", height: "90px" }} />
+                <Ldogwhite width={80} />
               )}
               <span
                 css={typo.Body2}
@@ -312,20 +322,12 @@ export default function WriteReview() {
           css={Block.flexBlock({
             direction: "column",
             gap: "20px",
-            margin: "10% 4%",
+            padding: "30px",
           })}
         >
-          <span css={typo.Heading4}>입장조건이 무엇인가요? </span>
+          <span css={typo.Heading4}>어떤 점이 좋았나요?</span>
           <div
-            css={Block.flexBlock({
-              direction: "row",
-              justifyContent: "space-between",
-              gap: "20px",
-              width: "90%",
-            })}
-            style={{
-              flexWrap: "wrap", // 크기 맞춤
-            }}
+            css={labelWrapper}
           >
             {/* 키워드 로딩 중인 경우 */}
             {isLoading &&  (<LoadingBar/>)}
@@ -363,7 +365,7 @@ export default function WriteReview() {
               justifyContent: "center",
               padding: "20px",
               gap: "20px",
-              width: "92%",
+              width: "100%",
               borderRadius: "20px",
             })}
             style={{
@@ -478,7 +480,7 @@ export default function WriteReview() {
               alignItems: "center",
               padding: "20px",
               gap: "20px",
-              width: "92%",
+              width: "100%",
               borderRadius: "20px",
             })}
             style={{ marginTop: "30px", flexWrap: "wrap" }}
@@ -528,7 +530,7 @@ export default function WriteReview() {
           >
             <button
               css={Button.mainWhiteButton({
-                width: "45%",
+                width: "40%",
                 height: "50px",
               })}
               onClick={handleBackButtonClick}
@@ -538,7 +540,7 @@ export default function WriteReview() {
             <button
               css={Button.mainPinkButton({
                 isDisabled: !rating || !selectedDogSize, // rating과 selectedDogSize가 없을 경우 비활성화
-                width: "45%",
+                width: "60%",
                 height: "50px",
               })}
               disabled={!rating || !selectedDogSize} // rating과 selectedDogSize가 없을 경우 비활성화
