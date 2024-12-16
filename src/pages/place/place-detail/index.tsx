@@ -152,9 +152,9 @@ export default function PlaceDetail() {
           })}
           style={{
             marginTop: "20px",
-            display: "block", // 버튼을 블록 요소로 설정
-            marginLeft: "auto", // 자동 왼쪽 마진
-            marginRight: "auto", // 자동 오른쪽 마진 (가운데 정렬)
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
           onClick={handleAllReviewButtonClick}
         >
@@ -175,7 +175,9 @@ export default function PlaceDetail() {
             height: "50px",
           })}
           onClick={() => {
-            navigate(`/place?latitude=${latitude}&longitude=${longitude}`);
+            navigate(`/place?latitude=${latitude}&longitude=${longitude}`, {
+              replace: true, // URL을 변경하면서 히스토리 기록 최소화
+            });
           }}
           style={{
             position: "fixed", // 화면에 고정

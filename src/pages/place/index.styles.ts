@@ -29,17 +29,47 @@ export const buttonContainer = ({
   isModalOpen,
   isFilterModalOpen,
 }: {
-  isFilterModalOpen;
+  isFilterModalOpen: boolean;
   isModalOpen: boolean;
 }) => css`
   z-index: 100;
   position: fixed;
-  bottom: ${isModalOpen ? "50%" : "12%"};
+  bottom: ${isModalOpen ? "8%" : "8%"};
   left: 50%;
   transform: translateX(-50%);
-  display: ${isFilterModalOpen
-    ? "none"
-    : "block"}; // isFilterModalOpen이 true일 때 버튼 숨기기
+  display: ${isFilterModalOpen ? "none" : "block"};
+
+  background: linear-gradient(
+    to top,
+    ${colors.color.White1},
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0)
+  );
+  width: 100%;
+  max-width: 600px;
+  padding: 30px 0;
+  text-align: center;
+
+  button {
+    background-color: ${colors.color.Maincolor};
+    color: ${colors.color.White1};
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
+      transform: translateY(-2px);
+      transition: all 0.2s ease;
+    }
+  }
 `;
 
 export const mapLocBtn = css`
@@ -62,11 +92,11 @@ export const modalOverlay = css`
   align-items: center;
   z-index: 10;
   overflow-y: scroll;
-  pointer-events: none; // 오버레이 클릭 방지
+  pointer-events: none;
 `;
 
 export const modalContent = css`
-  border-radius: 5% 5% 0 0;
+  border-radius: 3% 3% 0 0;
   position: relative;
   top: 0;
   background-color: ${colors.color.White1};
@@ -76,14 +106,7 @@ export const modalContent = css`
   padding-top: 2%;
   max-width: 600px;
   overflow-y: scroll;
-  pointer-events: auto; // 모달 내부 클릭 허용
-`;
-
-export const noticeStyle = css`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 8%;
+  pointer-events: auto;
 `;
 
 export const buttonWrapperStyle = css`

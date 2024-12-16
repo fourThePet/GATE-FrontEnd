@@ -19,7 +19,6 @@ import { useGetPlaces } from "../../api";
 import { PlacesParam } from "../../interfaces/places";
 import { useSpring } from "react-spring";
 import FilterPlace from "./filter-place";
-import { Button } from "../../components/button/button";
 import { AnimatedProps } from "react-spring";
 import { CSSObject, SerializedStyles } from "@emotion/react";
 
@@ -31,6 +30,7 @@ type AnimatedDivProps = AnimatedProps<{
 }>;
 
 import { animated } from "@react-spring/web";
+import colors from "../../styles/colors";
 export default function Place() {
   const location = useLocation();
   const { data, isLoading: isCategoryLoading } = useGetPlacesCategories();
@@ -148,6 +148,8 @@ export default function Place() {
 
     // URL에 검색어 추가 후 navigate 호출
     navigate(`/place?${queryParams.toString()}`);
+
+    setIsModalOpen(true);
   };
 
   const handleCategoryClick = (category: string) => {
@@ -167,7 +169,7 @@ export default function Place() {
   };
 
   const animation = useSpring({
-    transform: isModalOpen ? "translateY(40%)" : "translateY(100%)",
+    transform: isModalOpen ? "translateY(50%)" : "translateY(100%)",
     opacity: isModalOpen ? 1 : 0,
     config: {
       tension: 200, // 낮추면 더 부드러워짐
@@ -178,7 +180,7 @@ export default function Place() {
   });
 
   const filterAnimation = useSpring({
-    transform: isFilterModalOpen ? "translateY(40%)" : "translateY(100%)",
+    transform: isFilterModalOpen ? "translateY(50%)" : "translateY(100%)",
     opacity: isFilterModalOpen ? 1 : 0,
     config: {
       tension: 200, // 낮추면 더 부드러워짐
@@ -211,14 +213,14 @@ export default function Place() {
     if (isFilterModalOpen && bottomTabs) {
       Array.from(bottomTabs).forEach((tab) => {
         const element = tab as HTMLElement;
-        element.style.transform = "translateY(80%)";
-        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+        element.style.transform = "translateY(76%)";
+        element.style.transition = "transform 0.3s ease";
       });
     } else if (bottomTabs2) {
       Array.from(bottomTabs2).forEach((tab) => {
         const element = tab as HTMLElement;
-        element.style.transform = "translateY(80%)";
-        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
+        element.style.transform = "translateY(76%)";
+        element.style.transition = "transform 0.3s ease";
       });
     } else {
       Array.from(bottomTabs).forEach((tab) => {
@@ -229,27 +231,29 @@ export default function Place() {
   };
 
   const handleTopTab = () => {
-    const bottomTabs = document.getElementsByClassName("checkFilterBottomTab");
-    const bottomTabs2 = document.getElementsByClassName("checkPlaceBottomTab");
+    const adjustTranslateY = (elements: HTMLCollectionOf<Element>) => {
+      Array.from(elements).forEach((tab) => {
+        const element = tab as HTMLElement;
+        const currentTransform = element.style.transform;
+        let newTranslateY = "0%";
 
-    // 바깥쪽 스크롤을 하는것을 감지해서 필터 내리기
+        if (currentTransform.includes("76%")) {
+          newTranslateY = "50%";
+        } else if (currentTransform.includes("50%")) {
+          newTranslateY = "0%";
+        } else if (currentTransform.includes("0%")) {
+          newTranslateY = "76%";
+        }
+
+        element.style.transform = `translateY(${newTranslateY})`;
+        element.style.transition = "transform 0.3s ease";
+      });
+    };
+
     if (isFilterModalOpen) {
-      Array.from(bottomTabs).forEach((tab) => {
-        const element = tab as HTMLElement;
-        element.style.transform = "translateY(40%)";
-        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
-      });
+      adjustTranslateY(document.getElementsByClassName("checkFilterBottomTab"));
     } else if (isModalOpen) {
-      Array.from(bottomTabs2).forEach((tab) => {
-        const element = tab as HTMLElement;
-        element.style.transform = "translateY(40%)";
-        element.style.transition = "transform 0.3s ease"; // 부드러운 애니메이션 추가
-      });
-    } else {
-      Array.from(bottomTabs).forEach((tab) => {
-        const element = tab as HTMLElement;
-        element.style.transform = "translateY(0)";
-      });
+      adjustTranslateY(document.getElementsByClassName("checkPlaceBottomTab"));
     }
   };
 
@@ -261,7 +265,7 @@ export default function Place() {
     <div css={containerStyle}>
       <SearchFilterHeader
         handleFilterButtonClick={handleFilterButtonClick}
-        handleSearchSubmit={handleSearchSubmit} // 함수 전달
+        handleSearchSubmit={handleSearchSubmit}
         initialQuery={initialQuery}
       />
       <div>
@@ -291,8 +295,6 @@ export default function Place() {
           </MainPinkButton>
         )}
       </div>
-      {/* TODO : 에이든 - 목록,필터 보기 작업분 */}
-      {/* 라운드 적용 && 슬라이드 tap 바텀 to 탑 */}
       {isFilterModalOpen && (
         <div css={modalOverlay}>
           <AnimatedDiv
@@ -309,14 +311,26 @@ export default function Place() {
                 `}
               >
                 <button
-                  css={Button.pinkBorderButton({
-                    width: "50px",
-                    height: "20px",
-                  })}
+                  css={css`
+                    background-color: ${colors.color.Gray5};
+                    border: none;
+                    width: 50px;
+                    height: 8px;
+                    border-radius: 10px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    &:hover {
+                      background-color: ${colors.color.Gray3};
+                      transition: background-color 0.3s ease;
+                    }
+                  `}
                   onClick={handleTopTab}
-                >
-                  TOP
-                </button>
+                />
               </div>
               <FilterPlace setIsFilterModalOpen={setIsFilterModalOpen} />
             </div>
@@ -330,7 +344,43 @@ export default function Place() {
             style={animation}
             className="checkPlaceBottomTab"
           >
-            <ResultPlace places={places} />
+            <div css={modalContent} ref={modalRef}>
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin-bottom: 10px;
+                `}
+              >
+                <button
+                  css={css`
+                    background-color: ${colors.color.Gray5};
+                    border: none;
+                    width: 50px;
+                    height: 8px;
+                    border-radius: 10px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: pointer;
+
+                    &:hover {
+                      background-color: ${colors.color.Gray3};
+                      transition: background-color 0.3s ease;
+                    }
+                  `}
+                  onClick={handleTopTab}
+                />
+              </div>
+              <ResultPlace
+                places={places}
+                userLatitude={latitude} // 현재 사용자 위치 위도
+                userLongitude={longitude}
+              />
+            </div>
           </AnimatedDiv>
         </div>
       )}

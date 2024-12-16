@@ -10,6 +10,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { getIconBasedOnCategory } from "./categoryIcon";
 import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
+import colors from "../../../../styles/colors";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -25,7 +26,6 @@ export default function KakaoMap({
   places,
   currentLatitude,
   currentLongitude,
-  setSelectedCategory,
 }: KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
@@ -53,6 +53,7 @@ export default function KakaoMap({
       center: new window.kakao.maps.LatLng(latitude, longitude),
       level: 3, // 기본 레벨
     };
+
     const map = new window.kakao.maps.Map(mapContainer, mapOption);
     mapInstance.current = map;
 
@@ -60,9 +61,10 @@ export default function KakaoMap({
     const icon = new window.kakao.maps.MarkerImage(
       `data:image/svg+xml;charset=utf-8,${encodeURIComponent(locMarkerSVG)}`,
       new window.kakao.maps.Size(40, 40),
-      { offset: new window.kakao.maps.Point(20, 40) }
+      { offset: new window.kakao.maps.Point(18, 18) }
     );
 
+    // 항상 locMarker 생성
     currentMarker.current = new window.kakao.maps.Marker({
       position: mapOption.center,
       map,
@@ -81,32 +83,49 @@ export default function KakaoMap({
   const addPlaceMarkers = (places: Place[]) => {
     if (!mapInstance.current) return;
 
-    // 기존 마커 및 오버레이 제거
     clearMarkers();
 
     const newMarkerOverlayPairs = places.map((place) => {
-      const icon = getIconBasedOnCategory(place.category);
+      const icon = getIconBasedOnCategory(
+        place.category,
+        place.favorites === "Y"
+      );
 
       const marker = new window.kakao.maps.Marker({
         position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         map: mapInstance.current,
-        image: new window.kakao.maps.MarkerImage(
-          `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
-            ReactDOMServer.renderToString(icon)
-          )}`,
-          new window.kakao.maps.Size(30, 30),
-          { offset: new window.kakao.maps.Point(15, 15) }
-        ),
+        image: icon,
+      });
+
+      const overlayContent = document.createElement("div");
+      overlayContent.style.backgroundColor = "transparent";
+      overlayContent.style.border = "none";
+      overlayContent.style.fontSize = "12px";
+      overlayContent.style.fontWeight = "bold";
+      overlayContent.style.color = `${colors.color.Black}`;
+      overlayContent.style.textAlign = "center";
+      overlayContent.style.whiteSpace = "nowrap";
+      overlayContent.style.textShadow = ` 
+                                          -1px -1px 0 white,
+                                          1px -1px 0 white,
+                                          -1px  1px 0 white,
+                                          1px  1px 0 white`;
+      overlayContent.innerText = place.name;
+
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+        content: overlayContent,
+        map: mapInstance.current,
+        xAnchor: 0.5,
+        yAnchor: 3.5,
       });
 
       // 마커 클릭 이벤트
       window.kakao.maps.event.addListener(marker, "click", async () => {
-        console.log("마커 클릭");
         try {
           const placeInfo = await getPlacesInfo(place.id);
 
           if (!placeInfo) {
-            console.error("장소 데이터가 존재하지 않습니다.", place.id);
             return;
           }
 
@@ -177,21 +196,18 @@ export default function KakaoMap({
             yAnchor: 1.2, // Y축 마커 바로 위 (1보다 큰 값으로 조정)
           });
 
-          // 커스텀 오버레이 닫기 함수
           const closeOverlay = () => {
             overlay.setMap(null);
-            currentOverlayRef.current = null; // 상태 초기화
+            currentOverlayRef.current = null;
           };
 
-          // 닫기 버튼 이벤트 리스너 추가
           overlayContent
             .querySelector(".close")
             ?.addEventListener("click", (e) => {
-              e.stopPropagation(); // 부모 이벤트 전파 방지
+              e.stopPropagation();
               closeOverlay();
             });
 
-          // 오버레이 전체 클릭 시 상세 페이지 이동
           overlayContent.addEventListener("click", () => {
             navigate(
               `/place/detail/${place.id}?latitude=${place.latitude}&longitude=${place.longitude}`,
@@ -207,7 +223,7 @@ export default function KakaoMap({
         } catch (error) {}
       });
 
-      return { marker, overlay: null };
+      return { marker, overlay: customOverlay };
     });
 
     setMarkerOverlayPairs(newMarkerOverlayPairs);
@@ -216,53 +232,13 @@ export default function KakaoMap({
   const clearMarkers = () => {
     markerOverlayPairs.forEach(({ marker, overlay }) => {
       if (marker) {
-        marker.setMap(null); // marker가 존재할 때만 setMap 호출
+        marker.setMap(null);
       }
       if (overlay) {
-        overlay.setMap(null); // overlay가 존재할 때만 setMap 호출
+        overlay.setMap(null);
       }
     });
-    setMarkerOverlayPairs([]); // 상태 초기화
-  };
-
-  const moveMarkerToMapCenter = () => {
-    if (!mapInstance.current || !currentMarker.current) {
-      return;
-    }
-
-    const center = mapInstance.current.getCenter();
-    currentMarker.current.setPosition(center);
-
-    if (mapInstance.current) {
-      mapInstance.current.panTo(center);
-    }
-
-    const latitude = center.getLat();
-    const longitude = center.getLng();
-
-    console.log("지도 중심으로 마커 이동", { latitude, longitude });
-
-    // 상태 업데이트
-    setLatitude(latitude);
-    setLongitude(longitude);
-
-    // // 카테고리 선택 초기화 (전체로 설정)
-    // setSelectedCategory("전체");
-
-    // 검색어(input) 값 초기화
-    const searchInput = document.querySelector(
-      "input[placeholder='어디로 떠나시나요?']"
-    ) as HTMLInputElement;
-    if (searchInput) {
-      searchInput.value = ""; // 입력 필드 값 초기화
-    }
-
-    // URL에서 query 파라미터 제거
-    const queryParams = new URLSearchParams(location.search);
-    queryParams.delete("query"); // query 값 삭제
-
-    // replace: true -  히스토리에 새로운 기록을 남기지 않음.
-    navigate(`/place?${queryParams.toString()}`, { replace: true });
+    setMarkerOverlayPairs([]);
   };
 
   const moveMarkerToCurrentLocation = () => {
@@ -270,39 +246,81 @@ export default function KakaoMap({
       ({ coords: { latitude, longitude } }) => {
         const newPosition = new window.kakao.maps.LatLng(latitude, longitude);
 
-        if (currentMarker.current)
-          currentMarker.current.setPosition(newPosition);
-
+        // 지도 중심 이동
         if (mapInstance.current) {
-          // 지도 중심을 부드럽게 이동
-          mapInstance.current.panTo(newPosition);
+          mapInstance.current.panTo(newPosition); // 부드럽게 중심 이동
         }
-        console.log("현재 위치로 마커 이동", { latitude, longitude });
+
+        // locMarker 위치 업데이트
+        if (currentMarker.current) {
+          currentMarker.current.setPosition(newPosition);
+        } else if (mapInstance.current) {
+          const locMarkerSVG = ReactDOMServer.renderToString(<LocMarker />);
+          const icon = new window.kakao.maps.MarkerImage(
+            `data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+              locMarkerSVG
+            )}`,
+            new window.kakao.maps.Size(40, 40),
+            { offset: new window.kakao.maps.Point(18, 18) }
+          );
+          currentMarker.current = new window.kakao.maps.Marker({
+            position: newPosition,
+            map: mapInstance.current,
+            image: icon,
+          });
+        }
 
         // 상태 업데이트
         setLatitude(latitude);
         setLongitude(longitude);
 
-        // // 카테고리 선택 초기화 (전체로 설정)
-        // setSelectedCategory("전체");
-        // 필터 초기화 (replace: true -  히스토리에 새로운 기록을 남기지 않음.)
-
-        // 검색어(input) 값 초기화
-        const searchInput = document.querySelector(
-          "input[placeholder='어디로 떠나시나요?']"
-        ) as HTMLInputElement;
-        if (searchInput) {
-          searchInput.value = ""; // 입력 필드 값 초기화
-        }
-
-        // URL에서 query 파라미터 제거
-        const queryParams = new URLSearchParams(location.search);
-        queryParams.delete("query"); // query 값 삭제
-
-        navigate(`/place?${queryParams.toString()}`, { replace: true });
-      },
-      (error) => console.error("현재 위치 가져오기 실패:", error)
+        // 쿼리스트링 값 제거
+        navigate(`/place`, { replace: true }); // 기본 URL로 이동
+      }
     );
+  };
+
+  const moveMarkerToMapCenter = () => {
+    if (!mapInstance.current) return;
+
+    // 지도 중심 좌표 가져오기
+    const center = mapInstance.current.getCenter();
+
+    // 지도 중심 이동
+    mapInstance.current.panTo(center);
+
+    const latitude = center.getLat();
+    const longitude = center.getLng();
+
+    // 상태 업데이트
+    setLatitude(latitude);
+    setLongitude(longitude);
+
+    // locMarker는 항상 사용자 위치에 유지
+    if (currentMarker.current) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude: userLat, longitude: userLng } }) => {
+          currentMarker.current.setPosition(
+            new window.kakao.maps.LatLng(userLat, userLng)
+          );
+        }
+      );
+    }
+
+    // 검색어(input) 값 초기화
+    const searchInput = document.querySelector(
+      "input[placeholder='어디로 떠나시나요?']"
+    ) as HTMLInputElement;
+    if (searchInput) {
+      searchInput.value = "";
+    }
+
+    // URL에서 query 파라미터 제거
+    const queryParams = new URLSearchParams(location.search);
+    queryParams.delete("query"); // query 값 삭제
+
+    // replace: true - 히스토리에 새로운 기록을 남기지 않음.
+    navigate(`/place?${queryParams.toString()}`, { replace: true });
   };
 
   const LatLngEqual = (
@@ -329,7 +347,6 @@ export default function KakaoMap({
 
     if (LatLngEqual(queryLat, queryLng, markerLat, markerLng)) {
       currentMarker.current.setMap(null);
-      console.log("locMarker 숨김 처리 완료");
     } else {
       currentMarker.current.setMap(mapInstance.current);
     }
@@ -352,13 +369,11 @@ export default function KakaoMap({
               );
               setLatitude(currentLatitude || latitude);
               setLongitude(currentLongitude || longitude);
-              hideMarker(); // Check if marker should be hidden
-            },
-            (error) => console.error("위치 정보 가져오기 실패:", error)
+              hideMarker();
+            }
           );
         });
       };
-      script.onerror = () => console.error("카카오 지도 스크립트 로드 실패");
       document.head.appendChild(script);
     };
 
@@ -376,23 +391,25 @@ export default function KakaoMap({
   }, [mapInstance.current, searchParams]);
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const query = queryParams.get("query");
+    const category = queryParams.get("category");
+
     if (places && places.length > 0) {
-      console.log(`총 ${places.length}개의 장소 데이터를 조회하였습니다.`);
       addPlaceMarkers(places);
 
-      // 가장 상위 장소의 latitude와 longitude로 지도 중심 이동
-      const { latitude, longitude } = places[0];
-      if (mapInstance.current) {
-        const newCenter = new window.kakao.maps.LatLng(latitude, longitude);
-        mapInstance.current.setCenter(newCenter);
-
-        console.log("지도 중심 이동:", { latitude, longitude });
+      // 검색어 또는 특정 카테고리가 있을 경우에만 지도 중심 이동
+      if (query || (category && category !== "전체")) {
+        const { latitude, longitude } = places[0];
+        if (mapInstance.current) {
+          const newCenter = new window.kakao.maps.LatLng(latitude, longitude);
+          mapInstance.current.setCenter(newCenter);
+        }
       }
     } else {
-      console.log("선택된 카테고리의 장소 데이터가 없습니다.");
       clearMarkers();
     }
-  }, [places]);
+  }, [places, location.search]);
 
   return (
     <div ref={mapRef} css={mapStyle} className="kakaoMap">

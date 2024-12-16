@@ -1,16 +1,45 @@
+import * as React from "react";
 import type { SVGProps } from "react";
 const SvgLocMarker = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
-    viewBox="0 0 26 38"
+    viewBox="0 0 44 44"
     {...props}
   >
+    <g filter="url(#loc-marker_svg__a)">
+      <path
+        fill="#007AFF"
+        fillOpacity={0.18}
+        d="M22 43a21 21 0 1 1 21-21 21.023 21.023 0 0 1-21 21"
+      />
+      <path
+        fill="#fff"
+        d="M22 36a14 14 0 1 1 14-14 14.016 14.016 0 0 1-14 14"
+      />
+    </g>
     <path
-      fill="#F1729B"
-      d="M13 .003C9.622-.072 6.355 1.327 3.918 3.89S.07 9.976 0 13.678a14.3 14.3 0 0 0 1.563 6.509l.434.773 3.832 6.827 5.047 8.991c.217.372.515.678.867.892.353.213.748.327 1.15.33.403.003.8-.104 1.155-.312s.658-.51.88-.878l5.243-9.025 3.832-6.827q.228-.379.434-.773A14.3 14.3 0 0 0 26 13.677c-.071-3.703-1.48-7.222-3.918-9.786S16.378-.072 13 .003"
+      fill="#007AFF"
+      d="M22 32c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10"
     />
-    <path fill="#fff" d="M13 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16" />
+    <defs>
+      <filter
+        id="loc-marker_svg__a"
+        width={44}
+        height={44}
+        x={0}
+        y={0}
+        colorInterpolationFilters="sRGB"
+        filterUnits="userSpaceOnUse"
+      >
+        <feFlood floodOpacity={0} result="BackgroundImageFix" />
+        <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+        <feGaussianBlur
+          result="effect1_foregroundBlur_581_4868"
+          stdDeviation={0.5}
+        />
+      </filter>
+    </defs>
   </svg>
 );
 export default SvgLocMarker;
