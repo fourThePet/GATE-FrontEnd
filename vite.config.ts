@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       sentryVitePlugin({
         org: "ohhyeryeong",
         project: "javascript-react",
-        authToken: env.VITE_SENTRY_AUTH_TOKEN,
+        authToken: env.SENTRY_AUTH_TOKEN,
         sourcemaps: {
           filesToDeleteAfterUpload: "**/*.map",
         },
