@@ -364,6 +364,7 @@ export default function StoreInfo({
                   {interpretSizeAvailable("LARGE")}
                   <p style={{ fontSize: "12px", marginTop: "5px" }}>
                     {interpretSizeKorea("LARGE")}
+
                   </p>
                 </div>
               )}
@@ -414,6 +415,7 @@ export default function StoreInfo({
         </div>
         <ul style={{ marginLeft: "20px" }}>
           <li css={typo.Body2} style={{ color: "#888888" }}>
+
             입장 조건
             <span style={{ color: "#F1729B" }}>
               {" "}
@@ -438,6 +440,7 @@ export default function StoreInfo({
             </span>
           </li>
           <li css={typo.Body2} style={{ color: "#888888" }}>
+
             데이터 마지막 수정일
             <span style={{ color: "#F1729B" }}> {storeData.lastUpdated} </span>
           </li>
