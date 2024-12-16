@@ -54,6 +54,12 @@ export default function PlaceDetail() {
   const latitude = parseFloat(queryParams.get("latitude") || "0");
   const longitude = parseFloat(queryParams.get("longitude") || "0");
 
+  const handleMapViewClick = () => {
+    if (howToComeRef.current) {
+      howToComeRef.current.scrollIntoView({ behavior: "smooth" }); // 스크롤 이동
+    }
+  };
+
   // const placeId = 1; // 임시 placeId
   const { data, isLoading, error } = useGetPlaceReviews(placeId); // 리뷰 데이터 가져오기
 
@@ -110,7 +116,7 @@ export default function PlaceDetail() {
           }
         `}
       </style>
-      <StoreInfo placeId={placeId} />
+      <StoreInfo placeId={placeId} onMapViewClick={handleMapViewClick} />
       <Divider2 />
       <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
         <div

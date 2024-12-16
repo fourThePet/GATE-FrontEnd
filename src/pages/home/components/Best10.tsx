@@ -41,7 +41,24 @@ export default function Best10() {
         </div>
       </div>
     );
-  if (isLoading) return <LoadingBar />;
+  if (isLoading)
+    return (
+      <div css={wrapperStyle}>
+        <h2 css={typo.Heading3}>인기 급상승 🔥</h2>
+        <h3 css={typo.Heading4} style={{ color: " #888" }}>
+          국내 장소 Best 10
+        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <LoadingBar />
+        </div>
+      </div>
+    );
   if (error) return <p>현재 인기 리스트가 없습니다.</p>;
 
   // placeInfo가 존재하면 페이지 이동

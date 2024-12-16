@@ -25,8 +25,8 @@ export default function KakaoMap({
   places,
   currentLatitude,
   currentLongitude,
-  setSelectedCategory,
-}: KaKaoMapProps) {
+}: // setSelectedCategory,
+KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
@@ -140,7 +140,7 @@ export default function KakaoMap({
                   style="cursor: pointer; font-size: 14px; color: #999;" 
                   title="닫기"
                 >
-                  ✖
+                  X
                 </div>
               </div>
               <div style="display: flex; margin-top: 10px; cursor: pointer;">

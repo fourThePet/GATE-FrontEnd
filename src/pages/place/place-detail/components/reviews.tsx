@@ -8,6 +8,8 @@ import { NotFoundIcon } from "../../../../assets/svg";
 import { Sdogpink, Mdogpink, Ldogpink } from "../../../../assets/svg";
 import formatReviewDate from "../../../review/format-review-date";
 import { LoadingBar } from "../../../../components";
+import { containerStyle, tooltipStyle } from "../../../review/index.styles";
+
 type ReviewsProps = {
   placeId: number; // placeId를 props로 받음
 };
@@ -17,7 +19,7 @@ export default function Reviews({ placeId }: ReviewsProps) {
     Record<number, boolean>
   >({});
 
-  if (isLoading) return (<LoadingBar/>);
+  if (isLoading) return <LoadingBar />;
   if (error) return <p>리뷰를 가져오는 데 실패했습니다.</p>;
 
   // 첫 번째 리뷰만 가져오기
@@ -151,28 +153,30 @@ export default function Reviews({ placeId }: ReviewsProps) {
         >
           {/* 크기 아이콘 표시 */}
           {firstReview.size === "SMALL" && (
-            <Sdogpink
-              css={{
-                width: "40px",
-                height: "40px",
-              }}
-            />
+            <div css={containerStyle}>
+              <Sdogpink css={{ width: "45px", height: "45px" }} />
+              <span css={tooltipStyle} className="tooltipStyle">
+                소형
+              </span>
+            </div>
           )}
+
           {firstReview.size === "MEDIUM" && (
-            <Mdogpink
-              css={{
-                width: "40px",
-                height: "40px",
-              }}
-            />
+            <div css={containerStyle}>
+              <Mdogpink css={{ width: "45px", height: "45px" }} />
+              <span css={tooltipStyle} className="tooltipStyle">
+                중형
+              </span>
+            </div>
           )}
+
           {firstReview.size === "LARGE" && (
-            <Ldogpink
-              css={{
-                width: "40px",
-                height: "40px",
-              }}
-            />
+            <div css={containerStyle}>
+              <Ldogpink css={{ width: "45px", height: "45px" }} />
+              <span css={tooltipStyle} className="tooltipStyle">
+                대형
+              </span>
+            </div>
           )}
           {firstReview.keywordList.map((keyword: string, index: number) => (
             <button
