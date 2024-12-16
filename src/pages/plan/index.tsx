@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { Schedulemain } from "../../assets/svg";
-import { buttonWrapper, imageBlock, imageWrapper, loadingWrapper, mainImage, mainTitle, mainWrapper, noDataText, planListWrapper, planWrapper, /* recommendCity, recommendLabel, */ tabStyle, wrapper } from "./index.styles";
+import { blurBackground, buttonWrapper, imageBlock, imageWrapper, loadingWrapper, mainImage, mainTitle, mainWrapper, noDataText, planListWrapper, planWrapper, /* recommendCity, recommendLabel, */ tabStyle, wrapper } from "./index.styles";
 // import { Button } from "../../components/button/button";
 import { TravelForm } from "./components/travel-form";
 // import { useGetPlacesCities } from "../../queries";
@@ -102,7 +102,20 @@ export default function Plan() {
 
   return (
     <>
-      <div css={wrapper}>
+      <div css={[wrapper, isAlertModalOpen && blurBackground]}>
+      {isAlertModalOpen &&
+        <AlertModal
+          isModalOpen={isAlertModalOpen}
+          title="로그인 필요"
+          subTitle="로그인 페이지로 이동할까요?"
+          handleConfirmButtonClick={() => {
+            navigate("/login");
+            setIsAlertModalOpen(false);
+          }}
+          closeModal={() => setIsAlertModalOpen(false)}
+        />
+
+      }
         <style>
           {`
           div::-webkit-scrollbar {
@@ -218,16 +231,7 @@ export default function Plan() {
           )}
         </div>
       </div>
-      <AlertModal
-        isModalOpen={isAlertModalOpen}
-        title="로그인 필요"
-        subTitle="로그인 페이지로 이동할까요?"
-        handleConfirmButtonClick={() => {
-          navigate("/login");
-          setIsAlertModalOpen(false);
-        }}
-        closeModal={() => setIsAlertModalOpen(false)}
-      />
+      
     </>
   );
 }

@@ -17,6 +17,7 @@ import { useAuthStore } from "../../../stores/useAuthStore";
 import { BasicInfoContainer } from "./index.styles";
 import { useLocation } from "react-router-dom";
 import { LoadingBar } from "../../../components";
+import NotFound from "../../not-found";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
@@ -88,7 +89,9 @@ export default function PlaceDetail() {
   }, [howToComeRef.current]); // `
 
   if (isLoading) return <LoadingBar />;
-  if (error || !data) return <div>리뷰 데이터를 가져오는 데 실패했습니다.</div>;
+  if (error || !data) return (
+    <NotFound/>
+  );
 
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
