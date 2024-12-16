@@ -12,6 +12,7 @@ import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
 import OverlayContent from "./overlay-content";
 import { createRoot } from "react-dom/client";
+import colors from "../../../../styles/colors";
 
 interface KaKaoMapProps {
   places: Place[];
@@ -27,8 +28,7 @@ export default function KakaoMap({
   places,
   currentLatitude,
   currentLongitude,
-}:
-KaKaoMapProps) {
+}: KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
@@ -91,7 +91,7 @@ KaKaoMapProps) {
         place.category,
         place.favorites === "Y"
       );
-      
+
       const marker = new window.kakao.maps.Marker({
         position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
         map: mapInstance.current,
@@ -178,9 +178,9 @@ KaKaoMapProps) {
       });
 
       return { marker, overlay: customOverlay };
-
-      marker.setMap(mapInstance.current); // 지도에 마커 추가
     });
+
+    setMarkerOverlayPairs(newMarkerOverlayPairs);
   };
 
   const clearMarkers = () => {
