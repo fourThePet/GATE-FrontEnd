@@ -65,10 +65,10 @@ export default function StoreInfo({
         onSuccess: () => {
           console.log("즐겨찾기 삭제");
           setIsLiked(false);
+          window.location.reload(); // 페이지 새로고침
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
             if (error.response?.status === 401) {
               alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
               window.location.href = "/login";
@@ -84,9 +84,13 @@ export default function StoreInfo({
       });
     } else {
       postFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          console.log("즐겨찾기 등록 성공");
+          setIsLiked(true);
+          window.location.reload(); // 페이지 새로고침
+        },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
-            // AxiosError로 처리
             if (error.response?.status === 401) {
               alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
               window.location.href = "/login";
@@ -98,10 +102,6 @@ export default function StoreInfo({
             console.error("알 수 없는 오류:", error);
             alert("예기치 못한 문제가 발생했습니다.");
           }
-        },
-        onSuccess: () => {
-          console.log("즐겨찾기 등록 성공");
-          setIsLiked(true);
         },
       });
     }

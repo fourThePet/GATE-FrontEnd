@@ -154,10 +154,10 @@ export default function Review() {
           </div>
         </div>
       </div>
-      <Divider style={{ width: "100%", height: "7px" }} />
+      <Divider style={{ marginLeft: "30px", width: "90%", height: "2px" }} />
 
       {/* 리뷰 리스트 */}
-      {reviewResponseList.map((review) => (
+      {reviewResponseList.map((review, index) => (
         <div key={review.id}>
           <div css={BasicInfoContainer}>
             {/* 프로필과 별점 */}
@@ -391,9 +391,9 @@ export default function Review() {
               {formatReviewDate(review.createAt)}
             </div>
           </div>
-          <Divider
-            style={{ marginLeft: "30px", width: "90%", height: "2px" }}
-          />
+          {index !== reviewResponseList.length - 1 && (
+            <Divider style={{ width: "100%", height: "7px" }} />
+          )}{" "}
         </div>
       ))}
     </div>
