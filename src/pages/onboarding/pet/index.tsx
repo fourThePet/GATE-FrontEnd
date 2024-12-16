@@ -142,7 +142,8 @@ export default function OnboardingPet(){
                 type : "error",
                 text : "로그인이 필요해요.",
                 onClose : () => {
-                    navigate("/login")
+                    localStorage.setItem("pathname", window.location.pathname)
+                    navigate("/login", { state: { from: window.location.pathname } }); // 로그인 페이지로 이동
                 }
             })
         }

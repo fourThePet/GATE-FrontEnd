@@ -23,7 +23,8 @@ export default function Mypage() {
 
   const handleCloseLoginModal = () => {
     setIsLoginModalOpen(false);
-    navigate("/login"); // 로그인 페이지로 이동
+    localStorage.setItem("pathname", window.location.pathname)
+    navigate("/login", { state: { from: window.location.pathname } }); // 로그인 페이지로 이동
   };
 
   const handlePetInfoClcik = (id : number) => {

@@ -109,7 +109,8 @@ export default function Plan() {
           title="로그인 필요"
           subTitle="로그인 페이지로 이동할까요?"
           handleConfirmButtonClick={() => {
-            navigate("/login");
+            localStorage.setItem("pathname", window.location.pathname)
+            navigate("/login", { state: { from: window.location.pathname } }); // 현재 경로 전달
             setIsAlertModalOpen(false);
           }}
           closeModal={() => setIsAlertModalOpen(false)}

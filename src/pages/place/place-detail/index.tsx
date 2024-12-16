@@ -18,6 +18,7 @@ import { BasicInfoContainer } from "./index.styles";
 import { useLocation } from "react-router-dom";
 import { LoadingBar } from "../../../components";
 import NotFound from "../../not-found";
+import { notify } from "../../../utils/constants";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
@@ -136,7 +137,15 @@ export default function PlaceDetail() {
             css={{ width: "70px", height: "70px", cursor: "pointer" }}
             onClick={() => {
               if (!isLoggedIn) {
-                alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+                
+                notify({
+                  type : "warning",
+                  text : "로그인이 필요해요",
+                  // onClose : () => {
+                  //   localStorage.setItem("pathname",`${window.location.pathname}${window.location.search}`)
+                  //   navigate("/login", { state: { from: `${window.location.pathname}${window.location.search}` } }); // 로그인 페이지로 이동
+                  // }
+                })
                 navigate("/login");
               } else {
                 handleReviewButtonClick();
