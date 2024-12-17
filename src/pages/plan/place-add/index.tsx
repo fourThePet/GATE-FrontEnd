@@ -81,7 +81,7 @@ export default function PlaceAdd(){
             const excludedCategories = ["반려동물용품", "미용", "의료"]; // 제외할 카테고리 이름
             const processedCategories = [
                 { id: 0, name: "전체", icon: categoryIcon("전체") },
-                { id: 0, name: "추천", icon: "✨" },
+                { id: 9, name: "추천", icon: "✨" },
                 ...data.result
                 .filter((category: { id: number; name: string }) => 
                     !excludedCategories.includes(category.name) // 제외 카테고리 필터링
