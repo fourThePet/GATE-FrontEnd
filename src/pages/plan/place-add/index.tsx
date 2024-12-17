@@ -39,8 +39,6 @@ export default function PlaceAdd(){
         // navigate(`?${params.toString()}`);
     };
 
-    
-
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     // 장소 선택 데이터
     
@@ -98,7 +96,7 @@ export default function PlaceAdd(){
     }, [data]);
 
     useEffect(()=>{
-        if(selectItems.length>0){
+        if(selectItems.length>0 && selectItems.length<=10){
             setIsDisabled(false)
         }else{
             setIsDisabled(true)

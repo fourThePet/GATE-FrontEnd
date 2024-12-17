@@ -5,6 +5,7 @@ import { favoriteCount, imageItem, imageWrapper, titleWrapper, wrapper } from ".
 import { FavoritesListType } from "../../../../interfaces";
 import usePlanStore from "../../../../stores/usePlanStore";
 import { SelectPlaceType } from "../../../../interfaces";
+import { notify } from "../../../../utils/constants";
 
 interface Props extends FavoritesListType{
     setSelectItems?: React.Dispatch<React.SetStateAction<SelectPlaceType[]>>;
@@ -21,7 +22,13 @@ export default function PlaceListCard({placeName, roadAddress, placeId, photoUrl
     }, [selectItems, placeId]);
 
     const handlePlusButtonClick = () => { // 장소 선택
-        
+        if(selectItems.length>=10){
+            notify({
+                type: "warning",
+                text: "최대 10개까지 선택할 수 있어요"
+            })
+            return
+        }
 
         if (!isSelect) { //선택되지 않았던 거라면 추가
             const newItem : SelectPlaceType = { placeId, placeName, latitude, longitude, photoUrl, roadAddress, reviewNum, starAvg }
