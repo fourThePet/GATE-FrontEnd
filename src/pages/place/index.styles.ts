@@ -39,12 +39,14 @@ export const buttonContainer = ({
   transform: translateX(-50%);
   display: ${isFilterModalOpen ? "none" : "block"};
 
-  background: linear-gradient(
-    to top,
-    ${colors.color.White1},
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0)
-  );
+  background: ${isModalOpen
+    ? `linear-gradient(
+        to top,
+        ${colors.color.White1},
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0)
+      )`
+    : "transparent"};
   width: 100%;
   max-width: 600px;
   padding: 30px 0;
