@@ -45,6 +45,22 @@ export default function Place() {
   const { latitude, longitude } = useLocationStore();
   const navigate = useNavigate();
 
+  const [isFirstOpen, setIsFirstOpen] = useState(true);
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen || isFilterModalOpen) {
+      if (isFirstOpen) {
+        setShowMessage(true);
+        setIsFirstOpen(false);
+
+        setTimeout(() => {
+          setShowMessage(false);
+        }, 3000);
+      }
+    }
+  }, [isModalOpen, isFilterModalOpen]);
+
   /** Filter 페이지에서 쿼리스트링으로 넘겨준 필터링값을 받아오기 */
   const { search } = useLocation();
 
@@ -261,6 +277,7 @@ export default function Place() {
   if (isCategoryLoading) {
     return <LoadingBar />;
   }
+
   return (
     <div css={containerStyle}>
       <SearchFilterHeader
@@ -302,6 +319,25 @@ export default function Place() {
             css={modalContent}
             style={filterAnimation}
           >
+            {/* 최초 열림 메시지 */}
+            {showMessage && (
+              <div
+                css={css`
+                  position: absolute;
+                  top: 10px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background-color: rgba(0, 0, 0, 0.7);
+                  color: white;
+                  padding: 8px 12px;
+                  border-radius: 8px;
+                  font-size: 14px;
+                  z-index: 999;
+                `}
+              >
+                회색바를 통해 컨텐츠 길이를 조절할 수 있어요!
+              </div>
+            )}
             <div css={modalContent} ref={modalRef}>
               <div
                 css={css`
@@ -344,6 +380,25 @@ export default function Place() {
             style={animation}
             className="checkPlaceBottomTab"
           >
+            {/* 최초 열림 메시지 */}
+            {showMessage && (
+              <div
+                css={css`
+                  position: absolute;
+                  top: 10px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background-color: rgba(0, 0, 0, 0.7);
+                  color: white;
+                  padding: 8px 12px;
+                  border-radius: 8px;
+                  font-size: 14px;
+                  z-index: 999;
+                `}
+              >
+                회색바를 통해 컨텐츠 길이를 조절할 수 있어요!
+              </div>
+            )}
             <div css={modalContent} ref={modalRef}>
               <div
                 css={css`
@@ -375,11 +430,7 @@ export default function Place() {
                   onClick={handleTopTab}
                 />
               </div>
-              <ResultPlace
-                places={places}
-                userLatitude={latitude} // 현재 사용자 위치 위도
-                userLongitude={longitude}
-              />
+              <ResultPlace places={places} />
             </div>
           </AnimatedDiv>
         </div>

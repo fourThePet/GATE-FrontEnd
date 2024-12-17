@@ -101,7 +101,7 @@ export const modalContent = css`
   top: 0;
   background-color: ${colors.color.White1};
   width: 100%;
-  max-height: 80vh;
+  max-height: 77vh;
   height: 100%;
   padding-top: 2%;
   max-width: 600px;
