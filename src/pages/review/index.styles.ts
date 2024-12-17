@@ -23,7 +23,7 @@ export const starStyles = css`
   }
 
   .react-stars span.filled {
-    color: #f1729b !important; /* 활성화된 별 색상 */
+    color: #f1729b !important;
   }
 `;
 
