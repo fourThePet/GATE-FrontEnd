@@ -6,7 +6,6 @@ import {
   usePostFavorite,
   usePatchFavorite,
 } from "../../../../queries/favorites";
-
 interface OverlayContentProps {
   placeInfo: any;
   placeId: number;
