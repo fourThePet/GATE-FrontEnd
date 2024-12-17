@@ -32,6 +32,7 @@ import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
 import { LoadingBar } from "../../../../components";
 import { Showmap, Calling, Homepage, Share } from "../../../../assets/svg";
+import { notify } from "../../../../utils/constants";
 
 export default function StoreInfo({
   placeId,
@@ -269,15 +270,22 @@ export default function StoreInfo({
                 navigator.clipboard
                   .writeText(storeData.roadAddress)
                   .then(() => {
-                    alert("주소가 클립보드에 복사되었습니다.");
+                    notify({
+                      type: "success",
+                      text: "주소가 클립보드에 복사되었습니다!",
+                    });
                   })
                   .catch(() => {
-                    alert(
-                      "주소 복사에 실패했습니다. 브라우저가 지원하지 않을 수 있습니다."
-                    );
+                    notify({
+                      type: "error",
+                      text: "주소가 복사에 실패했습니다!",
+                    });
                   });
               } else {
-                alert("복사할 주소가 없습니다.");
+                notify({
+                  type: "error",
+                  text: "복사할 주소가 없습니다!",
+                });
               }
             }}
           />
