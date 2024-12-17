@@ -105,6 +105,7 @@ export default function PlanCreate() {
           <span>📅</span>
           <DatePicker
             selected={selectedDate}
+            value={date}
             onChange={handleChangeDate}
             placeholderText="여행 날짜를 선택해주세요."
             dateFormat="yyyy-MM-dd"

@@ -96,10 +96,10 @@ export default function PlaceChoice() {
         <div css={titleWrapper}>
           <Text type="Heading3">{cityName}</Text>
           <div css={dateWrapper}>
+            <GrayCalender width={16} />
             <Text type="Body2" color={colors.color.Gray1}>
               {date}
             </Text>
-            <GrayCalender width={16} />
           </div>
         </div>
         <div css={mapWrapper}>
