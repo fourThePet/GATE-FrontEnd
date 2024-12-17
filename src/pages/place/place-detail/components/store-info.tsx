@@ -145,8 +145,14 @@ export default function StoreInfo({
                 },
               });
             } else {
-              // console.error("즐겨찾기 등록 실패:", error.response?.data);
-              refreshPage();
+              console.error("즐겨찾기 등록 실패:", error.response?.data);
+              notify({
+                type: "error",
+                text: "즐겨찾기 등록을 실패했어요",
+                onClose: () => {
+                  refreshPage();
+                },
+              });
             }
           } else {
             // console.error("알 수 없는 오류:", error);
@@ -225,7 +231,7 @@ export default function StoreInfo({
         })}
       >
         <img
-          src={storeData.photoUrl || '/images/no_image.jpg'}
+          src={storeData.photoUrl || "/images/no_image.jpg"}
           alt={storeData.name}
           css={Block.flexBlock({
             width: "100%",
@@ -392,9 +398,9 @@ export default function StoreInfo({
             } else {
               // alert("홈페이지 정보가 없습니다!");
               notify({
-                type : "warning",
-                text : "홈페이지 정보가 없어요!"
-              })
+                type: "warning",
+                text: "홈페이지 정보가 없어요!",
+              });
             }
           }}
         >
