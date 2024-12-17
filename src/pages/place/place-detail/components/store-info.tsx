@@ -146,7 +146,13 @@ export default function StoreInfo({
               });
             } else {
               console.error("즐겨찾기 등록 실패:", error.response?.data);
-              refreshPage();
+              notify({
+                type: "error",
+                text: "즐겨찾기 등록을 실패했어요",
+                onClose: () => {
+                  refreshPage();
+                },
+              });
             }
           } else {
             // console.error("알 수 없는 오류:", error);
