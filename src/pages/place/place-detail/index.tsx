@@ -14,7 +14,7 @@ import ReviewPercent from "./components/review-percent";
 import { useGetPlaceReviews } from "../../../queries/reviews"; // 리뷰 데이터 가져오기 훅
 import { Writereview } from "../../../assets/svg";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { BasicInfoContainer } from "./index.styles";
+import { BasicInfoContainer, reviewButton } from "./index.styles";
 import { useLocation } from "react-router-dom";
 import { LoadingBar } from "../../../components";
 import NotFound from "../../not-found";
@@ -124,7 +124,7 @@ export default function PlaceDetail() {
       </style>
       <StoreInfo placeId={placeId} onMapViewClick={handleMapViewClick} />
       <Divider2 />
-      <div css={BasicInfoContainer} style={{ marginTop: "-20px" }}>
+      <div css={BasicInfoContainer}>
         <div
           css={Block.flexBlock({
             direction: "row",
@@ -165,21 +165,23 @@ export default function PlaceDetail() {
       <Reviews placeId={placeId} />
       {/* 리뷰 전체보기 버튼 */}
       {reviewResponseList.length > 0 && (
-        <button
-          css={Button.pinkBorderButton({
-            width: "90%",
-            height: "50px",
-          })}
-          style={{
-            marginTop: "20px",
-            display: "block",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-          onClick={handleAllReviewButtonClick}
-        >
-          리뷰 전체보기
-        </button>
+        <div css={reviewButton}>
+          <button
+            css={Button.pinkBorderButton({
+              width: "100%",
+              height: "50px",
+            })}
+            style={{
+              display: "flex",
+              
+            }}
+            onClick={handleAllReviewButtonClick}
+          >
+            리뷰 전체보기
+          </button>
+
+        </div>
+        
       )}
       <Divider2 />
       <div ref={howToComeRef}>

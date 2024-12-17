@@ -28,13 +28,13 @@ export const HeaderContainer = css`
 `;
 
 export const ContentContainer = css`
-  padding: 20px;
+  padding: 30px;
   background-color: #fff;
   border-radius: 16px;
 `;
 
 export const BasicInfoContainer = css`
-  padding: 20px;
+  padding:10px 30px;
   background-color: #fff;
   border-radius: 16px;
   ul {
@@ -51,8 +51,7 @@ export const BasicInfoContainer = css`
 export const wrapperStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
+  padding: 20px 30px;
 `;
 
 export const barContainerStyle = css`
@@ -111,3 +110,11 @@ export const textWrapper = css`
   justify-content: center;
   align-items: center;
 `;
+
+export const reviewButton = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding:10px 30px;
+  width: 100%;
+`

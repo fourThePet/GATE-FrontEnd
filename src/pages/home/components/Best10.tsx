@@ -11,6 +11,7 @@ import {
 import { LoadingBar } from "../../../components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { NotFoundIcon } from "../../../assets/svg";
 
 export default function Best10() {
   const { data: popularPlaces, isLoading, error } = useGetPopularPlaces(10); // 인기 장소 10개 가져오기
@@ -59,7 +60,17 @@ export default function Best10() {
         </div>
       </div>
     );
-  if (error) return <p>현재 인기 리스트가 없습니다.</p>;
+  if (error) return (
+    <div css={wrapperStyle}>
+      <h2 css={typo.Heading3}>인기 급상승 🔥</h2>
+      <h3 css={typo.Heading4} style={{ color: " #888" }}>
+        국내 장소 Best 10
+      </h3>
+      <div style={{display : "flex", justifyContent:"center", alignItems:"center"}}>
+        <NotFoundIcon width={30}/>
+      </div>
+    </div>
+  );
 
   // placeInfo가 존재하면 페이지 이동
   if (placeInfo && selectedPlaceId) {

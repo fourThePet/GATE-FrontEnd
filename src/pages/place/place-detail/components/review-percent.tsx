@@ -27,7 +27,7 @@ export default function ReviewPercent({ placeId }: ReviewProps) {
   const totalValue = reviewData.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <div css={wrapperStyle} style={{ marginTop: "-20px" }}>
+    <div css={wrapperStyle}>
       {reviewData.map((item, index) => (
         <div css={barContainerStyle} key={index}>
           {/* 레이블 */}
