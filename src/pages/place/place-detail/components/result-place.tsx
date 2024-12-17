@@ -8,48 +8,19 @@ import {
   PlaceItem,
   PlaceList,
   PlaceName,
+  PlaceTags,
+  PlaceTextInfo,
+  PlaceCategory,
+  PlaceTop,
 } from "./result-place.styles";
 import { getPlacesInfo } from "../../../../api";
+import { Place } from "../../../../interfaces/places";
+import { useGetPlacesInfo } from "../../../../queries/places";
 
-export interface Place {
-  id: number;
-  name: string;
-  roadAddress: string;
-  profileUrl: string;
-  latitude: number;
-  longitude: number;
-}
-
-export default function ResultPlace({
-  places,
-  userLatitude,
-  userLongitude,
-}: {
-  places: Place[];
-  userLatitude: number; // 내 위치 위도
-  userLongitude: number; // 내 위치 경도
-}) {
+export default function ResultPlace({ places }: { places: Place[] }) {
   const navigate = useNavigate();
 
-  const getDistanceText = (
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ) => {
-    const R = 6371;
-    const dLat = ((lat2 - lat1) * Math.PI) / 180;
-    const dLon = ((lon2 - lon1) * Math.PI) / 180;
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos((lat1 * Math.PI) / 180) *
-        Math.cos((lat2 * Math.PI) / 180) *
-        Math.sin(dLon / 2) ** 2;
-    const distanceInKm = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return distanceInKm < 1
-      ? `${Math.round(distanceInKm * 1000)} m`
-      : `${distanceInKm.toFixed(2)} km`;
-  };
+  const { data } = useGetPlacesInfo(places[0]?.id);
 
   const handlePlaceClick = async (place: Place) => {
     try {
@@ -72,6 +43,10 @@ export default function ResultPlace({
     console.log("현재 전달받은 장소 데이터:", places);
   }, [places]);
 
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = "/images/no-image.png";
+  };
+
   return (
     <div css={PlaceList}>
       {places.length > 0 ? (
@@ -81,19 +56,35 @@ export default function ResultPlace({
             key={place.id}
             onClick={() => handlePlaceClick(place)}
           >
-            <img css={PlaceImage} src={place.profileUrl} alt={place.name} />
             <div css={PlaceContent}>
-              <div css={PlaceName}>{place.name}</div>
+              <div css={PlaceTop}>
+                <div css={PlaceName}>{place.name}</div>
+                <div css={PlaceCategory}>{place.category}</div>
+              </div>
               <div css={PlaceAddress}>{place.roadAddress}</div>
-              <div css={PlaceDistance}>
-                {getDistanceText(
-                  userLatitude,
-                  userLongitude,
-                  place.latitude,
-                  place.longitude
-                )}
+              <div css={PlaceTextInfo}>
+                <div css={PlaceTags}>
+                  {data?.isLeashRequired === "Y" && "목줄 필수 · "}
+                  {data?.isMuzzleRequired === "Y" && "입마개 필수 · "}
+                  {data?.isCageRequired === "Y" && "케이지 필수 · "}
+                  {data?.isVaccinationComplete === "Y" && "접종 완료 · "}
+                  {data?.indoorAvailable === "Y" && "실내 가능 · "}
+                  {data?.outdoorAvailable === "Y" && "야외 가능 · "}
+                  {data?.parkingAvailable === "Y" && "주차 가능"}
+                </div>
+                <div css={PlaceDistance}>
+                  {place.distance < 1
+                    ? `${Math.round(place.distance * 1000)} m`
+                    : `${place.distance.toFixed(2)} km`}
+                </div>
               </div>
             </div>
+            <img
+              css={PlaceImage}
+              src={place.profileUrl}
+              alt={place.name}
+              onError={handleImageError}
+            />
           </div>
         ))
       ) : (

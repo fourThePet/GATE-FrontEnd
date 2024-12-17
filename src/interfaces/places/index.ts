@@ -16,13 +16,14 @@ export interface Place {
   longitude: number;
   roadAddress: string;
   postalCode: string;
+  distance: number;
   favorites: "N" | "Y";
 }
 
 export interface PlanSearchParam {
-  query? : string;
-  cityId : number;
-  category? : string;
+  query?: string;
+  cityId: number;
+  category?: string;
 }
 
 // 맵
