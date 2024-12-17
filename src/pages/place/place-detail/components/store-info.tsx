@@ -106,7 +106,7 @@ export default function StoreInfo({
               window.location.href = "/login";
             } else {
               console.error("즐겨찾기 등록 실패:", error.response?.data);
-              alert("즐겨찾기 등록 중 문제가 발생했습니다.");
+              refreshPage();
             }
           } else {
             console.error("알 수 없는 오류:", error);
