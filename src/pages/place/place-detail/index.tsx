@@ -47,7 +47,7 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
 };
 
 export default function PlaceDetail() {
-  usePageMeta("GATE | 장소 상세", 'GATE 장소 상세'); //seo 검색 최적화
+  usePageMeta("GATE | 장소 상세", "GATE 장소 상세"); //seo 검색 최적화
   const navigate = useNavigate();
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref
@@ -92,14 +92,14 @@ export default function PlaceDetail() {
   }, [howToComeRef.current]); // `
 
   if (isLoading) return <LoadingBar />;
-  if (error || !data) return (
-    <NotFound/>
-  );
+  if (error || !data) return <NotFound />;
 
   const { reviewResponseList } = data; // 리뷰 데이터에서 리뷰 리스트 추출
 
   const handleReviewButtonClick = () => {
-    navigate(`/review/receipt-check/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
+    navigate(`/review/receipt-check/${placeId}`, {
+      state: { placeId, latitude, longitude },
+    }); // placeId를 동적으로 포함
   };
 
   return (
@@ -139,15 +139,14 @@ export default function PlaceDetail() {
             css={{ width: "70px", height: "70px", cursor: "pointer" }}
             onClick={() => {
               if (!isLoggedIn) {
-                
                 notify({
-                  type : "warning",
-                  text : "로그인이 필요해요",
+                  type: "warning",
+                  text: "로그인이 필요해요",
                   // onClose : () => {
                   //   localStorage.setItem("pathname",`${window.location.pathname}${window.location.search}`)
                   //   navigate("/login", { state: { from: `${window.location.pathname}${window.location.search}` } }); // 로그인 페이지로 이동
                   // }
-                })
+                });
                 navigate("/login");
               } else {
                 handleReviewButtonClick();

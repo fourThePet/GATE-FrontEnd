@@ -62,7 +62,10 @@ export const router = createBrowserRouter([
       { path: "place/filter", element: <FilterPlace /> },
       // { path: "place/list", element: <PlaceList /> },
 
-      { path: "review/receipt-check/:placeId", element: <ReceiptCheck /> },
+      {
+        path: "review/receipt-check/:placeId",
+        element: <ReceiptCheck />,
+      },
       { path: "review/write/:placeId", element: <WriteReview /> },
       { path: "review/:placeId", element: <Review /> },
       { path: "auth/kakao", element: <KakaoCallback /> },

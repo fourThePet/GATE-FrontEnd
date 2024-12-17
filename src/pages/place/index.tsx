@@ -32,9 +32,8 @@ type AnimatedDivProps = AnimatedProps<{
   children?: React.ReactNode;
 }>;
 
-
 export default function Place() {
-  usePageMeta("GATE | 장소", 'GATE 장소'); //seo 검색 최적화
+  usePageMeta("GATE | 장소", "GATE 장소"); //seo 검색 최적화
   const location = useLocation();
   const { data, isLoading: isCategoryLoading } = useGetPlacesCategories();
   const [categories, setCategories] = useState([]);

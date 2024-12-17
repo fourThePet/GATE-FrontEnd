@@ -14,6 +14,8 @@ type Props = {
   confirmText?: string; // 확인 버튼 텍스트
   onConfirm?: () => void; // 확인 버튼 클릭 핸들러 (옵션)
   placeId: number; // 이동할 placeId
+  latitude: number;
+  longitude: number;
 };
 
 export default function ConfirmModal({
@@ -24,6 +26,8 @@ export default function ConfirmModal({
   confirmText = "확인", // 기본값 설정
   onConfirm,
   placeId,
+  latitude,
+  longitude,
 }: Props) {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
@@ -32,7 +36,13 @@ export default function ConfirmModal({
   const handleConfirm = () => {
     if (onConfirm) onConfirm(); // 확인 클릭 시 핸들러 실행
     closeModal(); // 모달 닫기
-    navigate(`/place/detail/${placeId}`, { state: { placeId } }); // placeId를 동적으로 포함
+    navigate(
+      `/place/detail/${placeId}?latitude=${latitude}&longitude=${longitude}`,
+      {
+        replace: false,
+        state: { placeId },
+      }
+    ); // placeId를 동적으로 포함
   };
 
   return (

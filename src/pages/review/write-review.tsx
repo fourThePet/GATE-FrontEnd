@@ -23,12 +23,17 @@ import {
 } from "../../queries/reviews";
 import { AxiosError } from "axios";
 import { LoadingBar, Text } from "../../components";
-import { help, labelWrapper, sizeTitle, tooltipStyle } from "./review-edit/index.styles";
+import {
+  help,
+  labelWrapper,
+  sizeTitle,
+  tooltipStyle,
+} from "./review-edit/index.styles";
 import { notify } from "../../utils/constants";
 import usePageMeta from "../../utils/usePageMeta";
 
 export default function WriteReview() {
-  usePageMeta("GATE | 리뷰쓰기", 'GATE 리뷰쓰기'); //seo 검색 최적화
+  usePageMeta("GATE | 리뷰쓰기", "GATE 리뷰쓰기"); //seo 검색 최적화
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<number[]>([]); // 선택된 조건 상태 관리 (id 값 사용)
   const [selectedDogSize, setSelectedDogSize] = useState<
@@ -45,15 +50,17 @@ export default function WriteReview() {
   const placeId = location.state?.placeId;
   const { mutate: postCreateReview } = usePostCreateReview();
   const receiptCertificate = location.state?.receiptCertificate ?? false; // receiptCertificate 가져오기
+  const latitude = location.state?.latitude;
+  const longitude = location.state?.longitude;
 
   const handleReviewChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= maxChars) {
       setReview(e.target.value); // 입력된 값이 최대 글자 수 이하인 경우 업데이트
-    }else{
+    } else {
       notify({
         type: "warning",
-        text :  "리뷰는 400자 이내로 작성해주세요.",
-      })
+        text: "리뷰는 400자 이내로 작성해주세요.",
+      });
     }
   };
 
@@ -114,8 +121,8 @@ export default function WriteReview() {
       onError: (error: AxiosError) => {
         notify({
           type: "error",
-          text : "리뷰 작성 중 문제가 생겼어요"
-        })
+          text: "리뷰 작성 중 문제가 생겼어요",
+        });
         if (error.response) {
           console.error("리뷰 작성 실패:", error.response.status);
           console.error("에러 메시지:", error.response.data);
@@ -193,7 +200,9 @@ export default function WriteReview() {
           style={{ marginTop: "80px" }}
         >
           <Logowithshadow css={{ width: "20%", height: "10%" }} />
-          <Text type="Heading4">다녀온 곳의 리뷰를 <br/> 써보세요!</Text>
+          <Text type="Heading4">
+            다녀온 곳의 리뷰를 <br /> 써보세요!
+          </Text>
         </div>
         {/* 별점 */}
         <div
@@ -228,21 +237,19 @@ export default function WriteReview() {
           })}
         >
           <div css={sizeTitle}>
-              <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
-              <div css={help} className="button-wrapper">
-                  <Help width={16} />
-                  <span css={tooltipStyle} className="tooltip">
-                  {`소형 : 10kg 이하 
+            <Text type="Heading4">다녀온 아이는 어땠나요?</Text>
+            <div css={help} className="button-wrapper">
+              <Help width={16} />
+              <span css={tooltipStyle} className="tooltip">
+                {`소형 : 10kg 이하 
                       중형 : 10kg 초과 25kg 이하
                       대형 : 25kg 초과
                       `}
-                  </span>
-              </div>
-
+              </span>
+            </div>
           </div>
           <div
             css={Block.flexBlock({
-              
               direction: "row",
               justifyContent: "space-between",
               gap: "20px",
@@ -263,7 +270,7 @@ export default function WriteReview() {
               {selectedDogSize === "small" ? (
                 <Sdogpink width={80} />
               ) : (
-                <Sdogwhite width={80}/>
+                <Sdogwhite width={80} />
               )}
               <span
                 css={typo.Body2}
@@ -287,9 +294,9 @@ export default function WriteReview() {
               onClick={() => handleDogSizeClick("medium")}
             >
               {selectedDogSize === "medium" ? (
-                <Mdogpink width={80}/>
+                <Mdogpink width={80} />
               ) : (
-                <Mdogwhite width={80}/>
+                <Mdogwhite width={80} />
               )}
               <span
                 css={typo.Body2}
@@ -338,11 +345,9 @@ export default function WriteReview() {
           })}
         >
           <span css={typo.Heading4}>어떤 점이 좋았나요?</span>
-          <div
-            css={labelWrapper}
-          >
+          <div css={labelWrapper}>
             {/* 키워드 로딩 중인 경우 */}
-            {isLoading &&  (<LoadingBar/>)}
+            {isLoading && <LoadingBar />}
 
             {/* 키워드 렌더링 */}
             {!isLoading &&
@@ -575,6 +580,8 @@ export default function WriteReview() {
             confirmText="확인"
             onConfirm={() => setIsModalOpen(false)} // 모달 닫기 동작
             placeId={placeId} // placeId 추가
+            longitude={longitude}
+            latitude={latitude}
           />
         </div>
       </div>
