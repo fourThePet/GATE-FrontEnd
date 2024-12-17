@@ -212,7 +212,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               marginTop: "5px",
             }}
           >
-            {favoritesNum} {/* 상태 기반으로 동적 업데이트 */}
+            {favoritesNum}
           </span>
         </div>
       </div>
