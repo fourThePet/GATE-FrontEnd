@@ -9,8 +9,10 @@ import { UserInfoForm } from "../../../interfaces";
 import { usePostMembersCheckNickname, usePostMembersSignup } from "../../../queries/members";
 import { HeaderLogo } from "../../../assets/svg";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function OnboardingUser(){
+    usePageMeta("GATE | 회원가입", 'GATE 회원가입'); //seo 검색 최적화
     const navigate = useNavigate();
     const [nickName, setNickName] = useState(""); // 닉네임 상태
     const [isNicknameValid, setIsNicknameValid] = useState<boolean | null>(null); //닉네임 유효성 상태

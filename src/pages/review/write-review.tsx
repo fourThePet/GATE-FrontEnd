@@ -25,8 +25,10 @@ import { AxiosError } from "axios";
 import { LoadingBar, Text } from "../../components";
 import { help, labelWrapper, sizeTitle, tooltipStyle } from "./review-edit/index.styles";
 import { notify } from "../../utils/constants";
+import usePageMeta from "../../utils/usePageMeta";
 
 export default function WriteReview() {
+  usePageMeta("GATE | 리뷰쓰기", 'GATE 리뷰쓰기'); //seo 검색 최적화
   const [rating, setRating] = useState(0); // 별점 상태 관리
   const [selectedConditions, setSelectedConditions] = useState<number[]>([]); // 선택된 조건 상태 관리 (id 값 사용)
   const [selectedDogSize, setSelectedDogSize] = useState<

@@ -278,7 +278,7 @@ export default function PetInfoModal({isOpen, setIsOpen, dogId}: Props){
                                     <Input width="60px" placeholder="DD" value={newDay} onChange={handleDayChange}/>
                                 </>
                             ) : (
-                                <Text type="Label2">
+                                <Text type="Label1" color={colors.color.Gray0}>
                                   {dogInfo?.birthDay} {`(만 ${dogInfo?.age}세)`}
                                 </Text>
 

@@ -5,8 +5,10 @@ import { useGetReviewsMy } from "../../../queries";
 import colors from "../../../styles/colors";
 import { ReviewList } from "../components";
 import { contentWrapper, countWrapper, wrapper } from './index.styles';
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function MyReview(){
+    usePageMeta("GATE | 내 리뷰내역", 'GATE 내 리뷰내역'); //seo 검색 최적화
     const {data : reviewList, isLoading} = useGetReviewsMy()
     const [count, setCount] = useState<number>(0)
     

@@ -8,9 +8,11 @@ import { CameraIcon, Help, Ldogpink, Ldogwhite, Mdogpink, Mdogwhite, Sdogpink, S
 import { usePostDogsProfile } from "../../../queries/dogs";
 import { useAuthStore } from "../../../stores/useAuthStore";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 
 export default function OnboardingPet(){
+    usePageMeta("GATE | 반려견 프로필 등록", 'GATE 반려견 프로필 등록'); //seo 검색 최적화
     const navigate = useNavigate();
     const location = useLocation();
     const [name, setName] = useState(""); 
@@ -208,11 +210,11 @@ export default function OnboardingPet(){
                         </div>
                         <div>
                             <div css={nameWrapper}>
-                                <Input width="100%" placeholder="반려동물의 이름을 입력해주세요" onChange={handleInputNameChange} maxLength={20}/>
+                                <Input width="100%" placeholder="반려견의 이름을 입력해주세요" onChange={handleInputNameChange} maxLength={20}/>
                             
                             </div>
                             {isNameValid === false &&
-                                <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>반려동물 이름은 1~20자 이내로 입력해주세요</Text></div>
+                                <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>반려견 이름은 1~20자 이내로 입력해주세요</Text></div>
                             }
                         </div>
                         

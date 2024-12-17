@@ -26,8 +26,10 @@ import { isBefore, startOfDay } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // DatePicker 스타일
 import { formatDate } from "../../../utils/dateFomatter";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlanDetail() {
+  usePageMeta("GATE | 일정 상세", 'GATE 일정상세'); //seo 검색 최적화
   const navigate = useNavigate();
   const { planId } = useParams(); // URL에서 planId를 가져옴
   const { data, isLoading} = useGetPlansByPlanId(Number(planId));

@@ -19,6 +19,7 @@ import { useLocation } from "react-router-dom";
 import { LoadingBar } from "../../../components";
 import NotFound from "../../not-found";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
   const { data, isLoading, error } = useGetPlaceReviews(placeId);
@@ -46,6 +47,7 @@ export const PlaceReviewList = ({ placeId }: { placeId: number }) => {
 };
 
 export default function PlaceDetail() {
+  usePageMeta("GATE | 장소 상세", 'GATE 장소 상세'); //seo 검색 최적화
   const navigate = useNavigate();
   const [isButtonVisible, setIsButtonVisible] = useState(false);
   const howToComeRef = useRef<HTMLDivElement | null>(null); // HowToCome 컴포넌트의 ref

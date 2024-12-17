@@ -7,8 +7,10 @@ import { allListWrapper, bottomButtonStyle, contentWrapper, countWrapper, wrappe
 import { FavoritesListType } from "../../../interfaces/favorites";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../stores/useAuthStore";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function MyBookMark(){
+    usePageMeta("GATE | 내 즐겨찾기", 'GATE 내 즐겨찾기'); //seo 검색 최적화
     const {isLoggedIn} = useAuthStore();
     const navigate = useNavigate();
     const {data : bookMarkList, isLoading} = useGetFavoritesList(null)

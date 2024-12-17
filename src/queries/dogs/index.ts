@@ -17,7 +17,7 @@ export const usePostDogsProfile = () => {
       try {
         return await postDogsProfile(body);
       } catch {
-        throw new Error("반려동물 등록에 실패하였습니다.");
+        throw new Error("반려견 등록에 실패하였습니다.");
       }
     },
     onSuccess: () => {
@@ -83,7 +83,7 @@ export const usePutDogsProfileDogId = (dogId: number) => {
       try {
         return await putDogsProfileDogId(body, dogId);
       } catch {
-        throw new Error("반려동물 업데이트에 실패하였습니다.");
+        throw new Error("반려견 업데이트에 실패하였습니다.");
       }
     },
     onSuccess: () => {

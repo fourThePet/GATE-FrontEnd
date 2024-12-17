@@ -19,7 +19,7 @@ export const imageWrapper =css`
 export const imageItem = css`
     width: 100%;
     height: 100%;
-   
+    border-radius: 4px;
 `
 
 export const titleWrapper = css`

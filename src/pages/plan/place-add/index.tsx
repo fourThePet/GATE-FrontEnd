@@ -11,8 +11,11 @@ import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
 import colors from "../../../styles/colors";
 import { loadingWrapper, noDataText } from "../index.styles";
+import usePageMeta from "../../../utils/usePageMeta";
+import { CloseIcon } from "../../../assets/svg";
 
 export default function PlaceAdd(){
+    usePageMeta("GATE | 일정생성-장소추가", 'GATE 일정생성'); //seo 검색 최적화
     const {cityId, dogSize:size} = usePlanStore()
     const navigate = useNavigate();
 
@@ -36,12 +39,7 @@ export default function PlaceAdd(){
         // navigate(`?${params.toString()}`);
     };
 
-    // useEffect(() => {
-    //     const urlCategory = searchParams.get("category");
-    //     if (urlCategory) {
-    //       setSelectedCategory(urlCategory);
-    //     }
-    // }, [searchParams]);
+    
 
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     // 장소 선택 데이터
@@ -60,6 +58,13 @@ export default function PlaceAdd(){
           console.log("마지막 페이지입니다.");
         }
     }, [hasNextPage]);
+
+    useEffect(() => {
+        if(searchQuery !== null){
+            fetchNextPage()
+        }
+       
+    }, [searchQuery,fetchNextPage]);
 
     //탭 전환
     const [activeTab, setActiveTab] = useState<"selection" | "favorites">("selection");
@@ -116,10 +121,10 @@ export default function PlaceAdd(){
         }
     };
 
-    const handleSearchButtonClick = () => {
-        setSearchQuery(searchTerm);
-        setSearchParams({ search: searchTerm }); // 쿼리 스트링 업데이트
-       
+    const handleInitButtonClick = () => {
+        setSearchTerm("")
+        setSearchQuery("");
+        setSearchParams({})
     };
 
     //선택 완료 버튼 이벤트
@@ -179,7 +184,9 @@ export default function PlaceAdd(){
                                     onChange={handleSearchChange}
                                     onKeyDown={handleKeyDown}
                                 />
-                                <div css={searchIconStyle} onClick={handleSearchButtonClick}>🔍</div>
+                                <div css={searchIconStyle} onClick={handleInitButtonClick}>
+                                    <CloseIcon width={8}/>
+                                </div>
                                 </div>
                             </div>
                             <div>
@@ -211,7 +218,7 @@ export default function PlaceAdd(){
                                   })
                             ) :(
                                 <div css={noDataText}>
-                                    <Text type="Body2" color={colors.color.Gray1}>
+                                    <Text type="Label1" color={colors.color.Gray1}>
                                         장소 리스트가 없어요
                                     </Text>
                                 </div>
@@ -246,8 +253,8 @@ export default function PlaceAdd(){
                             ))
                         ) : (
                             <div css={noDataText}>
-                                <Text type="Body2" color={colors.color.Gray1}>
-                                    장소 리스트가 없어요
+                                <Text type="Label1" color={colors.color.Gray1}>
+                                    해당 반려견과 함께 할 수 있는 장소가 없어요
                                 </Text>
                             </div>
                         )
@@ -256,7 +263,7 @@ export default function PlaceAdd(){
                         </>
                     )}
                 </div>
-                <div css={selectionWrapper}>
+                <div css={selectionWrapper(selectItems?.length !== 0)}>
                     {selectItems?.map((item, index)=>(
                         <SelectionImage  
                             key={index} 

@@ -1,10 +1,12 @@
 import { LoginLogo } from "../../assets/svg";
 import { Text } from "../../components";
 import colors from "../../styles/colors";
+import usePageMeta from "../../utils/usePageMeta";
 import KakaoButton from "./components/kakao-button";
 import { logoWrapper, wrapper } from "./index.styles";
 
 export default function Login(){
+    usePageMeta("GATE | 로그인", 'GATE 로그인 화면'); //seo 검색 최적화
     return (
         <div css={wrapper}>
             <div css={logoWrapper}>

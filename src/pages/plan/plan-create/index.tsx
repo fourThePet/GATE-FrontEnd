@@ -23,10 +23,11 @@ import {
 import { formatDate } from "../../../utils/dateFomatter";
 import usePlanStore from "../../../stores/usePlanStore";
 import { notify } from "../../../utils/constants";
+import usePageMeta from "../../../utils/usePageMeta";
 
 export default function PlanCreate() {
-  const { date, cityId, setCityName, setDate, setCityId, setCoordinates } =
-    usePlanStore();
+  usePageMeta("GATE | 일정생성", 'GATE 일정생성'); //seo 검색 최적화
+  const { date, cityId, setCityName, setDate, setCityId, setCoordinates } = usePlanStore();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const isDisabled = !(cityId && date);
@@ -84,7 +85,7 @@ export default function PlanCreate() {
       });
       return;
     }
-    console.log(cityId, date);
+    
     navigate(`/plan/create/pet-choice`);
   };
 
@@ -104,6 +105,7 @@ export default function PlanCreate() {
           <span>📅</span>
           <DatePicker
             selected={selectedDate}
+            value={date}
             onChange={handleChangeDate}
             placeholderText="여행 날짜를 선택해주세요."
             dateFormat="yyyy-MM-dd"
