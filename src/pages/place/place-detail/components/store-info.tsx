@@ -31,7 +31,8 @@ import { useNavigate } from "react-router-dom";
 import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
 import { LoadingBar } from "../../../../components";
-import { Showmap, Calling, Homepage } from "../../../../assets/svg";
+import { Showmap, Calling, Homepage, Share } from "../../../../assets/svg";
+import { notify } from "../../../../utils/constants";
 
 export default function StoreInfo({
   placeId,
@@ -105,7 +106,7 @@ export default function StoreInfo({
               window.location.href = "/login";
             } else {
               console.error("즐겨찾기 등록 실패:", error.response?.data);
-              alert("즐겨찾기 등록 중 문제가 발생했습니다.");
+              refreshPage();
             }
           } else {
             console.error("알 수 없는 오류:", error);
@@ -262,6 +263,32 @@ export default function StoreInfo({
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
             {storeData.roadAddress}
           </span>
+          <Share
+            css={{ width: "16px", height: "16px", cursor: "pointer" }}
+            onClick={() => {
+              if (storeData.roadAddress) {
+                navigator.clipboard
+                  .writeText(storeData.roadAddress)
+                  .then(() => {
+                    notify({
+                      type: "success",
+                      text: "주소가 클립보드에 복사되었습니다!",
+                    });
+                  })
+                  .catch(() => {
+                    notify({
+                      type: "error",
+                      text: "주소가 복사에 실패했습니다!",
+                    });
+                  });
+              } else {
+                notify({
+                  type: "error",
+                  text: "복사할 주소가 없습니다!",
+                });
+              }
+            }}
+          />
         </div>
         {/* 리뷰 */}
         <PlaceReviewList placeId={placeId} />{" "}

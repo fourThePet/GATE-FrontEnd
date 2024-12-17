@@ -12,8 +12,8 @@ import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
 import OverlayContent from "./overlay-content";
 import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import colors from "../../../../styles/colors";
-
 interface KaKaoMapProps {
   places: Place[];
 
@@ -83,7 +83,10 @@ export default function KakaoMap({
   >([]);
 
   const addPlaceMarkers = (places: Place[]) => {
+    const queryClient = new QueryClient(); // QueryClient 생성
+
     if (!mapInstance.current) return;
+
     clearMarkers();
 
     const newMarkerOverlayPairs = places.map((place) => {
@@ -113,39 +116,28 @@ export default function KakaoMap({
                                           1px  1px 0 white`;
       overlayContent.innerText = place.name;
 
-      const customOverlay = new window.kakao.maps.CustomOverlay({
-        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
-        content: overlayContent,
-        map: mapInstance.current,
-        xAnchor: 0.5,
-        yAnchor: 3.5,
-      });
-
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
           const placeInfo = await getPlacesInfo(place.id);
-
           if (!placeInfo) return;
 
-          closeCurrentOverlay(); // 기존 오버레이 닫기
+          closeCurrentOverlay();
 
           const overlayDiv = document.createElement("div");
 
-          // React 18의 createRoot 사용
           const root = createRoot(overlayDiv);
-
           root.render(
-            <OverlayContent
-              placeInfo={placeInfo}
-              placeId={placeInfo.id}
-              onClose={() => {
-                closeCurrentOverlay();
-                root.unmount(); // 컴포넌트 언마운트
-              }}
-              toggleHeart={() => console.log("Toggle Heart")}
-              isLiked={placeInfo.favorites === "Y"}
-              navigate={navigate}
-            />
+            <QueryClientProvider client={queryClient}>
+              <OverlayContent
+                placeInfo={placeInfo}
+                placeId={placeInfo.id}
+                onClose={() => {
+                  closeCurrentOverlay();
+                  root.unmount();
+                }}
+                navigate={navigate}
+              />
+            </QueryClientProvider>
           );
 
           const overlay = new window.kakao.maps.CustomOverlay({
@@ -155,31 +147,36 @@ export default function KakaoMap({
           });
 
           currentOverlayRef.current = overlay; // 현재 오버레이 업데이트
-          // **지도의 중심을 오버레이의 오른쪽 끝으로 이동**
+
+          // **지도 중심 좌표 보정 로직 추가**
           if (mapInstance.current) {
             const markerPosition = marker.getPosition();
-
-            // 지도 중심을 오른쪽으로 이동 (지도 중심은 화면 좌표로 이동)
             const projection = mapInstance.current.getProjection();
-            const markerPoint = projection.pointFromCoords(markerPosition); // 마커의 화면 좌표
-            const overlayOffsetX = 200; // 오버레이의 예상 가로 크기 (픽셀 단위)
 
-            const newPoint = new window.kakao.maps.Point(
-              markerPoint.x + overlayOffsetX, // X축으로 이동
-              markerPoint.y
+            // 마커의 현재 화면 좌표 계산
+            const screenPoint = projection.pointFromCoords(markerPosition);
+
+            // 화면 크기 확인 후 보정할 X, Y 좌표 값 설정
+            const offsetX = window.innerWidth <= 480 ? 190 : 250; // 작은 화면일 경우 X축 이동 없음
+            const offsetY = 100; // Y축 상단으로 약간 이동 (오버레이 상단이 잘리는 것을 방지)
+
+            const adjustedPoint = new window.kakao.maps.Point(
+              screenPoint.x + offsetX,
+              screenPoint.y + offsetY
             );
 
-            const newCenter = projection.coordsFromPoint(newPoint); // 새 중심 좌표
-            mapInstance.current.panTo(newCenter); // 지도 중심 이동
+            // 보정된 좌표를 기반으로 지도 중심 이동
+            const adjustedCenter = projection.coordsFromPoint(adjustedPoint);
+            mapInstance.current.panTo(adjustedCenter);
           }
         } catch (error) {
           console.error("Failed to load place info:", error);
         }
       });
 
-      return { marker, overlay: customOverlay };
+      marker.setMap(mapInstance.current); // 지도에 마커 추가
+      return { marker, overlay: null };
     });
-
     setMarkerOverlayPairs(newMarkerOverlayPairs);
   };
 
@@ -235,14 +232,17 @@ export default function KakaoMap({
   };
 
   const moveMarkerToMapCenter = () => {
-    if (!mapInstance.current) return;
-
+    if (!mapInstance.current || !currentMarker.current) {
+      return;
+    }
     // 지도 중심 좌표 가져오기
     const center = mapInstance.current.getCenter();
+    currentMarker.current.setPosition(center);
 
     // 지도 중심 이동
-    mapInstance.current.panTo(center);
-
+    if (mapInstance.current) {
+      mapInstance.current.panTo(center);
+    }
     const latitude = center.getLat();
     const longitude = center.getLng();
 

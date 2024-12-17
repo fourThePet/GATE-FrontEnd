@@ -1,23 +1,80 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Heart, HeartFill } from "../../../../assets/svg";
-
+import { useAuthStore } from "../../../../stores/useAuthStore";
+import axios from "axios";
+import {
+  usePostFavorite,
+  usePatchFavorite,
+} from "../../../../queries/favorites";
 interface OverlayContentProps {
   placeInfo: any;
-  placeId: string;
+  placeId: number;
   onClose: () => void;
-  toggleHeart: () => void;
-  isLiked: boolean;
-  navigate: (path: string, options?: any) => void; // navigate를 props로 전달받음
+  navigate: (path: string, options?: any) => void;
 }
 
 const OverlayContent: React.FC<OverlayContentProps> = ({
   placeInfo,
   placeId,
   onClose,
-  toggleHeart,
-  isLiked,
   navigate,
 }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  const [favoritesNum, setFavoritesNum] = useState(
+    placeInfo?.favoritesNum || 0
+  ); // 즐겨찾기 수 상태
+  const { isLoggedIn } = useAuthStore(); // 로그인 여부
+  const postFavoriteMutation = usePostFavorite();
+  const patchFavoriteMutation = usePatchFavorite();
+
+  // 초기화
+  useEffect(() => {
+    if (placeInfo?.favorites === "Y") {
+      setIsLiked(true);
+    }
+  }, [placeInfo]);
+
+  const toggleHeart = () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+      window.location.href = "/login";
+      return;
+    }
+
+    if (isLiked) {
+      patchFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          setIsLiked(false);
+          setFavoritesNum((prev) => Math.max(0, prev - 1)); // 즐겨찾기 수 감소
+        },
+        onError: handleFavoriteError,
+      });
+    } else {
+      postFavoriteMutation.mutate(placeId, {
+        onSuccess: () => {
+          setIsLiked(true);
+          setFavoritesNum((prev) => prev + 1); // 즐겨찾기 수 증가
+        },
+        onError: handleFavoriteError,
+      });
+    }
+  };
+
+  const handleFavoriteError = (error: any) => {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+        window.location.href = "/login";
+      } else {
+        console.error("즐겨찾기 처리 실패:", error.response?.data);
+        alert("즐겨찾기 처리 중 문제가 발생했습니다.");
+      }
+    } else {
+      console.error("알 수 없는 오류:", error);
+      alert("예기치 못한 문제가 발생했습니다.");
+    }
+  };
+
   const handleOverlayClick = () => {
     navigate(
       `/place/detail/${placeInfo.id}?latitude=${placeInfo.latitude}&longitude=${placeInfo.longitude}`,
@@ -33,7 +90,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
       onClick={handleOverlayClick}
       style={{
         position: "relative",
-        width: "400px",
+        width: "100%",
         background: "#ffffff",
         borderRadius: "10px",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
@@ -96,7 +153,17 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
           <div style={{ marginTop: "5px", color: "#9A9EA6" }}>
             {placeInfo.category}
           </div>
-          <div style={{ marginTop: "3px", color: "#9A9EA6" }}>
+          <div
+            style={{
+              marginTop: "3px",
+              color: "#9A9EA6",
+              maxWidth: "60%", // 부모 컨테이너의 80% 너비 제한
+              minWidth: "180px", // 최소 너비 설정
+              wordBreak: "break-word", // 긴 단어 강제 줄바꿈
+              overflowWrap: "break-word", // 줄바꿈 보장
+              whiteSpace: "normal", // 기본 줄바꿈
+            }}
+          >
             {placeInfo?.lotAddress}
           </div>
           <div
@@ -145,7 +212,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               marginTop: "5px",
             }}
           >
-            {placeInfo?.favoritesNum || 0}
+            {favoritesNum}
           </span>
         </div>
       </div>

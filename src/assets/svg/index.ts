@@ -100,6 +100,7 @@ export { default as Scissors } from "./Scissors";
 export { default as Sdogav } from "./Sdogav";
 export { default as Sdogpink } from "./Sdogpink";
 export { default as Sdogwhite } from "./Sdogwhite";
+export { default as Share } from "./Share";
 export { default as Showmap } from "./Showmap";
 export { default as SparklingHeart } from "./SparklingHeart";
 export { default as Star } from "./Star";
