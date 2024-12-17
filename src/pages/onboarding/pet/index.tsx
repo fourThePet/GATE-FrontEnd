@@ -210,11 +210,11 @@ export default function OnboardingPet(){
                         </div>
                         <div>
                             <div css={nameWrapper}>
-                                <Input width="100%" placeholder="반려동물의 이름을 입력해주세요" onChange={handleInputNameChange} maxLength={20}/>
+                                <Input width="100%" placeholder="반려견의 이름을 입력해주세요" onChange={handleInputNameChange} maxLength={20}/>
                             
                             </div>
                             {isNameValid === false &&
-                                <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>반려동물 이름은 1~20자 이내로 입력해주세요</Text></div>
+                                <div css={validMessage}><Text type="Label3" color={colors.color.MainColor}>반려견 이름은 1~20자 이내로 입력해주세요</Text></div>
                             }
                         </div>
                         

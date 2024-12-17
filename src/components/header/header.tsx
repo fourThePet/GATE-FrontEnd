@@ -43,12 +43,12 @@ export default function Header({ handleBackButtonClick }: Props) {
     { path: "/onboarding/user", title: "회원가입", component: BackTitleHeader },
     {
       path: "/onboarding/pet",
-      title: "반려동물 프로필 설정",
+      title: "반려견 프로필 설정",
       component: BackTitleHeader,
     },
     {
       path: "/mypage/pet-register",
-      title: "반려동물 프로필 설정",
+      title: "반려견 프로필 설정",
       component: BackTitleHeader,
     },
     {

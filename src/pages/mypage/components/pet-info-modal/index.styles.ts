@@ -106,6 +106,7 @@ export const ageWrapper = css`
     flex-direction: row;
     gap: 20px;
     padding: 0 12px;
+    justify-content: center;
 `
 
 export const buttonGroupStyle = css`

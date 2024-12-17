@@ -30,7 +30,7 @@ export default function PetRegistrationModal({isOpen, setIsOpen} : Props){
 
                 </div>
                 <Text type="Label3" color={colors.color.Gray1}>30초면 충분!</Text>
-                <MainPinkButton onClick={()=>navigate("/mypage/pet-register")}>반려동물 등록하기</MainPinkButton>
+                <MainPinkButton onClick={()=>navigate("/mypage/pet-register")}>반려견 등록하기</MainPinkButton>
                 
             </div>
 
