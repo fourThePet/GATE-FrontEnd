@@ -10,10 +10,12 @@ import ReceiptSubmit from "../../components/modal/receipt-submit";
 import usePageMeta from "../../utils/usePageMeta";
 
 export default function ReceiptCheck() {
-  usePageMeta("GATE | 리뷰쓰기", 'GATE 리뷰쓰기'); //seo 검색 최적화
+  usePageMeta("GATE | 리뷰쓰기", "GATE 리뷰쓰기"); //seo 검색 최적화
   const navigate = useNavigate();
   const location = useLocation(); // 전달된 state를 가져옴
   const placeId = location.state?.placeId; // placeId 가져오기
+  const latitude = location.state?.latitude;
+  const longitude = location.state?.longitude;
   const [isReceiptModalOpen, setIsReceiptModalOpen] = useState(false);
 
   const handleWriteReviewButtonClick = () => {
@@ -21,6 +23,8 @@ export default function ReceiptCheck() {
       state: {
         placeId,
         receiptCertificate: false, // receiptCertificate 값을 추가로 전달
+        latitude,
+        longitude,
       },
     });
   };
@@ -152,6 +156,8 @@ export default function ReceiptCheck() {
           isOpen={isReceiptModalOpen}
           setIsOpen={setIsReceiptModalOpen}
           placeId={placeId}
+          latitude={latitude}
+          longitude={longitude}
         />
       </div>
     </>

@@ -16,12 +16,16 @@ type ReceiptSubmitProps = {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   placeId: number; // placeId 추가
+  latitude;
+  longitude;
 };
 
 export default function ReceiptSubmit({
   isOpen,
   setIsOpen,
   placeId,
+  latitude,
+  longitude,
 }: ReceiptSubmitProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [ocrState, setOcrState] = useState({
@@ -198,7 +202,12 @@ export default function ReceiptSubmit({
             })}
             onClick={() =>
               navigate(`/review/write/${placeId}`, {
-                state: { receiptCertificate: true, placeId }, // receiptCertificate 값을 state로 전달
+                state: {
+                  receiptCertificate: true,
+                  placeId,
+                  latitude,
+                  longitude,
+                }, // receiptCertificate 값을 state로 전달
               })
             }
             style={{ marginTop: "130px" }}
