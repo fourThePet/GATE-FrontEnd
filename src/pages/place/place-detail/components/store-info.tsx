@@ -65,30 +65,62 @@ export default function StoreInfo({
 
   const toggleHeart = () => {
     if (!isLoggedIn) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-      window.location.href = "/login";
+      // alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
+      notify({
+        type : "warning",
+        text : "로그인이 필요해요",
+        onClose : () =>{
+          window.location.href = "/login";
+
+        }
+      })
       return;
     }
 
     if (isLiked) {
       patchFavoriteMutation.mutate(placeId, {
         onSuccess: () => {
-          console.log("즐겨찾기 삭제");
-          setIsLiked(false);
-          refreshPage();
+          console.log("즐겨찾기 취소");
+          notify({
+            type : "success",
+            text : "즐겨찾기가 취소되었어요",
+            onClose : () => {
+              setIsLiked(false);
+              refreshPage();
+
+            }
+          })
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
             if (error.response?.status === 401) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              window.location.href = "/login";
+              notify({
+                type : "warning",
+                text : "로그인이 필요해요",
+                onClose : () =>{
+                  window.location.href = "/login";
+                }
+              })
             } else {
-              console.error("즐겨찾기 삭제 실패:", error.response?.data);
-              alert("즐겨찾기 삭제 중 문제가 발생했습니다.");
+              console.error("즐겨찾기 취소 실패:", error.response?.data);
+              notify({
+                type : "error",
+                text : "즐겨찾기 취소를 실패했어요",
+                onClose : () => {
+                  refreshPage();
+
+                }
+              })
             }
           } else {
             console.error("알 수 없는 오류:", error);
-            alert("예기치 못한 문제가 발생했습니다.");
+            notify({
+              type : "error",
+              text : "즐겨찾기 취소 중 문제가 발생했어요",
+              onClose : () => {
+                refreshPage();
+              }
+            })
           }
         },
       });
@@ -96,21 +128,47 @@ export default function StoreInfo({
       postFavoriteMutation.mutate(placeId, {
         onSuccess: () => {
           console.log("즐겨찾기 등록 성공");
-          setIsLiked(true);
-          refreshPage();
+          notify({
+            type : "success",
+            text : "즐겨찾기가 등록되었어요",
+            onClose : () => {
+              setIsLiked(true);
+              refreshPage();
+
+            }
+          })
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {
             if (error.response?.status === 401) {
-              alert("로그인이 필요합니다. 로그인 후 다시 시도해주세요.");
-              window.location.href = "/login";
+              notify({
+                type : "warning",
+                text : "로그인이 필요해요",
+                onClose : () =>{
+                  window.location.href = "/login";
+                }
+              })
             } else {
               console.error("즐겨찾기 등록 실패:", error.response?.data);
-              refreshPage();
+              notify({
+                type : "error",
+                text : "즐겨찾기 등록을 실패했어요",
+                onClose : () => {
+                  refreshPage();
+
+                }
+              })
             }
           } else {
             console.error("알 수 없는 오류:", error);
-            alert("예기치 못한 문제가 발생했습니다.");
+            notify({
+              type : "error",
+              text : "즐겨찾기 등록 중 문제가 발생했어요",
+              onClose : () => {
+                refreshPage();
+
+              }
+            })
           }
         },
       });
@@ -296,11 +354,11 @@ export default function StoreInfo({
 
       <div
         style={{
+          width : "100%",
           display: "flex",
           justifyContent: "center", // 가운데 정렬
           gap: "20%", // 요소 간 간격
           alignItems: "center", // 세로 정렬
-          marginTop: "20px",
         }}
       >
         {/* 전화하기 */}
@@ -370,10 +428,8 @@ export default function StoreInfo({
             overflowX: "auto",
             overflowY: "hidden",
             whiteSpace: "nowrap",
-            padding: "10px 0",
+            padding: "10px 20px",
             gap: "30px",
-            marginLeft: "20px",
-            marginRight: "10px",
           }}
         >
           {storeData.additionalPetFee >= 1 && (
@@ -456,7 +512,7 @@ export default function StoreInfo({
             </div>
           )}
         </div>
-        <ul style={{ marginLeft: "20px" }}>
+        <ul style={{ padding : "0 0 0 20px" }}>
           <li css={typo.Body2} style={{ color: "#888888" }}>
             입장 조건
             <span style={{ color: "#F1729B" }}>
