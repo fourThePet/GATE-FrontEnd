@@ -117,7 +117,11 @@ export default function StoreInfo({
   };
 
   const handleBackButtonClick = () => {
-    navigate(-1);
+    if (storeData?.latitude && storeData?.longitude) {
+      navigate(
+        `/place?latitude=${storeData.latitude}&longitude=${storeData.longitude}`
+      );
+    }
   };
 
   const interpretSizeAvailable = (size: string) => {
