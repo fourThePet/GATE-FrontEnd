@@ -99,12 +99,12 @@ export const searchIconStyle = css`
     margin-right: 15px;
 `;
 
-export const selectionWrapper = css`
+export const selectionWrapper = (isLength : boolean) => css`
     display: flex;
     overflow-x: auto;
     flex-direction: row;
     width: 100%;
-    height: 200px;
+    height: ${isLength ? "200px" : "0px"};
     border: 0.5px solid ${colors.color.White2};
     border-radius: 16px 16px 0 0;
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */

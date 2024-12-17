@@ -58,7 +58,7 @@ export default function PetChoice() {
     }
     const largestPet = getMaxSize(selectedPets);
     setDogSize(largestPet.size)
-    console.log("Selected Pets:", dogIds);
+    
     navigate("/plan/create/place-choice");
   };
 

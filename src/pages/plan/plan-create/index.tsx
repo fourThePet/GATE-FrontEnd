@@ -85,7 +85,7 @@ export default function PlanCreate() {
       });
       return;
     }
-    console.log(cityId, date);
+    
     navigate(`/plan/create/pet-choice`);
   };
 

@@ -263,7 +263,7 @@ export default function PlaceAdd(){
                         </>
                     )}
                 </div>
-                <div css={selectionWrapper}>
+                <div css={selectionWrapper(selectItems?.length !== 0)}>
                     {selectItems?.map((item, index)=>(
                         <SelectionImage  
                             key={index} 

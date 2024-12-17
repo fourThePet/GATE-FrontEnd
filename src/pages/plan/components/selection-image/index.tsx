@@ -2,7 +2,7 @@
 import { FileDelete } from "../../../../assets/svg";
 import { Text } from "../../../../components";
 import { SelectPlaceType } from "../../../../interfaces";
-import {  deleteIcon, imageItem, imageWrapper, titleWrapper } from "./index.styles";
+import {  deleteIcon, imageItem, imageWrapper, titleStyle, titleWrapper } from "./index.styles";
 
 interface Props{
     imageUrl : string;
@@ -25,7 +25,7 @@ export default function SelectionImage({imageUrl, name, placeId, setSelectItems}
                 <FileDelete width={24} css={deleteIcon} onClick={handleDeleteButtonClick}/>
             </div>
             <div css={titleWrapper}>
-                <Text type="Label3">{name}</Text>
+                <Text type="Label3" css={titleStyle}>{name}</Text>
             </div>
         </div>
     )
