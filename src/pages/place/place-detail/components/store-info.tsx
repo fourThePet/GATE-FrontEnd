@@ -31,7 +31,7 @@ import { useNavigate } from "react-router-dom";
 import { PlaceReviewList } from "./review-gpt";
 import { ReviewProps } from "../../../../interfaces/reviews";
 import { LoadingBar } from "../../../../components";
-import { Showmap, Calling, Homepage } from "../../../../assets/svg";
+import { Showmap, Calling, Homepage, Share } from "../../../../assets/svg";
 
 export default function StoreInfo({
   placeId,
@@ -262,6 +262,25 @@ export default function StoreInfo({
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
             {storeData.roadAddress}
           </span>
+          <Share
+            css={{ width: "16px", height: "16px", cursor: "pointer" }}
+            onClick={() => {
+              if (storeData.roadAddress) {
+                navigator.clipboard
+                  .writeText(storeData.roadAddress)
+                  .then(() => {
+                    alert("주소가 클립보드에 복사되었습니다.");
+                  })
+                  .catch(() => {
+                    alert(
+                      "주소 복사에 실패했습니다. 브라우저가 지원하지 않을 수 있습니다."
+                    );
+                  });
+              } else {
+                alert("복사할 주소가 없습니다.");
+              }
+            }}
+          />
         </div>
         {/* 리뷰 */}
         <PlaceReviewList placeId={placeId} />{" "}
