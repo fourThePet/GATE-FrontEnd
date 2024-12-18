@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+
 import { QUERY_KEYS } from "../query-keys";
 import {
   getPlacesInfo,
@@ -7,14 +8,20 @@ import {
   getPlacesCities,
   getPopularPlaces,
   getPlacesPlanSearch,
+  getPlacesBySearch,
 } from "../../api";
 import { PlacesParam, PlanSearchParam } from "../../interfaces/places";
 // 장소 정보 가져오기 훅
-export const useGetPlacesInfo = (placeId: number) => {
+
+export const useGetPlacesInfo = (
+  placeId: number,
+  latitude?: number,
+  longitude?: number
+) => {
   return useQuery({
-    queryKey: ["GET_PLACES_INFO", placeId],
+    queryKey: QUERY_KEYS.GET_PLACES_INFO(placeId, latitude, longitude), // 수정된 queryKey 적용
     queryFn: async () => {
-      return await getPlacesInfo(placeId);
+      return await getPlacesInfo(placeId, latitude, longitude);
     },
     enabled: !!placeId, // placeId가 있을 때만 호출
   });
@@ -77,20 +84,37 @@ export const useGetPopularPlaces = (limit: number) => {
   });
 };
 
-
-
-export const useGetPlacesPlanSearch = (params : PlanSearchParam) => {
-  
-
+export const useGetPlacesPlanSearch = (params: PlanSearchParam) => {
   return useInfiniteQuery({
     queryKey: QUERY_KEYS.GET_PLACES_PLAN_SEARCH(params),
     queryFn: async ({ pageParam = 0 }) => {
       // pageParam 기본값 0 설정
       const page = pageParam as number; // 명시적으로 number로 캐스팅
-      return await getPlacesPlanSearch({...params, page});
+      return await getPlacesPlanSearch({ ...params, page });
     },
-    getNextPageParam: (lastPage) => (lastPage.hasNext ? lastPage.page + 1 : undefined),
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext ? lastPage.page + 1 : undefined,
     initialPageParam: 0, // 초기 pageParam을 설정
-    enabled : !!params.cityId
+    enabled: !!params.cityId,
+  });
+};
+
+export const useGetPlacesBySearch = (params: {
+  query?: string;
+  latitude: number;
+  longitude: number;
+  category?: string;
+  size?: string;
+  entryConditions?: string[];
+  types?: string[];
+}) => {
+  return useInfiniteQuery({
+    queryKey: QUERY_KEYS.GET_PLACES_BY_SEARCH(params),
+    queryFn: async ({ pageParam = 0 }) => {
+      return await getPlacesBySearch({ ...params, page: pageParam });
+    },
+    getNextPageParam: (lastPage) =>
+      lastPage.page < lastPage.totalPages - 1 ? lastPage.page + 1 : undefined,
+    initialPageParam: 0,
   });
 };

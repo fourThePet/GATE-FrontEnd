@@ -122,7 +122,11 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
 
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
-          const placeInfo = await getPlacesInfo(place.id);
+          const placeInfo = await getPlacesInfo(
+            place.id,
+            place.latitude,
+            place.latitude
+          );
           if (!placeInfo) return;
 
           closeCurrentOverlay();
@@ -161,7 +165,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
             const screenPoint = projection.pointFromCoords(markerPosition);
 
             // 화면 크기 확인 후 보정할 X, Y 좌표 값 설정
-            const offsetX = window.innerWidth <= 480 ? 190 : 250; // 작은 화면일 경우 X축 이동 없음
+            const offsetX = window.innerWidth <= 480 ? 160 : 210; // 작은 화면일 경우 X축 이동 없음
             const offsetY = 100; // Y축 상단으로 약간 이동 (오버레이 상단이 잘리는 것을 방지)
 
             const adjustedPoint = new window.kakao.maps.Point(

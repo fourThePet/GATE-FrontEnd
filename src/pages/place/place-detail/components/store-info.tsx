@@ -60,7 +60,7 @@ export default function StoreInfo({
     setIsRefreshing(true); // 새로고침 상태 활성화
     setTimeout(() => {
       window.location.reload(); // 페이지 새로고침
-    }, 500); // 500ms 동안 로딩 표시
+    }, 500);
   };
 
   const toggleHeart = () => {
@@ -145,7 +145,7 @@ export default function StoreInfo({
                 },
               });
             } else {
-              // console.error("즐겨찾기 등록 실패:", error.response?.data);
+              console.error("즐겨찾기 등록 실패:", error.response?.data);
               refreshPage();
             }
           } else {
@@ -225,7 +225,7 @@ export default function StoreInfo({
         })}
       >
         <img
-          src={storeData.photoUrl || '/images/no_image.jpg'}
+          src={storeData.photoUrl || "/images/no_image.jpg"}
           alt={storeData.name}
           css={Block.flexBlock({
             width: "100%",
@@ -390,11 +390,10 @@ export default function StoreInfo({
             if (storeData.websiteUrl !== "정보없음") {
               window.location.href = storeData.websiteUrl;
             } else {
-              // alert("홈페이지 정보가 없습니다!");
               notify({
-                type : "warning",
-                text : "홈페이지 정보가 없어요!"
-              })
+                type: "error",
+                text: "홈페이지 정보가 없습니다.",
+              });
             }
           }}
         >

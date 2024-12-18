@@ -51,6 +51,37 @@ export const getPlaces = async (params: {
   }
 };
 
+export const getPlacesBySearch = async (params: {
+  query?: string;
+  latitude: number;
+  longitude: number;
+  category?: string;
+  size?: string;
+  entryConditions?: string[];
+  types?: string[];
+  page?: number;
+}) => {
+  try {
+    const response = await api.get("/places/search", {
+      params: {
+        query: params.query,
+        latitude: params.latitude,
+        longitude: params.longitude,
+        category: params.category,
+        size: params.size,
+        entryConditions: params.entryConditions?.join(","),
+        types: params.types?.join(","),
+        page: params.page || 0,
+      },
+    });
+    return response.data.result;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "시설 데이터를 불러오는 데 실패했습니다."
+    );
+  }
+};
+
 export const getPlaces_2 = async (params: PlacesParam) => {
   const response = await api.get("/places", { params });
   return response.data.result;
@@ -106,9 +137,15 @@ export const useGetPlaces = (params: {
   return { places, isLoading, error };
 };
 
-export const getPlacesInfo = async (placeId: number) => {
+export const getPlacesInfo = async (
+  placeId: number,
+  latitude?: number,
+  longitude?: number
+) => {
   try {
-    const response = await api.get(`/places/${placeId}`);
+    const response = await api.get(`/places/${placeId}`, {
+      params: { latitude, longitude },
+    });
     return response.data.result; // 필요한 데이터만 반환
   } catch (error) {
     console.error("Error fetching place info:", error);
@@ -150,7 +187,9 @@ export const getPopularPlaces = async (limit: number) => {
   }
 };
 
-export const getPlacesPlanSearch = async (params: PlanSearchParam & { page: number }) => {
-  const response = await api.get("/places/plan-search", {params})
-  return response.data.result || { content: [], hasNext: false, page: 0 };;
-}
+export const getPlacesPlanSearch = async (
+  params: PlanSearchParam & { page: number }
+) => {
+  const response = await api.get("/places/plan-search", { params });
+  return response.data.result || { content: [], hasNext: false, page: 0 };
+};

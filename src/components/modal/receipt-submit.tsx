@@ -292,7 +292,7 @@ export default function ReceiptSubmit({
           />
           <NoBorderGrayButton
             isDisabled={false}
-            onClick={() => document.getElementById("file-input")?.click()}
+            // onClick={() => document.getElementById("file-input")?.click()}
             width="80px"
             height="40px"
             title="첨부하기"

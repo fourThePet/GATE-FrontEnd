@@ -24,7 +24,7 @@ import { CSSObject, SerializedStyles } from "@emotion/react";
 import { animated } from "@react-spring/web";
 import colors from "../../styles/colors";
 import usePageMeta from "../../utils/usePageMeta";
-
+// import { useGetPlacesBySearch } from "../../queries";
 type AnimatedDivProps = AnimatedProps<{
   className?: string;
   css?: SerializedStyles | CSSObject;
@@ -131,6 +131,20 @@ export default function Place() {
 
   /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
   const { places } = useGetPlaces(placesQuery);
+
+  /** 위에서 생성한 Query 기반으로 시설 리스트 조회 */
+  // const {
+  //   data: placesData,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading: isPlacesLoading,
+  // } = useGetPlacesBySearch(placesQuery);
+
+  // /** places 데이터 가공 */
+  // const places = useMemo(() => {
+  //   return placesData?.pages.flatMap((page) => page.content) || [];
+  // }, [placesData]);
 
   useEffect(() => {
     if (data && data.isSuccess) {
