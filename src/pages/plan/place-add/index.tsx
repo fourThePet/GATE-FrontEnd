@@ -32,11 +32,12 @@ export default function PlaceAdd(){
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleCategoryClick = (category: string) => {
-        setSelectedCategory(category);
-        // URL에 카테고리 추가
-        // const params = new URLSearchParams(searchParams);
-        // params.set("category", category);
-        // navigate(`?${params.toString()}`);
+        if (category === "전체") { 
+            // 전체 카테고리 클릭 시 초기화
+            setSelectedCategory(null);
+        } else {
+            setSelectedCategory(category);
+        }
     };
 
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
@@ -79,7 +80,8 @@ export default function PlaceAdd(){
         if (data && data.isSuccess) {
             const excludedCategories = ["반려동물용품", "미용", "의료"]; // 제외할 카테고리 이름
             const processedCategories = [
-                { id: 0, name: "추천", icon: categoryIcon("전체") },
+                { id: 0, name: "전체", icon: categoryIcon("전체") },
+                { id: 9, name: "추천", icon: "✨" },
                 ...data.result
                 .filter((category: { id: number; name: string }) => 
                     !excludedCategories.includes(category.name) // 제외 카테고리 필터링
