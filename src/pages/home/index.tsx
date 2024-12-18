@@ -8,11 +8,14 @@ import { LoadingBar, PetRegistrationModal } from "../../components";
 import { useAuthStore } from "../../stores/useAuthStore";
 import { useGetDogsProfiles } from "../../queries";
 import usePageMeta from "../../utils/usePageMeta";
+import { useLocationStore } from "../../stores/useLocationState";
 export default function Home() {
-  usePageMeta("GATE | 홈", 'GATE 홈화면'); //seo 검색 최적화
+  usePageMeta("GATE | 홈", "GATE 홈화면"); //seo 검색 최적화
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoggedIn } = useAuthStore();
   const { data: dogs, isLoading } = useGetDogsProfiles(); // 데이터 로딩 중 undefined 유지
+  const { setLocation } = useLocationStore();
+
   useEffect(() => {
     if (isLoggedIn && !isLoading) {
       if (dogs?.length === 0) {
@@ -24,6 +27,34 @@ export default function Home() {
       setIsModalOpen(false); // 로그아웃 상태에서는 모달 닫기
     }
   }, [isLoggedIn, dogs, isLoading]);
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setLocation(latitude, longitude);
+        console.log("위치 저장됨:", latitude, longitude);
+      },
+      (error) => {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            console.error("위치 정보 접근 권한이 거부되었습니다.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            console.error("위치 정보를 사용할 수 없습니다.");
+            break;
+          case error.TIMEOUT:
+            console.error("위치 정보를 가져오는 시간이 초과되었습니다.");
+            break;
+          default:
+            console.error("알 수 없는 오류가 발생했습니다.");
+            break;
+        }
+        setLocation(37.5665, 126.978);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, [setLocation]);
+
   if (isLoading) {
     return <LoadingBar />;
   }
