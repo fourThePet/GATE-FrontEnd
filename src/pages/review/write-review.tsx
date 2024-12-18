@@ -108,10 +108,10 @@ export default function WriteReview() {
     }
 
     // FormData 내용 확인 (디버깅 용도)
-    console.log("FormData 내용:");
-    formData.forEach((value, key) => {
-      console.log(`${key}:`, value);
-    });
+    // console.log("FormData 내용:");
+    // formData.forEach((value, key) => {
+    //   console.log(`${key}:`, value);
+    // });
 
     // 리뷰 작성 API 호출
     postCreateReview(formData, {

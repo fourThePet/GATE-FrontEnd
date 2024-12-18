@@ -1,12 +1,17 @@
 import axios from "axios";
 import { OCRResponse } from "../../interfaces/ocr";
+import { notify } from "../../utils/constants";
 
 export const requestOCR = async (
   imageFile: File[]
 ): Promise<OCRResponse | null> => {
   try {
     if (!imageFile[0]) {
-      window.alert("이미지를 업로드해주세요.");
+      // window.alert("이미지를 업로드해주세요.");
+      notify({
+        type : "warning",
+        text : "이미지를 업로드해주세요."
+      })
       return null;
     }
 
@@ -28,8 +33,8 @@ export const requestOCR = async (
     formData.append("message", JSON.stringify(message));
     formData.append("file", imageFile[0]);
 
-    console.log("FormData 메시지:", formData.get("message"));
-    console.log("FormData 파일:", formData.get("file"));
+    // console.log("FormData 메시지:", formData.get("message"));
+    // console.log("FormData 파일:", formData.get("file"));
 
     const response = await axios.post(
       import.meta.env.VITE_NAVER_OCR_INVOKE_URL || "",

@@ -11,6 +11,7 @@ import { OCRField } from "../../interfaces/ocr";
 import { Receiptchecked, Receiptfail, Receiptloading } from "../../assets/svg";
 import { BarLoader } from "react-spinners";
 import { useGetPlacesInfo } from "../../queries";
+import { notify } from "../../utils/constants";
 
 type ReceiptSubmitProps = {
   isOpen: boolean;
@@ -44,7 +45,11 @@ export default function ReceiptSubmit({
     if (file) {
       const validTypes = ["image/jpeg", "image/png"];
       if (!validTypes.includes(file.type)) {
-        window.alert("JPG 또는 PNG 이미지만 업로드 가능합니다.");
+        // window.alert("JPG 또는 PNG 이미지만 업로드 가능합니다.");
+        notify({
+          type : "warning",
+          text : "JPG 또는 PNG 이미지만 업로드 가능합니다."
+        })
         return;
       }
 
@@ -58,7 +63,11 @@ export default function ReceiptSubmit({
 
   const handleWriteReviewButtonClick = async () => {
     if (!selectedImage) {
-      window.alert("이미지를 업로드해주세요.");
+      // window.alert("이미지를 업로드해주세요.");
+      notify({
+        type : "warning",
+        text : "이미지를 업로드해주세요."
+      })
       return;
     }
 
@@ -80,7 +89,7 @@ export default function ReceiptSubmit({
       const ocrResponse = await requestOCR([file as File]);
 
       const fields: OCRField[] = ocrResponse?.images?.[0]?.fields || [];
-      console.log("fields 데이터:", fields);
+      // console.log("fields 데이터:", fields);
 
       const allText = fields.map((field) => field.inferText).join(" ");
       const isReceipt =
@@ -103,7 +112,11 @@ export default function ReceiptSubmit({
     } catch (error) {
       console.error("OCR 분석 실패:", error);
       setOcrState({ isPending: false, error: "OCR 요청 실패", success: false });
-      window.alert("해당 장소의 영수증이 맞는지 확인해주세요!");
+      // window.alert("해당 장소의 영수증이 맞는지 확인해주세요!");
+      notify({
+        type : "warning",
+        text : "해당 장소의 영수증이 맞는지 확인해주세요!"
+      })
     }
   };
 

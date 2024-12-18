@@ -79,7 +79,7 @@ export default function StoreInfo({
     if (isLiked) {
       patchFavoriteMutation.mutate(placeId, {
         onSuccess: () => {
-          console.log("즐겨찾기 취소");
+          // console.log("즐겨찾기 취소");
           notify({
             type: "success",
             text: "즐겨찾기가 취소되었어요",
@@ -100,7 +100,7 @@ export default function StoreInfo({
                 },
               });
             } else {
-              console.error("즐겨찾기 취소 실패:", error.response?.data);
+              // console.error("즐겨찾기 취소 실패:", error.response?.data);
               notify({
                 type: "error",
                 text: "즐겨찾기 취소를 실패했어요",
@@ -110,7 +110,7 @@ export default function StoreInfo({
               });
             }
           } else {
-            console.error("알 수 없는 오류:", error);
+            // console.error("알 수 없는 오류:", error);
             notify({
               type: "error",
               text: "즐겨찾기 취소 중 문제가 발생했어요",
@@ -124,7 +124,7 @@ export default function StoreInfo({
     } else {
       postFavoriteMutation.mutate(placeId, {
         onSuccess: () => {
-          console.log("즐겨찾기 등록 성공");
+          // console.log("즐겨찾기 등록 성공");
           notify({
             type: "success",
             text: "즐겨찾기가 등록되었어요",
@@ -145,11 +145,11 @@ export default function StoreInfo({
                 },
               });
             } else {
-              console.error("즐겨찾기 등록 실패:", error.response?.data);
+              // console.error("즐겨찾기 등록 실패:", error.response?.data);
               refreshPage();
             }
           } else {
-            console.error("알 수 없는 오류:", error);
+            // console.error("알 수 없는 오류:", error);
             notify({
               type: "error",
               text: "즐겨찾기 등록 중 문제가 발생했어요",
@@ -390,7 +390,11 @@ export default function StoreInfo({
             if (storeData.websiteUrl !== "정보없음") {
               window.location.href = storeData.websiteUrl;
             } else {
-              alert("홈페이지 정보가 없습니다!");
+              // alert("홈페이지 정보가 없습니다!");
+              notify({
+                type : "warning",
+                text : "홈페이지 정보가 없어요!"
+              })
             }
           }}
         >
