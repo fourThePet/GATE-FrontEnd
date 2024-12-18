@@ -7,6 +7,7 @@ import IconsActions from "../icons-actions";
 import { ReviewDataType } from "../../../../interfaces";
 import { useDeleteReviews } from "../../../../queries";
 import { useNavigate } from "react-router-dom";
+import { notify } from "../../../../utils/constants";
 
 export default function ReviewList({id, placeName, roadAddress, content, fileUrlList, keywordList, size, updateAt, receiptCertificate} : ReviewDataType){
     const {mutate : deleteReview} = useDeleteReviews();
@@ -32,7 +33,14 @@ export default function ReviewList({id, placeName, roadAddress, content, fileUrl
     
     const handleDeleteClick = () =>{
         if(id){
-            deleteReview(id)
+            deleteReview(id,{
+                onSuccess : () => {
+                    notify({
+                        type : "success",
+                        text : "리뷰가 삭제되었어요"
+                    })
+                }
+            })
         }
     }
 
