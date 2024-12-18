@@ -119,6 +119,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
         overflow: "hidden",
         fontFamily: "Arial, sans-serif",
         padding: "15px",
+        zIndex: 1000, // z-index 추가
       }}
     >
       {/* 타이틀과 닫기 버튼 */}
@@ -196,7 +197,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               color: "#333",
             }}
           >
-            {placeInfo.distance} m
+            {placeInfo.distance} km
           </div>
         </div>
 

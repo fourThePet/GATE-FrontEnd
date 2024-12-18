@@ -36,6 +36,22 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
   // 현재 열려 있는 오버레이를 추적
   const currentOverlayRef = useRef<kakao.maps.CustomOverlay | null>(null);
 
+  const getCurrentLocation = (): Promise<{
+    latitude: number;
+    longitude: number;
+  }> =>
+    new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) =>
+          resolve({ latitude, longitude }),
+        (error) => {
+          console.error("Failed to get current location:", error);
+          reject(error);
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    });
+
   const closeCurrentOverlay = () => {
     if (currentOverlayRef.current) {
       currentOverlayRef.current.setMap(null);
@@ -122,11 +138,9 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
 
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
-          const placeInfo = await getPlacesInfo(
-            place.id,
-            place.latitude,
-            place.latitude
-          );
+          const { latitude, longitude } = await getCurrentLocation();
+
+          const placeInfo = await getPlacesInfo(place.id, latitude, longitude);
           if (!placeInfo) return;
 
           closeCurrentOverlay();
