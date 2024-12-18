@@ -30,7 +30,7 @@ export default function ReceiptCheck() {
   };
 
   const openReceiptModal = () => {
-    setIsReceiptModalOpen(true); // 모달 열기
+    // setIsReceiptModalOpen(true); // 모달 열기
   };
 
   return (
