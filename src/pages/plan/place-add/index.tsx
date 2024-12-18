@@ -54,7 +54,7 @@ export default function PlaceAdd(){
     
     useEffect(() => {
         if (!hasNextPage) {
-          console.log("마지막 페이지입니다.");
+          console.log("페이지 없음");
         }
     }, [hasNextPage]);
 

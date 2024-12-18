@@ -2,6 +2,7 @@ import axios from "axios";
 import * as Sentry from "@sentry/react"; // Sentry 모듈 가져오기
 
 import { useAuthStore } from "../stores/useAuthStore";
+import { notify } from "../utils/constants";
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
@@ -72,10 +73,16 @@ api.interceptors.response.use(
       } catch (reissueError) {
         console.error("토큰 재발급 실패:", reissueError);
         // 로그아웃 처리
-        alert("세션이 만료되었습니다. 다시 로그인해주세요");
-        logout();
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        notify({
+          type : "warning",
+          text : "세션이 만료되었어요. 다시 로그인해주세요",
+          onClose : () =>{
+            logout();
+            localStorage.removeItem("refreshToken");
+            window.location.href = "/login";
+
+          }
+        })
       }
     }
     if (!error.response) {
