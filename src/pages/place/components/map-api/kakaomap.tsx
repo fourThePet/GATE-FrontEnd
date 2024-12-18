@@ -112,6 +112,14 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
                                           1px  1px 0 white`;
       overlayContent.innerText = place.name;
 
+      const customOverlay = new window.kakao.maps.CustomOverlay({
+        position: new window.kakao.maps.LatLng(place.latitude, place.longitude),
+        content: overlayContent,
+        map: mapInstance.current,
+        xAnchor: 0.5,
+        yAnchor: 3.5,
+      });
+
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
           const placeInfo = await getPlacesInfo(place.id);
@@ -171,7 +179,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
       });
 
       marker.setMap(mapInstance.current); // 지도에 마커 추가
-      return { marker, overlay: null };
+      return { marker, overlay: customOverlay };
     });
     setMarkerOverlayPairs(newMarkerOverlayPairs);
   };
@@ -208,7 +216,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
               locMarkerSVG
             )}`,
             new window.kakao.maps.Size(40, 40),
-            { offset: new window.kakao.maps.Point(18, 18) }
+            { offset: new window.kakao.maps.Point(20, 20) }
           );
           currentMarker.current = new window.kakao.maps.Marker({
             position: newPosition,
@@ -228,9 +236,8 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
   };
 
   const moveMarkerToMapCenter = () => {
-    if (!mapInstance.current || !currentMarker.current) {
-      return;
-    }
+    if (!mapInstance.current) return;
+
     // 지도 중심 좌표 가져오기
     const center = mapInstance.current.getCenter();
     currentMarker.current.setPosition(center);
