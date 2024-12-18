@@ -170,7 +170,11 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
           <div style={{ gap: "15px" }}>
             <span style={{ color: "#F1729B", fontWeight: "bold" }}>★</span>
             <span style={{ fontWeight: "bold", color: "#9A9EA6" }}>
-              {parseFloat(placeInfo.starAvg).toFixed(1)} ({placeInfo.reviewNum})
+              {/* {parseFloat(placeInfo.starAvg).toFixed(1)} ({placeInfo.reviewNum}) */}
+              {placeInfo.starAvg
+                ? parseFloat(placeInfo.starAvg).toFixed(1)
+                : "0.0"}{" "}
+              ({placeInfo.reviewNum ?? 10})
             </span>
           </div>
           <div style={{ marginTop: "5px", color: "#9A9EA6" }}>
@@ -197,7 +201,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               color: "#333",
             }}
           >
-            {placeInfo.distance} km
+            {isNaN(placeInfo.distance) ? "0 km" : `${placeInfo.distance} km`}
           </div>
         </div>
 
