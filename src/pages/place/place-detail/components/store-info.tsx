@@ -225,7 +225,7 @@ export default function StoreInfo({
         })}
       >
         <img
-          src={storeData.photoUrl}
+          src={storeData.photoUrl || '/images/no_image.jpg'}
           alt={storeData.name}
           css={Block.flexBlock({
             width: "100%",

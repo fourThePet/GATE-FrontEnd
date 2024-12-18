@@ -99,11 +99,11 @@ export default function Best10() {
               onClick={() => handlePlaceClick(place.placeId)} // 클릭 시 placeId 설정
             >
               <img
-                src={place.photoUrl}
+                src={place.photoUrl || '/images/no_image.jpg'}
                 alt={place.placeName}
                 style={{
                   width: "100%",
-                  height: "auto",
+                  height: "100%",
                   maxHeight: "600px",
                   borderRadius: "16px",
                   objectFit: "cover",
