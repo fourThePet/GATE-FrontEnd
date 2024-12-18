@@ -60,7 +60,7 @@ export default function StoreInfo({
     setIsRefreshing(true); // 새로고침 상태 활성화
     setTimeout(() => {
       window.location.reload(); // 페이지 새로고침
-    }, 500); // 500ms 동안 로딩 표시
+    }, 500);
   };
 
   const toggleHeart = () => {
