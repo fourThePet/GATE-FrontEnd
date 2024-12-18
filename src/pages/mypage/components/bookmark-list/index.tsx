@@ -8,6 +8,7 @@ import IconsActions from "../icons-actions";
 import { usePatchFavorite } from "../../../../queries";
 import { useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "../../../../queries/query-keys";
+import { notify } from "../../../../utils/constants";
 
 
 
@@ -25,7 +26,10 @@ export default function BookMarkList({ placeId, placeName, roadAddress, latitude
         if(placeId){
             deleteFavorite.mutate(placeId, {
                 onSuccess: () => {
-                  console.log("즐겨찾기 삭제");
+                  notify({
+                    type : "success",
+                    text : "즐겨찾기가 삭제되었어요"
+                  })
                   queryClient.invalidateQueries({
                     queryKey : QUERY_KEYS.GET_FAVORITES_LIST
                   });

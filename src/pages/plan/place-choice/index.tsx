@@ -72,6 +72,14 @@ export default function PlaceChoice() {
         setResponse(response);
         navigate("/plan/waiting");
       },
+      onError : (error : any) => {
+        notify({
+          type: "error",
+          text: error.response.data.message, // 사용자 알림 표시
+
+        });
+      }
+      
     });
   };
 

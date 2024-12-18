@@ -174,7 +174,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               {placeInfo.starAvg
                 ? parseFloat(placeInfo.starAvg).toFixed(1)
                 : "0.0"}{" "}
-              ({placeInfo.reviewNum ?? 10})
+              ({placeInfo.reviewNum || 0})
             </span>
           </div>
           <div style={{ marginTop: "5px", color: "#9A9EA6" }}>
