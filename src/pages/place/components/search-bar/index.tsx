@@ -49,7 +49,7 @@ export default function SearchFilterHeader({
         />
       </div>
       <button css={filterButtonStyle} onClick={handleFilterButtonClick}>
-        <Filter className="filterIconStyle" />
+        <Filter className="filterIconStyle" width={48}/>
       </button>
     </div>
   );
