@@ -24,11 +24,7 @@ interface KaKaoMapProps {
   setSelectedCategory: (category: string) => void;
 }
 
-export default function KakaoMap({
-  places,
-  currentLatitude,
-  currentLongitude,
-}: KaKaoMapProps) {
+export default function KakaoMap({ places }: KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
@@ -313,21 +309,31 @@ export default function KakaoMap({
         import.meta.env.VITE_KAKAO_MAP
       }&autoload=false`;
       script.async = true;
+
       script.onload = () => {
         window.kakao.maps.load(() => {
-          navigator.geolocation.getCurrentPosition(
-            ({ coords: { latitude, longitude } }) => {
-              initializeMap(
-                currentLatitude || latitude,
-                currentLongitude || longitude
-              );
-              setLatitude(currentLatitude || latitude);
-              setLongitude(currentLongitude || longitude);
-              hideMarker();
-            }
-          );
+          const { latitude: storedLatitude, longitude: storedLongitude } =
+            useLocationStore.getState();
+          if (storedLatitude && storedLongitude) {
+            initializeMap(storedLatitude, storedLongitude);
+            setLatitude(storedLatitude);
+            setLongitude(storedLongitude);
+          } else {
+            navigator.geolocation.getCurrentPosition(
+              ({ coords: { latitude, longitude } }) => {
+                initializeMap(latitude, longitude);
+                setLatitude(latitude);
+                setLongitude(longitude);
+              },
+              (error) => {
+                console.error("위치 정보를 가져올 수 없습니다:", error);
+              },
+              { enableHighAccuracy: false, timeout: 5000 }
+            );
+          }
         });
       };
+
       document.head.appendChild(script);
     };
 

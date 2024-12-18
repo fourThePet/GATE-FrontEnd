@@ -5,6 +5,7 @@ interface LocationStore {
   longitude: number | null;
   setLatitude: (latitude: number) => void;
   setLongitude: (longitude: number) => void;
+  setLocation: (latitude: number, longitude: number) => void;
 }
 
 export const useLocationStore = create<LocationStore>((set) => ({
@@ -12,4 +13,5 @@ export const useLocationStore = create<LocationStore>((set) => ({
   longitude: null,
   setLatitude: (latitude) => set({ latitude: latitude }),
   setLongitude: (longitude) => set({ longitude: longitude }),
+  setLocation: (latitude, longitude) => set({ latitude, longitude }),
 }));
