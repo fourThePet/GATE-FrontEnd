@@ -68,7 +68,7 @@ export const containerStyle = css`
 `;
 
 export const sliderContainerStyle = css`
-  width: 85%;
+  width: 90%;
   height: 100%;
   margin: 0 auto;
   border-radius: 10px;
@@ -77,7 +77,7 @@ export const sliderContainerStyle = css`
 
   /* react-slick dots custom style */
   .slick-dots {
-    bottom: 20px;
+    bottom: 15px;
   }
 
   .slick-dots li button:before {

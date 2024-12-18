@@ -390,10 +390,9 @@ export default function StoreInfo({
             if (storeData.websiteUrl !== "정보없음") {
               window.location.href = storeData.websiteUrl;
             } else {
-              // alert("홈페이지 정보가 없습니다!");
               notify({
-                type: "warning",
-                text: "홈페이지 정보가 없어요!",
+                type: "error",
+                text: "홈페이지 정보가 없습니다.",
               });
             }
           }}

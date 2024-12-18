@@ -60,17 +60,24 @@ export default function Best10() {
         </div>
       </div>
     );
-  if (error) return (
-    <div css={wrapperStyle}>
-      <h2 css={typo.Heading3}>인기 급상승 🔥</h2>
-      <h3 css={typo.Heading4} style={{ color: " #888" }}>
-        국내 장소 Best 10
-      </h3>
-      <div style={{display : "flex", justifyContent:"center", alignItems:"center"}}>
-        <NotFoundIcon width={30}/>
+  if (error)
+    return (
+      <div css={wrapperStyle}>
+        <h2 css={typo.Heading3}>인기 급상승 🔥</h2>
+        <h3 css={typo.Heading4} style={{ color: " #888" }}>
+          국내 장소 Best 10
+        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <NotFoundIcon width={30} />
+        </div>
       </div>
-    </div>
-  );
+    );
 
   // placeInfo가 존재하면 페이지 이동
   if (placeInfo && selectedPlaceId) {
@@ -99,7 +106,7 @@ export default function Best10() {
               onClick={() => handlePlaceClick(place.placeId)} // 클릭 시 placeId 설정
             >
               <img
-                src={place.photoUrl || '/images/no_image.jpg'}
+                src={place.photoUrl || "/images/no_image.jpg"}
                 alt={place.placeName}
                 style={{
                   width: "100%",

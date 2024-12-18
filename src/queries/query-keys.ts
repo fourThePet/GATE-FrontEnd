@@ -15,6 +15,7 @@ export const QUERY_KEYS = {
   GET_PLACES_INFO: (placeId: number) => ["GET_PLACES_INFO", placeId],
   GET_PLACES_CATEGORIES: ["GET_PLACES_CATEGORIES"],
   GET_PLACES: (params: PlacesParam) => ["GET_PLACES", params],
+  GET_PLACES_BY_SEARCH: (params: any) => ["GET_PLACES_BY_SEARCH", params],
   GET_FAVORITES_LIST: ["GET_FAVORITES_LIST"],
   PATCH_FAVOTIRES: (placeId: number) => ["PATCH_FAVOTIRES", placeId],
   GET_REVIEWS_MY: ["GET_REVIEWS_MY"],
@@ -35,8 +36,11 @@ export const QUERY_KEYS = {
   GET_PLANS: (dateFilter: "AFTER" | "BEFORE", sortOrder: "ASC" | "DESC") =>
     ["GET_PLANS", dateFilter, sortOrder] as const,
   POST_PLANS: ["POST_PLANS"],
-  PUT_PLANS_PLANID : (planId : number) => ['PUT_PLANS_PLANID', planId],
-  DELETE_PLANS_PLANID : (planId : number) => ['DELETE_PLANS_PLANID', planId],
-  POST_PLANS_ROUTE : ['POST_PLANS_ROUTE'],
-  GET_PLACES_PLAN_SEARCH : (params : PlanSearchParam) => ['GET_PLACES_PLAN_SEARCH', params]
+  PUT_PLANS_PLANID: (planId: number) => ["PUT_PLANS_PLANID", planId],
+  DELETE_PLANS_PLANID: (planId: number) => ["DELETE_PLANS_PLANID", planId],
+  POST_PLANS_ROUTE: ["POST_PLANS_ROUTE"],
+  GET_PLACES_PLAN_SEARCH: (params: PlanSearchParam) => [
+    "GET_PLACES_PLAN_SEARCH",
+    params,
+  ],
 } as const;
