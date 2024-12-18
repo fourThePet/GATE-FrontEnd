@@ -58,7 +58,7 @@ export default function Place() {
 
         setTimeout(() => {
           setShowMessage(false);
-        }, 3000);
+        }, 1500);
       }
     }
   }, [isModalOpen, isFilterModalOpen]);
@@ -321,7 +321,7 @@ export default function Place() {
           <MainPinkButton
             onClick={handleButtonClick}
             isDisabled={false}
-            width="10vh"
+            width="100px"
             height="4vh"
           >
             {buttonText}
@@ -340,7 +340,7 @@ export default function Place() {
               <div
                 css={css`
                   position: absolute;
-                  top: 10px;
+                  top: 40px;
                   left: 50%;
                   transform: translateX(-50%);
                   background-color: rgba(0, 0, 0, 0.7);
@@ -401,7 +401,7 @@ export default function Place() {
               <div
                 css={css`
                   position: absolute;
-                  top: 10px;
+                  top: 40px;
                   left: 50%;
                   transform: translateX(-50%);
                   background-color: rgba(0, 0, 0, 0.7);
