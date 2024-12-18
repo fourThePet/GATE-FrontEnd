@@ -155,7 +155,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
         {/* 이미지 */}
         <div style={{ width: "90px", height: "90px", marginRight: "10px" }}>
           <img
-            src={placeInfo?.photoUrl || "https://via.placeholder.com/90x90"}
+            src={placeInfo?.photoUrl || '/images/no_image.jpg'}
             alt={placeInfo.name}
             style={{
               width: "100%",
