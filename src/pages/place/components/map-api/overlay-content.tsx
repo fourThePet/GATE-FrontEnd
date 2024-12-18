@@ -169,12 +169,13 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
           <div style={{ gap: "15px" }}>
             <span style={{ color: "#F1729B", fontWeight: "bold" }}>★</span>
             <span style={{ fontWeight: "bold", color: "#9A9EA6" }}>
-              {placeInfo.reviews || "4.5 (10)"}
+              {parseFloat(placeInfo.starAvg).toFixed(1)} ({placeInfo.reviewNum})
             </span>
           </div>
           <div style={{ marginTop: "5px", color: "#9A9EA6" }}>
             {placeInfo.category}
           </div>
+
           <div
             style={{
               marginTop: "3px",
@@ -195,7 +196,7 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               color: "#333",
             }}
           >
-            120m
+            {placeInfo.distance} m
           </div>
         </div>
 

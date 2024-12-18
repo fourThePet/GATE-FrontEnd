@@ -12,7 +12,12 @@ export const QUERY_KEYS = {
     dogId,
   ],
   PUT_DOGS_PROFILE_DOGID: (dogId: number) => ["PUT_DOGS_PROFILE_DOGID", dogId],
-  GET_PLACES_INFO: (placeId: number) => ["GET_PLACES_INFO", placeId],
+  GET_PLACES_INFO: (placeId: number, latitude?: number, longitude?: number) => [
+    "GET_PLACES_INFO",
+    placeId,
+    latitude,
+    longitude,
+  ],
   GET_PLACES_CATEGORIES: ["GET_PLACES_CATEGORIES"],
   GET_PLACES: (params: PlacesParam) => ["GET_PLACES", params],
   GET_PLACES_BY_SEARCH: (params: any) => ["GET_PLACES_BY_SEARCH", params],

@@ -12,11 +12,16 @@ import {
 } from "../../api";
 import { PlacesParam, PlanSearchParam } from "../../interfaces/places";
 // 장소 정보 가져오기 훅
-export const useGetPlacesInfo = (placeId: number) => {
+
+export const useGetPlacesInfo = (
+  placeId: number,
+  latitude?: number,
+  longitude?: number
+) => {
   return useQuery({
-    queryKey: ["GET_PLACES_INFO", placeId],
+    queryKey: QUERY_KEYS.GET_PLACES_INFO(placeId, latitude, longitude), // 수정된 queryKey 적용
     queryFn: async () => {
-      return await getPlacesInfo(placeId);
+      return await getPlacesInfo(placeId, latitude, longitude);
     },
     enabled: !!placeId, // placeId가 있을 때만 호출
   });

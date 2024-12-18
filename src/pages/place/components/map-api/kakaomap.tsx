@@ -122,7 +122,11 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
 
       window.kakao.maps.event.addListener(marker, "click", async () => {
         try {
-          const placeInfo = await getPlacesInfo(place.id);
+          const placeInfo = await getPlacesInfo(
+            place.id,
+            place.latitude,
+            place.latitude
+          );
           if (!placeInfo) return;
 
           closeCurrentOverlay();

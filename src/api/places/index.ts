@@ -137,9 +137,15 @@ export const useGetPlaces = (params: {
   return { places, isLoading, error };
 };
 
-export const getPlacesInfo = async (placeId: number) => {
+export const getPlacesInfo = async (
+  placeId: number,
+  latitude?: number,
+  longitude?: number
+) => {
   try {
-    const response = await api.get(`/places/${placeId}`);
+    const response = await api.get(`/places/${placeId}`, {
+      params: { latitude, longitude },
+    });
     return response.data.result; // 필요한 데이터만 반환
   } catch (error) {
     console.error("Error fetching place info:", error);
