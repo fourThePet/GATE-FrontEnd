@@ -172,15 +172,12 @@ export default function PlaceDetail() {
             })}
             style={{
               display: "flex",
-              
             }}
             onClick={handleAllReviewButtonClick}
           >
             리뷰 전체보기
           </button>
-
         </div>
-        
       )}
       <Divider2 />
       <div ref={howToComeRef}>

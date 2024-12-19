@@ -14,7 +14,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoggedIn } = useAuthStore();
   const { data: dogs, isLoading } = useGetDogsProfiles(); // 데이터 로딩 중 undefined 유지
-  const { setLocation } = useLocationStore();
+  const { setLatitude, setLongitude } = useLocationStore();
 
   useEffect(() => {
     if (isLoggedIn && !isLoading) {
@@ -31,7 +31,8 @@ export default function Home() {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
-        setLocation(latitude, longitude);
+        setLatitude(latitude);
+        setLongitude(longitude);
         console.log("위치 저장됨:", latitude, longitude);
       },
       (error) => {
@@ -49,11 +50,12 @@ export default function Home() {
             console.error("알 수 없는 오류가 발생했습니다.");
             break;
         }
-        setLocation(37.5665, 126.978);
+        setLatitude(37.5642135);
+        setLongitude(127.0016985);
       },
       { enableHighAccuracy: true, timeout: 10000 }
     );
-  }, [setLocation]);
+  }, [setLatitude, setLongitude]);
 
   if (isLoading) {
     return <LoadingBar />;

@@ -6,7 +6,7 @@ import { GpsButton, Research } from "../../../../assets/svg";
 import { mapLocBtn } from "../../index.styles";
 import { useLocationStore } from "../../../../stores/useLocationState";
 import { Place } from "../../../../interfaces/places";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getIconBasedOnCategory } from "./categoryIcon";
 import { buttonWrapperStyle, tooltipStyle } from "../../index.styles";
 import { getPlacesInfo } from "../../../../api";
@@ -28,8 +28,8 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const currentMarker = useRef<any>(null);
   const mapInstance = useRef<any>(null);
-  const { setLatitude, setLongitude } = useLocationStore();
-  const [searchParams] = useSearchParams();
+  const { setLatitude, setLongitude, setCurLatitude, setCurLongitude } =
+    useLocationStore();
   // 위치 초기화 버튼 클릭시 URL에 존재하는 현위치 정보 초기화
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     const icon = new window.kakao.maps.MarkerImage(
       `data:image/svg+xml;charset=utf-8,${encodeURIComponent(locMarkerSVG)}`,
       new window.kakao.maps.Size(40, 40),
-      { offset: new window.kakao.maps.Point(18, 18) }
+      { offset: new window.kakao.maps.Point(20, 20) }
     );
 
     // 항상 locMarker 생성
@@ -88,6 +88,9 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     // **줌 컨트롤러 추가**
     const zoomControl = new window.kakao.maps.ZoomControl();
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+
+    setCurLatitude(latitude);
+    setCurLongitude(longitude);
   };
 
   const [markerOverlayPairs, setMarkerOverlayPairs] = useState<
@@ -268,8 +271,8 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     const longitude = center.getLng();
 
     // 상태 업데이트
-    setLatitude(latitude);
-    setLongitude(longitude);
+    setCurLatitude(latitude);
+    setCurLongitude(longitude);
 
     // locMarker는 항상 사용자 위치에 유지
     if (currentMarker.current) {
@@ -298,35 +301,6 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     navigate(`/place?${queryParams.toString()}`, { replace: true });
   };
 
-  const LatLngEqual = (
-    lat1: number,
-    lng1: number,
-    lat2: number,
-    lng2: number
-  ) => {
-    const precision = 6;
-    return (
-      lat1.toFixed(precision) === lat2.toFixed(precision) &&
-      lng1.toFixed(precision) === lng2.toFixed(precision)
-    );
-  };
-
-  const hideMarker = () => {
-    if (!currentMarker.current) return;
-
-    const queryLat = parseFloat(searchParams.get("latitude") || "0");
-    const queryLng = parseFloat(searchParams.get("longitude") || "0");
-
-    const markerLat = currentMarker.current.getPosition().getLat();
-    const markerLng = currentMarker.current.getPosition().getLng();
-
-    if (LatLngEqual(queryLat, queryLng, markerLat, markerLng)) {
-      currentMarker.current.setMap(null);
-    } else {
-      currentMarker.current.setMap(mapInstance.current);
-    }
-  };
-
   useEffect(() => {
     const loadKakaoMap = () => {
       const script = document.createElement("script");
@@ -352,8 +326,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
               },
               (error) => {
                 console.error("위치 정보를 가져올 수 없습니다:", error);
-              },
-              { enableHighAccuracy: false, timeout: 5000 }
+              }
             );
           }
         });
@@ -370,10 +343,6 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
       }
     };
   }, []);
-
-  useEffect(() => {
-    hideMarker();
-  }, [mapInstance.current, searchParams]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
