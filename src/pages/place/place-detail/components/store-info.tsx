@@ -164,11 +164,10 @@ export default function StoreInfo({
   };
 
   const handleBackButtonClick = () => {
-    if (storeData?.latitude && storeData?.longitude) {
-      navigate(
-        `/place?latitude=${storeData.latitude}&longitude=${storeData.longitude}`
-      );
-    }
+    navigate(
+      // `/place?latitude=${storeData.latitude}&longitude=${storeData.longitude}`
+      -1
+    );
   };
 
   const interpretSizeAvailable = (size: string) => {

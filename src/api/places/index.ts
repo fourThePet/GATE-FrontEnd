@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { api } from "../api";
+import { useLocationStore } from "../../stores/useLocationState";
 import { Place, PlacesParam, PlanSearchParam } from "../../interfaces/places";
 
 // 카테고리 데이터 요청 및 가공
@@ -17,6 +18,8 @@ export const getPlaces = async (params: {
   query?: string;
   latitude: number;
   longitude: number;
+  curLatitude?: number;
+  curLongitude?: number;
   size?: string;
   entryConditions?: string[];
   types?: string[];
@@ -28,6 +31,8 @@ export const getPlaces = async (params: {
         query: params.query,
         latitude: params.latitude,
         longitude: params.longitude,
+        curLatitude: params.curLatitude,
+        curLongitude: params.curLongitude,
         size: params.size,
         entryConditions: params.entryConditions?.join(","),
         types: params.types?.join(","),
@@ -92,18 +97,27 @@ export const useGetPlaces = (params: {
   query?: string;
   latitude: number;
   longitude: number;
+  curLatitude?: number;
+  curLongitude?: number;
   size?: string;
   entryConditions?: string[];
   types?: string[];
   category?: string;
 }) => {
-  // 메모이제이션된 params 생성
+  const { curLatitude, curLongitude } = useLocationStore();
+
   const memoizedParams = useMemo(
-    () => params,
+    () => ({
+      ...params,
+      curLatitude: curLatitude || params.curLatitude,
+      curLongitude: curLongitude || params.curLongitude,
+    }),
     [
       params.query,
       params.latitude,
       params.longitude,
+      curLatitude,
+      curLongitude,
       params.size,
       params.entryConditions,
       params.types,
