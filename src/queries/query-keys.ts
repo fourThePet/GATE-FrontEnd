@@ -48,4 +48,5 @@ export const QUERY_KEYS = {
     "GET_PLACES_PLAN_SEARCH",
     params,
   ],
+  POST_MEMBERS_LOGOUT : () => ['POST_MEMBERS_LOGOUT']
 } as const;

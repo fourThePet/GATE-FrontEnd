@@ -132,7 +132,7 @@ export default function Plan() {
           </div>
           <div css={mainWrapper}>
             <div css={mainTitle}>
-                <Text type="Heading3">{memberInfo?.nickname || "게스트"}님, 반갑습니다 <br /> GATE와
+                <Text type="Heading3">{isLoggedIn ? (memberInfo?.nickname) :  "게스트"}님, 반갑습니다 <br /> GATE와
                 함께하는 일정을 세워볼까요? 🐾</Text>
             </div>
             <div css={buttonWrapper}>

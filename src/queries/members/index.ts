@@ -1,8 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getMembersInfo, postMembersCheckNickname, postMembersSignup } from "../../api";
+import { getMembersInfo, postMembersCheckNickname, postMembersLogout, postMembersSignup } from "../../api";
 import { PostUsersCheckNicknameBody, UserInfoForm } from "../../interfaces";
 import { QUERY_KEYS } from "../query-keys";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { notify } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 export const usePostMembersCheckNickname = () => {
     return useMutation({
@@ -43,4 +45,35 @@ export const useGetMembersInfo = () => {
         },
         enabled : isLoggedIn
     });
+}
+
+export const usePostMembersLogout = () => {
+    const navigate = useNavigate();
+    const logout = useAuthStore((state) => state.logout); 
+    return useMutation({
+        mutationFn: async () => {
+            try {
+                return await postMembersLogout();
+            }catch{
+                throw new Error('로그아웃 실패하였습니다.')
+            }
+        },
+        onSuccess : () => {
+            logout();
+            notify({
+                type: 'success',
+                text: '성공적으로 로그아웃되었습니다.',
+            });
+            navigate('/'); 
+        },
+        onError: (error) => {
+            // 로그아웃 실패 시 에러 처리
+            notify({
+              type: 'error',
+              text: '로그아웃에 실패했습니다. 다시 시도해주세요.',
+            });
+            console.error('Logout Error:', error);
+        },
+    })
+    
 }
