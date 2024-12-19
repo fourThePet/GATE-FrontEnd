@@ -30,10 +30,7 @@ export default function KakaoCallback() {
       } else {
         console.log("알 수 없는 상태입니다:", status);
       }
-    } else {
-      console.log("액세스 토큰 또는 리프레시 토큰이 없습니다.");
-      
-    }
+    } 
   }, [login,navigate]);
 
   return <></>;

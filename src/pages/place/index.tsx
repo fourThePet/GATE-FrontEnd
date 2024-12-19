@@ -162,7 +162,7 @@ export default function Place() {
   }, [data]);
 
   const handleFilterButtonClick = () => {
-    console.log("필터 적용 페이지 호출");
+    
     if (isFilterModalOpen) {
       setIsFilterModalOpen(false);
     } else {
@@ -171,7 +171,7 @@ export default function Place() {
   };
 
   const handleSearchSubmit = (value: string) => {
-    console.log("검색어:", value);
+    
 
     const queryParams = new URLSearchParams(location.search);
 

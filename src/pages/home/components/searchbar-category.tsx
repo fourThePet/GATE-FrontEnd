@@ -31,11 +31,11 @@ export default function SearchbarCategory() {
   }, [data]);
 
   const handleSearchbarClick = () => {
-    console.log("필터 적용 페이지 호출");
+    // console.log("필터 적용 페이지 호출");
     navigate("/place"); // 검색바 클릭 시 페이지 이동
   };
   const handleCategoryClick = (category) => {
-    console.log(`${category} 필터 적용 페이지 호출`);
+    // console.log(`${category} 필터 적용 페이지 호출`);
     navigate(`/place?category=${encodeURIComponent(category)}`); // 카테고리 값 전달
   };
 

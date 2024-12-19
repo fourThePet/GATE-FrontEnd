@@ -49,7 +49,7 @@ export default function ResultPlace({ places }: { places?: Place[] }) {
       console.log(0)
     }
 
-    console.log("현재 전달받은 장소 데이터:", places);
+    // console.log("현재 전달받은 장소 데이터:", places);
   }, [places, navigate]);
 
   return (
