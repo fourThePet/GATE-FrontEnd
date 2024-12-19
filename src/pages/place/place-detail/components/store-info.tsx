@@ -387,7 +387,7 @@ export default function StoreInfo({
           style={{ minWidth: "50px", textAlign: "center", cursor: "pointer" }}
           onClick={() => {
             if (storeData.websiteUrl !== "정보없음") {
-              window.location.href = storeData.websiteUrl;
+              window.open(storeData.websiteUrl, "_blank"); // 새 탭에서 열기
             } else {
               notify({
                 type: "error",
