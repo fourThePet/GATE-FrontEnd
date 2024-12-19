@@ -19,6 +19,7 @@ export const useAuthStore = create<AuthState>((set) => {
       })),
     logout: () =>{
       localStorage.removeItem("accessToken"); // 토큰 삭제
+      localStorage.removeItem("refreshToken"); // 토큰 삭제
       set(() => ({
         isLoggedIn: false,
         accessToken: null,
