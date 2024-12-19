@@ -43,9 +43,6 @@ export default function ResultPlace({ places }: { places: Place[] }) {
     console.log("현재 전달받은 장소 데이터:", places);
   }, [places]);
 
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "/images/no-image.png";
-  };
 
   return (
     <div css={PlaceList}>
@@ -81,9 +78,8 @@ export default function ResultPlace({ places }: { places: Place[] }) {
             </div>
             <img
               css={PlaceImage}
-              src={place.profileUrl}
+              src={place.profileUrl || "/images/no-image.png"}
               alt={place.name}
-              onError={handleImageError}
             />
           </div>
         ))
