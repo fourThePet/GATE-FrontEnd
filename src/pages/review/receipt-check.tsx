@@ -30,7 +30,7 @@ export default function ReceiptCheck() {
   };
 
   const openReceiptModal = () => {
-    // setIsReceiptModalOpen(true); // 모달 열기
+    setIsReceiptModalOpen(true); // 모달 열기
   };
 
   return (
@@ -147,7 +147,8 @@ export default function ReceiptCheck() {
               color: "#9A9EA6",
             }}
           >
-            영수증 인증 후 리뷰를 작성하면 리뷰 상단에 노출 되며, <br />
+            영수증 인증 후 리뷰를 작성하면
+            <br />
             신뢰성 높은 정보를 제공할 수 있어요.
           </span>
         </div>

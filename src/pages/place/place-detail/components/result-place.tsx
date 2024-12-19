@@ -46,7 +46,7 @@ export default function ResultPlace({ places }: { places?: Place[] }) {
 
   useEffect(() => {
     if (!places || places.length === 0) {
-      console.log(0)
+      console.log(0);
     }
 
     // console.log("현재 전달받은 장소 데이터:", places);
@@ -94,7 +94,9 @@ export default function ResultPlace({ places }: { places?: Place[] }) {
       ) : (
         <div css={PlaceList}>
           <div css={NoData}>
-            <Text type="Body2" color={colors.color.Gray1}>검색된 장소가 없습니다.</Text>
+            <Text type="Body2" color={colors.color.Gray1}>
+              검색된 장소가 없습니다.
+            </Text>
           </div>
         </div>
       )}
