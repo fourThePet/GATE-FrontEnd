@@ -83,3 +83,9 @@ export const PlaceCategory = css`
   font-size: 14px;
   color: ${colors.color.Gray2};
 `;
+
+export const NoData = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`

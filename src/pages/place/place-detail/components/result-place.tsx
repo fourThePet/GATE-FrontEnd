@@ -12,11 +12,13 @@ import {
   PlaceTextInfo,
   PlaceCategory,
   PlaceTop,
+  NoData,
 } from "./result-place.styles";
 import { getPlacesInfo } from "../../../../api";
 import { Place } from "../../../../interfaces/places";
 import { useGetPlacesInfo } from "../../../../queries/places";
-import { notify } from "../../../../utils/constants";
+import { Text } from "../../../../components";
+import colors from "../../../../styles/colors";
 
 export default function ResultPlace({ places }: { places?: Place[] }) {
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ export default function ResultPlace({ places }: { places?: Place[] }) {
 
   useEffect(() => {
     if (!places || places.length === 0) {
+      console.log(0)
     }
 
     console.log("현재 전달받은 장소 데이터:", places);
@@ -90,7 +93,9 @@ export default function ResultPlace({ places }: { places?: Place[] }) {
         ))
       ) : (
         <div css={PlaceList}>
-          <div>검색된 장소가 없습니다.</div>
+          <div css={NoData}>
+            <Text type="Body2" color={colors.color.Gray1}>검색된 장소가 없습니다.</Text>
+          </div>
         </div>
       )}
     </div>
