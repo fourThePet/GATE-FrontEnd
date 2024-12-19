@@ -249,6 +249,8 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
         // 상태 업데이트
         setLatitude(latitude);
         setLongitude(longitude);
+        setCurLatitude(latitude);
+        setCurLongitude(longitude);
 
         // 쿼리스트링 값 제거
         navigate(`/place`, { replace: true }); // 기본 URL로 이동
