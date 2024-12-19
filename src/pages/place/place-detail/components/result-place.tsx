@@ -16,11 +16,14 @@ import {
 import { getPlacesInfo } from "../../../../api";
 import { Place } from "../../../../interfaces/places";
 import { useGetPlacesInfo } from "../../../../queries/places";
+import { notify } from "../../../../utils/constants";
 
-export default function ResultPlace({ places }: { places: Place[] }) {
+export default function ResultPlace({ places }: { places?: Place[] }) {
   const navigate = useNavigate();
 
-  const { data } = useGetPlacesInfo(places[0]?.id);
+  // places가 undefined 또는 빈 배열일 때 처리
+  const placeId = places?.length ? places[0]?.id : undefined;
+  const { data } = useGetPlacesInfo(placeId);
 
   const handlePlaceClick = async (place: Place) => {
     try {
@@ -40,13 +43,15 @@ export default function ResultPlace({ places }: { places: Place[] }) {
   };
 
   useEffect(() => {
-    console.log("현재 전달받은 장소 데이터:", places);
-  }, [places]);
+    if (!places || places.length === 0) {
+    }
 
+    console.log("현재 전달받은 장소 데이터:", places);
+  }, [places, navigate]);
 
   return (
     <div css={PlaceList}>
-      {places.length > 0 ? (
+      {places && places.length > 0 ? (
         places.map((place) => (
           <div
             css={PlaceItem}
@@ -84,7 +89,9 @@ export default function ResultPlace({ places }: { places: Place[] }) {
           </div>
         ))
       ) : (
-        <div>검색된 장소가 없습니다.</div>
+        <div css={PlaceList}>
+          <div>검색된 장소가 없습니다.</div>
+        </div>
       )}
     </div>
   );
