@@ -15,3 +15,8 @@ export const getMembersInfo = async() => {
     const response = await api.get('/members/info')
     return response.data.result
 }
+
+export const postMembersLogout = async() => {
+    const response = await api.post('/members/logout')
+    return response.data
+}

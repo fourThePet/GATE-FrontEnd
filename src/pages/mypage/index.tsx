@@ -5,9 +5,11 @@ import { blurBackground, contentWrapper, iconStyle, infoWrapper, line, loginInfo
 import { BlackNextIcon, MyPlaceIcon, MyReviewIcon, PlusIcon, WhiteNextIcon } from "../../assets/svg";
 import { EmptyPetCard, PetInfoCard, PetInfoModal } from "./components";
 import { useNavigate } from "react-router-dom";
-import { useGetDogsProfiles, useGetMembersInfo } from "../../queries";
+import { useGetDogsProfiles, useGetMembersInfo, usePostMembersLogout } from "../../queries";
 import { useAuthStore } from "../../stores/useAuthStore";
 import usePageMeta from "../../utils/usePageMeta";
+import { notify } from "../../utils/constants";
+// import { notify } from "../../utils/constants";
 
 
 
@@ -15,13 +17,17 @@ export default function Mypage() {
   usePageMeta("GATE | 마이페이지", 'GATE 마이페이지'); //seo 검색 최적화
   const navigate = useNavigate();
   // const [isLoggedIn, setIsLoggedIn] = useState<boolean|null>(false)
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn, 
+    // logout 
+  } = useAuthStore();
   const { data : memberInfo, isLoading:isMemberLoading} = useGetMembersInfo();
   const { data : dogsInfo, isLoading: isDogsLoading } = useGetDogsProfiles();
   const [ dogId, setDogId ] = useState<number>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState<boolean>(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(!isLoggedIn); // 로그인 여부에 따라 모달 열기
+
+  const { mutate : logout} = usePostMembersLogout()
 
   const handleCloseLoginModal = () => {
     setIsLoginModalOpen(false);
@@ -41,13 +47,41 @@ export default function Mypage() {
 
   const handleConfirmButtonClick = () => {
     logout(); // 로그아웃 실행
-    navigate("/", { replace: true }); // 홈으로 이동
+    // notify({
+    //   type : "success",
+    //   text : "로그아웃 되었습니다"
+    // })
+    // navigate("/", { replace: true }); // 홈으로 이동
     setIsLogoutModalOpen(false); // 모달 닫기
   };
 
   const closeModal = () => {
     setIsLogoutModalOpen(false); // 모달 닫기
   };
+
+  const moveBookmark = () => {
+    if(!isLoggedIn){
+      notify({
+        type : "error",
+        text : "로그인이 필요해요"
+      })
+      navigate("/login")
+    }else{
+      navigate('/mypage/bookmark')
+    }
+  }
+
+  const moveReview = () => {
+    if(!isLoggedIn){
+      notify({
+        type : "error",
+        text : "로그인이 필요해요"
+      })
+      navigate("/login")
+    }else{
+      navigate('/mypage/review-list')
+    }
+  }
   
   if(isDogsLoading || isMemberLoading){return(<LoadingBar/>)}
 
@@ -119,12 +153,12 @@ export default function Mypage() {
               <Text type="Heading4" css={titleWrapper}>나의 활동</Text>
               <hr color={colors.color.Gray5} css={line}/>
               <div css={myActiveWrapper}>
-                <div css={myWrapper} onClick={()=>navigate('/mypage/bookmark')}>
+                <div css={myWrapper} onClick={moveBookmark}>
                   <MyPlaceIcon width={24}/>
                   <Text type="Label1">내 즐겨찾기</Text>
                   <BlackNextIcon width={4}/>
                 </div>
-                <div css={myWrapper} onClick={()=>navigate('/mypage/review-list')}>
+                <div css={myWrapper} onClick={moveReview}>
                   <MyReviewIcon width={24}/>
                   <Text type="Label1">내 리뷰내역</Text>
                   <BlackNextIcon width={4}/>
