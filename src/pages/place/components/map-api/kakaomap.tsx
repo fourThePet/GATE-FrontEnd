@@ -231,7 +231,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
       sessionStorage.setItem("currentLatitude", latitude.toString());
       sessionStorage.setItem("currentLongitude", longitude.toString());
 
-      console.log("현재 위치 저장:", { latitude, longitude });
+      // console.log("현재 위치 저장:", { latitude, longitude });
     }
   };
 

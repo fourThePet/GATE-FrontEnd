@@ -36,7 +36,7 @@ export default function Home() {
         setLongitude(longitude);
         setCurLatitude(latitude);
         setCurLongitude(longitude);
-        console.log("위치 저장됨:", latitude, longitude);
+        // console.log("위치 저장됨:", latitude, longitude);
       },
       (error) => {
         switch (error.code) {

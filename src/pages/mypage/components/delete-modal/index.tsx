@@ -20,7 +20,7 @@ export default function DeleteModal({isDeleteModalOpen, setIsDeleteModalOpen, do
         setIsDeleteModalOpen(false)
     }
     const handleConfirmButtonClick = () =>{ //삭제 로직
-        console.log(dogId)
+        // console.log(dogId)
         if(dogId){
             deleteDogProfile(dogId)
             onClose()
