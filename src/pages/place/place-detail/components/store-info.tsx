@@ -165,7 +165,8 @@ export default function StoreInfo({
 
   const handleBackButtonClick = () => {
     navigate(
-      `/place?latitude=${storeData.latitude}&longitude=${storeData.longitude}`
+      // `/place?latitude=${storeData.latitude}&longitude=${storeData.longitude}`
+      -1
     );
   };
 
