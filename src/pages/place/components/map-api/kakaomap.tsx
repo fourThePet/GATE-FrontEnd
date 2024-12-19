@@ -78,9 +78,12 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
       { offset: new window.kakao.maps.Point(20, 20) }
     );
 
-    // 항상 locMarker 생성
+    // 항상 현재 위치 마커를 생성
+    if (currentMarker.current) {
+      currentMarker.current.setMap(null); // 기존 마커 제거
+    }
     currentMarker.current = new window.kakao.maps.Marker({
-      position: mapOption.center,
+      position: new window.kakao.maps.LatLng(latitude, longitude),
       map,
       image: icon,
     });
@@ -89,6 +92,7 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     const zoomControl = new window.kakao.maps.ZoomControl();
     map.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
 
+    // 상태 업데이트
     setCurLatitude(latitude);
     setCurLongitude(longitude);
   };
@@ -217,6 +221,20 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
     setMarkerOverlayPairs([]);
   };
 
+  const handleMapClick = () => {
+    if (mapInstance.current) {
+      const center = mapInstance.current.getCenter();
+      const latitude = center.getLat();
+      const longitude = center.getLng();
+
+      // 세션 스토리지에 저장
+      sessionStorage.setItem("currentLatitude", latitude.toString());
+      sessionStorage.setItem("currentLongitude", longitude.toString());
+
+      console.log("현재 위치 저장:", { latitude, longitude });
+    }
+  };
+
   const moveMarkerToCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -252,6 +270,9 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
         setCurLatitude(latitude);
         setCurLongitude(longitude);
 
+        sessionStorage.setItem("currentLatitude", latitude.toString());
+        sessionStorage.setItem("currentLongitude", longitude.toString());
+
         // 쿼리스트링 값 제거
         navigate(`/place`, { replace: true }); // 기본 URL로 이동
       }
@@ -263,7 +284,13 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
 
     // 지도 중심 좌표 가져오기
     const center = mapInstance.current.getCenter();
-    currentMarker.current.setPosition(center);
+    // currentMarker.current.setPosition(center);
+
+    // 현재 위치 마커 제거
+    if (currentMarker.current) {
+      currentMarker.current.setMap(null);
+      currentMarker.current = null; // 마커 참조 초기화
+    }
 
     // 지도 중심 이동
     if (mapInstance.current) {
@@ -313,18 +340,22 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
 
       script.onload = () => {
         window.kakao.maps.load(() => {
-          const { latitude: storedLatitude, longitude: storedLongitude } =
-            useLocationStore.getState();
+          // 세션 스토리지에서 currentLatitude와 currentLongitude 가져오기
+          const storedLatitude = sessionStorage.getItem("currentLatitude");
+          const storedLongitude = sessionStorage.getItem("currentLongitude");
+
           if (storedLatitude && storedLongitude) {
-            initializeMap(storedLatitude, storedLongitude);
-            setLatitude(storedLatitude);
-            setLongitude(storedLongitude);
+            const latitude = parseFloat(storedLatitude);
+            const longitude = parseFloat(storedLongitude);
+            initializeMap(latitude, longitude);
+            setCurLatitude(latitude); // 새로고침 시 지도 중심으로 설정
+            setCurLongitude(longitude);
           } else {
             navigator.geolocation.getCurrentPosition(
               ({ coords: { latitude, longitude } }) => {
                 initializeMap(latitude, longitude);
-                setLatitude(latitude);
-                setLongitude(longitude);
+                setCurLatitude(latitude); // 새로고침 시 지도 중심으로 설정
+                setCurLongitude(longitude);
               },
               (error) => {
                 console.error("위치 정보를 가져올 수 없습니다:", error);
@@ -366,6 +397,26 @@ export default function KakaoMap({ places }: KaKaoMapProps) {
       clearMarkers();
     }
   }, [places, location.search]);
+
+  useEffect(() => {
+    if (mapInstance.current) {
+      window.kakao.maps.event.addListener(
+        mapInstance.current,
+        "click",
+        handleMapClick
+      );
+    }
+
+    return () => {
+      if (mapInstance.current) {
+        window.kakao.maps.event.removeListener(
+          mapInstance.current,
+          "click",
+          handleMapClick
+        );
+      }
+    };
+  }, [mapInstance.current]);
 
   return (
     <div ref={mapRef} css={mapStyle} className="kakaoMap">

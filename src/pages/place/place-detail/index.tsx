@@ -216,7 +216,7 @@ export default function PlaceDetail() {
               css={{ width: "30px", height: "30px" }}
               style={{ marginLeft: "35px" }}
             />
-            <span css={typo.Label3}>지도보기</span>
+            <span css={typo.Label3}>둘러보기</span>
           </div>
         </button>
       )}

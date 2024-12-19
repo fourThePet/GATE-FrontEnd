@@ -14,7 +14,8 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { isLoggedIn } = useAuthStore();
   const { data: dogs, isLoading } = useGetDogsProfiles(); // 데이터 로딩 중 undefined 유지
-  const { setLatitude, setLongitude } = useLocationStore();
+  const { setLatitude, setLongitude, setCurLatitude, setCurLongitude } =
+    useLocationStore();
 
   useEffect(() => {
     if (isLoggedIn && !isLoading) {
@@ -33,6 +34,8 @@ export default function Home() {
       ({ coords: { latitude, longitude } }) => {
         setLatitude(latitude);
         setLongitude(longitude);
+        setCurLatitude(latitude);
+        setCurLongitude(longitude);
         console.log("위치 저장됨:", latitude, longitude);
       },
       (error) => {

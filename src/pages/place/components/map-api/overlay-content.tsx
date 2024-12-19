@@ -201,7 +201,13 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
               color: "#333",
             }}
           >
-            {isNaN(placeInfo.distance) ? "0 km" : `${placeInfo.distance} km`}
+            {
+              isNaN(placeInfo.distance)
+                ? "0 km"
+                : placeInfo.distance < 1
+                ? `${Math.round(placeInfo.distance * 1000)} m` // 미터로 변환
+                : `${placeInfo.distance.toFixed(1)} km` // 소수점 첫째 자리까지 킬로미터로 표시
+            }{" "}
           </div>
         </div>
 
