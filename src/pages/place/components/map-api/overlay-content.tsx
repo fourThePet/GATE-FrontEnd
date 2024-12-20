@@ -185,8 +185,8 @@ const OverlayContent: React.FC<OverlayContentProps> = ({
             style={{
               marginTop: "3px",
               color: "#9A9EA6",
-              maxWidth: "60%", // 부모 컨테이너의 80% 너비 제한
-              minWidth: "180px", // 최소 너비 설정
+              maxWidth: "40%", // 부모 컨테이너의 80% 너비 제한
+              minWidth: "170px", // 최소 너비 설정
               wordBreak: "break-word", // 긴 단어 강제 줄바꿈
               overflowWrap: "break-word", // 줄바꿈 보장
               whiteSpace: "normal", // 기본 줄바꿈

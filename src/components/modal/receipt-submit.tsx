@@ -253,7 +253,7 @@ export default function ReceiptSubmit({
             확인해주세요.
           </span>
           <span css={typo.Body2} style={{ color: "#9A9EA6" }}>
-            2. 전화번호, 사업자 번호, 주소가
+            2. 금액, 판매일자, 주소 정보가
           </span>
           <span
             css={typo.Body2}
